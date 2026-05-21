@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws: wss: http: https:; img-src 'self' data:; font-src 'self';">
+  <title>Turkmen'S</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============ Update Banner ============ -->
+  <div id="update-banner" class="update-banner hidden">
+    <div class="update-banner-content">
+      <span id="update-banner-text">Yeni sürüm mevcut</span>
+      <div class="update-banner-progress"><div id="update-progress-bar"></div></div>
+      <button id="update-install-btn" class="update-banner-btn hidden">Yeniden Başlat ve Güncelle</button>
+    </div>
+  </div>
+
+  <!-- ============ Auth Screen ============ -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-box">
+      <div class="auth-logo"><div class="logo-circle">T'S</div></div>
+      <h1 class="auth-title">Turkmen'S</h1>
+      <p class="auth-subtitle" id="auth-subtitle">Hesabına giriş yap</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-mode="login">Giriş Yap</button>
+        <button class="auth-tab" data-mode="register">Kayıt Ol</button>
+      </div>
+
+      <form id="auth-form" autocomplete="off">
+        <input id="username-input" type="text" placeholder="Kullanıcı adı" maxlength="20" autocomplete="off" required />
+        <input id="password-input" type="password" placeholder="Şifre" minlength="6" maxlength="128" autocomplete="off" required />
+        <input id="password-confirm" type="password" placeholder="Şifre (tekrar)" minlength="6" maxlength="128" autocomplete="off" class="hidden" />
+        <button id="auth-submit" type="submit">Giriş Yap</button>
+        <div id="auth-error" class="auth-error"></div>
+        <div id="auth-loading" class="auth-loading hidden"><div class="spinner"></div></div>
+      </form>
+
+      <div class="auth-footer">
+        <span id="app-version">—</span> · <a href="#" id="forget-session">Oturumu sıfırla</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Reconnect Overlay ============ -->
+  <div id="reconnect-overlay" class="reconnect-overlay hidden">
+    <div class="reconnect-box">
+      <div class="spinner"></div>
+      <p>Bağlantı yeniden kuruluyor...</p>
+    </div>
+  </div>
+
+  <!-- ============ Ana Uygulama ============ -->
+  <div id="app" class="app hidden">
+
+    <!-- Sol: Sunucu listesi -->
+    <aside class="server-list" id="server-list">
+      <!-- Anasayfa butonu -->
+      <div class="server-item home-btn active" id="home-btn" title="Anasayfa">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="currentColor">
+          <path d="M23.0212 1.67671C21.3107 0.879656 19.5079 0.318797 17.6584 0C17.4062 0.461742 17.1749 0.934541 16.9708 1.4184C15.003 1.12145 12.9974 1.12145 11.0283 1.4184C10.819 0.934541 10.5919 0.461742 10.3395 0C8.49 0.318797 6.68701 0.879656 4.97658 1.67671C1.69049 6.51324 0.80103 11.232 1.24576 15.881C3.20979 17.3324 5.4108 18.43 7.74174 19.1233C8.27071 18.4127 8.73674 17.6588 9.13502 16.871C8.36862 16.587 7.62841 16.236 6.92424 15.823C7.11066 15.687 7.29291 15.5469 7.46878 15.4129C9.5234 16.3849 11.7672 16.8825 14.0367 16.8825C16.3061 16.8825 18.5494 16.3849 20.6045 15.4129C20.7825 15.5572 20.9649 15.6973 21.149 15.823C20.4435 16.236 19.7016 16.587 18.9347 16.875C19.3322 17.6588 19.7983 18.4127 20.328 19.1233C22.6606 18.4322 24.8625 17.3334 26.8275 15.881C27.355 10.467 25.9384 5.79386 23.0212 1.67671ZM9.68189 12.9544C8.39007 12.9544 7.34164 11.7591 7.34164 10.3045C7.34164 8.84992 8.36072 7.64427 9.68189 7.64427C11.0031 7.64427 12.0431 8.84992 12.0214 10.3045C12.0214 11.7591 10.9994 12.9544 9.68189 12.9544ZM18.3941 12.9544C17.1023 12.9544 16.0539 11.7591 16.0539 10.3045C16.0539 8.84992 17.073 7.64427 18.3941 7.64427C19.7153 7.64427 20.7554 8.84992 20.7337 10.3045C20.7337 11.7591 19.7117 12.9544 18.3941 12.9544Z" />
+        </svg>
+      </div>
+      <div class="server-separator"></div>
+      <div id="server-icons-container"></div>
+      <!-- Yeni sunucu ekle butonu -->
+      <div class="server-item add-server-btn" id="add-server-btn" title="Sunucu ekle">
+        <span class="plus-icon">+</span>
+      </div>
+    </aside>
+
+    <!-- ============ Anasayfa Görünümü ============ -->
+    <main id="home-view" class="home-view">
+      <header class="home-header">
+        <h1>Hoş geldin, <span id="home-username">—</span> 👋</h1>
+        <p>Bir sunucu oluştur veya bir davet koduyla katıl. Sunucu seçtiğinde sol taraftan görebilirsin.</p>
+      </header>
+
+      <div class="home-actions">
+        <div class="action-card" id="action-create">
+          <div class="action-icon" style="background: linear-gradient(135deg, #5865F2, #4752C4);">＋</div>
+          <h3>Sunucu Oluştur</h3>
+          <p>Kendi sunucunu kur, davet linkini paylaş.</p>
+        </div>
+        <div class="action-card" id="action-join">
+          <div class="action-icon" style="background: linear-gradient(135deg, #43B581, #2D8C5C);">↪</div>
+          <h3>Sunucuya Katıl</h3>
+          <p>Bir davet kodun varsa, buradan katıl.</p>
+        </div>
+      </div>
+
+      <section class="home-servers">
+        <h2>Sunucuların</h2>
+        <div id="home-server-grid" class="server-grid">
+          <div class="empty-state">Henüz bir sunucuda değilsin. Yukarıdan oluştur veya katıl.</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ Sunucu Görünümü ============ -->
+    <aside id="channel-sidebar" class="channel-sidebar hidden">
+      <div class="server-header" id="server-header">
+        <span id="current-server-name">—</span>
+        <button class="header-btn" id="server-menu-btn" title="Sunucu menüsü">▼</button>
+      </div>
+      <!-- Server menüsü dropdown -->
+      <div id="server-menu" class="server-menu hidden">
+        <button class="menu-item" id="menu-invite">Davet Et</button>
+        <button class="menu-item" id="menu-add-channel">Kanal Ekle</button>
+        <button class="menu-item danger" id="menu-leave">Sunucudan Ayrıl</button>
+      </div>
+
+      <div class="channels-container" id="channels-container"></div>
+
+      <div id="voice-status" class="voice-status hidden">
+        <div class="voice-status-info">
+          <div class="voice-indicator"></div>
+          <div>
+            <div class="voice-status-name">Sesli'de</div>
+            <div class="voice-status-channel" id="voice-status-channel">—</div>
+          </div>
+        </div>
+        <button id="voice-leave-btn" title="Ayrıl">✕</button>
+      </div>
+
+      <div class="user-panel">
+        <div class="user-panel-info">
+          <div class="user-avatar" id="my-avatar">?</div>
+          <div class="user-details">
+            <div class="user-name" id="my-username">—</div>
+            <select id="status-select" class="status-select">
+              <option value="online">Çevrimiçi</option>
+              <option value="idle">Boşta</option>
+              <option value="dnd">Rahatsız Etmeyin</option>
+              <option value="invisible">Görünmez</option>
+            </select>
+          </div>
+        </div>
+        <div class="user-panel-controls">
+          <button id="mute-btn" class="icon-btn" title="Mikrofon">🎤</button>
+          <button id="logout-btn" class="icon-btn" title="Çıkış">⎋</button>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main-content" class="main-content hidden">
+      <header class="channel-header">
+        <span class="channel-prefix" id="channel-prefix">#</span>
+        <span id="current-channel-name">—</span>
+      </header>
+
+      <div id="messages" class="messages"></div>
+
+      <div id="voice-room" class="voice-room hidden">
+        <h2 id="voice-room-title">Sesli Kanal</h2>
+        <p class="voice-room-desc">Şu an bu sesli kanaldasın (görsel simülasyon).</p>
+        <div id="voice-room-users" class="voice-room-users"></div>
+        <button id="voice-room-leave" class="big-btn red">Sesli Kanaldan Ayrıl</button>
+      </div>
+
+      <div class="message-input-container" id="message-input-container">
+        <input id="message-input" type="text" placeholder="Mesaj yaz..." maxlength="2000" autocomplete="off" />
+        <button id="send-btn" title="Gönder">➤</button>
+      </div>
+    </main>
+
+    <aside id="user-list" class="user-list hidden">
+      <div class="user-list-header">Üyeler — <span id="user-count">0</span></div>
+      <div id="user-list-content" class="user-list-content"></div>
+    </aside>
+  </div>
+
+  <!-- ============ Modal: Sunucu Oluştur ============ -->
+  <div id="modal-create" class="modal hidden">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-box">
+      <button class="modal-close" data-close>✕</button>
+      <h2>Sunucu Oluştur</h2>
+      <p class="modal-desc">Kendi topluluğunu kur. Arkadaşlarınla bir davet linki paylaşarak başla.</p>
+      <form id="create-server-form">
+        <label>Sunucu Adı</label>
+        <input id="create-server-name" type="text" maxlength="32" placeholder="Örn: Arkadaş Grubu" required />
+
+        <label>Renk</label>
+        <div id="create-color-picker" class="color-picker"></div>
+
+        <div class="modal-error" id="create-server-error"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" data-close>Vazgeç</button>
+          <button type="submit" class="btn-primary">Sunucuyu Oluştur</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ Modal: Sunucuya Katıl ============ -->
+  <div id="modal-join" class="modal hidden">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-box">
+      <button class="modal-close" data-close>✕</button>
+      <h2>Sunucuya Katıl</h2>
+      <p class="modal-desc">Sana verilen davet kodunu aşağıya yapıştır.</p>
+      <form id="join-server-form">
+        <label>Davet Kodu</label>
+        <input id="join-invite" type="text" maxlength="32" placeholder="örn: x7g3k9aa" required />
+        <div class="modal-error" id="join-error"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" data-close>Vazgeç</button>
+          <button type="submit" class="btn-primary">Katıl</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ Modal: Sunucu/Katıl Seçim ============ -->
+  <div id="modal-add" class="modal hidden">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-box">
+      <button class="modal-close" data-close>✕</button>
+      <h2>Sunucun Olsun</h2>
+      <p class="modal-desc">Sunucu, arkadaşlarınla takıldığın yerdir. Kendi sunucunu kur veya bir sunucuya katıl.</p>
+      <div class="add-options">
+        <button class="add-option" id="add-create-btn">
+          <strong>Kendim Oluşturayım</strong>
+          <span>Yeni bir sunucu kur</span>
+        </button>
+        <button class="add-option" id="add-join-btn">
+          <strong>Sunucuya Katıl</strong>
+          <span>Davet kodu ile katıl</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Modal: Davet ============ -->
+  <div id="modal-invite" class="modal hidden">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-box">
+      <button class="modal-close" data-close>✕</button>
+      <h2>Arkadaşlarını Davet Et</h2>
+      <p class="modal-desc">Bu kodu paylaşarak arkadaşlarını <strong id="invite-server-name">—</strong> sunucusuna davet et.</p>
+      <div class="invite-box">
+        <input id="invite-code-display" type="text" readonly />
+        <button id="invite-copy-btn" type="button" class="btn-primary">Kopyala</button>
+      </div>
+      <div class="modal-actions" style="justify-content: space-between;">
+        <button class="btn-text" id="invite-regen-btn">Yeni Kod Üret</button>
+        <button class="btn-primary" data-close>Tamam</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Modal: Kanal Ekle ============ -->
+  <div id="modal-channel" class="modal hidden">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-box">
+      <button class="modal-close" data-close>✕</button>
+      <h2>Kanal Oluştur</h2>
+      <form id="create-channel-form">
+        <label>Kanal Tipi</label>
+        <div class="channel-type-picker">
+          <label class="ct-option">
+            <input type="radio" name="channel-type" value="text" checked />
+            <span><strong># Metin</strong><br><small>Yazışmak için</small></span>
+          </label>
+          <label class="ct-option">
+            <input type="radio" name="channel-type" value="voice" />
+            <span><strong>🔊 Sesli</strong><br><small>Sesli kanal (simülasyon)</small></span>
+          </label>
+        </div>
+
+        <label>Kanal Adı</label>
+        <input id="create-channel-name" type="text" maxlength="32" placeholder="örn: oyun" required />
+
+        <div class="modal-error" id="create-channel-error"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" data-close>Vazgeç</button>
+          <button type="submit" class="btn-primary">Kanal Oluştur</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ Toast ============ -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="config.js"></script>
+  <script src="socket.io.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

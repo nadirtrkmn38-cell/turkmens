@@ -1,0 +1,78 @@
+# Turkmen'S - electron-builder Konfigürasyonu
+#
+# Build almadan önce:
+#   1) renderer/config.js içindeki SERVER_URL'i Railway adresinle değiştir
+#   2) Bu dosyadaki publish bölümündeki "owner" ve "repo" değerlerini düzenle
+#   3) GitHub Personal Access Token (repo iznli) üret ve env var olarak ayarla:
+#        Windows PowerShell:  $env:GH_TOKEN = "ghp_..."
+#        Windows CMD:         set GH_TOKEN=ghp_...
+#
+# Build (sadece installer üret, yayınlama):
+#   npm run build
+#
+# Build + GitHub Release'e yayınla:
+#   npm run publish
+
+appId: app.turkmens
+productName: Turkmen'S
+copyright: Copyright © 2026 Turkmen'S
+
+directories:
+  output: dist
+  buildResources: build
+
+# Pakete dahil edilen dosyalar
+files:
+  - "main.js"
+  - "preload.js"
+  - "package.json"
+  - "renderer/**/*"
+  - "node_modules/**/*"
+  - "!node_modules/**/{CHANGELOG.md,README,readme.md,readme,LICENSE,license,*.test.js,*.spec.js,test/**}"
+  - "!**/.bin"
+  - "!scripts/**"
+  - "!dist/**"
+  - "!**/*.map"
+
+# Asar paketleme (daha hızlı başlatma)
+asar: true
+asarUnpack:
+  - "node_modules/electron-updater/**/*"
+
+# ==================== Windows ====================
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: build/icon.ico
+  artifactName: "${productName}-Setup-${version}.${ext}"
+  publisherName: "Turkmen'S"
+  # Sertifika YOKSA Windows "bilinmeyen yayıncı" uyarısı verir. Yine de çalışır.
+  # Sertifika varsa:
+  # certificateFile: path/to/cert.pfx
+  # certificatePassword: env değişkeni CSC_KEY_PASSWORD
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "Turkmen'S"
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  uninstallDisplayName: "Turkmen'S ${version}"
+  artifactName: "${productName}-Setup-${version}.${ext}"
+  # Eski sürüm üzerine yazarken kullanıcı verilerini koru
+  deleteAppDataOnUninstall: false
+
+# ==================== Auto-update / Publish ====================
+publish:
+  provider: github
+  # AŞAĞIDAKİ İKİ SATIRI KENDİ GITHUB BİLGİNLE DEĞİŞTİR
+  owner: nadirtrkmn38-cell
+  repo: turkmens
+  releaseType: release
+  vPrefixedTagName: true

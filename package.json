@@ -1,0 +1,28 @@
+{
+  "name": "turkmens",
+  "version": "1.0.0",
+  "description": "Turkmen'S - Yerli sohbet uygulaması",
+  "main": "main.js",
+  "author": {
+    "name": "Turkmen'S",
+    "email": "info@turkmens.app"
+  },
+  "homepage": "https://github.com/nadirtrkmn38-cell/turkmens",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "node scripts/copy-deps.js",
+    "start": "electron .",
+    "build": "electron-builder --win --x64",
+    "publish": "electron-builder --win --x64 --publish always",
+    "draft": "electron-builder --win --x64 --publish onTagOrDraft"
+  },
+  "dependencies": {
+    "electron-log": "^5.1.5",
+    "electron-updater": "^6.2.1",
+    "socket.io-client": "^4.7.5"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}
