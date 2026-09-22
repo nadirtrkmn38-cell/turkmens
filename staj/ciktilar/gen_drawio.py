@@ -23,8 +23,8 @@ def esc(t):
 IRD_LOOP_X, ETS_LOOP_X = 960, 1600
 R = {
     ("start", "k1", ""):                       (.5, 1, .5, 0, [], None),
-    ("k1", "out1", "EVET"):                    (1, .5, 0, .5, [], None),
-    ("k1", "k2", "HAYIR"):                     (.5, 1, .5, 0, [], None),
+    ("k1", "out1", "HAYIR"):                    (1, .5, 0, .5, [], None),
+    ("k1", "k2", "EVET"):                     (.5, 1, .5, 0, [], None),
     ("k2", "out2", "EVET"):                    (1, .5, 0, .5, [], None),
     ("k2", "k3", "HAYIR"):                     (.5, 1, .5, 0, [], None),
     ("k3", "ird", "EVET — kategoriden bağımsız"): (0, .5, .15, 0, [(506, 856)], (0, -12)),

@@ -119,8 +119,8 @@ NODES = [
 # (kaynak, hedef, etiket, kesikli mi)
 EDGES = [
     ("start", "k1", "", False),
-    ("k1", "out1", "EVET", False),
-    ("k1", "k2", "HAYIR", False),
+    ("k1", "out1", "HAYIR", False),
+    ("k1", "k2", "EVET", False),
     ("k2", "out2", "EVET", False),
     ("k2", "k3", "HAYIR", False),
     ("k3", "ird", "EVET — kategoriden bağımsız", False),

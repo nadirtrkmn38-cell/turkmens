@@ -243,7 +243,7 @@ diamond(CX, 856, 470, 132, "Okul, üniversite, hastane, savunma sanayi veya gaz 
 diamond(CX, 1072, 430, 128, "Kurulu kapasiteye göre ihtiyatlı hesaplanan yıllık emisyon kaç ton CO₂e?", "m. 4 · m. 5/1")
 
 conn([(CX, 328), (CX, 366)])
-conn([(CX, 496), (CX, 574)], "HAYIR", CX - 26, 540, anchor="end")
+conn([(CX, 496), (CX, 574)], "EVET", CX - 26, 540, anchor="end")
 conn([(CX, 704), (CX, 788)], "HAYIR", CX - 26, 750, anchor="end")
 conn([(CX, 922), (CX, 1006)], "HAYIR", CX - 26, 968, anchor="end")
 
@@ -254,7 +254,7 @@ node(OX, 432, 420, 82, "KAPSAM DIŞI", "Hiçbir yükümlülük doğmaz. Tahsisat
 node(OX, 640, 420, 82, "YÖNETMELİK DIŞI", "İstisna yalnızca ilgili tesis veya tesis bölümü için geçerlidir.",
      fill=GREEN_F, stroke=GREEN_S, tcol=GREEN_T, scol=GREEN_T, r=20, title_size=16)
 
-conn([(CX + 215, 432), (OX - 210, 432)], "EVET", (CX + 215 + OX - 210) / 2, 422)
+conn([(CX + 215, 432), (OX - 210, 432)], "HAYIR", (CX + 215 + OX - 210) / 2, 422)
 conn([(CX + 215, 640), (OX - 210, 640)], "EVET", (CX + 215 + OX - 210) / 2, 630)
 
 
