@@ -204,6 +204,12 @@ Format: `### Gün N — GG.AA.YYYY (Gün adı)` altında **Yapılan iş**, **Tek
   değiştirdiğini kavradım: tahsisat açığı (doğrulanmış emisyon − ücretsiz tahsisat) her yıl piyasadan
   satın alınan bir maliyet kalemi olduğundan, azaltım projelerinin geri ödeme süresi hesabına
   tahsisat fiyatı da girmelidir.
+- **İkinci denetim turunda yönetmelikten eklenen hususlar:** doğrulayıcı kuruluşun ISO/IEC 17029
+  akreditasyonu (m. 33/2); 4734 sayılı Kamu İhale Kanununa tabi işletmelerin MEDAS kapsamı dışında
+  olması (m. 30/2); sera gazı emisyon izni için Kanun'un yürürlüğünden itibaren 3 yıllık geçiş
+  süresi ve bu süre içinde bir kereye mahsus izinli sayılma (Geçici m. 2); faaliyet, tesis niteliği,
+  kategori ve izin sahibi değişikliklerinin 30 gün içinde bildirilmesi (m. 9/1 · m. 34/4-5);
+  EK-2'de sayılan altı sera gazı (CO2, CH4, N2O, HFC, PFC, SF6).
 - **Açık sorular:** Pilot uygulama döneminin kapsam ve süresi (Karbon Piyasası Kurulu belirleyecek);
   kıyas değerlerinin ilan takvimi; müşteri portföyümüzde hangi sektörlerin EK-1 kapsamında olduğu.
 
