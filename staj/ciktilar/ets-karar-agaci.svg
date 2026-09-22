@@ -137,8 +137,10 @@
 <text x="660" y="1829.8000000000002" text-anchor="middle" font-family="Archivo, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#6B4A10"><tspan x="660" dy="0">MEDAS ataması · ISO/IEC 17029 (m. 30)</tspan></text>
 <polyline points="660,1731.0 660,1767.0" fill="none" stroke="#6E7B76" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#ar)"/>
 <rect x="450.0" y="1901.0" width="420" height="86" rx="8" fill="#F8EBD3" stroke="#9A6208" stroke-width="1.6"/>
-<text x="660" y="1936.51" text-anchor="middle" font-family="Archivo, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#5A3A05"><tspan x="660" dy="0">30 Nisan&#x27;a kadar raporlayın</tspan></text>
-<text x="660" y="1957.8000000000002" text-anchor="middle" font-family="Archivo, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#6B4A10"><tspan x="660" dy="0">Bir önceki takvim yılının doğrulanmış emisyonu (m. 29)</tspan></text>
+<text x="660" y="1929.2649999999999" text-anchor="middle" font-family="Archivo, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#5A3A05"><tspan x="660" dy="0">30 Nisan&#x27;a kadar raporlayın</tspan></text>
+<text x="660" y="1950.555" text-anchor="middle" font-family="Archivo, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#6B4A10"><tspan x="660" dy="0">Bir önceki takvim yılının doğrulanmış emisyonu (m. 29) · gecikmede</tspan><tspan x="660" dy="14.49">Kategori A için 627.450 ₺</tspan></text>
+<rect x="786.0" y="1890.0" width="77.0" height="21" rx="10.5" fill="#9A6208"/>
+<text x="824.5" y="1904.5" text-anchor="middle" font-family="Archivo, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="10.5" font-weight="700" letter-spacing="0.6" fill="#FFFFFF">CEZA RİSKİ</text>
 <polyline points="660,1859.0 660,1895.0" fill="none" stroke="#6E7B76" stroke-width="1.8" stroke-linejoin="round" marker-end="url(#ar)"/>
 <rect x="1100.0" y="1517.0" width="420" height="86" rx="8" fill="#F6E2DF" stroke="#8F2B25" stroke-width="1.6"/>
 <text x="1310" y="1552.51" text-anchor="middle" font-family="Archivo, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="#591A16"><tspan x="1310" dy="0">Yetkili personeli atayın</tspan></text>

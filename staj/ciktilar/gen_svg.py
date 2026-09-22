@@ -301,11 +301,13 @@ ird = [
     ("İzleme planını onaylatın", "İlk izlemeden en az 6 ay önce Başkanlığa sunulur (m. 28/3)"),
     ("Emisyonları izleyin", "Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü"),
     ("Akredite kuruluşa doğrulatın", "MEDAS ataması · ISO/IEC 17029 (m. 30)"),
-    ("30 Nisan'a kadar raporlayın", "Bir önceki takvim yılının doğrulanmış emisyonu (m. 29)"),
+    ("30 Nisan'a kadar raporlayın", "Bir önceki takvim yılının doğrulanmış emisyonu (m. 29) · gecikmede Kategori A için 627.450 ₺"),
 ]
 ird_y = []
 for i, (t, s) in enumerate(ird):
     ird_y.append(step(IRD_X, i, t, s, **ird_kw))
+    if i == 3:
+        badge(IRD_X + BW/2 - 84, ird_y[i] - BH/2 - 11, "CEZA RİSKİ", fill=AMBER_S)
     if i:
         conn([(IRD_X, ird_y[i-1] + BH/2), (IRD_X, ird_y[i] - BH/2 - 6)])
 

@@ -81,7 +81,8 @@ NODES = [
     ("i3", "round_rectangle", IRD_X, sy(2), BW, BH,
      "Akredite kuruluşa doğrulatın", "MEDAS ataması · ISO/IEC 17029 (m. 30)", "amber"),
     ("i4", "round_rectangle", IRD_X, sy(3), BW, BH,
-     "30 Nisan'a kadar raporlayın", "Bir önceki takvim yılının doğrulanmış emisyonu (m. 29)", "amber"),
+     "30 Nisan'a kadar raporlayın",
+     "CEZA RİSKİ · Bir önceki takvim yılının doğrulanmış emisyonu — gecikmede Kategori A için 627.450 ₺ (m. 29 · m. 35)", "amber"),
 
     # ── ETS hattı ──
     ("e1", "round_rectangle", ETS_X, sy(0), BW, BH,
@@ -132,7 +133,7 @@ EDGES = [
     ("i1", "i2", "", False),
     ("i2", "i3", "", False),
     ("i3", "i4", "", False),
-    ("i4", "i2", "her sistem yılı için tekrarlanır", True),
+    ("i4", "i2", "her sistem yılı için tekrarlanır", False),
 
     ("ets", "e1", "", False),
     ("e1", "e2", "", False),
@@ -144,7 +145,7 @@ EDGES = [
     ("e7", "e8", "", False),
     ("e8", "e9", "", False),
     ("e9", "e10", "", False),
-    ("e10", "e4", "her sistem yılı için tekrarlanır", True),
+    ("e10", "e4", "her sistem yılı için tekrarlanır", False),
 
     ("i4", "kayit", "", True),
     ("e10", "kayit", "", True),
