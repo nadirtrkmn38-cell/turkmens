@@ -159,8 +159,45 @@ Format: `### Gün N — GG.AA.YYYY (Gün adı)` altında **Yapılan iş**, **Tek
 - **Açık sorular:** Kullanılan yazılım/platformlar; müşteri portföyü segmenti; saha ziyaretine
   katılım imkânı; atanacak somut proje olup olmayacağı.
 
-#### Gün 2 — 22.09.2026 (Salı)
-- _(beklemede)_
+#### Gün 2 — 22.09.2026 (Salı) · TR ETS Yönetmeliği ve Müşteri Rehberi
+- **Yapılan iş:** 27.08.2026 tarihli ve 33353 sayılı Resmî Gazete'de yayımlanan Türkiye Emisyon
+  Ticaret Sistemi Yönetmeliği ile EK-1 – EK-7 ekleri incelendi. Yönetmeliğin müşteri tarafından
+  anlaşılabilir hâle getirilmesi amacıyla, adım adım ilerleyen (evet/hayır mantığında) bir kapsam
+  belirleme şablonu hazırlandı.
+- **Teknik içerik:**
+  - Kapsam EK-1 faaliyet listesine bağlıdır (25 faaliyet: enerji, metal, mineral, selüloz-kâğıt,
+    kimya). Eşikler üretim kapasitesine bakar; aynı kategorideki faaliyetlerin kapasiteleri toplanır.
+  - Toplam anma ısıl gücü hesabında tesisteki tüm yakma ünitelerinin anma ısıl güçleri toplanır;
+    3 MW altındaki ve münhasıran biyokütle kullanan üniteler hesaba katılmaz.
+  - MADDE 27/2: EK-1'deki bir faaliyeti yürüten işletmenin diğer EK-1 faaliyetleri kapasite
+    gözetilmeksizin kapsama dâhil olur.
+  - Tesis kategorileri (kurulu kapasiteye göre ihtiyatlı hesaplanan yıllık emisyon, biyokütle CO2
+    hariç / transfer CO2 dâhil): **A** ≤ 50.000 t CO2e · **B** 50.001–500.000 · **C** > 500.000.
+    ETS yalnızca B ve C'yi kapsar (m. 5/1); A yalnızca İRD yükümlüsüdür.
+  - Kapsam dışı: Ar-Ge tesis/bölümleri, münhasıran biyokütle kullananlar, askerî unsurlar (m. 2/2).
+    ETS dışı ama İRD sürüyor: okul, üniversite, hastane, savunma sanayi (m. 5/2-3); doğal gaz ve
+    ham petrol iletimi-depolaması birinci uygulama dönemi sonuna kadar (Geçici m. 6).
+  - Süreç: sera gazı emisyon izni (m. 6-8, EK-3, 5 yıl geçerli, 60 gün değerlendirme) → izleme planı
+    (izlemeden ≥6 ay önce, m. 28/3) → İzleme Metodolojisi Planı (EK-4) → yıllık izleme → doğrulama
+    (MEDAS ataması, ISO/IEC 17029, m. 30) → 30 Nisan raporlama (m. 29) → ücretsiz tahsisat başvurusu
+    (UTP + 30 gün, m. 14/2) → tahsisat teslimi (Kasım son iş günü, m. 16/1; ek rezervde Aralık).
+  - Emisyon hesabı: **Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü** (EK-6);
+    biyokütlenin emisyon faktörü sıfır kabul edilir.
+  - Ücretsiz tahsisat: **Kıyas değeri × Ücretsiz tahsisat oranı × Sektörel faaliyet katsayısı ×
+    Faaliyet seviyesi** (m. 13/7); sonuç bir üst tam sayıya yuvarlanır.
+  - Personel şartı (EK-3): Kategori C → ≥2 yıl tecrübeli 2 personel; Kategori B → ≥1 yıl tecrübeli
+    1 personel; mühendislik veya fen fakültesi mezunu.
+  - İdari para cezaları kategoriye göre 627.450 ₺ – 6.274.500 ₺; ETS kapsamındaki işletmelerde
+    iki katı (m. 35). Kayıt saklama süresi 10 yıl (m. 37).
+  - 17/5/2014 tarihli Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik yürürlükten kaldırıldı.
+- **Çıktı:** Müşteriye yönelik interaktif kapsam belirleme aracı (4 adımlı soru akışı + kategori
+  hesabı + kişiselleştirilmiş yükümlülük takvimi + ceza tablosu).
+- **Kazanım:** Karbon fiyatlandırmasının enerji verimliliği yatırımlarının fizibilitesini doğrudan
+  değiştirdiğini kavradım: tahsisat açığı (doğrulanmış emisyon − ücretsiz tahsisat) her yıl piyasadan
+  satın alınan bir maliyet kalemi olduğundan, azaltım projelerinin geri ödeme süresi hesabına
+  tahsisat fiyatı da girmelidir.
+- **Açık sorular:** Pilot uygulama döneminin kapsam ve süresi (Karbon Piyasası Kurulu belirleyecek);
+  kıyas değerlerinin ilan takvimi; müşteri portföyümüzde hangi sektörlerin EK-1 kapsamında olduğu.
 
 ---
 
@@ -185,3 +222,5 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 - [ ] Yatırım değerlendirme: geri ödeme süresi, NBD, İVO
 - [ ] Serbest tüketici, ikili anlaşma, YEK-G
 - [ ] Güç kalitesi ve harmonikler
+- [x] Türkiye Emisyon Ticaret Sistemi (TR ETS) — kapsam, kategoriler, tahsisat, İRD süreci
+- [ ] Karbon fiyatlandırmasının verimlilik yatırım fizibilitesine etkisi
