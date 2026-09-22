@@ -34,6 +34,7 @@ PAL = {
     "event":   dict(fill="#e7eaef", border="#8892a1", text="#16232b"),
     "panel":   dict(fill="#f1f3ed", border="#cdd3c8", text="#16232b"),
     "warn":    dict(fill="#fff6f5", border="#8f2b25", text="#591a16"),
+    "opportunity": dict(fill="#e3efec", border="#0b5d58", text="#11332f"),
 }
 
 CX, IRD_X, ETS_X = 940, 660, 1310
@@ -153,6 +154,7 @@ EDGES = [
     ("e10", "kayit", "", True),
     ("p_istisna", "ird", "", True),
     ("p_dikkat", "e3", "", True),
+    ("p_biz", "e9", "", True),
 ]
 
 # ───────────────────── bilgi panelleri ─────────────────────
@@ -254,6 +256,69 @@ PANELS = [
         "• Kükürt heksaflorür (SF₆)",
         "",
         "Kategori hesabında biyokütle kaynaklı CO₂ hariç, transfer edilen CO₂ dâhil tutulur (m. 4).",
+    ], "panel"),
+
+    ("p_biz", 1730, 2584, 250, 300, "★ BİZİM DEVREYE GİRDİĞİMİZ YER", [
+        "Açık, her yıl piyasadan satın alınan bir maliyet kalemidir. Açığı küçültmek hem bu "
+        "maliyeti hem de fiyat riskini azaltır.",
+        "",
+        "NE YAPABİLİRİZ",
+        "• Enerji etüdü ile azaltım potansiyelinin tespiti",
+        "• Atık ısı geri kazanımı, buhar ve kondenstop iyileştirmesi, izolasyon",
+        "• Motor, sürücü (VSD) ve basınçlı hava sistemleri verimliliği",
+        "• Yakıt dönüşümü ve biyokütle — biyokütlenin emisyon faktörü sıfır kabul edilir (EK-6)",
+        "• Elektrifikasyon ile tesis içi yakma emisyonunun azaltılması",
+        "• Çatı GES ve öz tüketim, YEK-G ile yeşil elektrik tedariki",
+        "• ISO 50001 enerji yönetim sistemi kurulumu",
+        "• Sayaçlama ve veri altyapısı — İRD yükümlülüğüyle aynı altyapıyı besler",
+        "• Fizibilite: geri ödeme ve NBD hesabına tahsisat maliyetinin dâhil edilmesi",
+        "• VAP destekleriyle yatırım maliyetinin düşürülmesi",
+    ], "opportunity"),
+
+    ("p_kurum", 760, 3220, 630, 460, "BAŞVURULAR NEREYE YAPILIR, KİM NE YAPAR", [
+        "İKLİM DEĞİŞİKLİĞİ BAŞKANLIĞI",
+        "Sera gazı emisyon izni, izleme planı, İzleme Metodolojisi Planı, emisyon ve faaliyet "
+        "seviyesi raporları ile ücretsiz tahsisat başvurusu buraya yapılır. Kıyas değerlerini "
+        "ilan eder, ihale takvimini belirler. Tüm iş ve işlemler Başkanlıkça kurulan elektronik "
+        "sistem üzerinden yürütülür (m. 7 · m. 14 · m. 28 · m. 29 · m. 34/6).",
+        "KARBON PİYASASI KURULU",
+        "Bakan başkanlığında toplanır. Ulusal Tahsisat Planını onaylar, ücretsiz tahsisat "
+        "dağılımına ve birincil piyasada satışa sunulacak miktara karar verir, denkleştirme "
+        "oranını ve fiyat aralıklarını belirler, pilot dönemi düzenler (m. 23).",
+        "EPDK",
+        "Tahsisatların kaydi ihracı, piyasaya sunulması ve İşlem Kayıt Sistemine ilişkin usul ve "
+        "esasları belirler; ETS piyasasının işleyişini düzenler (m. 12/2 · m. 21/3 · m. 22/5).",
+        "PİYASA İŞLETMECİSİ",
+        "İşlem Kayıt Sistemini işletir, ihaleleri yürütür, ihale takvimini ilan eder. Tahsisat "
+        "transferi ve teslimi bu sistem üzerinden gerçekleşir (m. 17/2 · m. 22/1).",
+        "MEDAS · TÜRKAK · DANIŞMA KURULU",
+        "MEDAS doğrulayıcı kuruluş atamasını yapar (m. 30/2). TÜRKAK doğrulayıcı kuruluşları "
+        "ISO/IEC 17029'a göre akredite eder (m. 33/3). Danışma Kurulu TOBB başkanlığında "
+        "toplanır ve istişari kararlar alır (m. 24).",
+    ], "panel"),
+
+    ("p_fiyat", 1420, 3220, 630, 460, "FİYATI KİM, NEYE GÖRE BELİRLER", [
+        "Tahsisatın sabit bir tarifesi yoktur; fiyat piyasada oluşur. Devlet fiyatı doğrudan "
+        "koymaz, arzı ve sınırları belirler.",
+        "ARZ — ÜST SINIR",
+        "ETS üst sınırı emisyon yoğunluğu temelli belirlenir ve Ulusal Tahsisat Planı ile "
+        "açıklanır. Birincil piyasada satışa sunulacak tahsisat miktarını Karbon Piyasası "
+        "Kurulu tespit eder (m. 11 · m. 23/2).",
+        "BİRİNCİL PİYASA — İHALE",
+        "Tahsisatlar, Başkanlıkça belirlenen ihale takvimine göre ihaleyle satılır. Takvim, UTP "
+        "yayımından sonraki 15 iş günü içinde Piyasa İşletmecisinin internet sitesinde ilan "
+        "edilir (m. 17).",
+        "İKİNCİL PİYASA — ARZ VE TALEP",
+        "Sürekli ticaret yöntemiyle işletilir; fiyat alıcı ve satıcıların emirlerine göre oluşur "
+        "(m. 18).",
+        "FİYAT ARALIĞI VE İSTİKRAR",
+        "Asgari ve azami tahsisat fiyatı aralıklarını belirlemeye Karbon Piyasası Kurulu "
+        "yetkilidir; kararlar Başkanlıkça resmî internet sayfasında ilan edilir. Piyasa istikrar "
+        "rezervi, dolaşımdaki tahsisat miktarı ve fiyatlar değerlendirilerek devreye alınır "
+        "(m. 19 · m. 21/1).",
+        "EK REZERV FİYATI",
+        "Son 3 ayın birincil ve ikincil piyasa ağırlıklı ortalama fiyatlarından yüksek olanının "
+        "%50 fazlası; azami fiyatı Başkanlık ve EPDK koordineli belirler (m. 16/6).",
     ], "panel"),
 
     ("p_lejant", 1620, 150, 460, 150, "RENK ANAHTARI", [

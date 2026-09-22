@@ -26,6 +26,7 @@ GREEN_F, GREEN_S, GREEN_T = "#DCEBDD", "#2C6A3B", "#1A4224"
 AMBER_F, AMBER_S, AMBER_T = "#F8EAD1", "#95600A", "#563806"
 RED_F,   RED_S,   RED_T   = "#F6E1DE", "#8C2A24", "#551916"
 EVENT_F, EVENT_S          = "#E6EAEF", "#83909F"
+OPP_F,   OPP_S,   OPP_T   = "#E3EFEC", "#0B5D58", "#11332F"
 
 FONT = "Archivo, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif"
 MONO = "'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace"
@@ -158,7 +159,8 @@ CX, OX = 940, 1520
 IRD_X, ETS_X = 660, 1310
 RES_Y, STEP0, PITCH, BW, BH = 1430, 1576, 126, 420, 84
 RAIL_X, RAIL_W = 48, 344
-IRD_LOOP, ETS_LOOP = 962, 1602
+IRD_LOOP, ETS_LOOP = 962, 1012
+RIGHT_X, RIGHT_W = 1556, 296
 
 def sy(i): return STEP0 + i * PITCH
 
@@ -258,6 +260,10 @@ def track(cx, keys, fill, stroke, tcol, scol):
         box(cx, cy, BW, BH, title, sub, fill=f, stroke=st, tcol=tc,
             scol=(MUTED if tag == "DIŞ OLAY" else scol), ts=14.5, ss=11, shadow=True)
         stepnum(cx - BW / 2, cy, i + 1, st)
+        if key == "e9":
+            add(f'<rect x="{cx - BW/2 - 7}" y="{cy - BH/2 - 7}" width="{BW + 14}" '
+                f'height="{BH + 14}" rx="15" fill="none" stroke="{OPP_S}" stroke-width="2.4"/>')
+            badge(cx - BW / 2 + 26, cy - BH / 2 - 18, "★ FIRSAT ALANI", OPP_S)
         if tag:
             badge(cx + BW / 2 - (96 if tag == "CEZA RİSKİ" else 84), cy - BH / 2 - 11,
                   tag, RED_S if tag == "CEZA RİSKİ" else EVENT_S)
@@ -274,11 +280,13 @@ conn([(IRD_X, iy[-1] + BH / 2), (IRD_X, iy[-1] + BH / 2 + 38), (IRD_LOOP, iy[-1]
       (IRD_LOOP, iy[1]), (IRD_X + BW / 2 + 7, iy[1])],
      "her sistem yılı için tekrarlanır", 806, iy[-1] + BH / 2 + 28)
 conn([(ETS_X, ey[-1] + BH / 2), (ETS_X, ey[-1] + BH / 2 + 38), (ETS_LOOP, ey[-1] + BH / 2 + 38),
-      (ETS_LOOP, ey[3]), (ETS_X + BW / 2 + 7, ey[3])],
-     "her sistem yılı için tekrarlanır", 1456, ey[-1] + BH / 2 + 28)
+      (ETS_LOOP, ey[3]), (ETS_X - BW / 2 - 7, ey[3])],
+     "her sistem yılı için tekrarlanır", 1160, ey[-1] + BH / 2 + 28)
 
-draw_panel(1626, sy(2) - 96, 226, "p_dikkat", fill="#FFF6F4", stroke=RED_S)
-hint([(1626, sy(2)), (ETS_X + BW / 2, sy(2))], color=RED_S)
+dh = draw_panel(RIGHT_X, sy(2) - 84, RIGHT_W, "p_dikkat", fill="#FFF6F4", stroke=RED_S)
+hint([(RIGHT_X, sy(2)), (ETS_X + BW / 2, sy(2))], color=RED_S)
+bh_ = draw_panel(RIGHT_X, sy(8) - 150, RIGHT_W, "p_biz", fill=OPP_F, stroke=OPP_S)
+hint([(RIGHT_X, sy(8)), (ETS_X + BW / 2 + 7, sy(8))], color=OPP_S)
 hint([(RAIL_X + RAIL_W, RES_Y), (IRD_X - BW / 2 - 10, RES_Y)])
 
 t, s_ = NODE["kayit"]
@@ -295,8 +303,16 @@ for key in ("p_ceza", "p_hesap", "p_gaz"):
     st = RED_S if key == "p_ceza" else PANEL_ST
     rail += draw_panel(RAIL_X, rail, RAIL_W, key, fill=fl, stroke=st) + 26
 
+# ── bölüm 3 ──
+SEC3 = max(CONT_Y + 66, rail + 20, sy(8) - 150 + bh_ + 40)
+add(f'<line x1="48" y1="{SEC3}" x2="{W - 48}" y2="{SEC3}" stroke="{LINE}" stroke-width="1.4"/>')
+chapter(48, SEC3 + 44, "03", "Kurumlar, başvurular ve fiyat oluşumu")
+c3 = SEC3 + 74
+h_kurum = draw_panel(48, c3, 880, "p_kurum")
+h_fiyat = draw_panel(972, c3, 880, "p_fiyat")
+
 # ── alt bilgi ──
-FY = max(CONT_Y + 70, rail + 16)
+FY = c3 + max(h_kurum, h_fiyat) + 34
 add(f'<line x1="48" y1="{FY}" x2="{W - 48}" y2="{FY}" stroke="{LINE}" stroke-width="1.2"/>')
 add(f'<text x="48" y="{FY + 27}" font-family="{FONT}" font-size="11.5" fill="{FAINT}">'
     f'Bu şema bilgilendirme amaçlıdır ve ön değerlendirme niteliğindedir. Kesin kapsam belirlemesi '
