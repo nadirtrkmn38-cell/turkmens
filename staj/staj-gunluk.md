@@ -190,8 +190,16 @@ Format: `### Gün N — GG.AA.YYYY (Gün adı)` altında **Yapılan iş**, **Tek
   - İdari para cezaları kategoriye göre 627.450 ₺ – 6.274.500 ₺; ETS kapsamındaki işletmelerde
     iki katı (m. 35). Kayıt saklama süresi 10 yıl (m. 37).
   - 17/5/2014 tarihli Sera Gazı Emisyonlarının Takibi Hakkında Yönetmelik yürürlükten kaldırıldı.
-- **Çıktı:** Müşteriye yönelik interaktif kapsam belirleme aracı (4 adımlı soru akışı + kategori
-  hesabı + kişiselleştirilmiş yükümlülük takvimi + ceza tablosu).
+- **Çıktı:** (a) Müşteriye yönelik interaktif kapsam belirleme aracı — 4 adımlı soru akışı,
+  kategori hesabı, kişiselleştirilmiş yükümlülük takvimi, ceza tablosu. (b) Aynı içeriğin A4
+  baskıya uygun 6 sayfalık rehber sürümü. (c) Miro üzerinde karar ağacı diyagramı; Miro AI için
+  yapılandırılmış prompt seti hazırlandı ve çıktı üç turda gözden geçirilerek düzeltildi.
+- **Diyagram çalışmasında tespit edilen ve düzeltilen hatalar:** izin başvurusu ile izleme planı
+  sıralaması (EK-3 uyarınca izleme planı ve İzleme Metodolojisi Planı, izin başvurusunun ekidir;
+  başvurudan sonra değil önce hazırlanır); yıllık çevrimin kapalı döngü olarak gösterilmemesi;
+  Madde 5/2-3 kalıcı istisnası ile Geçici Madde 6 geçici istisnasının aynı düğümde birleştirilmesi;
+  istisna dalında tesis kategorisinin belirlenmeden atlanması (oysa idari para cezası kademesi ve
+  yetkili personel şartı kategoriye bağlıdır).
 - **Kazanım:** Karbon fiyatlandırmasının enerji verimliliği yatırımlarının fizibilitesini doğrudan
   değiştirdiğini kavradım: tahsisat açığı (doğrulanmış emisyon − ücretsiz tahsisat) her yıl piyasadan
   satın alınan bir maliyet kalemi olduğundan, azaltım projelerinin geri ödeme süresi hesabına
