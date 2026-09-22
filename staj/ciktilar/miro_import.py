@@ -79,7 +79,8 @@ NODES = [
     ("i2", "round_rectangle", IRD_X, sy(1), BW, BH,
      "Emisyonları izleyin", "Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü", "amber"),
     ("i3", "round_rectangle", IRD_X, sy(2), BW, BH,
-     "Akredite kuruluşa doğrulatın", "MEDAS ataması · ISO/IEC 17029 (m. 30)", "amber"),
+     "Akredite kuruluşa doğrulatın",
+     "MEDAS ataması · ISO/IEC 17029 akreditasyonu (m. 30 · m. 33/2)", "amber"),
     ("i4", "round_rectangle", IRD_X, sy(3), BW, BH,
      "30 Nisan'a kadar raporlayın",
      "CEZA RİSKİ · Bir önceki takvim yılının doğrulanmış emisyonu — gecikmede Kategori A için 627.450 ₺ (m. 29 · m. 35)", "amber"),
@@ -95,7 +96,8 @@ NODES = [
     ("e4", "round_rectangle", ETS_X, sy(3), BW, BH,
      "Emisyonları izleyin", "Alt tesis bazında: ürün, ölçülebilir ısı, yakıt, üretim süreci", "red"),
     ("e5", "round_rectangle", ETS_X, sy(4), BW, BH,
-     "Akredite kuruluşa doğrulatın", "Doğrulanmamış rapor sunulamaz (m. 30)", "red"),
+     "Akredite kuruluşa doğrulatın",
+     "Doğrulanmamış rapor sunulamaz · 4734 sayılı Kanuna tabi işletmeler MEDAS dışıdır (m. 30)", "red"),
     ("e6", "round_rectangle", ETS_X, sy(5), BW, BH,
      "30 Nisan — rapor + faaliyet seviyesi", "CEZA RİSKİ · İkisi birlikte sunulur (m. 29 · m. 13/5)", "red"),
     ("e7", "round_rectangle", ETS_X, sy(6), BW, BH,
@@ -109,10 +111,10 @@ NODES = [
     ("e10", "round_rectangle", ETS_X, sy(9), BW, BH,
      "Tahsisatı teslim edin", "CEZA RİSKİ · Kasım son iş günü · ek rezerv kullananlarda Aralık (m. 16)", "red"),
 
-    ("kayit", "round_rectangle", (IRD_X + ETS_X) // 2, sy(9) + 200, 1100, 80,
-     "Kayıtları 10 yıl saklayın",
-     "Tüm veriler ve bilgi kayıtları en az 10 yıl saklanır. Yukarıdaki adımların tamamı için "
-     "geçerli sürekli bir yükümlülüktür (m. 37).", "start"),
+    ("kayit", "round_rectangle", (IRD_X + ETS_X) // 2, sy(9) + 200, 1100, 90,
+     "Sürekli yükümlülükler — her iki profil için",
+     "Tüm veri ve bilgi kayıtlarını en az 10 yıl saklayın (m. 37) · Faaliyet, tesis niteliği, "
+     "kategori veya izin sahibi değişikliklerini 30 gün içinde Başkanlığa bildirin (m. 9/1 · m. 34/4-5)", "start"),
 ]
 
 # ───────────────────── bağlayıcılar ─────────────────────
@@ -226,7 +228,33 @@ PANELS = [
         "İzin 5 yıl geçerli. Bitiminden en az 6 ay önce yenileme başvurusu zorunlu (m. 8).",
         "",
         "İzinsiz faaliyetin cezası 1.254.900 – 12.549.000 ₺ (m. 35).",
+        "",
+        "Geçiş: Kanun'un yürürlüğünden itibaren 3 yıl içinde izin alınmalıdır. Bu süre içinde "
+        "bir kereye mahsus izinli sayılırsınız (Geçici m. 2).",
     ], "warn"),
+
+    ("p_hesap", 220, 2400, 344, 320, "İKİ HESAP", [
+        "Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü (EK-6)",
+        "Biyokütlenin emisyon faktörü sıfır kabul edilir.",
+        "",
+        "Ücretsiz tahsisat = Kıyas değeri × Ücretsiz tahsisat oranı × Sektörel faaliyet "
+        "katsayısı × Faaliyet seviyesi (m. 13/7)",
+        "",
+        "Açık = Doğrulanmış emisyon − Ücretsiz tahsisat",
+        "Bu fark her yıl piyasadan satın alınır. Azaltım yatırımlarının geri ödeme hesabına "
+        "bu kalem de girer.",
+    ], "panel"),
+
+    ("p_gaz", 220, 2760, 344, 260, "KAPSAMDAKİ SERA GAZLARI (EK-2)", [
+        "• Karbondioksit (CO₂)",
+        "• Metan (CH₄)",
+        "• Diazot oksit (N₂O)",
+        "• Hidroflorokarbonlar (HFC)",
+        "• Perflorokarbonlar (PFC)",
+        "• Kükürt heksaflorür (SF₆)",
+        "",
+        "Kategori hesabında biyokütle kaynaklı CO₂ hariç, transfer edilen CO₂ dâhil tutulur (m. 4).",
+    ], "panel"),
 
     ("p_lejant", 1620, 150, 460, 150, "RENK ANAHTARI", [
         "YEŞİL — yükümlülük yok, sistem hiç uygulanmaz",
