@@ -213,6 +213,39 @@ Format: `### Gün N — GG.AA.YYYY (Gün adı)` altında **Yapılan iş**, **Tek
 - **Açık sorular:** Pilot uygulama döneminin kapsam ve süresi (Karbon Piyasası Kurulu belirleyecek);
   kıyas değerlerinin ilan takvimi; müşteri portföyümüzde hangi sektörlerin EK-1 kapsamında olduğu.
 
+#### Gün 3 — 23.09.2026 (Çarşamba) · ETS Şemasının Sadeleştirilmesi
+- **Yapılan iş:** Önceki gün hazırlanan TR ETS kapsam belirleme şeması, müşteriye sunumu
+  kolaylaştırmak için sadeleştirildi. Karar akışındaki dört soru ikiye indirildi: (1) tesiste EK-1
+  faaliyeti yürütülüyor mu, (2) yıllık emisyon kaç ton CO2e. Ar-Ge, münhasıran biyokütle, askerî
+  unsur, okul/üniversite/hastane/savunma sanayi ve gaz-petrol iletim-depolama istisnaları; askerî
+  alanlar gibi departmanın hizmet kapsamı dışında kaldığından ya da müşteri portföyünde nadir
+  görüldüğünden akıştan çıkarıldı ve "Özel durumlar" yan notuna taşındı. Her yükümlülük adımına, başvurunun nereye yapıldığını ve işlemi hangi kurumun
+  yürüttüğünü gösteren bir "KİM" satırı eklendi. Fiyat oluşumu bölümü şemanın en altına alındı;
+  kurumların fiyattaki rolleri tek bakışta okunacak özet kartlarla verildi.
+- **Teknik içerik:**
+  - Başvuru ve işlem makamları: izin, izleme planı, emisyon/faaliyet seviyesi raporu ve ücretsiz
+    tahsisat başvurusu İklim Değişikliği Başkanlığına, elektronik sistem üzerinden yapılır
+    (m. 7/1 · m. 14/1 · m. 28/3 · m. 29/1 · m. 34/6). Uygun bulunan ücretsiz tahsisat, EPDK'nın
+    belirlediği usulle İşlem Kayıt Sistemi (İKS) üzerinden tesis hesabına aktarılır (m. 14/1).
+  - Doğrulayıcı kuruluşu MEDAS atar (m. 30/2), doğrulayıcıları TÜRKAK ISO/IEC 17029'a göre akredite
+    eder (m. 33/2-3). Ulusal Tahsisat Planını Başkanlık hazırlar, Karbon Piyasası Kurulu onaylar
+    (m. 23/2-a).
+  - Yönetmelikteki "Piyasa İşletmecisi" tanımı EPİAŞ'tır (m. 4/1-ee). Birincil (ihale) ve ikincil ETS
+    piyasası ile İKS, Piyasa İşletmecisi tarafından işletilir (m. 4/1-k · m. 22/1).
+  - Fiyat: satışa sunulacak miktarı, asgari–azami fiyat aralığını ve karbon kredisi kullanım oranını
+    Karbon Piyasası Kurulu belirler (m. 21/1 · m. 23/2 · m. 25/1); ihale takvimini ve istikrar
+    rezervine aktarılacak payı Başkanlık belirler (m. 17/1 · m. 19/2); piyasa işleyişinin usul ve
+    esaslarını EPDK belirler (m. 21/3). Fiyatın kendisi birincil piyasada ihaleyle, ikincil piyasada
+    alış-satış emirleriyle oluşur (m. 17 · m. 18).
+- **Çıktı:** Güncellenmiş kapsam belirleme şeması (tek sayfalık PDF) ve aynı içeriğin düzenlenebilir
+  draw.io sürümü.
+- **Kazanım:** Mevzuatı müşteriye anlatan bir belgede akışta yalnızca hedef kitlenin çoğunluğunu
+  ilgilendiren soruları tutmanın, istisnaları ise yan nota almanın okunabilirliği belirgin biçimde
+  artırdığını gördüm. Her adımın yanında sorumlu kurumun yazması, "nereye başvuracağım" sorusunu
+  ayrı bir tablo aramadan yanıtlıyor.
+- **Açık sorular:** Şemanın müşteri sunumlarında basılı mı dijital mi kullanılacağı; kurumsal şablon
+  (logo, renk) uygulanıp uygulanmayacağı.
+
 ---
 
 ## 5. Rapor Malzemesi Havuzu

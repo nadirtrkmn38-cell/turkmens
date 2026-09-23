@@ -38,8 +38,8 @@ PAL = {
 }
 
 CX, IRD_X, ETS_X = 940, 660, 1310
-RES_Y, PITCH, BW, BH = 1420, 128, 420, 86
-STEP0 = 1560
+RES_Y, PITCH, BW, BH = 980, 150, 420, 100
+STEP0 = 1120
 
 def sy(i):
     return STEP0 + i * PITCH
@@ -52,24 +52,17 @@ NODES = [
 
     ("k1", "rhombus", CX, 432, 440, 150,
      "Tesiste EK-1 listesindeki bir faaliyet yürütülüyor mu?", "m. 27/2 · EK-1", "neutral"),
-    ("k2", "rhombus", CX, 640, 440, 150,
-     "Ar-Ge tesisi, münhasıran biyokütle kullanan tesis veya askerî unsur mu?", "m. 2/2", "neutral"),
-    ("k3", "rhombus", CX, 856, 480, 160,
-     "Okul, üniversite, hastane, savunma sanayi veya gaz / ham petrol iletim-depolama tesisi mi?",
-     "m. 5/2-3 · Geçici m. 6", "neutral"),
-    ("k4", "rhombus", CX, 1072, 440, 150,
+    ("k4", "rhombus", CX, 700, 440, 150,
      "Kurulu kapasiteye göre ihtiyatlı hesaplanan yıllık emisyon kaç ton CO₂e?",
      "m. 4 · m. 5/1", "neutral"),
 
     ("out1", "round_rectangle", 1520, 432, 420, 90,
      "KAPSAM DIŞI", "Hiçbir yükümlülük doğmaz. Tahsisat, izin, izleme ve raporlama yok.", "green"),
-    ("out2", "round_rectangle", 1520, 640, 420, 90,
-     "YÖNETMELİK DIŞI", "İstisna yalnızca ilgili tesis veya tesis bölümü için geçerlidir.", "green"),
 
     ("ird", "round_rectangle", IRD_X, RES_Y, 440, 110,
      "ETS DIŞI — İRD YÜKÜMLÜSÜ",
-     "Tahsisat almaz, teslim etmezsiniz. Kategoriniz yine de belirlenir: ceza kademesi ve "
-     "personel şartı kategoriye bağlıdır.", "amber"),
+     "Kategori A ve ETS dışı bırakılan özel tesisler. Tahsisat almaz, teslim etmezsiniz; "
+     "izleme, raporlama ve doğrulama sürer.", "amber"),
     ("ets", "round_rectangle", ETS_X, RES_Y, 440, 110,
      "ETS KAPSAMINDA",
      "İzin + izleme, raporlama, doğrulama + her yıl emisyona denk tahsisat teslimi.", "red"),
@@ -112,25 +105,39 @@ NODES = [
     ("e10", "round_rectangle", ETS_X, sy(9), BW, BH,
      "Tahsisatı teslim edin", "CEZA RİSKİ · Kasım son iş günü · ek rezerv kullananlarda Aralık (m. 16)", "red"),
 
-    ("kayit", "round_rectangle", (IRD_X + ETS_X) // 2, sy(9) + 200, 1100, 90,
+    ("kayit", "round_rectangle", (IRD_X + ETS_X) // 2, sy(9) + 190, 1100, 90,
      "Sürekli yükümlülükler — her iki profil için",
      "Tüm veri ve bilgi kayıtlarını en az 10 yıl saklayın (m. 37) · Faaliyet, tesis niteliği, "
      "kategori veya izin sahibi değişikliklerini 30 gün içinde Başkanlığa bildirin (m. 9/1 · m. 34/4-5)", "start"),
 ]
+
+# ───────────────────── kim ne yapar ─────────────────────
+# Her adımın altındaki "KİM" satırı: başvurunun yapıldığı yer ve işlemi yürüten kurum.
+WHO = {
+    "i1": "İklim Değişikliği Başkanlığı onaylar",
+    "i2": "İşletme · onaylı izleme planına göre",
+    "i3": "MEDAS doğrulayıcı atar · TÜRKAK akredite eder",
+    "i4": "Başkanlığa, elektronik sistem üzerinden",
+    "e1": "İşletme belirler · bilgileri izin başvurusunda",
+    "e2": "İşletme hazırlar · Başkanlık onaylar",
+    "e3": "Başvuru Başkanlığa · Başkanlık değerlendirir",
+    "e4": "İşletme · onaylı izleme planına göre",
+    "e5": "MEDAS doğrulayıcı atar · TÜRKAK akredite eder",
+    "e6": "Başkanlığa, elektronik sistem üzerinden",
+    "e7": "Başkanlık hazırlar · Karbon Piyasası Kurulu onaylar",
+    "e8": "Başvuru Başkanlığa · transfer EPDK usulüyle İKS'den",
+    "e9": "İhale ve ikincil piyasa · Piyasa İşletmecisi (EPİAŞ)",
+    "e10": "İKS üzerinden teslim · Piyasa İşletmecisi (EPİAŞ)",
+}
 
 # ───────────────────── bağlayıcılar ─────────────────────
 # (kaynak, hedef, etiket, kesikli mi)
 EDGES = [
     ("start", "k1", "", False),
     ("k1", "out1", "HAYIR", False),
-    ("k1", "k2", "EVET", False),
-    ("k2", "out2", "EVET", False),
-    ("k2", "k3", "HAYIR", False),
-    ("k3", "ird", "EVET — kategoriden bağımsız", False),
-    ("k3", "k4", "HAYIR", False),
+    ("k1", "k4", "EVET", False),
     ("k4", "ird", "≤ 50.000 · Kategori A", False),
-    ("k4", "ets", "50.001 – 500.000 · Kategori B", False),
-    ("k4", "ets", "> 500.000 · Kategori C", False),
+    ("k4", "ets", "> 50.000 · Kategori B ve C", False),
 
     ("ird", "i1", "", False),
     ("i1", "i2", "", False),
@@ -152,7 +159,7 @@ EDGES = [
 
     ("i4", "kayit", "", True),
     ("e10", "kayit", "", True),
-    ("p_istisna", "ird", "", True),
+    ("p_ozel", "k4", "", True),
     ("p_dikkat", "e3", "", True),
     ("p_biz", "e9", "", True),
 ]
@@ -190,7 +197,7 @@ PANELS = [
         "Tam liste 25 faaliyettir. Ayrıntı için EK-1'e bakınız.",
     ], "panel"),
 
-    ("p_20mw", 220, 1062, 344, 270, "TOPLAM ANMA ISIL GÜCÜ NASIL HESAPLANIR?", [
+    ("p_20mw", 220, 1062, 344, 270, "ANMA ISIL GÜCÜ NASIL TOPLANIR?", [
         "Tesisteki tüm yakma ünitelerinin anma ısıl güçleri TOPLANIR: kazan, brülör, türbin, "
         "ısıtıcı, ocak, insineratör, kalsinatör, döner fırın, fırın, kurutucu, motor, yakıt "
         "hücresi, yakma bacası, termal veya katalitik yakma sonrası ünitesi.",
@@ -206,11 +213,14 @@ PANELS = [
         "kapasite gözetilmeksizin kapsama dâhil olur (m. 27/2).",
     ], "panel"),
 
-    ("p_istisna", 220, 1605, 344, 215, "İSTİSNALARIN SÜRESİ", [
-        "• Kategori A — kalıcı olarak ETS dışı, İRD sürer",
-        "• Okul, üniversite, hastane, savunma sanayi — kalıcı istisna (m. 5/2-3)",
-        "• Gaz ve ham petrol iletimi-depolaması — yalnızca birinci uygulama dönemi sonuna "
-        "kadar (Geçici m. 6)",
+    ("p_kisalt", 220, 1500, 344, 260, "KURUMLAR VE KISALTMALAR", [
+        "• Başkanlık — İklim Değişikliği Başkanlığı",
+        "• KPK — Karbon Piyasası Kurulu (Bakan başkanlığında)",
+        "• EPDK — Enerji Piyasası Düzenleme Kurumu",
+        "• Piyasa İşletmecisi — EPİAŞ",
+        "• İKS — İşlem Kayıt Sistemi; Piyasa İşletmecisi işletir",
+        "• MEDAS — Merkezi Elektronik Doğrulayıcı Kuruluş Atama Sistemi",
+        "• TÜRKAK — Türk Akreditasyon Kurumu",
     ], "panel"),
 
     ("p_ceza", 220, 1992, 344, 400, "İDARİ PARA CEZALARI (m. 35)", [
@@ -226,7 +236,7 @@ PANELS = [
         "İzinsiz faaliyet ayrı bir ceza kalemidir: 1.254.900 – 12.549.000 ₺.",
     ], "warn"),
 
-    ("p_dikkat", 1730, sy(2), 250, 200, "DİKKAT", [
+    ("p_dikkat", 1730, sy(2) + 20, 250, 200, "DİKKAT", [
         "İzin 5 yıl geçerli. Bitiminden en az 6 ay önce yenileme başvurusu zorunlu (m. 8).",
         "",
         "İzinsiz faaliyetin cezası 1.254.900 – 12.549.000 ₺ (m. 35).",
@@ -258,7 +268,7 @@ PANELS = [
         "Kategori hesabında biyokütle kaynaklı CO₂ hariç, transfer edilen CO₂ dâhil tutulur (m. 4).",
     ], "panel"),
 
-    ("p_biz", 1730, 2584, 250, 300, "★ BİZİM DEVREYE GİRDİĞİMİZ YER", [
+    ("p_biz", 1730, sy(8) + 100, 250, 300, "★ BİZİM DEVREYE GİRDİĞİMİZ YER", [
         "Açık, her yıl piyasadan satın alınan bir maliyet kalemidir. Açığı küçültmek hem bu "
         "maliyeti hem de fiyat riskini azaltır.",
         "",
@@ -275,29 +285,18 @@ PANELS = [
         "• VAP destekleriyle yatırım maliyetinin düşürülmesi",
     ], "opportunity"),
 
-    ("p_kurum", 760, 3220, 630, 460, "BAŞVURULAR NEREYE YAPILIR, KİM NE YAPAR", [
-        "İKLİM DEĞİŞİKLİĞİ BAŞKANLIĞI",
-        "Sera gazı emisyon izni, izleme planı, İzleme Metodolojisi Planı, emisyon ve faaliyet "
-        "seviyesi raporları ile ücretsiz tahsisat başvurusu buraya yapılır. Kıyas değerlerini "
-        "ilan eder, ihale takvimini belirler. Tüm iş ve işlemler Başkanlıkça kurulan elektronik "
-        "sistem üzerinden yürütülür (m. 7 · m. 14 · m. 28 · m. 29 · m. 34/6).",
-        "KARBON PİYASASI KURULU",
-        "Bakan başkanlığında toplanır. Ulusal Tahsisat Planını onaylar, ücretsiz tahsisat "
-        "dağılımına ve birincil piyasada satışa sunulacak miktara karar verir, denkleştirme "
-        "oranını ve fiyat aralıklarını belirler, pilot dönemi düzenler (m. 23).",
-        "EPDK",
-        "Tahsisatların kaydi ihracı, piyasaya sunulması ve İşlem Kayıt Sistemine ilişkin usul ve "
-        "esasları belirler; ETS piyasasının işleyişini düzenler (m. 12/2 · m. 21/3 · m. 22/5).",
-        "PİYASA İŞLETMECİSİ",
-        "İşlem Kayıt Sistemini işletir, ihaleleri yürütür, ihale takvimini ilan eder. Tahsisat "
-        "transferi ve teslimi bu sistem üzerinden gerçekleşir (m. 17/2 · m. 22/1).",
-        "MEDAS · TÜRKAK · DANIŞMA KURULU",
-        "MEDAS doğrulayıcı kuruluş atamasını yapar (m. 30/2). TÜRKAK doğrulayıcı kuruluşları "
-        "ISO/IEC 17029'a göre akredite eder (m. 33/3). Danışma Kurulu TOBB başkanlığında "
-        "toplanır ve istişari kararlar alır (m. 24).",
+    ("p_ozel", 1580, 620, 542, 230, "ÖZEL DURUMLAR — AYRICA DEĞERLENDİRİLİR", [
+        "EK-1 faaliyeti yürütse de aşağıdaki tesisler farklı değerlendirilir. Tesisiniz bu "
+        "gruptaysa ayrı bir inceleme yapılmalıdır.",
+        "YÖNETMELİK DIŞI",
+        "• Ar-Ge tesis veya bölümleri, münhasıran biyokütle kullanan tesisler, askerî unsurlar (m. 2/2)",
+        "ETS DIŞI, İRD SÜRER",
+        "• Kalıcı: okul, üniversite, hastane ve savunma sanayi kuruluşlarına ait tesisler (m. 5/2-3)",
+        "• Geçici: doğal gaz ve ham petrol iletimi ve depolanması, birinci uygulama dönemi "
+        "sonuna kadar (Geçici m. 6)",
     ], "panel"),
 
-    ("p_fiyat", 1420, 3220, 630, 460, "FİYATI KİM, NEYE GÖRE BELİRLER", [
+    ("p_fiyat", 950, 3300, 1804, 380, "FİYAT OLUŞUMU VE YETKİLİ KURUMLAR", [
         "Tahsisatın sabit bir tarifesi yoktur; fiyat piyasada oluşur. Devlet fiyatı doğrudan "
         "koymaz, arzı ve sınırları belirler.",
         "ARZ — ÜST SINIR",
@@ -316,17 +315,47 @@ PANELS = [
         "yetkilidir; kararlar Başkanlıkça resmî internet sayfasında ilan edilir. Piyasa istikrar "
         "rezervi, dolaşımdaki tahsisat miktarı ve fiyatlar değerlendirilerek devreye alınır "
         "(m. 19 · m. 21/1).",
+        "||",
         "EK REZERV FİYATI",
         "Son 3 ayın birincil ve ikincil piyasa ağırlıklı ortalama fiyatlarından yüksek olanının "
         "%50 fazlası; azami fiyatı Başkanlık ve EPDK koordineli belirler (m. 16/6).",
+        "KARBON KREDİSİYLE DENKLEŞTİRME",
+        "Yurt içi projelerden elde edilen karbon kredileri, teslim yükümlülüğünün Karbon Piyasası "
+        "Kurulunca belirlenen oranını geçmemek üzere kullanılabilir (m. 25/1).",
+        "PİYASANIN İŞLEYİŞİ",
+        "İKS'yi ve birincil ile ikincil ETS piyasasını Piyasa İşletmecisi (EPİAŞ) işletir. "
+        "Piyasa işleyişinin usul ve esaslarını Bakanlık, Enerji ve Tabii Kaynaklar Bakanlığı ve "
+        "SPK ile koordineli olarak EPDK belirler. TOBB başkanlığındaki Danışma Kurulu, Karbon "
+        "Piyasası Kuruluna sunulmak üzere istişari kararlar alır (m. 4/1-k · m. 21/3 · m. 22/1 · m. 24).",
     ], "panel"),
 
-    ("p_lejant", 1620, 150, 460, 150, "RENK ANAHTARI", [
+    ("p_lejant", 1620, 150, 460, 170, "RENK ANAHTARI", [
         "YEŞİL — yükümlülük yok, sistem hiç uygulanmaz",
         "SARI — yalnızca izleme, raporlama ve doğrulama",
         "KIRMIZI — tam ETS: izin, İRD ve tahsisat teslimi",
         "GRİ — yardımcı bilgi, akışın parçası değil",
+        "KİM — başvurunun yapıldığı ve işlemi yürüten kurum",
     ], "start"),
+]
+
+# ───────────────────── fiyatta kimin rolü ne ─────────────────────
+# (kurum, rolü) — fiyat bölümünün üstündeki tek bakışta özet
+PRICE_ROLES = [
+    ("Karbon Piyasası Kurulu",
+     "Satışa sunulacak tahsisat miktarını, asgari–azami fiyat aralığını ve karbon kredisi "
+     "oranını belirler (m. 21/1 · m. 23/2 · m. 25/1)"),
+    ("İklim Değişikliği Başkanlığı",
+     "İhale takvimini ve istikrar rezervine aktarılacak miktarı belirler, Kurul kararlarını "
+     "ilan eder (m. 17/1 · m. 19/2 · m. 21/1)"),
+    ("EPDK",
+     "ETS piyasasının ve İşlem Kayıt Sisteminin usul ve esaslarını belirler "
+     "(m. 21/3 · m. 22/5)"),
+    ("Piyasa İşletmecisi (EPİAŞ)",
+     "İhaleleri ve ikincil piyasayı organize edip işletir, İşlem Kayıt Sistemini yürütür "
+     "(m. 4/1-k · m. 22/1)"),
+    ("Piyasa katılımcıları",
+     "Fiyat birincil piyasada ihaleyle, ikincil piyasada alış ve satış emirleriyle oluşur "
+     "(m. 17 · m. 18)"),
 ]
 
 TITLE = ("baslik", 700, 120, 1200, 120,
@@ -426,6 +455,8 @@ def main():
     n = 0
 
     for key, shape, cx, cy, w, h, title, sub, pal in NODES:
+        if key in WHO:
+            sub = f"{sub} — KİM: {WHO[key]}"
         r = post(f"/boards/{bid}/shapes",
                  shape_payload(cx, cy, w, h, shape, title, sub, pal), a.token)
         ids[key] = r["id"]; n += 1
@@ -433,6 +464,7 @@ def main():
         time.sleep(0.12)
 
     for key, cx, cy, w, h, heading, lines, pal in PANELS:
+        lines = [ln for ln in lines if ln != "||"]
         r = post(f"/boards/{bid}/shapes",
                  panel_payload(cx, cy, w, h, heading, lines, pal), a.token)
         ids[key] = r["id"]; n += 1

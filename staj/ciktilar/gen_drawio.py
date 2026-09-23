@@ -7,7 +7,7 @@ etiketler üst üste binmez.
 """
 from html import escape
 from math import ceil
-from miro_import import NODES, EDGES, PANELS, PAL, TITLE, sy, IRD_X, ETS_X, RES_Y, CX
+from miro_import import NODES, EDGES, PANELS, PAL, TITLE, WHO, PRICE_ROLES, sy, IRD_X, ETS_X, RES_Y, CX
 
 cells, eid = [], 2
 idmap, geom = {}, {}
@@ -20,28 +20,25 @@ def esc(t):
 
 # ───────────────────── kenar yönlendirme tablosu ─────────────────────
 # (kaynak, hedef, etiket) -> (çıkışX, çıkışY, girişX, girişY, dönüş noktaları, etiket kayması)
-IRD_LOOP_X, ETS_LOOP_X = 960, 1600
+IRD_LOOP_X, ETS_LOOP_X = 960, 1030
 R = {
     ("start", "k1", ""):                       (.5, 1, .5, 0, [], None),
     ("k1", "out1", "HAYIR"):                    (1, .5, 0, .5, [], None),
-    ("k1", "k2", "EVET"):                     (.5, 1, .5, 0, [], None),
-    ("k2", "out2", "EVET"):                    (1, .5, 0, .5, [], None),
-    ("k2", "k3", "HAYIR"):                     (.5, 1, .5, 0, [], None),
-    ("k3", "ird", "EVET — kategoriden bağımsız"): (0, .5, .15, 0, [(506, 856)], (0, -12)),
-    ("k3", "k4", "HAYIR"):                     (.5, 1, .5, 0, [], None),
-    ("k4", "ird", "≤ 50.000 · Kategori A"):    (0, .5, .7, 0, [(748, 1072)], (-40, -12)),
-    ("k4", "ets", "50.001 – 500.000 · Kategori B"): (1, .5, .2, 0, [(1178, 1072)], (52, -12)),
-    ("k4", "ets", "> 500.000 · Kategori C"):   (.5, 1, .75, 0, [(CX, 1240), (1420, 1240)], (40, -12)),
+    ("k1", "k4", "EVET"):                      (.5, 1, .5, 0, [], None),
+    ("k4", "ird", "≤ 50.000 · Kategori A"):    (0, .5, .5, 0, [(IRD_X, 700)], (-60, 0)),
+    ("k4", "ets", "> 50.000 · Kategori B ve C"):
+        (.5, 1, .5, 0, [(CX, 860), (ETS_X, 860)], (60, -12)),
 
     ("i4", "i2", "her sistem yılı için tekrarlanır"):
-        (1, .5, 1, .5, [(IRD_LOOP_X, sy(3)), (IRD_LOOP_X, sy(1))], (86, 0)),
+        (1, .5, 1, .5, [(IRD_LOOP_X, sy(3)), (IRD_LOOP_X, sy(1))], None),
     ("e10", "e4", "her sistem yılı için tekrarlanır"):
-        (1, .5, 1, .5, [(ETS_LOOP_X, sy(9)), (ETS_LOOP_X, sy(3))], (86, 0)),
+        (0, .5, 0, .5, [(ETS_LOOP_X, sy(9)), (ETS_LOOP_X, sy(3))], (-20, 0)),
 
     ("i4", "kayit", ""):        (.5, 1, .2, 0, [], None),
     ("e10", "kayit", ""):       (.5, 1, .8, 0, [], None),
-    ("p_istisna", "ird", ""):   (1, .5, 0, .5, [], None),
+    ("p_ozel", "k4", ""):       (0, .5, 1, .5, [], None),
     ("p_dikkat", "e3", ""):     (0, .5, 1, .5, [], None),
+    ("p_biz", "e9", ""):        (0, .5, 1, .5, [], None),
 }
 DEFAULT_ROUTE = (.5, 1, .5, 0, [], None)
 
@@ -55,11 +52,14 @@ def node_style(pal, shape):
             f"fontColor={p['text']};strokeWidth=2;fontFamily=Helvetica;verticalAlign=middle;"
             f"align=center;spacingLeft=10;spacingRight=10;")
 
-def node_label(title, sub, sub_px=10):
+def node_label(title, sub, sub_px=10, who=None):
     t = f"&lt;b&gt;{esc(title)}&lt;/b&gt;"
     if sub:
         t += (f"&lt;br&gt;&lt;font style=&quot;font-size:{sub_px}px&quot;&gt;"
               f"{esc(sub)}&lt;/font&gt;")
+    if who:
+        t += (f"&lt;br&gt;&lt;font style=&quot;font-size:{sub_px}px&quot; color=&quot;#0b5d58&quot;&gt;"
+              f"&lt;b&gt;KİM:&lt;/b&gt; {esc(who)}&lt;/font&gt;")
     return t
 
 for key, shape, cx, cy, w, h, title, sub, pal in NODES:
@@ -72,8 +72,10 @@ for key, shape, cx, cy, w, h, title, sub, pal in NODES:
         fs, sp = 14, 11
     else:
         fs, sp = 12, 10
+    if key in WHO:
+        h += 22
     geom[key] = (cx, cy, w, h)
-    add(f'<mxCell id="{eid}" value="{node_label(title, sub, sp)}" '
+    add(f'<mxCell id="{eid}" value="{node_label(title, sub, sp, WHO.get(key))}" '
         f'style="{node_style(pal, shape)}fontSize={fs};" vertex="1" parent="1">'
         f'<mxGeometry x="{cx - w // 2}" y="{cy - h // 2}" width="{w}" height="{h}" '
         f'as="geometry"/></mxCell>')
@@ -89,7 +91,13 @@ def panel_height(w, heading, lines, fs=11):
 LEFT_X, LEFT_TOP, LEFT_GAP = 220, 276, 28
 stack = LEFT_TOP
 
+BOTTOM_KEYS = ("p_fiyat",)
+bottom = []
 for key, cx, cy, w, h, heading, lines, pal in PANELS:
+    lines = [ln for ln in lines if ln != "||"]
+    if key in BOTTOM_KEYS:
+        bottom.append((key, w, heading, lines, pal))
+        continue
     eid += 1
     idmap[key] = str(eid)
     p = PAL[pal]
@@ -107,6 +115,34 @@ for key, cx, cy, w, h, heading, lines, pal in PANELS:
         f'fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;spacing=10;" '
         f'vertex="1" parent="1"><mxGeometry x="{cx - w // 2}" y="{top}" width="{w}" '
         f'height="{hh}" as="geometry"/></mxCell>')
+
+# ───────────────────── fiyat bölümü: en altta ─────────────────────
+ytop = max(stack, max(gy + gh // 2 for _gx, gy, _gw, gh in geom.values())) + 60
+n = len(PRICE_ROLES)
+rw = (1804 - 16 * (n - 1)) // n
+for i, (org, txt) in enumerate(PRICE_ROLES):
+    eid += 1
+    add(f'<mxCell id="{eid}" value="&lt;b&gt;{esc(org)}&lt;/b&gt;&lt;br&gt;{esc(txt)}" '
+        f'style="rounded=1;arcSize=8;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0b5d58;'
+        f'fontColor=#16232b;fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;spacing=10;" '
+        f'vertex="1" parent="1"><mxGeometry x="{48 + i * (rw + 16)}" y="{ytop}" width="{rw}" '
+        f'height="96" as="geometry"/></mxCell>')
+ytop += 96 + 20
+for key, w, heading, lines, pal in bottom:
+    eid += 1
+    idmap[key] = str(eid)
+    p = PAL[pal]
+    hh = panel_height(w, heading, lines)
+    body = f"&lt;b&gt;{esc(heading)}&lt;/b&gt;&lt;br&gt;&lt;br&gt;" + "&lt;br&gt;".join(
+        (esc(ln) if ln else "&amp;nbsp;") for ln in lines)
+    add(f'<mxCell id="{eid}" value="{body}" style="rounded=0;whiteSpace=wrap;html=1;'
+        f'fillColor={p["fill"]};strokeColor={p["border"]};fontColor={p["text"]};strokeWidth=1;'
+        f'fontFamily=Helvetica;fontSize=11;align=left;verticalAlign=top;spacing=10;" '
+        f'vertex="1" parent="1"><mxGeometry x="48" y="{ytop}" width="{w}" '
+        f'height="{hh}" as="geometry"/></mxCell>')
+    geom[key] = (48 + w // 2, ytop + hh // 2, w, hh)
+    ytop += hh + 30
+PAGE_H = ytop + 40
 
 # ───────────────────── başlık ─────────────────────
 k, cx, cy, w, h, t, s, pal = TITLE
@@ -142,7 +178,7 @@ for src, dst, lab, dashed in EDGES:
 xml = ('<mxfile host="app.diagrams.net"><diagram name="ETS Kapsam Pusulası" id="ets-0">'
        '<mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" '
        'connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" '
-       'pageHeight="3450" background="#fbfbf8" math="0" shadow="0">'
+       f'pageHeight="{PAGE_H}" background="#fbfbf8" math="0" shadow="0">'
        '<root><mxCell id="0"/><mxCell id="1" parent="0"/>'
        + "".join(cells) +
        '</root></mxGraphModel></diagram></mxfile>')
