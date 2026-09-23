@@ -293,3 +293,11 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
   sanayi tüketicisinin elektrik maliyetine etkisi. EPİAŞ Şeffaflık Platformu verisiyle saatlik arz
   sıralaması (merit order) modeli; karbon fiyatı senaryoları; kömürden gaza geçiş fiyatı. Veri
   tamamen açık, gizlilik sorunu yok.
+- [x] **Birleşik çerçeve (23.09.2026):** Üç konu tek projede birleştirildi: *karbon fiyatının sanayi
+  tesisine iki kanaldan etkisi ve enerji verimliliği önlemlerinin gerçek değeri*. Modüller:
+  (M1) elektrik fiyatına karbon geçişi, EPİAŞ verisiyle arz sıralaması modeli → dolaylı kanal;
+  (M2) tesis modeli: emisyon, kategori, ücretsiz tahsisat, açık → doğrudan kanal;
+  (M3) önlem değerlendirmesi: her önlem iki kanalın net karbon değeriyle NBD/İVO ve MACC.
+  Temel bulgu hipotezi: elektrik tasarrufu yapan önlemler karbon değerini yalnızca elektrik fiyatı
+  üzerinden alır; yakıt tasarrufu yapanlar doğrudan kanaldan alır ama tahsisat kaybıyla kısmen geri
+  verir; elektrifikasyonda üç etki çatışır.
