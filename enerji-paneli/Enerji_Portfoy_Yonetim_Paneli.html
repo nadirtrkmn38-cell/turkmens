@@ -6,68 +6,77 @@
 <title>Enerji Portföy Yönetim Paneli</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#edf0f6; --card:#ffffff; --ink:#0d1b3a; --muted:#5b6a84; --line:#dce2ee; --land:#e4e9f2; --land-line:#c9d2e2;
-  --band:#012353; --band-2:#0b3a7d; --blue:#0055a3; --blue-2:#7db2e6; --slate:#556a81; --steel:#adb5c0;
-  --orange:#ed7d31; --amber:#f9a12c; --green:#46a789; --lime:#95bc4f; --yellow:#fff200; --red:#d23f31; --grey:#808285; --teal:#00888a;
-  --gap:rgba(237,125,49,.27); --hover:rgba(0,85,163,.07); --tip:#0d1b3a;
-  --disp:'Bricolage Grotesque','IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  /* renk skalası: #fff200 #ffcf01 #f9a12c #ed7d31 #de8344 · #808285 #b2bdcf #adb5c0 #e0e4ec #556a81 · #012353 #0055a3 #094357 #00888a #46a789 #95bc4f #d7df23 */
+  --bg:#f1f3f8; --card:#ffffff; --ink:#012353; --muted:#556a81; --line:#e0e4ec; --land:#e0e4ec; --land-line:#ffffff;
+  --act:#012353; --btn:#0055a3; --blue:#0055a3; --slate:#556a81; --steel:#adb5c0; --mist:#b2bdcf;
+  --orange:#ed7d31; --copper:#de8344; --amber:#f9a12c; --gold:#ffcf01; --yellow:#fff200; --green:#46a789; --lime:#95bc4f; --teal:#00888a; --teal-d:#094357; --grey:#808285;
+  --red:#d23f31; /* yalnızca "Kritik" durumu için; skalada kırmızı yok */
+  --gap:rgba(237,125,49,.27); --hover:rgba(0,85,163,.07); --tip:#012353;
+  --disp:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#08122a; --card:#0f1c3a; --ink:#e9eef8; --muted:#94a4c0; --line:#20325c; --land:#16264a; --land-line:#2b3f6c;
-    --band:#061634; --band-2:#12306a; --blue:#4c9be3; --blue-2:#2d5f96; --slate:#8fa3bf; --steel:#5b6f8f;
-    --gap:rgba(237,125,49,.32); --hover:rgba(125,178,230,.10); --tip:#020a1c;
+    --bg:#061634; --card:#0c2146; --ink:#e9eef8; --muted:#adb5c0; --line:#1d3764; --land:#15305e; --land-line:#0c2146;
+    --act:#0055a3; --blue:#4c9be3; --slate:#b2bdcf; --steel:#5b6f8f;
+    --gap:rgba(237,125,49,.32); --hover:rgba(125,178,230,.10); --tip:#020a1c; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#08122a; --card:#0f1c3a; --ink:#e9eef8; --muted:#94a4c0; --line:#20325c; --land:#16264a; --land-line:#2b3f6c;
-  --band:#061634; --band-2:#12306a; --blue:#4c9be3; --blue-2:#2d5f96; --slate:#8fa3bf; --steel:#5b6f8f;
-  --gap:rgba(237,125,49,.32); --hover:rgba(125,178,230,.10); --tip:#020a1c;
+  --bg:#061634; --card:#0c2146; --ink:#e9eef8; --muted:#adb5c0; --line:#1d3764; --land:#15305e; --land-line:#0c2146;
+  --act:#0055a3; --blue:#4c9be3; --slate:#b2bdcf; --steel:#5b6f8f;
+  --gap:rgba(237,125,49,.32); --hover:rgba(125,178,230,.10); --tip:#020a1c; color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:14px/1.45 var(--body);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit;cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--yellow);outline-offset:2px;box-shadow:0 0 0 4px rgba(1,35,83,.6)}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
-/* ---------- band (header + KPIs) ---------- */
-.band{background:var(--band);color:#fff;padding:14px 24px 20px}
-.top{display:flex;align-items:center;gap:18px 28px;flex-wrap:wrap;max-width:1720px;margin:0 auto}
-.brand{font:600 13px/1.2 var(--disp);letter-spacing:.01em;display:flex;align-items:center;gap:9px;opacity:.95}
-.brand i{display:block;width:26px;height:26px;border-radius:50%;background:var(--yellow);box-shadow:inset 0 0 0 6px var(--band),inset 0 0 0 13px var(--yellow)}
-.title h1{margin:0;font:700 26px/1.1 var(--disp);letter-spacing:-.01em}
-.title p{margin:3px 0 0;font-size:12.5px;color:#b9c8e6}
-.tabs{display:flex;gap:4px;background:rgba(255,255,255,.09);padding:4px;border-radius:999px;margin-left:auto}
-.tab{border:0;background:transparent;color:#dbe5f7;padding:8px 18px;border-radius:999px;font-weight:500}
-.tab[aria-selected="true"]{background:var(--yellow);color:#01214f;font-weight:600}
-.meta{display:flex;align-items:center;gap:10px;font-size:12.5px;color:#c6d3ee}
-.meta .ts{line-height:1.25;text-align:right}
-.pill{border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:3px 10px;font-size:12px;color:#e7eefb;background:transparent}
-.iconbtn{border:1px solid rgba(255,255,255,.28);background:transparent;color:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:18px auto 0;max-width:1720px}
-.kpi{background:rgba(255,255,255,.075);border-radius:10px;padding:12px 14px 13px;min-width:0;position:relative}
-.kpi.key{background:rgba(255,242,0,.12);box-shadow:inset 0 3px 0 var(--yellow)}
-.kl{font-size:12.5px;color:#bccbe8}
-.kv{font:700 30px/1.1 var(--disp);margin-top:3px;letter-spacing:-.01em;display:flex;align-items:baseline;gap:5px}
-.kv small{font:500 13px var(--body);color:#bccbe8;letter-spacing:0}
-.ks{font-size:12px;color:#d3def4;margin-top:4px;min-height:17px}
-.ks b{color:#fff;font-weight:600}
-.up-t{color:#7be0b4}.dn-t{color:#ff9d8f}
-.kbar{height:4px;background:rgba(255,255,255,.16);border-radius:3px;margin-top:8px;overflow:hidden;display:flex}
-.kbar i{display:block;height:100%;background:var(--yellow)}
-.kspark{position:absolute;right:12px;top:14px;opacity:.95}
-.kcap{grid-column:1/-1;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 12px}
-.kcap b{font:650 15px/1.2 var(--disp);color:#fff;letter-spacing:.005em}
-.kcap span{font-size:12.5px;color:#bccbe8}
-.knote{grid-column:1/-1;font-size:12px;color:#a9bbdc;max-width:120ch}
+/* ---------- header ---------- */
+.hdr{background:var(--card);border-bottom:1px solid var(--line);padding-block:14px;padding-inline:24px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px 24px;max-width:1720px;margin:0 auto}
+.title h1{margin:0;font:700 21px/1.15 var(--disp);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);text-wrap:balance}
+.title p{margin:3px 0 0;font-size:13px;color:var(--blue)}
+.tabs{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);padding:4px;border-radius:999px}
+.tab{border:0;background:transparent;color:var(--muted);padding:8px 22px;border-radius:999px;font-weight:600}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--act);color:#fff;box-shadow:0 2px 6px rgba(1,35,83,.18)}
+.meta{display:flex;align-items:center;justify-content:flex-end;gap:8px 10px;flex-wrap:wrap}
+.upd{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:6px 14px;font-size:12px;color:var(--muted);line-height:1.3}
+.upd b{display:block;font-size:14px;color:var(--ink);font-weight:600}
+[data-ic]{display:inline-flex}
+.upd [data-ic]{color:var(--blue)}
+.themes{display:flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px}
+.themes button{display:inline-flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--muted);padding:6px 14px;border-radius:999px;font-weight:600;font-size:13px}
+.themes button[aria-pressed="true"]{background:var(--btn);color:#fff}
+.pill{flex-basis:100%;text-align:right;font-size:11.5px;color:var(--muted)}
+.iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:12.5px}
+
+/* ---------- KPI kartları ---------- */
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-bottom:14px}
 .kpis.eff{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media (max-width:900px){.kpis.eff{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:480px){.kpis.eff{grid-template-columns:1fr}}
+@media (max-width:1320px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:900px){.kpis,.kpis.eff{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.kpis,.kpis.eff{grid-template-columns:1fr}}
+.kpi{--ac:var(--blue);display:grid;grid-template-columns:44px minmax(0,1fr);gap:2px 12px;align-items:center;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--ac);border-radius:12px;padding:14px 16px 12px;min-width:0}
+.ki{grid-row:1/3;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--ac) 13%,var(--card));color:var(--ac)}
+.kl{font-size:13px;color:var(--muted);line-height:1.3}
+.kv{font:700 25px/1.15 var(--disp);color:var(--ac);display:flex;flex-wrap:wrap;align-items:baseline;gap:0 5px;letter-spacing:-.01em}
+.kv small{font:500 13px var(--body);color:var(--muted);letter-spacing:0}
+.ks{grid-column:1/-1;font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+.ks b{color:var(--ink);font-weight:600}
+.kpi.hl{background:color-mix(in srgb,var(--ac) 8%,var(--card));border-color:color-mix(in srgb,var(--ac) 45%,var(--card));border-left-color:var(--ac)}
+.kpi.hl .ki{background:var(--ac);color:#fff}
+.up-t{color:#2f8a6e;font-weight:600}.dn-t{color:var(--red);font-weight:600}
+.kcap{grid-column:1/-1;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 12px}
+.kcap b{font:600 15px/1.2 var(--disp);color:var(--ink)}
+.kcap span{font-size:12.5px;color:var(--muted)}
+.knote{grid-column:1/-1;font-size:12px;color:var(--muted);max-width:130ch}
 .per{font-size:12.5px;color:var(--muted)}
 
 /* ---------- layout ---------- */
@@ -223,11 +232,51 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
 .selrow:first-of-type{border-top:0}
 .selrow .n{display:flex;align-items:center;gap:6px;color:var(--ink)}
 .selrow .v{color:var(--muted);white-space:nowrap}
-@media (max-width:720px){.band{padding:12px 14px 16px}.wrap{padding:12px 12px 36px}.tabs{margin-left:0;width:100%}.tab{flex:1}.title h1{font-size:22px}.kv{font-size:26px}}
-</style>
+@media (max-width:1100px){.top{grid-template-columns:1fr auto}.title{grid-column:1/-1}}
+@media (max-width:720px){.top{grid-template-columns:1fr}.meta{justify-content:flex-start}.pill{text-align:left}.hdr{padding-inline:16px}.wrap{padding:12px 16px 36px}.tabs{width:100%}.tab{flex:1}.title h1{font-size:18px}.kv{font-size:23px}}
+
+/* ---------- paneller ---------- */
+.panel{border-radius:12px;padding:18px 20px;box-shadow:0 1px 2px rgba(1,35,83,.05)}
+.ph h2{display:flex;align-items:center;gap:9px;font:600 17px/1.25 var(--disp);color:var(--ink)}
+.ph h2 svg{color:var(--blue);flex:none}
+.ph h2.alarm svg{color:var(--red)}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:10px}
+.seg button[aria-pressed="true"]{background:var(--btn);color:#fff;box-shadow:none}
+
+/* harita */
+.mapbox{border-radius:10px;overflow:hidden;background:color-mix(in srgb,var(--bg) 55%,var(--card));max-width:100%}
+.mapbox svg.pan{cursor:grab;touch-action:none}
+.zoom{position:absolute;left:10px;top:10px;z-index:2;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(1,35,83,.08)}
+.zoom svg{position:static}
+.zoom button{width:32px;height:30px;border:0;background:transparent;display:grid;place-items:center;color:var(--ink)}
+.zoom button+button{border-top:1px solid var(--line)}
+.zoom button:hover{background:var(--hover)}
+.legend .box{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 16px;border:1px solid var(--line);border-radius:999px;padding:6px 14px;color:var(--ink)}
+.lg-c{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* portföy durum özeti */
+.statrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.statrow button{border:0;background:transparent;text-align:left;padding:10px 16px;min-width:0}
+.statrow button+button{border-left:1px solid var(--line)}
+.statrow button:hover{background:var(--hover)}
+.statrow button[aria-pressed="true"]{background:color-mix(in srgb,var(--blue) 9%,var(--card));box-shadow:inset 0 -3px 0 var(--blue)}
+.statrow .sl{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.statrow .sv{font:700 24px/1.25 var(--disp);color:var(--ink)}
+@media (max-width:560px){.statrow{grid-template-columns:repeat(3,minmax(0,1fr))}.statrow button:nth-child(4){border-left:0}.statrow button:nth-child(n+4){border-top:1px solid var(--line)}}
+.icards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:10px}
+.icard{--ac:var(--blue);display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:0}
+.icard [data-ic],.icard>svg{color:var(--ac);flex:none}
+.icard .sl{font-size:12.5px;color:var(--muted)}
+.icard .sv{font:700 21px/1.2 var(--disp);color:var(--ink)}
+.icard .sv small{font:500 12px var(--body);color:var(--muted)}
+.icard.gar{--ac:#b38f00;background:color-mix(in srgb,var(--gold) 14%,var(--card));border-color:color-mix(in srgb,var(--gold) 65%,var(--card))}
+:root[data-theme="dark"] .icard.gar{--ac:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .icard.gar{--ac:var(--gold)}}
+.agroup{border-radius:10px}
+</style></style>
 </head>
 <body>
-<header class="band">
+<header class="hdr">
   <div class="top">
     <div class="title"><h1>Enerji Portföy Yönetimi</h1><p id="subtitle">Anlık üretim, operasyon ve verimlilik özeti</p></div>
     <nav class="tabs" role="tablist" aria-label="Portföy görünümü">
@@ -235,25 +284,25 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
       <button class="tab" role="tab" id="t-eff" aria-selected="false" aria-controls="tab-eff">Verimlilik</button>
     </nav>
     <div class="meta">
-      <div class="ts"><div>Son güncelleme</div><b>22.09.2026 11:07:22</b></div>
+      <div class="upd"><span data-ic="refresh"></span><div>Son güncelleme<b>22.09.2026 11:07:22</b></div></div>
+      <div class="themes" role="group" aria-label="Tema"><button id="thL" aria-pressed="true"><span data-ic="sun" data-s="15"></span>Açık</button><button id="thD" aria-pressed="false"><span data-ic="moon" data-s="15"></span>Koyu</button></div>
       <span class="pill" id="dataPill">Garanti değerleri gerçek · operasyonel veriler örnektir</span>
-      <button class="iconbtn" id="themeBtn" aria-label="Açık ve koyu tema arasında geçiş yap">Koyu tema</button>
     </div>
   </div>
-  <div class="kpis" id="kpis"></div>
 </header>
 
 <main class="wrap">
+<div class="kpis" id="kpis"></div>
 <!-- ================= GES ================= -->
 <section id="tab-ges" class="grid" role="tabpanel" aria-labelledby="t-ges">
   <div class="panel c12">
-    <div class="ph"><div><h2>Portföy özeti</h2><p>Sözleşmesel garanti değerleri ve anlık portföy durumu. Bir duruma tıklayarak haritayı ve tabloyu filtreleyin.</p></div></div>
-    <div class="statgrid" id="durumCounts"></div>
-    <div class="capgrid" id="capGrid"></div>
+    <div class="ph"><div><h2 data-ic="grid">Portföy durum özeti</h2><p>Sözleşmesel garanti değerleri ve anlık portföy durumu. Bir duruma tıklayarak haritayı ve tabloyu filtreleyin.</p></div></div>
+    <div class="statrow" id="durumCounts" role="group" aria-label="Duruma göre filtrele"></div>
+    <div class="icards" id="capGrid"></div>
   </div>
 
   <div class="panel c7">
-    <div class="ph"><div><h2>Portföy haritası</h2><p>İl sınırları gösterilir. Bir ile tıklayın; grafikler ve tablo o ile odaklanır.</p></div></div>
+    <div class="ph"><div><h2 data-ic="map">Portföy haritası</h2><p>İl sınırları gösterilir. Bir ile tıklayın; grafikler ve tablo o ile odaklanır.</p></div></div>
     <div class="mapbox" id="map"></div>
     <div class="legend" id="mapLegend" style="margin-top:10px"></div>
     <div id="mapSelInfo"></div>
@@ -261,7 +310,7 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
 
   <div class="panel c5">
     <div class="ph">
-      <div><h2>Üretim karşılaştırma</h2><p id="cmpSub"></p></div>
+      <div><h2 data-ic="bars">Üretim karşılaştırma</h2><p id="cmpSub"></p></div>
     </div>
     <div class="tools printhide" style="margin-bottom:10px">
       <div class="seg" id="cmpSeg" role="group" aria-label="Dönem">
@@ -275,7 +324,7 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
   </div>
 
   <div class="panel c12">
-    <div class="ph"><div><h2>Alarmlar ve kayıp</h2><p>Santral bazında gruplanır; kayıp, alarm başladığından beri hesaplanır.</p></div>
+    <div class="ph"><div><h2 class="alarm" data-ic="bell">Alarmlar ve kayıp</h2><p>Santral bazında gruplanır; kayıp, alarm başladığından beri hesaplanır.</p></div>
       <div class="tools printhide"><button class="iconbtn small" id="alarmToggle" aria-expanded="true">Gizle</button></div></div>
     <div class="tools printhide" style="margin:-4px 0 10px"><label class="sw"><input type="checkbox" id="alarmAll"> Uyarı ve veri yoksa dahil et</label></div>
     <div class="alist" id="alarms"></div>
@@ -285,7 +334,7 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
 <!-- ================= VERIMLILIK ================= -->
 <section id="tab-eff" class="grid" role="tabpanel" aria-labelledby="t-eff" hidden>
   <div class="panel c7">
-    <div class="ph"><div><h2>Portföy haritası</h2><p>Renk, seçili dönemin EAO ve SPO değerini tek garanti değeriyle karşılaştırır; sınırda, garantinin en fazla 1 puan altıdır. Bir ile tıklayın; üretim karşılaştırması o ile odaklanır.</p></div></div>
+    <div class="ph"><div><h2 data-ic="map">Portföy haritası</h2><p>Renk, seçili dönemin EAO ve SPO değerini tek garanti değeriyle karşılaştırır; sınırda, garantinin en fazla 1 puan altıdır. Bir ile tıklayın; üretim karşılaştırması o ile odaklanır.</p></div></div>
     <div class="mapbox" id="effMap"></div>
     <div class="legend" id="effMapLegend" style="margin-top:10px"></div>
     <div id="effSelInfo"></div>
@@ -293,7 +342,7 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
 
   <div class="panel c5">
     <div class="ph">
-      <div><h2>Üretim karşılaştırma</h2><p id="effCmpSub"></p></div>
+      <div><h2 data-ic="bars">Üretim karşılaştırma</h2><p id="effCmpSub"></p></div>
     </div>
     <div class="tools printhide" style="margin-bottom:10px">
       <div class="seg" id="effSeg" role="group" aria-label="Dönem">
@@ -511,20 +560,53 @@ function redraw(){mounts.forEach(m=>{if(m.el.offsetParent!==null)m.draw();});}
 
 /* ================= KPIs ================= */
 function spark(vals,w=84,h=26){const mx=Math.max(...vals),mn=Math.min(...vals);const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-2-(v-mn)/(mx-mn||1)*(h-4)).toFixed(1)}`).join(' ');return `<svg class="kspark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="#fff200" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>`;}
-function kpi(label,val,unit,sub,extra='',cls=''){return `<div class="kpi ${cls}"><div class="kl">${label}</div><div class="kv">${val}<small>${unit||''}</small></div><div class="ks">${sub}</div>${extra}</div>`;}
+const ICON={
+ zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+ cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+ gauge:'<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
+ panel:'<rect x="2" y="4" width="20" height="12" rx="1"/><path d="M2 10h20M8.7 4v12M15.3 4v12M12 16v4M8 20h8"/>',
+ trend:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+ line:'<path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>',
+ bars:'<path d="M3 3v18h18"/><path d="M8 17v-5M13 17V8M18 17v-9"/>',
+ flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+ waves:'<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
+ factory:'<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1M12 18h1M7 18h1"/>',
+ refresh:'<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+ pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+ map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/>',
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+ bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+ shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+ pulse:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>', minus:'<path d="M5 12h14"/>',
+ fit:'<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>'
+};
+const ic=(n,sz=20)=>`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
+const GES_GAR={eao:99.21,spo:81.51};
+function kpi(label,val,unit,sub,icon,ac,hl){return `<div class="kpi${hl?' hl':''}" style="--ac:var(--${ac})"><div class="ki">${ic(icon,22)}</div><div class="kl">${label}</div><div class="kv">${val}<small>${unit||''}</small></div><div class="ks">${sub}</div></div>`;}
+const dlt=(v,d=1,u='%')=>`<span class="${v>=0?'up-t':'dn-t'}">${sg(v,d)}${u}</span>`;
 function renderKPIs(){
   const host=$('#kpis'); host.classList.toggle('eff',state.tab==='eff');
   if(state.tab==='ges'){
-    host.innerHTML='';
+    const pNow=S_ALL.A[NOW_I], eao=sum(P,p=>p.eao*p.mwe)/totMWe, act=P.filter(p=>p.st!=='veri yok').length;
+    host.innerHTML=
+      kpi('Anlık toplam üretim',fmt(pNow,1),'MW',`Saat 14:42 · kapasite kullanımı <b>${pc(pNow/totMWe*100,0)}</b>`,'zap','blue')+
+      kpi('Bugünkü üretim',fmt(A_NOW),'MWh',`Beklenen <b>${fmt(E_NOW)}</b> MWh · ${dlt((A_NOW/E_NOW-1)*100)}`,'cal','green',true)+
+      kpi('Emre amadelik (EAO)',pc(eao,1),'',`Garanti <b>${pc(GES_GAR.eao,2)}</b> · ${dlt(eao-GES_GAR.eao,1,' puan')}`,'gauge','blue')+
+      kpi('Aktif santral',`${act} / ${P.length}`,'',`<b>${P.length-act}</b> santralden veri gelmiyor`,'panel','teal')+
+      kpi('Aylık üretim',fmt(12082),'MWh',`1 – 21 Eylül · beklenen <b>${fmt(EXP_TO_DATE)}</b> MWh`,'trend','orange',true)+
+      kpi('Yıllık üretim',fmt(92147),'MWh',`2025 aynı döneme göre ${dlt(M_YTD_LFL())}`,'line','blue');
   }else{
     const yt=k=>sum(EFF,e=>e.ytd[k]), se=k=>sum(EFF,e=>e.mon[9][k]);
     const gmT=sum(EFF,e=>e.gm), tri=EFF.filter(e=>e.tip==='Trijenerasyon').length;
     host.innerHTML=
       `<div class="kcap"><b>Enerji verimliliği · toplam tasarruf</b><span>2026, 1 Ocak – 21 Eylül · tüm portföy</span></div>`+
-      kpi('Elektrik tasarrufu',fmt(yt('net')),'MWh',`Eylül 1 – 21: <b>${fmt(se('net'))}</b> MWh`)+
-      kpi('Buhar tasarrufu',fmt(yt('st')),'ton',`Eylül 1 – 21: <b>${fmt(se('st'))}</b> ton`)+
-      kpi('Doğalgaz tasarrufu',fmt(yt('gas')),'Sm³',`Eylül 1 – 21: <b>${fmt(se('gas'))}</b> Sm³`)+
-      kpi('Kurulu güç',fmt(gmT,2),'MW',`${EFF.length} santral · ${tri} trijenerasyon, ${EFF.length-tri} kojenerasyon`)+
+      kpi('Elektrik tasarrufu',fmt(yt('net')),'MWh',`Eylül 1 – 21: <b>${fmt(se('net'))}</b> MWh`,'zap','blue')+
+      kpi('Buhar tasarrufu',fmt(yt('st')),'ton',`Eylül 1 – 21: <b>${fmt(se('st'))}</b> ton`,'waves','teal')+
+      kpi('Doğalgaz tasarrufu',fmt(yt('gas')),'Sm³',`Eylül 1 – 21: <b>${fmt(se('gas'))}</b> Sm³`,'flame','orange',true)+
+      kpi('Kurulu güç',fmt(gmT,2),'MW',`${EFF.length} santral · ${tri} trijenerasyon, ${EFF.length-tri} kojenerasyon`,'factory','slate')+
       `<div class="knote">Elektrik: iç tüketim düşülmüş net üretim. Buhar: atık ısıdan üretilen buhar (${fmt(REF.steam,2)} MWh/ton). Doğalgaz: aynı enerjinin ayrı üretimine göre (şebeke ${pc(REF.grid*100,1)}, kazan ${pc(REF.boiler*100,0)}, elektrikli chiller COP ${REF.cop}, ${fmt(REF.gasKwh,2)} kWh/Sm³).</div>`;
   }
 }
@@ -635,6 +717,32 @@ function drawBarsCmp(el,w,h,md,uid){
 
 
 /* ================= MAP ================= */
+const VIEW={};
+// +/− ve sürükleyerek kaydırma; görünüm yeniden çizimlerde korunur
+function zoomable(el,key){
+  const v=VIEW[key]||(VIEW[key]={k:1,x:0,y:0}); const svg=$('svg',el);
+  const apply=()=>{const w=760/v.k,h=330/v.k;v.x=clamp(v.x,0,760-w);v.y=clamp(v.y,0,330-h);svg.setAttribute('viewBox',`${v.x.toFixed(1)} ${v.y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);svg.classList.toggle('pan',v.k>1);};
+  const zoomBy=f=>{const cx=v.x+380/v.k,cy=v.y+165/v.k;v.k=clamp(v.k*f,1,5);v.x=cx-380/v.k;v.y=cy-165/v.k;apply();};
+  el.insertAdjacentHTML('beforeend',`<div class="zoom"><button type="button" data-z="in" aria-label="Yakınlaştır">${ic('plus',16)}</button><button type="button" data-z="out" aria-label="Uzaklaştır">${ic('minus',16)}</button><button type="button" data-z="fit" aria-label="Tüm haritayı göster">${ic('fit',15)}</button></div>`);
+  $$('.zoom button',el).forEach(b=>b.addEventListener('click',()=>{const z=b.dataset.z;if(z==='fit'){v.k=1;v.x=0;v.y=0;apply();}else zoomBy(z==='in'?1.5:1/1.5);}));
+  let drag=null; el._moved=false;
+  svg.addEventListener('pointerdown',e=>{el._moved=false;if(v.k>1)drag={x:e.clientX,y:e.clientY,vx:v.x,vy:v.y};});
+  svg.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>4)el._moved=true;const u=(760/v.k)/svg.getBoundingClientRect().width;v.x=drag.vx-dx*u;v.y=drag.vy-dy*u;apply();});
+  ['pointerup','pointerleave','pointercancel'].forEach(t=>svg.addEventListener(t,()=>{drag=null;}));
+  apply();
+}
+// il dolgusu + sayı dairesi + büyük harf etiket
+function cityMarks(name,d,cx,cy,col,n,on,dim,pulse,nd){
+  const r=7+Math.sqrt(n)*3,[ndx,ndy]=nd||[0,0];
+  return {
+    shape:`<g class="city" tabindex="0" role="button" data-c="${name}" aria-pressed="${!!on}" opacity="${dim?.35:1}">`+
+      `<path d="${d}" fill="${col}" fill-opacity=".62" stroke="${on?'var(--ink)':'var(--land-line)'}" stroke-width="${on?2.4:1}"/>`+
+      `${pulse?`<circle class="pulse" cx="${cx}" cy="${cy}" r="${r}" fill="${col}"/>`:''}`+
+      `<circle class="c" cx="${cx}" cy="${cy}" r="${r}" fill="var(--card)" stroke="${col}" stroke-width="2.2"/>`+
+      `<text x="${cx}" y="${cy+3.8}" text-anchor="middle" font-size="${(r*.95).toFixed(1)}" font-weight="700" fill="var(--ink)" style="pointer-events:none">${n}</text></g>`,
+    label:`<text x="${cx+ndx}" y="${cy+r+11+ndy}" text-anchor="middle" font-size="10" font-weight="700" letter-spacing=".03em" fill="var(--ink)" stroke="var(--card)" stroke-width="3" stroke-opacity=".85" paint-order="stroke" opacity="${dim?.35:1}" style="pointer-events:none">${name.toLocaleUpperCase('tr-TR')}</text>`};
+}
+
 const PROV=[
 ["Adana","M415.4 217.6 L416.7 226.0 L414.4 231.2 L403.8 235.2 L397.9 246.1 L398.7 253.6 L396.7 257.6 L403.8 256.1 L404.1 262.8 L396.3 274.5 L389.4 275.9 L385.3 278.6 L391.6 278.6 L387.6 284.1 L376.5 287.4 L376.8 284.2 L373.1 280.4 L369.6 280.5 L376.0 286.4 L359.9 278.0 L364.6 275.7 L365.9 271.6 L365.4 265.6 L360.3 259.6 L354.8 244.9 L354.9 240.6 L357.7 237.6 L356.4 229.5 L366.4 227.8 L371.6 222.0 L372.7 215.9 L381.2 217.6 L387.6 215.8 L390.0 210.5 L403.0 204.2 L408.8 192.6 L417.3 190.0 L421.8 197.6 L419.2 200.8 L415.4 217.6Z",386.6,240.8],
 ["Adıyaman","M506.8 208.9 L530.0 205.1 L528.6 210.9 L520.1 217.9 L518.5 226.2 L499.9 239.4 L487.2 243.5 L473.1 236.6 L466.3 238.2 L458.1 232.9 L458.4 228.6 L465.1 222.4 L488.2 217.7 L486.4 209.0 L496.7 203.5 L506.0 203.5 L503.2 207.3 L506.8 208.9Z",494.3,223.4],
@@ -720,30 +828,24 @@ const PROV=[
 ];
 const PORTFOLIO=new Set(SPEC.map(x=>x[0]));
 function cityInfo(){const o={}; P.forEach(p=>{const c=o[p.city]||(o[p.city]={city:p.city,plants:[],mwp:0,today:0,st:'normal'});c.plants.push(p);c.mwp+=p.mwp;c.today+=p.today;if(SEV_ORDER[p.st]>SEV_ORDER[c.st])c.st=p.st;});return Object.values(o);}
-const NUDGE={'Aksaray':[0,-9],'Niğde':[16,10],'Konya':[-30,14],'Kayseri':[18,-6],'Kilis':[0,10],'Şanlıurfa':[0,10],'Uşak':[-4,-10],'Afyonkarahisar':[-2,14]};
+const NUDGE={'Aksaray':[0,-9],'Niğde':[16,10],'Konya':[-30,14],'Kayseri':[18,-6],'Kilis':[0,10],'Şanlıurfa':[0,10],'Uşak':[-10,0],'Afyonkarahisar':[-2,14]};
 function drawMap(el,w,h){
   const cs=cityInfo(); const csMap={}; cs.forEach(c=>csMap[c.city]=c);
   const land=[],hi=[],labels=[];
   PROV.forEach(([name,d,cx,cy])=>{
     const c=csMap[name];
     if(!c){land.push(`<path d="${d}" fill="var(--land)" stroke="var(--land-line)" stroke-width="1"/>`);return;}
-    const col=SC[c.st];
     const dim=(state.status!=='all'&&!c.plants.some(p=>p.st===state.status))||(state.sel&&((state.sel.city&&state.sel.city!==name)||(state.sel.plant!=null&&P[state.sel.plant].city!==name)));
     const on=state.sel&&(state.sel.city===name||(state.sel.plant!=null&&P[state.sel.plant].city===name));
-    const r=7+Math.sqrt(c.mwp)*2.1;
-    const [ndx,ndy]=NUDGE[name]||[0,0]; const lx=cx+ndx, ly=cy+r+13+ndy;
-    hi.push(`<g class="city" tabindex="0" role="button" data-c="${name}" aria-label="${name}, ${c.plants.length} santral" opacity="${dim?.32:1}">`+
-      `<path d="${d}" fill="${col}" fill-opacity=".22" stroke="${col}" stroke-width="${on?2.6:1.4}"/>`+
-      `${c.st==='kritik'?`<circle class="pulse" cx="${cx}" cy="${cy}" r="${r}" fill="${col}"/>`:''}`+
-      `<circle class="c" cx="${cx}" cy="${cy}" r="${r}" fill="${col}" fill-opacity=".92" stroke="${on?'var(--ink)':'var(--card)'}" stroke-width="${on?2.6:1.8}"/>`+
-      `<text x="${cx}" y="${cy+3.6}" text-anchor="middle" font-size="${Math.max(9,r*.8)}" font-weight="700" fill="#fff" style="pointer-events:none">${c.plants.length}</text></g>`);
-    labels.push(`<text x="${lx}" y="${ly}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)" stroke="var(--card)" stroke-width="3.5" paint-order="stroke" style="pointer-events:none">${name}</text>`);
+    const mk=cityMarks(name,d,cx,cy,SC[c.st],c.plants.length,on,dim,c.st==='kritik',NUDGE[name]);
+    hi.push(mk.shape.replace('role="button"',`role="button" aria-label="${name}, ${c.plants.length} santral"`)); labels.push(mk.label);
   });
   el.innerHTML=`<svg width="${w}" height="${h}" viewBox="0 0 760 330" preserveAspectRatio="xMidYMid meet" role="group" aria-label="İl sınırlarıyla portföy haritası">${land.join('')}${hi.join('')}${labels.join('')}</svg>`;
   $$('.city',el).forEach(g=>{const name=g.dataset.c;const c=cs.find(x=>x.city===name);
     const tip=ev=>{const r=g.getBoundingClientRect();showTip(`<b>${name}</b>`+c.plants.map(p=>`<div><span class="dot" style="background:${SC[p.st]}"></span> ${esc(p.name)} <span style="color:#b9c8e6">${fmt(p.today,1)} MWh</span></div>`).join('')+`<div style="color:#b9c8e6;margin-top:3px">${fmt(c.mwp,1)} MWp, bugün ${fmt(c.today,1)} MWh</div>`,ev.clientX||r.left,ev.clientY||r.top);};
     g.addEventListener('pointermove',tip);g.addEventListener('pointerleave',hideTip);g.addEventListener('focus',tip);g.addEventListener('blur',hideTip);
-    const act=()=>{hideTip();select(state.sel&&state.sel.city===name?null:{city:name});};g.addEventListener('click',act);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});});
+    const act=()=>{if(el._moved){el._moved=false;return;}hideTip();select(state.sel&&state.sel.city===name?null:{city:name});};g.addEventListener('click',act);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el._moved=false;act();}});});
+  zoomable(el,'ges');
 }
 function renderMapSelInfo(){
   const host=$('#mapSelInfo'); if(!state.sel){host.innerHTML='';return;}
@@ -753,14 +855,14 @@ function renderMapSelInfo(){
 }
 function renderDurum(){
   const cnt=s=>P.filter(p=>p.st===s).length;
-  const gar=[['gar-eao','Garanti Edilen EAO','%99,21'],['gar-spo','Garanti Edilen SPO','%81,51']];
-  const items=[['all','Toplam Santral',P.length,null],['normal','Normal',cnt('normal'),'var(--green)'],['uyarı','Uyarı',cnt('uyarı'),'var(--amber)'],['kritik','Kritik',cnt('kritik'),'var(--red)'],['veri yok','Veri Yok',cnt('veri yok'),'var(--grey)']];
-  $('#durumCounts').innerHTML=
-    gar.map(([k,l,v])=>`<div class="stat hi" id="${k}"><div class="sl">${l}</div><div class="sv">${v}</div></div>`).join('')+
-    items.map(([k,l,n,c])=>`<button data-s="${k}" aria-pressed="${state.status===k}"><div class="sl">${c?`<i class="dot" style="background:${c}"></i>`:''}${l}</div><div class="sv">${n}</div></button>`).join('');
+  const items=[['all','Toplam santral',P.length,null],['normal','Normal',cnt('normal'),'var(--green)'],['uyarı','Uyarı',cnt('uyarı'),'var(--amber)'],['kritik','Kritik',cnt('kritik'),'var(--red)'],['veri yok','Veri yok',cnt('veri yok'),'var(--grey)']];
+  $('#durumCounts').innerHTML=items.map(([k,l,n,c])=>`<button data-s="${k}" aria-pressed="${state.status===k}"><div class="sl">${c?`<i class="dot" style="background:${c}"></i>`:ic('pin',14)}${l}</div><div class="sv">${n}</div></button>`).join('');
   $$('#durumCounts button').forEach(b=>b.addEventListener('click',()=>{state.status=state.status===b.dataset.s&&b.dataset.s!=='all'?'all':b.dataset.s;renderDurum();mapM.draw();}));
-  $('#capGrid').innerHTML=`<div><div class="sl">DC Kurulu Güç</div><div class="sv">${fmt(totMWp,1)} <small>MWp</small></div></div><div><div class="sl">AC Kurulu Güç</div><div class="sv">${fmt(totMWe,1)} <small>MWe</small></div></div>`;
-  $('#mapLegend').innerHTML=[['var(--green)','Normal'],['var(--amber)','Uyarı'],['var(--red)','Kritik'],['var(--grey)','Veri Yok']].map(([c,l])=>`<span><i class="lg-b" style="background:${c}"></i>${l}</span>`).join('');
+  const spo=sum(P,p=>p.spo*p.mwp)/totMWp;
+  const card=(i,l,v,u,cls='')=>`<div class="icard ${cls}">${ic(i,24)}<div><div class="sl">${l}</div><div class="sv">${v}${u?` <small>${u}</small>`:''}</div></div></div>`;
+  $('#capGrid').innerHTML=card('shield','Garanti edilen EAO',pc(GES_GAR.eao,2),'','gar')+card('shield','Garanti edilen SPO',pc(GES_GAR.spo,2),'','gar')+
+    card('pulse','SPO',pc(spo,1))+card('panel','DC kurulu güç',fmt(totMWp,1),'MWp')+card('zap','AC kurulu güç',fmt(totMWe,1),'MWe');
+  $('#mapLegend').innerHTML=`<span class="box">`+[['var(--green)','Normal'],['var(--amber)','Uyarı'],['var(--red)','Kritik'],['var(--grey)','Veri yok']].map(([c,l])=>`<span><i class="lg-c" style="background:${c}"></i>${l}</span>`).join('')+`</span>`;
 }
 
 /* ================= SELECT ================= */
@@ -787,23 +889,19 @@ function drawEffMap(el,w,h){
   PROV.forEach(([name,d,cx,cy])=>{
     const c=cs[name];
     if(!c){land.push(`<path d="${d}" fill="var(--land)" stroke="var(--land-line)" stroke-width="1"/>`);return;}
-    const col=EST[c.st][0], on=sel===name, dim=sel&&!on, r=9+Math.sqrt(c.mw)*3.4;
-    hi.push(`<g class="city" tabindex="0" role="button" data-c="${name}" aria-pressed="${on}" aria-label="${name}, ${c.plants.length} santral, ${EST[c.st][1]}" opacity="${dim?.32:1}">`+
-      `<path d="${d}" fill="${col}" fill-opacity=".22" stroke="${col}" stroke-width="${on?2.6:1.4}"/>`+
-      `${c.st==='bad'?`<circle class="pulse" cx="${cx}" cy="${cy}" r="${r}" fill="${col}"/>`:''}`+
-      `<circle class="c" cx="${cx}" cy="${cy}" r="${r}" fill="${col}" fill-opacity=".92" stroke="${on?'var(--ink)':'var(--card)'}" stroke-width="${on?2.6:1.8}"/>`+
-      `<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="${Math.max(9,r*.8)}" font-weight="700" fill="#fff" style="pointer-events:none">${c.plants.length}</text></g>`);
-    labels.push(`<text x="${cx}" y="${cy+r+13}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)" stroke="var(--card)" stroke-width="3.5" paint-order="stroke" style="pointer-events:none">${name}</text>`);
+    const on=sel===name, mk=cityMarks(name,d,cx,cy,EST[c.st][0],c.plants.length,on,sel&&!on,c.st==='bad');
+    hi.push(mk.shape.replace('role="button"',`role="button" aria-label="${name}, ${c.plants.length} santral, ${EST[c.st][1]}"`)); labels.push(mk.label);
   });
   el.innerHTML=`<svg width="${w}" height="${h}" viewBox="0 0 760 330" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Verimlilik santralleri portföy haritası">${land.join('')}${hi.join('')}${labels.join('')}</svg>`;
   $$('.city',el).forEach(g=>{const name=g.dataset.c;const c=cs[name];
     const tip=ev=>{const r=g.getBoundingClientRect();showTip(`<b>${name}</b>`+c.plants.map(({e,r,st})=>`<div><span class="dot" style="background:${EST[st][0]}"></span> ${esc(e.n)} <span style="color:#b9c8e6">EAO ${pc(r.eao,1)} · SPO ${pc(r.spo,1)}</span></div>`).join('')+`<div style="color:#b9c8e6;margin-top:3px">${fmt(c.mw,2)} MW kurulu · ${per.lbl}: ${fmt(c.el)} MWh</div>`,ev.clientX||r.left,ev.clientY||r.top);};
     g.addEventListener('pointermove',tip);g.addEventListener('pointerleave',hideTip);g.addEventListener('focus',tip);g.addEventListener('blur',hideTip);
-    const act=()=>{hideTip();selectEff(state.effSel===name?null:name);};g.addEventListener('click',act);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});});
+    const act=()=>{if(el._moved){el._moved=false;return;}hideTip();selectEff(state.effSel===name?null:name);};g.addEventListener('click',act);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el._moved=false;act();}});});
+  zoomable(el,'eff');
 }
 function renderEffMapMeta(){
   const per=effPer();
-  $('#effMapLegend').innerHTML=Object.values(EST).map(([c,l])=>`<span><i class="lg-b" style="background:${c}"></i>${l}</span>`).join('')+
+  $('#effMapLegend').innerHTML=`<span class="box">`+Object.values(EST).map(([c,l])=>`<span><i class="lg-c" style="background:${c}"></i>${l}</span>`).join('')+`</span>`+
     `<span>Dönem: ${per.lbl} · garanti EAO ${pc(EFF_GAR.eao,1)}, SPO ${pc(EFF_GAR.spo,1)}</span>`;
   const cs=effCities(), rows=state.effSel?cs[state.effSel].plants:Object.values(cs).flatMap(c=>c.plants).sort((a,b)=>EST_O[b.st]-EST_O[a.st]||a.r.eao-b.r.eao);
   $('#effSelInfo').innerHTML=`<div class="selcard"><h3>${state.effSel?esc(state.effSel):'Tüm portföy'} · ${per.lbl}</h3>`+
@@ -870,12 +968,14 @@ function setTab(t){state.tab=t;$('#t-ges').setAttribute('aria-selected',t==='ges
   renderKPIs();requestAnimationFrame(()=>{if(t==='ges'){cmpM.draw();mapM.draw();}else{effMapM.draw();effCmpM.draw();}});}
 $('#t-ges').addEventListener('click',()=>setTab('ges'));$('#t-eff').addEventListener('click',()=>setTab('eff'));
 $$('.tab').forEach(b=>b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const t=state.tab==='ges'?'eff':'ges';setTab(t);$('#t-'+t).focus();}}));
-const root=document.documentElement;const themeBtn=$('#themeBtn');
+const root=document.documentElement;
 function isDark(){const a=root.getAttribute('data-theme');return a?a==='dark':matchMedia('(prefers-color-scheme: dark)').matches;}
-function syncTheme(){themeBtn.textContent=isDark()?'Açık tema':'Koyu tema';}
-themeBtn.addEventListener('click',()=>{root.setAttribute('data-theme',isDark()?'light':'dark');syncTheme();redraw();});
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{syncTheme();});
+function syncTheme(){const d=isDark();$('#thL').setAttribute('aria-pressed',!d);$('#thD').setAttribute('aria-pressed',d);}
+$('#thL').addEventListener('click',()=>{root.setAttribute('data-theme','light');syncTheme();redraw();});
+$('#thD').addEventListener('click',()=>{root.setAttribute('data-theme','dark');syncTheme();redraw();});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{syncTheme();redraw();});
 syncTheme();
+$$('[data-ic]').forEach(n=>n.insertAdjacentHTML('afterbegin',ic(n.dataset.ic,+(n.dataset.s||20))));
 
 renderKPIs();renderDurum();renderCmpMeta();renderAlarms();renderMapSelInfo();renderEff();
 requestAnimationFrame(()=>{cmpM.draw();mapM.draw();});
