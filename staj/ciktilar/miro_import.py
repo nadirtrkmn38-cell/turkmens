@@ -51,7 +51,7 @@ NODES = [
      "Tesis değerlendirmesini başlat", "", "start"),
 
     ("k1", "rhombus", CX, 432, 440, 150,
-     "Tesiste EK-1 listesindeki bir faaliyet yürütülüyor mu?", "m. 27/2 · EK-1", "neutral"),
+     "Tesiste EK-1 listesindeki bir faaliyet yürütülüyor mu?", "m. 27 · EK-1", "neutral"),
     ("k4", "rhombus", CX, 700, 440, 150,
      "Kurulu kapasiteye göre ihtiyatlı hesaplanan yıllık emisyon kaç ton CO₂e?",
      "m. 4 · m. 5/1", "neutral"),
@@ -69,7 +69,7 @@ NODES = [
 
     # ── İRD hattı ──
     ("i1", "round_rectangle", IRD_X, sy(0), BW, BH,
-     "İzleme planını onaylatın", "İlk izlemeden en az 6 ay önce İklim Değişikliği Başkanlığına sunulur (m. 28/3)", "amber"),
+     "İzleme planını hazırlayın", "İlk izlemeden en az 6 ay önce İklim Değişikliği Başkanlığına sunulur (m. 28/3)", "amber"),
     ("i2", "round_rectangle", IRD_X, sy(1), BW, BH,
      "Emisyonları izleyin", "Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü", "amber"),
     ("i3", "round_rectangle", IRD_X, sy(2), BW, BH,
@@ -77,7 +77,7 @@ NODES = [
      "Doğrulanmamış rapor sunulamaz · doğrulayıcı ISO/IEC 17029 akreditasyonlu olmalı (m. 30/1 · m. 33/2)", "amber"),
     ("i4", "round_rectangle", IRD_X, sy(3), BW, BH,
      "30 Nisan'a kadar raporlayın",
-     "CEZA RİSKİ · Bir önceki takvim yılının doğrulanmış emisyonu — gecikmede Kategori A için 627.450 ₺ (m. 29 · m. 35)", "amber"),
+     "CEZA RİSKİ · Önceki yılın doğrulanmış emisyonu ve faaliyet seviyeleri · geç sunumda kategoriye göre ceza, Kategori A için 627.450 ₺ (m. 29/1 · m. 35)", "amber"),
 
     # ── ETS hattı ──
     ("e1", "round_rectangle", ETS_X, sy(0), BW, BH,
@@ -100,7 +100,7 @@ NODES = [
      "30 Nisan — rapor + faaliyet seviyesi", "CEZA RİSKİ · İkisi birlikte sunulur (m. 29 · m. 13/5)", "red"),
     ("e7", "round_rectangle", ETS_X, sy(6), BW, BH,
      "Ulusal Tahsisat Planı yayımlanır",
-     "DIŞ OLAY · Raporların son teslim tarihinden itibaren 60 gün içinde (m. 11/2)", "event"),
+     "DIŞ OLAY · Raporların son teslim tarihinden itibaren 60 gün içinde Resmî Gazete'de (m. 11/2)", "event"),
     ("e8", "round_rectangle", ETS_X, sy(7), BW, BH,
      "Ücretsiz tahsisat başvurusu", "Ulusal Tahsisat Planının yayımından itibaren 30 gün · geç başvuruda bedel %50 artırımlı (m. 14)", "red"),
     ("e9", "round_rectangle", ETS_X, sy(8), BW, BH,
@@ -119,7 +119,7 @@ NODES = [
 # ───────────────────── kim ne yapar ─────────────────────
 # Her adımın altındaki "KİM" satırı: başvurunun yapıldığı yer ve işlemi yürüten kurum.
 WHO = {
-    "i1": "İklim Değişikliği Başkanlığı onaylar",
+    "i1": "İşletme hazırlar · İklim Değişikliği Başkanlığı onaylar",
     "i2": "İşletme · İklim Değişikliği Başkanlığınca onaylanan izleme planına göre",
     "i3": "Doğrulayıcıyı İklim Değişikliği Başkanlığının MEDAS sistemi atar · "
           "Türk Akreditasyon Kurumu akredite eder",
@@ -214,14 +214,14 @@ PANELS = [
         "3 MW altındaki üniteler ve münhasıran biyokütle kullananlar bu toplama GİRMEZ. Yalnız "
         "devreye alma ve durdurmada fosil yakıt kullanan biyokütle üniteleri de münhasıran "
         "biyokütle sayılır (EK-1).",
-        "Toplam 20 MW ve üzeriyse tesis EK-1 kapsamındadır.",
+        "Toplam 20 MW ve üzeriyse yakıt yakma faaliyeti EK-1 kapsamına girer.",
     ], "panel"),
 
     ("p_kural", 220, 1347, 344, 250, "EN ÇOK KAÇIRILAN ÜÇ KURAL", [
-        "• Aynı kategorideki faaliyetlerin kapasiteleri toplanarak eşiğe bakılır.",
+        "• Aynı tesiste aynı kategorideki faaliyetlerin kapasiteleri toplanarak eşiğe bakılır (EK-1).",
         "• Eşik kurulu kapasiteye bakar, fiilî üretime değil.",
-        "• EK-1'deki bir faaliyeti yürüten işletmenin aynı tesisteki diğer EK-1 faaliyetleri, "
-        "kapasite gözetilmeksizin kapsama dâhil olur (m. 27/2).",
+        "• EK-1'deki bir faaliyeti yürüten işletmenin diğer EK-1 faaliyetleri de kapasite "
+        "gözetilmeksizin kapsama dâhil olur (m. 27/2).",
     ], "panel"),
 
     ("p_kisalt", 220, 1500, 344, 260, "KISALTMALAR", [
@@ -267,6 +267,9 @@ PANELS = [
         "• 29 Aralık 2028 — ek rezerv kullananlar için teslim: Aralık'ın son iş günü (m. 16/7)",
         "",
         "Plan daha erken yayımlanırsa başvuru süresi de o tarihten itibaren işler.",
+        "",
+        "İlk İzleme Metodolojisi Planı: pilot döneme dâhil işletmeler 27 Ekim 2026'ya kadar "
+        "sunar; İklim Değişikliği Başkanlığı 6 aya kadar uzatabilir (Geçici m. 3).",
     ], "panel"),
 
     ("p_dikkat", 1730, sy(2) + 20, 250, 420, "SERA GAZI EMİSYON İZNİ NEDİR?", [
@@ -297,7 +300,8 @@ PANELS = [
         "Biyokütlenin emisyon faktörü sıfır kabul edilir.",
         "",
         "Ücretsiz tahsisat = Kıyas değeri × Ücretsiz tahsisat oranı × Sektörel faaliyet "
-        "katsayısı × Faaliyet seviyesi (m. 13/7)",
+        "katsayısı × Faaliyet seviyesi (m. 13/7); ilan edilirse sektörel düzeltme faktörüyle de "
+        "çarpılır (m. 13/11)",
         "",
         "Açık = Doğrulanmış emisyon − Ücretsiz tahsisat",
         "Bu fark her yıl piyasadan satın alınır. Azaltım yatırımlarının geri ödeme hesabına "
