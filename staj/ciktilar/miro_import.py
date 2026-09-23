@@ -103,7 +103,8 @@ NODES = [
      "Açığı kapatın",
      "Birincil piyasa (ihale) · İkincil piyasa · Karbon kredisiyle denkleştirme · Bankalama ve ödünç alma", "red"),
     ("e10", "round_rectangle", ETS_X, sy(9), BW, BH,
-     "Tahsisatı teslim edin", "CEZA RİSKİ · Kasım son iş günü · ek rezerv kullananlarda Aralık (m. 16)", "red"),
+     "Tahsisatı teslim edin", "CEZA RİSKİ · Kasım son iş günü, ek rezervde Aralık son iş günü · eksik "
+     "her tahsisat için son 3 ay ortalama fiyatın 2 katı ceza (m. 16 · 7552 s. Kanun m. 14)", "red"),
 
     ("kayit", "round_rectangle", (IRD_X + ETS_X) // 2, sy(9) + 190, 1100, 90,
      "Sürekli yükümlülükler — her iki profil için",
@@ -243,7 +244,26 @@ PANELS = [
         "",
         "ETS kapsamındaki işletmelere bu tutarlar İKİ KAT uygulanır.",
         "İzinsiz faaliyet ayrı bir ceza kalemidir: 1.254.900 – 12.549.000 ₺.",
+        "",
+        "TAHSİSAT TESLİM ETMEMEK",
+        "Teslim edilmeyen her tahsisat için, son 3 ayın birincil ve ikincil piyasa ortalama "
+        "fiyatlarından yüksek olanının 2 katı idari para cezası (7552 sayılı İklim Kanunu m. 14). "
+        "Ceza borcu silmez: eksik miktar ertesi yılın teslim yükümlülüğüne eklenir (m. 16/2).",
     ], "warn"),
+
+    ("p_takvim", 1730, sy(5), 250, 420, "ÖRNEK TAKVİM — 2027 SİSTEM YILI", [
+        "Her yıl aynı döngü tekrarlanır; tarihler 2027 emisyonları için örnektir.",
+        "",
+        "• 1 Ocak – 31 Aralık 2027 — emisyon ve faaliyet seviyesi izlenir",
+        "• 30 Nisan 2028 — doğrulanmış emisyon ve faaliyet seviyesi raporları; İklim "
+        "Değişikliği Başkanlığı en fazla 1 ay uzatabilir (m. 29/1)",
+        "• En geç 29 Haziran 2028 — Ulusal Tahsisat Planı yayımlanır: 30 Nisan + 60 gün (m. 11/2)",
+        "• Plan + 30 gün, en geç 29 Temmuz 2028 — ücretsiz tahsisat başvurusu (m. 14/2)",
+        "• 30 Kasım 2028 — tahsisat teslimi: Kasım'ın son iş günü (m. 16/1)",
+        "• 29 Aralık 2028 — ek rezerv kullananlar için teslim: Aralık'ın son iş günü (m. 16/7)",
+        "",
+        "Plan daha erken yayımlanırsa başvuru süresi de o tarihten itibaren işler.",
+    ], "panel"),
 
     ("p_dikkat", 1730, sy(2) + 20, 250, 200, "DİKKAT", [
         "İzin 5 yıl geçerli. Bitiminden en az 6 ay önce yenileme başvurusu zorunlu (m. 8).",

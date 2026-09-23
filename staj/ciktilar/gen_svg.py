@@ -68,7 +68,12 @@ def bwrap(text, maxchars):
     for m in range(-(-len(text) // len(base)), maxchars + 1):
         cand = wrap(text, m)
         if len(cand) == len(base):
-            return cand
+            base = cand
+            break
+    for i in range(1, len(base)):                  # "·" satır başında kalmasın
+        if base[i].startswith("· "):
+            base[i - 1] += " ·"
+            base[i] = base[i][2:]
     return base
 
 def pwrap(text, maxchars, sep=" · "):
@@ -376,7 +381,9 @@ conn([(ETS_X, ey[-1] + BH / 2), (ETS_X, ey[-1] + BH / 2 + 38), (ETS_LOOP, ey[-1]
 
 draw_panel(RIGHT_X, sy(2) - 84, RIGHT_W, "p_dikkat", fill="#FFF6F4", stroke=RED_S)
 hint([(RIGHT_X, sy(2)), (ETS_X + BW / 2, sy(2))], color=RED_S)
-BIZ_Y = sy(8) - 150
+TAK_Y = sy(4) - 70
+tk_h = draw_panel(RIGHT_X, TAK_Y, RIGHT_W, "p_takvim", fill=CARD, stroke=ACCENT)
+BIZ_Y = max(sy(8) - 150, TAK_Y + tk_h + 30)
 bh_ = draw_panel(RIGHT_X, BIZ_Y, RIGHT_W, "p_biz", fill=OPP_F, stroke=OPP_S)
 hint([(RIGHT_X, sy(8)), (ETS_X + BW / 2 + 7, sy(8))], color=OPP_S)
 
