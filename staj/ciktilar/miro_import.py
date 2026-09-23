@@ -81,12 +81,16 @@ NODES = [
 
     # ── ETS hattı ──
     ("e1", "round_rectangle", ETS_X, sy(0), BW, BH,
-     "Yetkili personeli atayın", "Kategori B: 1 kişi · Kategori C: 2 kişi (EK-3)", "red"),
+     "İzleme planını ve İzleme Metodolojisi Planını hazırlayın",
+     "İzlemeye başlamadan en az 6 ay önce sunulur · ikisi de izin başvurusunun ekidir "
+     "(m. 28/3 · m. 13/4 · EK-3 · EK-4)", "red"),
     ("e2", "round_rectangle", ETS_X, sy(1), BW, BH,
-     "İzleme planı ve İzleme Metodolojisi Planını hazırlayın",
-     "İkisi de izin başvurusunun ekidir (EK-3 · EK-4)", "red"),
+     "Yetkili personeli belirleyin",
+     "Kategori B: en az 1 yıl deneyimli 1 kişi · Kategori C: en az 2 yıl deneyimli 2 kişi · "
+     "mühendislik veya fen fakültesi mezunu (EK-3/9)", "red"),
     ("e3", "round_rectangle", ETS_X, sy(2), BW, BH,
-     "Sera gazı emisyon izni başvurusu", "EK-3 ile başvuru · azami 60 gün · 5 yıl geçerli (m. 7-8)", "red"),
+     "Sera gazı emisyon izni başvurusu",
+     "Planlar ve personel bilgisiyle EK-3 dosyası · azami 60 gün · 5 yıl geçerli (m. 7-8)", "red"),
     ("e4", "round_rectangle", ETS_X, sy(3), BW, BH,
      "Emisyonları izleyin", "Alt tesis bazında: ürün, ölçülebilir ısı, yakıt, üretim süreci", "red"),
     ("e5", "round_rectangle", ETS_X, sy(4), BW, BH,
@@ -120,8 +124,8 @@ WHO = {
     "i3": "Doğrulayıcıyı İklim Değişikliği Başkanlığının MEDAS sistemi atar · "
           "Türk Akreditasyon Kurumu akredite eder",
     "i4": "İklim Değişikliği Başkanlığına, elektronik sistem üzerinden",
-    "e1": "İşletme belirler · bilgileri izin başvurusunda sunulur",
-    "e2": "İşletme hazırlar · İklim Değişikliği Başkanlığı onaylar",
+    "e1": "İşletme hazırlar · İklim Değişikliği Başkanlığı onaylar",
+    "e2": "İşletme belirler · kendi personeli yoksa bu nitelikte dış uzman görevlendirebilir",
     "e3": "Başvuru İklim Değişikliği Başkanlığına yapılır ve orada değerlendirilir",
     "e4": "İşletme · İklim Değişikliği Başkanlığınca onaylanan izleme planına göre",
     "e5": "Doğrulayıcıyı İklim Değişikliği Başkanlığının MEDAS sistemi atar · "
@@ -251,7 +255,7 @@ PANELS = [
         "Ceza borcu silmez: eksik miktar ertesi yılın teslim yükümlülüğüne eklenir (m. 16/2).",
     ], "warn"),
 
-    ("p_takvim", 1730, sy(5), 250, 420, "ÖRNEK TAKVİM — 2027 SİSTEM YILI", [
+    ("p_takvim", IRD_X, sy(6), 440, 420, "ÖRNEK TAKVİM — 2027 SİSTEM YILI", [
         "Her yıl aynı döngü tekrarlanır; tarihler 2027 emisyonları için örnektir.",
         "",
         "• 1 Ocak – 31 Aralık 2027 — emisyon ve faaliyet seviyesi izlenir",
@@ -265,14 +269,26 @@ PANELS = [
         "Plan daha erken yayımlanırsa başvuru süresi de o tarihten itibaren işler.",
     ], "panel"),
 
-    ("p_dikkat", 1730, sy(2) + 20, 250, 200, "DİKKAT", [
-        "İzin 5 yıl geçerli. Bitiminden en az 6 ay önce yenileme başvurusu zorunlu (m. 8).",
-        "",
-        "İzinsiz faaliyetin cezası 1.254.900 – 12.549.000 ₺ (m. 35).",
-        "",
-        "Geçiş: 7552 sayılı İklim Kanununun yürürlüğünden itibaren 3 yıl içinde izin "
-        "alınmalıdır. Bu süre içinde bir kereye mahsus izinli sayılırsınız. Karbon Piyasası "
-        "Kurulu kararıyla İklim Değişikliği Başkanlığı bu süreyi 2 yıla kadar uzatabilir "
+    ("p_dikkat", 1730, sy(2) + 20, 250, 420, "SERA GAZI EMİSYON İZNİ NEDİR?", [
+        "ETS kapsamındaki bir işletmenin, emisyona yol açan faaliyetini sürdürebilmesi için "
+        "İklim Değişikliği Başkanlığından alması zorunlu izindir (m. 4 · m. 6). Tesisin "
+        "izlemeyi onaylı plana göre yapacağını ve teslim yükümlülüğünü üstlendiğini gösterir.",
+        "BAŞVURU DOSYASI (EK-3)",
+        "• İşletme ve tesis bilgileri, hammaddeler",
+        "• İzleme planı ve İzleme Metodolojisi Planı",
+        "• Yetkili personel belgeleri, başvuru bedeli",
+        "SÜREÇ VE SÜRE",
+        "• Her tesis için ayrı izin; aynı adresteki tesisler tek izin (m. 7/2)",
+        "• Azami 60 günde değerlendirilir; eksikler 3 ayda tamamlanmazsa ret (m. 7)",
+        "• 5 yıl geçerli; bitiminden en az 6 ay önce yenileme başvurusu (m. 8)",
+        "• Değişiklikler 30 gün içinde bildirilir (m. 9)",
+        "İPTAL VE CEZA",
+        "• Yanıltıcı beyan, faaliyetin sona ermesi veya teslim yükümlülüğünün yerine "
+        "getirilmemesi halinde iptal edilir (m. 10)",
+        "• İzinsiz faaliyet cezası 1.254.900 – 12.549.000 ₺ (m. 35)",
+        "• Geçiş: 7552 sayılı İklim Kanununun yürürlüğünden itibaren 3 yıl içinde izin "
+        "alınmalıdır; bu sürede bir kereye mahsus izinli sayılırsınız. Karbon Piyasası "
+        "Kurulu kararıyla İklim Değişikliği Başkanlığı süreyi 2 yıla kadar uzatabilir "
         "(Geçici m. 2).",
     ], "warn"),
 

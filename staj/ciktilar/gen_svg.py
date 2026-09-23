@@ -379,11 +379,11 @@ conn([(ETS_X, ey[-1] + BH / 2), (ETS_X, ey[-1] + BH / 2 + 38), (ETS_LOOP, ey[-1]
       (ETS_LOOP, ey[3]), (ETS_X - BW / 2 - 2, ey[3])],
      "her sistem yılı için tekrarlanır", 1160, ey[-1] + BH / 2 + 28)
 
-draw_panel(RIGHT_X, sy(2) - 84, RIGHT_W, "p_dikkat", fill="#FFF6F4", stroke=RED_S)
+dk_h = draw_panel(RIGHT_X, sy(2) - 84, RIGHT_W, "p_dikkat", fill="#FFF6F4", stroke=RED_S)
 hint([(RIGHT_X, sy(2)), (ETS_X + BW / 2, sy(2))], color=RED_S)
-TAK_Y = sy(4) - 70
-tk_h = draw_panel(RIGHT_X, TAK_Y, RIGHT_W, "p_takvim", fill=CARD, stroke=ACCENT)
-BIZ_Y = max(sy(8) - 150, TAK_Y + tk_h + 30)
+TAK_Y = iy[-1] + BH / 2 + 90           # İRD hattının altındaki boşluk
+tk_h = draw_panel(IRD_X - BW / 2 - 10, TAK_Y, BW + 20, "p_takvim", fill=CARD, stroke=ACCENT)
+BIZ_Y = max(sy(8) - 150, sy(2) - 84 + dk_h + 30)
 bh_ = draw_panel(RIGHT_X, BIZ_Y, RIGHT_W, "p_biz", fill=OPP_F, stroke=OPP_S)
 hint([(RIGHT_X, sy(8)), (ETS_X + BW / 2 + 7, sy(8))], color=OPP_S)
 
@@ -391,7 +391,8 @@ t, s_ = NODE["kayit"]
 CONT_Y = ey[-1] + BH / 2 + 148
 box((IRD_X + ETS_X) / 2, CONT_Y, 1100, 92, t, s_, fill=CARD, stroke=NEUT_ST,
     r=12, ts=15, ss=11.5, dash="6 5", smax=104)
-hint([(IRD_X, iy[-1] + BH / 2 + 38), (IRD_X, CONT_Y - 46)])
+hint([(IRD_X, iy[-1] + BH / 2 + 38), (IRD_X, TAK_Y)])
+hint([(IRD_X, TAK_Y + tk_h), (IRD_X, CONT_Y - 46)])
 hint([(ETS_X, ey[-1] + BH / 2 + 38), (ETS_X, CONT_Y - 46)])
 
 # ── referans rayı: kesintisiz ──
