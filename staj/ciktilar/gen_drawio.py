@@ -73,7 +73,7 @@ for key, shape, cx, cy, w, h, title, sub, pal in NODES:
     else:
         fs, sp = 12, 10
     if key in WHO:
-        h += 22
+        h += 34
     geom[key] = (cx, cy, w, h)
     add(f'<mxCell id="{eid}" value="{node_label(title, sub, sp, WHO.get(key))}" '
         f'style="{node_style(pal, shape)}fontSize={fs};" vertex="1" parent="1">'

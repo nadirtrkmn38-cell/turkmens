@@ -221,7 +221,11 @@ Format: `### Gün N — GG.AA.YYYY (Gün adı)` altında **Yapılan iş**, **Tek
   alanlar gibi departmanın hizmet kapsamı dışında kaldığından ya da müşteri portföyünde nadir
   görüldüğünden akıştan çıkarıldı ve "Özel durumlar" yan notuna taşındı. Her yükümlülük adımına, başvurunun nereye yapıldığını ve işlemi hangi kurumun
   yürüttüğünü gösteren bir "KİM" satırı eklendi. Fiyat oluşumu bölümü şemanın en altına alındı;
-  kurumların fiyattaki rolleri tek bakışta okunacak özet kartlarla verildi.
+  kurumların fiyattaki rolleri tek bakışta okunacak özet kartlarla verildi. Ardından şemadaki
+  "Başkanlık", "Bakanlık", "Kurul", "Kanun" gibi kısa atıflar ve EPDK, İKS, UTP gibi kısaltmalar,
+  yönetmeliğin 4. maddesindeki tanımlara göre tam adlarıyla yazıldı (ör. Bakanlık → Çevre, Şehircilik
+  ve İklim Değişikliği Bakanlığı; Başkanlık → İklim Değişikliği Başkanlığı; Kanun → 7552 sayılı İklim
+  Kanunu). Bu sırada ek rezerv fiyat formülünün asgari fiyatı tanımladığı (m. 16/6) netleştirildi.
 - **Teknik içerik:**
   - Başvuru ve işlem makamları: izin, izleme planı, emisyon/faaliyet seviyesi raporu ve ücretsiz
     tahsisat başvurusu İklim Değişikliği Başkanlığına, elektronik sistem üzerinden yapılır

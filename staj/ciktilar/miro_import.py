@@ -62,19 +62,19 @@ NODES = [
     ("ird", "round_rectangle", IRD_X, RES_Y, 440, 110,
      "ETS DIŞI — İRD YÜKÜMLÜSÜ",
      "Kategori A ve ETS dışı bırakılan özel tesisler. Tahsisat almaz, teslim etmezsiniz; "
-     "izleme, raporlama ve doğrulama sürer.", "amber"),
+     "izleme, raporlama ve doğrulama (İRD) sürer.", "amber"),
     ("ets", "round_rectangle", ETS_X, RES_Y, 440, 110,
      "ETS KAPSAMINDA",
-     "İzin + izleme, raporlama, doğrulama + her yıl emisyona denk tahsisat teslimi.", "red"),
+     "Sera gazı emisyon izni + izleme, raporlama ve doğrulama + her yıl emisyona denk tahsisat teslimi.", "red"),
 
     # ── İRD hattı ──
     ("i1", "round_rectangle", IRD_X, sy(0), BW, BH,
-     "İzleme planını onaylatın", "İlk izlemeden en az 6 ay önce Başkanlığa sunulur (m. 28/3)", "amber"),
+     "İzleme planını onaylatın", "İlk izlemeden en az 6 ay önce İklim Değişikliği Başkanlığına sunulur (m. 28/3)", "amber"),
     ("i2", "round_rectangle", IRD_X, sy(1), BW, BH,
      "Emisyonları izleyin", "Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü", "amber"),
     ("i3", "round_rectangle", IRD_X, sy(2), BW, BH,
      "Akredite kuruluşa doğrulatın",
-     "MEDAS ataması · ISO/IEC 17029 akreditasyonu (m. 30 · m. 33/2)", "amber"),
+     "Doğrulanmamış rapor sunulamaz · doğrulayıcı ISO/IEC 17029 akreditasyonlu olmalı (m. 30/1 · m. 33/2)", "amber"),
     ("i4", "round_rectangle", IRD_X, sy(3), BW, BH,
      "30 Nisan'a kadar raporlayın",
      "CEZA RİSKİ · Bir önceki takvim yılının doğrulanmış emisyonu — gecikmede Kategori A için 627.450 ₺ (m. 29 · m. 35)", "amber"),
@@ -91,14 +91,14 @@ NODES = [
      "Emisyonları izleyin", "Alt tesis bazında: ürün, ölçülebilir ısı, yakıt, üretim süreci", "red"),
     ("e5", "round_rectangle", ETS_X, sy(4), BW, BH,
      "Akredite kuruluşa doğrulatın",
-     "Doğrulanmamış rapor sunulamaz · 4734 sayılı Kanuna tabi işletmeler MEDAS dışıdır (m. 30)", "red"),
+     "Doğrulanmamış rapor sunulamaz · 4734 sayılı Kamu İhale Kanununa tabi işletmeler MEDAS dışındadır (m. 30)", "red"),
     ("e6", "round_rectangle", ETS_X, sy(5), BW, BH,
      "30 Nisan — rapor + faaliyet seviyesi", "CEZA RİSKİ · İkisi birlikte sunulur (m. 29 · m. 13/5)", "red"),
     ("e7", "round_rectangle", ETS_X, sy(6), BW, BH,
      "Ulusal Tahsisat Planı yayımlanır",
      "DIŞ OLAY · Raporların son teslim tarihinden itibaren 60 gün içinde (m. 11/2)", "event"),
     ("e8", "round_rectangle", ETS_X, sy(7), BW, BH,
-     "Ücretsiz tahsisat başvurusu", "UTP + 30 gün · geç başvuruda bedel %50 artırımlı (m. 14)", "red"),
+     "Ücretsiz tahsisat başvurusu", "Ulusal Tahsisat Planının yayımından itibaren 30 gün · geç başvuruda bedel %50 artırımlı (m. 14)", "red"),
     ("e9", "round_rectangle", ETS_X, sy(8), BW, BH,
      "Açığı kapatın",
      "Birincil piyasa (ihale) · İkincil piyasa · Karbon kredisiyle denkleştirme · Bankalama ve ödünç alma", "red"),
@@ -108,26 +108,29 @@ NODES = [
     ("kayit", "round_rectangle", (IRD_X + ETS_X) // 2, sy(9) + 190, 1100, 90,
      "Sürekli yükümlülükler — her iki profil için",
      "Tüm veri ve bilgi kayıtlarını en az 10 yıl saklayın (m. 37) · Faaliyet, tesis niteliği, "
-     "kategori veya izin sahibi değişikliklerini 30 gün içinde Başkanlığa bildirin (m. 9/1 · m. 34/4-5)", "start"),
+     "kategori veya izin sahibi değişikliklerini 30 gün içinde İklim Değişikliği Başkanlığına bildirin (m. 9/1 · m. 34/4-5)", "start"),
 ]
 
 # ───────────────────── kim ne yapar ─────────────────────
 # Her adımın altındaki "KİM" satırı: başvurunun yapıldığı yer ve işlemi yürüten kurum.
 WHO = {
     "i1": "İklim Değişikliği Başkanlığı onaylar",
-    "i2": "İşletme · onaylı izleme planına göre",
-    "i3": "MEDAS doğrulayıcı atar · TÜRKAK akredite eder",
-    "i4": "Başkanlığa, elektronik sistem üzerinden",
-    "e1": "İşletme belirler · bilgileri izin başvurusunda",
-    "e2": "İşletme hazırlar · Başkanlık onaylar",
-    "e3": "Başvuru Başkanlığa · Başkanlık değerlendirir",
-    "e4": "İşletme · onaylı izleme planına göre",
-    "e5": "MEDAS doğrulayıcı atar · TÜRKAK akredite eder",
-    "e6": "Başkanlığa, elektronik sistem üzerinden",
-    "e7": "Başkanlık hazırlar · Karbon Piyasası Kurulu onaylar",
-    "e8": "Başvuru Başkanlığa · transfer EPDK usulüyle İKS'den",
-    "e9": "İhale ve ikincil piyasa · Piyasa İşletmecisi (EPİAŞ)",
-    "e10": "İKS üzerinden teslim · Piyasa İşletmecisi (EPİAŞ)",
+    "i2": "İşletme · İklim Değişikliği Başkanlığınca onaylanan izleme planına göre",
+    "i3": "Doğrulayıcıyı İklim Değişikliği Başkanlığının MEDAS sistemi atar · "
+          "Türk Akreditasyon Kurumu akredite eder",
+    "i4": "İklim Değişikliği Başkanlığına, elektronik sistem üzerinden",
+    "e1": "İşletme belirler · bilgileri izin başvurusunda sunulur",
+    "e2": "İşletme hazırlar · İklim Değişikliği Başkanlığı onaylar",
+    "e3": "Başvuru İklim Değişikliği Başkanlığına yapılır ve orada değerlendirilir",
+    "e4": "İşletme · İklim Değişikliği Başkanlığınca onaylanan izleme planına göre",
+    "e5": "Doğrulayıcıyı İklim Değişikliği Başkanlığının MEDAS sistemi atar · "
+          "Türk Akreditasyon Kurumu akredite eder",
+    "e6": "İklim Değişikliği Başkanlığına, elektronik sistem üzerinden",
+    "e7": "İklim Değişikliği Başkanlığı hazırlar · Karbon Piyasası Kurulu onaylar",
+    "e8": "Başvuru İklim Değişikliği Başkanlığına · aktarım Enerji Piyasası Düzenleme "
+          "Kurumu usulüyle",
+    "e9": "İhaleyi ve ikincil piyasayı Enerji Piyasaları İşletme A.Ş. (EPİAŞ) işletir",
+    "e10": "İşlem Kayıt Sistemi üzerinden · sistemi Enerji Piyasaları İşletme A.Ş. (EPİAŞ) işletir",
 }
 
 # ───────────────────── bağlayıcılar ─────────────────────
@@ -213,14 +216,17 @@ PANELS = [
         "kapasite gözetilmeksizin kapsama dâhil olur (m. 27/2).",
     ], "panel"),
 
-    ("p_kisalt", 220, 1500, 344, 260, "KURUMLAR VE KISALTMALAR", [
-        "• Başkanlık — İklim Değişikliği Başkanlığı",
-        "• KPK — Karbon Piyasası Kurulu (Bakan başkanlığında)",
+    ("p_kisalt", 220, 1500, 344, 260, "KISALTMALAR", [
+        "• ETS — Emisyon Ticaret Sistemi",
+        "• İRD — İzleme, raporlama ve doğrulama",
         "• EPDK — Enerji Piyasası Düzenleme Kurumu",
-        "• Piyasa İşletmecisi — EPİAŞ",
-        "• İKS — İşlem Kayıt Sistemi; Piyasa İşletmecisi işletir",
-        "• MEDAS — Merkezi Elektronik Doğrulayıcı Kuruluş Atama Sistemi",
+        "• EPİAŞ — Enerji Piyasaları İşletme A.Ş.; yönetmelikteki adıyla Piyasa İşletmecisi",
+        "• MEDAS — Merkezi Elektronik Doğrulayıcı Kuruluş Atama Sistemi; İklim Değişikliği "
+        "Başkanlığınca kurulur",
         "• TÜRKAK — Türk Akreditasyon Kurumu",
+        "",
+        "Karbon Piyasası Kurulu, Çevre, Şehircilik ve İklim Değişikliği Bakanı başkanlığında "
+        "toplanır; sekretaryasını İklim Değişikliği Başkanlığı yürütür (m. 23/1).",
     ], "panel"),
 
     ("p_ceza", 220, 1992, 344, 400, "İDARİ PARA CEZALARI (m. 35)", [
@@ -241,8 +247,10 @@ PANELS = [
         "",
         "İzinsiz faaliyetin cezası 1.254.900 – 12.549.000 ₺ (m. 35).",
         "",
-        "Geçiş: Kanun'un yürürlüğünden itibaren 3 yıl içinde izin alınmalıdır. Bu süre içinde "
-        "bir kereye mahsus izinli sayılırsınız (Geçici m. 2).",
+        "Geçiş: 7552 sayılı İklim Kanununun yürürlüğünden itibaren 3 yıl içinde izin "
+        "alınmalıdır. Bu süre içinde bir kereye mahsus izinli sayılırsınız. Karbon Piyasası "
+        "Kurulu kararıyla İklim Değişikliği Başkanlığı bu süreyi 2 yıla kadar uzatabilir "
+        "(Geçici m. 2).",
     ], "warn"),
 
     ("p_hesap", 220, 2400, 344, 320, "İKİ HESAP", [
@@ -275,22 +283,22 @@ PANELS = [
         "NE YAPABİLİRİZ",
         "• Enerji etüdü ile azaltım potansiyelinin tespiti",
         "• Atık ısı geri kazanımı, buhar ve kondenstop iyileştirmesi, izolasyon",
-        "• Motor, sürücü (VSD) ve basınçlı hava sistemleri verimliliği",
+        "• Motor, değişken hızlı sürücü (VSD) ve basınçlı hava sistemleri verimliliği",
         "• Yakıt dönüşümü ve biyokütle — biyokütlenin emisyon faktörü sıfır kabul edilir (EK-6)",
         "• Elektrifikasyon ile tesis içi yakma emisyonunun azaltılması",
-        "• Çatı GES ve öz tüketim, YEK-G ile yeşil elektrik tedariki",
+        "• Çatı güneş enerjisi santrali (GES) ve öz tüketim; YEK-G (Yenilenebilir Enerji Kaynak Garanti) belgeli yeşil elektrik tedariki",
         "• ISO 50001 enerji yönetim sistemi kurulumu",
-        "• Sayaçlama ve veri altyapısı — İRD yükümlülüğüyle aynı altyapıyı besler",
-        "• Fizibilite: geri ödeme ve NBD hesabına tahsisat maliyetinin dâhil edilmesi",
-        "• VAP destekleriyle yatırım maliyetinin düşürülmesi",
+        "• Sayaçlama ve veri altyapısı — izleme, raporlama ve doğrulama yükümlülüğüyle aynı altyapıyı besler",
+        "• Fizibilite: geri ödeme ve net bugünkü değer (NBD) hesabına tahsisat maliyetinin dâhil edilmesi",
+        "• Verimlilik Artırıcı Proje (VAP) destekleriyle yatırım maliyetinin düşürülmesi",
     ], "opportunity"),
 
     ("p_ozel", 1580, 620, 542, 230, "ÖZEL DURUMLAR — AYRICA DEĞERLENDİRİLİR", [
         "EK-1 faaliyeti yürütse de aşağıdaki tesisler farklı değerlendirilir. Tesisiniz bu "
         "gruptaysa ayrı bir inceleme yapılmalıdır.",
         "YÖNETMELİK DIŞI",
-        "• Ar-Ge tesis veya bölümleri, münhasıran biyokütle kullanan tesisler, askerî unsurlar (m. 2/2)",
-        "ETS DIŞI, İRD SÜRER",
+        "• Araştırma-geliştirme (Ar-Ge) tesis veya bölümleri, münhasıran biyokütle kullanan tesisler, askerî unsurlar (m. 2/2)",
+        "ETS DIŞI — İZLEME, RAPORLAMA VE DOĞRULAMA SÜRER",
         "• Kalıcı: okul, üniversite, hastane ve savunma sanayi kuruluşlarına ait tesisler (m. 5/2-3)",
         "• Geçici: doğal gaz ve ham petrol iletimi ve depolanması, birinci uygulama dönemi "
         "sonuna kadar (Geçici m. 6)",
@@ -304,35 +312,39 @@ PANELS = [
         "açıklanır. Birincil piyasada satışa sunulacak tahsisat miktarını Karbon Piyasası "
         "Kurulu tespit eder (m. 11 · m. 23/2).",
         "BİRİNCİL PİYASA — İHALE",
-        "Tahsisatlar, Başkanlıkça belirlenen ihale takvimine göre ihaleyle satılır. Takvim, UTP "
-        "yayımından sonraki 15 iş günü içinde Piyasa İşletmecisinin internet sitesinde ilan "
-        "edilir (m. 17).",
+        "Tahsisatlar, İklim Değişikliği Başkanlığınca belirlenen ihale takvimine göre ihaleyle "
+        "satılır. Takvim, Ulusal Tahsisat Planının yayımından sonraki 15 iş günü içinde Enerji "
+        "Piyasaları İşletme A.Ş. (EPİAŞ) internet sitesinde ilan edilir (m. 17).",
         "İKİNCİL PİYASA — ARZ VE TALEP",
         "Sürekli ticaret yöntemiyle işletilir; fiyat alıcı ve satıcıların emirlerine göre oluşur "
         "(m. 18).",
         "FİYAT ARALIĞI VE İSTİKRAR",
         "Asgari ve azami tahsisat fiyatı aralıklarını belirlemeye Karbon Piyasası Kurulu "
-        "yetkilidir; kararlar Başkanlıkça resmî internet sayfasında ilan edilir. Piyasa istikrar "
-        "rezervi, dolaşımdaki tahsisat miktarı ve fiyatlar değerlendirilerek devreye alınır "
-        "(m. 19 · m. 21/1).",
+        "yetkilidir; kararlar İklim Değişikliği Başkanlığının resmî internet sayfasında ilan "
+        "edilir. Piyasa istikrar rezervi, dolaşımdaki tahsisat miktarı ve fiyatlar "
+        "değerlendirilerek devreye alınır (m. 19 · m. 21/1).",
         "||",
         "EK REZERV FİYATI",
-        "Son 3 ayın birincil ve ikincil piyasa ağırlıklı ortalama fiyatlarından yüksek olanının "
-        "%50 fazlası; azami fiyatı Başkanlık ve EPDK koordineli belirler (m. 16/6).",
+        "Asgari fiyat: son 3 ayın birincil ve ikincil piyasa ağırlıklı ortalama fiyatlarından "
+        "yüksek olanının %50 fazlası. Azami fiyatı İklim Değişikliği Başkanlığı ve Enerji "
+        "Piyasası Düzenleme Kurumu koordineli belirler (m. 16/6).",
         "KARBON KREDİSİYLE DENKLEŞTİRME",
-        "Yurt içi projelerden elde edilen karbon kredileri, teslim yükümlülüğünün Karbon Piyasası "
-        "Kurulunca belirlenen oranını geçmemek üzere kullanılabilir (m. 25/1).",
+        "Türkiye sınırları içindeki projelerden elde edilen karbon kredileri, teslim "
+        "yükümlülüğünün Karbon Piyasası Kurulunca belirlenen oranını geçmemek üzere "
+        "kullanılabilir (m. 25/1).",
         "PİYASANIN İŞLEYİŞİ",
-        "İKS'yi ve birincil ile ikincil ETS piyasasını Piyasa İşletmecisi (EPİAŞ) işletir. "
-        "Piyasa işleyişinin usul ve esaslarını Bakanlık, Enerji ve Tabii Kaynaklar Bakanlığı ve "
-        "SPK ile koordineli olarak EPDK belirler. TOBB başkanlığındaki Danışma Kurulu, Karbon "
-        "Piyasası Kuruluna sunulmak üzere istişari kararlar alır (m. 4/1-k · m. 21/3 · m. 22/1 · m. 24).",
+        "İşlem Kayıt Sistemini ve birincil ile ikincil ETS piyasasını Enerji Piyasaları İşletme "
+        "A.Ş. (EPİAŞ) işletir. Piyasa işleyişinin usul ve esaslarını Çevre, Şehircilik ve İklim "
+        "Değişikliği Bakanlığı, Enerji ve Tabii Kaynaklar Bakanlığı ve Sermaye Piyasası Kurulu ile "
+        "koordineli olarak Enerji Piyasası Düzenleme Kurumu belirler. Türkiye Odalar ve Borsalar "
+        "Birliği Başkanı başkanlığındaki Danışma Kurulu, Karbon Piyasası Kuruluna sunulmak üzere "
+        "istişari kararlar alır (m. 4/1-k · m. 21/3 · m. 22/1 · m. 24).",
     ], "panel"),
 
     ("p_lejant", 1620, 150, 460, 170, "RENK ANAHTARI", [
         "YEŞİL — yükümlülük yok, sistem hiç uygulanmaz",
         "SARI — yalnızca izleme, raporlama ve doğrulama",
-        "KIRMIZI — tam ETS: izin, İRD ve tahsisat teslimi",
+        "KIRMIZI — tam ETS: izin, izleme-raporlama-doğrulama ve tahsisat teslimi",
         "GRİ — yardımcı bilgi, akışın parçası değil",
         "KİM — başvurunun yapıldığı ve işlemi yürüten kurum",
     ], "start"),
@@ -342,17 +354,18 @@ PANELS = [
 # (kurum, rolü) — fiyat bölümünün üstündeki tek bakışta özet
 PRICE_ROLES = [
     ("Karbon Piyasası Kurulu",
-     "Satışa sunulacak tahsisat miktarını, asgari–azami fiyat aralığını ve karbon kredisi "
-     "oranını belirler (m. 21/1 · m. 23/2 · m. 25/1)"),
+     "Çevre, Şehircilik ve İklim Değişikliği Bakanı başkanlığında toplanır. Satışa sunulacak "
+     "tahsisat miktarını, asgari–azami fiyat aralığını ve karbon kredisi oranını belirler "
+     "(m. 21/1 · m. 23 · m. 25/1)"),
     ("İklim Değişikliği Başkanlığı",
-     "İhale takvimini ve istikrar rezervine aktarılacak miktarı belirler, Kurul kararlarını "
-     "ilan eder (m. 17/1 · m. 19/2 · m. 21/1)"),
-    ("EPDK",
+     "İhale takvimini ve istikrar rezervine aktarılacak miktarı belirler, Karbon Piyasası "
+     "Kurulu kararlarını ilan eder (m. 17/1 · m. 19/2 · m. 21/1)"),
+    ("Enerji Piyasası Düzenleme Kurumu",
      "ETS piyasasının ve İşlem Kayıt Sisteminin usul ve esaslarını belirler "
      "(m. 21/3 · m. 22/5)"),
-    ("Piyasa İşletmecisi (EPİAŞ)",
-     "İhaleleri ve ikincil piyasayı organize edip işletir, İşlem Kayıt Sistemini yürütür "
-     "(m. 4/1-k · m. 22/1)"),
+    ("Enerji Piyasaları İşletme A.Ş.",
+     "EPİAŞ, yönetmelikteki adıyla Piyasa İşletmecisi. İhaleleri ve ikincil piyasayı "
+     "işletir, İşlem Kayıt Sistemini yürütür (m. 4/1-k · m. 22/1)"),
     ("Piyasa katılımcıları",
      "Fiyat birincil piyasada ihaleyle, ikincil piyasada alış ve satış emirleriyle oluşur "
      "(m. 17 · m. 18)"),

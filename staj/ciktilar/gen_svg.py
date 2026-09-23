@@ -60,6 +60,34 @@ def wrap(text, maxchars):
     if cur: lines.append(cur)
     return lines
 
+def bwrap(text, maxchars):
+    """Satır sayısını artırmadan satırları dengeler (son satırda tek kelime kalmasın)."""
+    base = wrap(text, maxchars)
+    if len(base) < 2:
+        return base
+    for m in range(-(-len(text) // len(base)), maxchars + 1):
+        cand = wrap(text, m)
+        if len(cand) == len(base):
+            return cand
+    return base
+
+def pwrap(text, maxchars, sep=" · "):
+    """" · " ile ayrılmış parçaları satır başına taşımadan paketler."""
+    lines = []
+    for part in text.split(sep):
+        if lines and len(lines[-1]) + len(sep) + len(part) <= maxchars:
+            lines[-1] += sep + part
+        else:
+            lines += bwrap(part, maxchars)
+    alt = bwrap(text, maxchars)
+    if len(alt) < len(lines):
+        lines = alt
+        for i in range(1, len(lines)):          # "·" satır başında kalmasın
+            if lines[i].startswith("· "):
+                lines[i - 1] += " ·"
+                lines[i] = lines[i][2:]
+    return lines
+
 def tblock(x, top, lines, size, weight, color, lh, anchor="middle"):
     parts = "".join(f'<tspan x="{x}" dy="{0 if i == 0 else lh}">{e(l)}</tspan>'
                     for i, l in enumerate(lines))
@@ -71,7 +99,7 @@ def who_pill(x, y, stroke):
     add(f'<text x="{x + 15}" y="{y + 10.8}" text-anchor="middle" font-family="{MONO}" '
         f'font-size="9" font-weight="600" letter-spacing="0.6" fill="#FFFFFF">KİM</text>')
 
-FOOT = 30
+FOOT = 46
 
 def box(cx, cy, w, h, title, sub=None, fill=NEUTRAL, stroke=NEUT_ST, tcol=INK, scol=MUTED,
         r=10, sw=1.7, ts=15, ss=11.5, dash=None, shadow=False, who=None, smax=None):
@@ -91,11 +119,14 @@ def box(cx, cy, w, h, title, sub=None, fill=NEUTRAL, stroke=NEUT_ST, tcol=INK, s
             f'fill="#FFFFFF" opacity="0.6"/>')
         add(f'<line x1="{x + sw/2}" y1="{fy}" x2="{x + w - sw/2}" y2="{fy}" stroke="{stroke}" '
             f'stroke-width="1" opacity="0.35"/>')
-        who_pill(x + 24, fy + 7.5, stroke)
-        add(f'<text x="{x + 62}" y="{fy + 19.2}" font-family="{FONT}" font-size="11.5" '
-            f'font-weight="600" fill="{tcol}">{e(who)}</text>')
-    tl = wrap(title, int((w - 34) / (ts * 0.505)))
-    sl = wrap(sub, smax or int((w - 34) / (ss * 0.505))) if sub else []
+        wl = pwrap(who, int((w - 62 - 18) / 5.6))
+        by = fy + (FOOT - (len(wl) - 1) * 15) / 2 + 4.2
+        who_pill(x + 24, by - 11, stroke)
+        for j, l in enumerate(wl):
+            add(f'<text x="{x + 62}" y="{by + j * 15}" font-family="{FONT}" font-size="11.5" '
+                f'font-weight="600" fill="{tcol}">{e(l)}</text>')
+    tl = bwrap(title, int((w - 34) / (ts * 0.505)))
+    sl = bwrap(sub, smax or int((w - 34) / (ss * 0.505))) if sub else []
     th, sh_ = len(tl) * ts * 1.2, len(sl) * ss * 1.28
     gap = 7 if sl else 0
     top = mid - (th + gap + sh_) / 2
@@ -125,7 +156,7 @@ def column(x, yy, w, lines):
                     f'fill="{INK}">{e(("•  " if i == 0 else "    ") + l)}</text>')
                 yy += 16
             yy += 3
-        elif len(ln) < 40 and ln == tru(ln):
+        elif len(ln) < 60 and ln == tru(ln):
             add(f'<text x="{x}" y="{yy + 4}" font-family="{FONT}" font-size="11" '
                 f'font-weight="700" letter-spacing="1.1" fill="{MUTED}">{e(ln)}</text>')
             yy += 24
@@ -142,7 +173,7 @@ def panel(x, y, w, heading, lines, fill=PANEL, stroke=PANEL_ST):
     if "||" in lines:
         # başlıktan önceki giriş paragrafı tam genişlikte, kalanı iki sütunda
         n = 0
-        while n < len(lines) and not (lines[n] == tru(lines[n]) and len(lines[n]) < 40):
+        while n < len(lines) and not (lines[n] == tru(lines[n]) and len(lines[n]) < 60):
             n += 1
         top = column(x + pad, y + 52, w - 2 * pad, lines[:n]) + 6 if n else y + 52
         rest = lines[n:]
@@ -203,7 +234,7 @@ def stepnum(cx, cy, n, stroke):
 # ───────────────────────── yerleşim ─────────────────────────
 CX, OX = 940, 1520
 IRD_X, ETS_X = 660, 1310
-BW, BH, PITCH = 420, 112, 150
+BW, BH, PITCH = 420, 128, 166
 RAIL_X, RAIL_W = 48, 344
 IRD_LOOP, ETS_LOOP = 962, 1012
 RIGHT_X, RIGHT_W = 1556, 296
@@ -235,7 +266,7 @@ add(f'<text x="{lx + 18}" y="{ly + 27}" font-family="{FONT}" font-size="11" font
 for i, (f_, s_, t_) in enumerate([
         (GREEN_F, GREEN_S, "Yükümlülük yok — sistem hiç uygulanmaz"),
         (AMBER_F, AMBER_S, "Yalnızca izleme, raporlama ve doğrulama"),
-        (RED_F,   RED_S,   "Tam ETS — izin, İRD ve tahsisat teslimi"),
+        (RED_F,   RED_S,   "Tam ETS — sarıdakilere ek olarak izin ve tahsisat teslimi"),
         (NEUTRAL, NEUT_ST, "Karar ve yardımcı bilgi"),
         (None,    MUTED,   "Başvurunun yapıldığı ve işlemi yürüten kurum")]):
     yy = ly + 49 + i * 21
@@ -296,7 +327,7 @@ add(f'<line x1="{IRD_X + 24}" y1="{DIV2}" x2="{ETS_X - 24}" y2="{DIV2}" stroke="
 add(f'<line x1="{ETS_X + 24}" y1="{DIV2}" x2="{W - 48}" y2="{DIV2}" stroke="{LINE}" stroke-width="1.4"/>')
 chapter(IRD_X + 44, DIV2 + 44, "02", "Profilinize göre yükümlülükler")
 add(f'<text x="{IRD_X + 44}" y="{DIV2 + 70}" font-family="{FONT}" font-size="11.5" fill="{FAINT}">'
-    f'Başkanlığa yapılan tüm başvuru ve bildirimler elektronik sistem üzerinden yürütülür (m. 34/6).</text>')
+    f'Tüm başvuru ve bildirimler, İklim Değişikliği Başkanlığınca kurulan elektronik sistem üzerinden yapılır (m. 34/6).</text>')
 
 t, s_ = NODE["ird"]
 box(IRD_X, RES_Y, 440, 108, t, s_, fill=AMBER_F, stroke=AMBER_S, tcol=AMBER_T, scol=AMBER_T,
@@ -370,7 +401,7 @@ chapter(48, SEC3 + 44, "03", "Fiyatı kim, neye göre belirler")
 c3 = SEC3 + 72
 n_r, g_r = len(M.PRICE_ROLES), 16
 w_r = (W - 96 - g_r * (n_r - 1)) / n_r
-rl = [wrap(txt, int((w_r - 36) / 6.05)) for _, txt in M.PRICE_ROLES]
+rl = [bwrap(txt, int((w_r - 36) / 5.75)) for _, txt in M.PRICE_ROLES]
 role_h = 58 + max(len(x) for x in rl) * 16
 for i, ((who_, _), lines_) in enumerate(zip(M.PRICE_ROLES, rl)):
     rx = 48 + i * (w_r + g_r)
@@ -393,7 +424,7 @@ add(f'<line x1="48" y1="{FY}" x2="{W - 48}" y2="{FY}" stroke="{LINE}" stroke-wid
 add(f'<text x="48" y="{FY + 27}" font-family="{FONT}" font-size="11.5" fill="{FAINT}">'
     f'Bu şema bilgilendirme amaçlıdır ve ön değerlendirme niteliğindedir. Kesin kapsam belirlemesi '
     f'tesisin kapasite raporu, yakma ünitelerinin anma ısıl güçleri ve onaylı izleme planı üzerinden '
-    f'yapılır; nihai yetki İklim Değişikliği Başkanlığı’ndadır.</text>')
+    f'yapılır; nihai yetki Çevre, Şehircilik ve İklim Değişikliği Bakanlığına bağlı İklim Değişikliği Başkanlığındadır.</text>')
 add(f'<text x="{W - 48}" y="{FY + 27}" text-anchor="end" font-family="{MONO}" font-size="11.5" '
     f'fill="{FAINT}">RG 27.08.2026 / 33353</text>')
 
