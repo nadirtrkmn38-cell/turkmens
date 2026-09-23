@@ -288,7 +288,7 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
   izni; staj raporu ile metnin ayrı tutulması.
   - **Eklenecek bölüm:** Verimlilik yatırımının ücretsiz tahsisata etkisi. Isı ve yakıt alt
     tesislerinde faaliyet seviyesi düştükçe tahsisat da düşer (m. 13/7); verimlilik kazancının ne
-    kadarının tahsisat kaybıyla geri gittiği analiz edilecek. İlgili literatür: Branger vd. (2015).
+    kadarının tahsisat azalmasıyla dengelendiği analiz edilecek (kıyas değeri, oran ve katsayı ortak; faaliyet seviyesi tesise özgü). Enerji maliyeti tasarrufu her durumda kalır; "ters teşvik" değil, karbon getirisinde kısmi dengelenme. İlgili literatür: Branger vd. (2015).
 - [ ] **İkinci aday / yedek:** TR ETS karbon fiyatının elektrik piyasası takas fiyatına (PTF) ve
   sanayi tüketicisinin elektrik maliyetine etkisi. EPİAŞ Şeffaflık Platformu verisiyle saatlik arz
   sıralaması (merit order) modeli; karbon fiyatı senaryoları; kömürden gaza geçiş fiyatı. Veri
