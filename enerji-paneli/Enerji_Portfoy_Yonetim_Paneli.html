@@ -61,6 +61,14 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
 .kbar{height:4px;background:rgba(255,255,255,.16);border-radius:3px;margin-top:8px;overflow:hidden;display:flex}
 .kbar i{display:block;height:100%;background:var(--yellow)}
 .kspark{position:absolute;right:12px;top:14px;opacity:.95}
+.kcap{grid-column:1/-1;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 12px}
+.kcap b{font:650 15px/1.2 var(--disp);color:#fff;letter-spacing:.005em}
+.kcap span{font-size:12.5px;color:#bccbe8}
+.knote{grid-column:1/-1;font-size:12px;color:#a9bbdc;max-width:120ch}
+.kpis.eff{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:900px){.kpis.eff{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.kpis.eff{grid-template-columns:1fr}}
+.per{font-size:12.5px;color:var(--muted)}
 
 /* ---------- layout ---------- */
 .wrap{padding:16px 24px 44px;max-width:1720px;margin:0 auto}
@@ -109,6 +117,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
 .cc .sv{font:650 22px/1.15 var(--disp);margin-top:2px}
 .cc .sv small{font:500 12px var(--body);color:var(--muted)}
 .cc .sub{font-size:12px;color:var(--muted);margin-top:3px}
+.cmp-cards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .prog{height:6px;background:var(--line);border-radius:3px;margin-top:8px;overflow:hidden}
 .prog i{display:block;height:100%;background:var(--blue)}
 
@@ -204,6 +213,10 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
 .iconbtn.small{padding:4px 10px;font-size:12px}
 #mapSelInfo{margin-top:10px}
 #mapSelInfo:empty{display:none}
+#effSelInfo{margin-top:10px}
+#effSelInfo:empty{display:none}
+#effSelInfo .selrow{flex-wrap:wrap}
+#effSelInfo .selrow small{color:var(--muted)}
 .selcard{background:var(--bg);border-radius:8px;padding:10px 12px;margin-top:8px}
 .selcard h3{margin:0 0 6px;font:650 13px var(--disp)}
 .selrow{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:4px 0;border-top:1px dashed var(--line)}
@@ -223,7 +236,7 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
     </nav>
     <div class="meta">
       <div class="ts"><div>Son güncelleme</div><b>22.09.2026 11:07:22</b></div>
-      <span class="pill">Garanti değerleri gerçek · operasyonel veriler örnektir</span>
+      <span class="pill" id="dataPill">Garanti değerleri gerçek · operasyonel veriler örnektir</span>
       <button class="iconbtn" id="themeBtn" aria-label="Açık ve koyu tema arasında geçiş yap">Koyu tema</button>
     </div>
   </div>
@@ -272,24 +285,27 @@ table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;mi
 <!-- ================= VERIMLILIK ================= -->
 <section id="tab-eff" class="grid" role="tabpanel" aria-labelledby="t-eff" hidden>
   <div class="panel c7">
-    <div class="ph"><div><h2>Enerji çıktısı dağılımı</h2><p>Bu ay üretilen elektrik, ısıtma ve soğutma enerjisi (MWh), santral bazında.</p></div></div>
-    <div class="legend"><span><i class="lg-b" style="background:var(--blue)"></i>Elektrik</span><span><i class="lg-b" style="background:var(--orange)"></i>Isıtma</span><span><i class="lg-b" style="background:var(--teal)"></i>Soğutma</span></div>
-    <div class="chart" id="effBars" style="height:290px"></div>
+    <div class="ph"><div><h2>Portföy haritası</h2><p>Renk, seçili dönemin EAO ve SPO değerini tek garanti değeriyle karşılaştırır; sınırda, garantinin en fazla 1 puan altıdır. Bir ile tıklayın; üretim karşılaştırması o ile odaklanır.</p></div></div>
+    <div class="mapbox" id="effMap"></div>
+    <div class="legend" id="effMapLegend" style="margin-top:10px"></div>
+    <div id="effSelInfo"></div>
   </div>
+
   <div class="panel c5">
-    <div class="ph"><div><h2>Kümülatif EAO ve garanti</h2><p>Çubuk gerçekleşen kümülatif EAO, dikey çizgi garanti edilen değerdir.</p></div></div>
-    <div class="chart" id="effEao" style="height:250px"></div>
-    <div id="effNote"></div>
-  </div>
-  <div class="panel c12">
-    <div class="ph"><div><h2>Aylık enerji çıktısı</h2><p>Mevsime göre ısıtma ve soğutma payı değişir; trijenerasyonun değeri yaz ve kışın birlikte görünür.</p></div></div>
-    <div class="legend"><span><i class="lg-b" style="background:var(--blue)"></i>Elektrik</span><span><i class="lg-b" style="background:var(--orange)"></i>Isıtma</span><span><i class="lg-b" style="background:var(--teal)"></i>Soğutma</span></div>
-    <div class="chart" id="effTrend" style="height:260px"></div>
-  </div>
-  <div class="panel c12">
-    <div class="ph"><div><h2>Santral verimlilik tablosu</h2><p>Eylül 2026, 1 – 21 Eylül (504 saat).</p></div></div>
-    <div class="tw free"><table class="t" id="effTable"></table></div>
-    <div class="foot">* EAO: Emre Amadelik Oranı. Kojenerasyon santrallerinde ABS chiller bulunmaz.</div>
+    <div class="ph">
+      <div><h2>Üretim karşılaştırma</h2><p id="effCmpSub"></p></div>
+    </div>
+    <div class="tools printhide" style="margin-bottom:10px">
+      <div class="seg" id="effSeg" role="group" aria-label="Dönem">
+        <button data-m="month" aria-pressed="true">Ay</button><button data-m="year" aria-pressed="false">Yıl</button>
+      </div>
+      <span id="effScope"></span>
+    </div>
+    <div class="cmp-cards" id="effCmpCards"></div>
+    <div class="cmp-cards two" id="effRateCards"></div>
+    <div class="legend" id="effCmpLegend"></div>
+    <div class="chart" id="effCmp" style="height:280px"></div>
+    <div class="foot">EAO: Emre Amadelik Oranı, çalışma saatinin dönem saatine oranı. SPO: elektrik üretiminin, kurulu gücün dönem boyunca tam yükte üreteceği enerjiye oranı. İkisi de kurulu güçle ağırlıklıdır ve yalnızca seçili dönemi kapsar (kümülatif değildir).</div>
   </div>
 </section>
 </main>
@@ -432,23 +448,50 @@ P.forEach(p=>{const base=p.ratio/ (sum(P,q=>q.ger)/sum(P,q=>q.bek)) ; p.hm={};
 });
 
 /* ================= data: Verimlilik ================= */
+// Tek garanti değeri, portföyün tamamı için. Örnek değerdir; sözleşmedeki değerle değiştirin.
+const EFF_GAR={eao:95,spo:80};
+// Tasarruf, aynı elektrik, buhar ve soğutmanın ayrı üretimine göre hesaplanır.
+// chp: motor elektrik verimi, grid: şebeke referans verimi, boiler: buhar kazanı verimi,
+// cop: absorpsiyonun yerini aldığı elektrikli chiller, gasKwh: doğalgaz alt ısıl değeri (kWh/Sm³), steam: MWh/ton buhar
+const REF={chp:.42,grid:.525,boiler:.90,cop:5,gasKwh:9.59,steam:.68};
+const EXP_AV=.96; // beklenen üretim için plan emre amadelik
+const DAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
+// Oca–Eyl mevsim çarpanları: bina tipi tesislerde ısı ve soğutma talebi mevsime bağlı, sanayide daha düz
+const SEAS_H={bina:[1.18,1.15,1.08,1,.92,.86,.84,.84,.9],sanayi:[1,1,1,1,1,1,1,1,1]};
+const SEAS_C={bina:[.1,.1,.2,.4,.7,1,1.2,1.2,.9],sanayi:[.6,.6,.7,.8,.9,1,1.1,1.1,1]};
 const EFF=[
- {n:'Şehir Hastanesi',tip:'Trijenerasyon',gm:2.4,cs:1.6,ci:1.9,tot:31842,lf:.91,hk:.98,ck:.46,gar:97,cum:98.1,dips:{6:14}},
- {n:'Alışveriş Merkezi',tip:'Trijenerasyon',gm:1.56,cs:1.1,ci:1.3,tot:24610,lf:.88,hk:.9,ck:.5,gar:97,cum:97.4,dips:{9:6,10:0}},
- {n:'Termal Otel',tip:'Kojenerasyon',gm:1.2,cs:0,ci:0,tot:18325,lf:.86,hk:1.12,ck:0,gar:96,cum:96.8,dips:{}},
- {n:'Tekstil Fabrikası',tip:'Trijenerasyon',gm:3.35,cs:2.2,ci:2.6,tot:40117,lf:.89,hk:.85,ck:.44,gar:96,cum:94.8,dips:{14:0,15:0,16:9}},
- {n:'Üniversite Kampüsü',tip:'Trijenerasyon',gm:2.0,cs:1.4,ci:1.6,tot:12980,lf:.87,hk:.95,ck:.52,gar:95,cum:96.1,dips:{3:20,18:12}},
- {n:'Gıda Tesisi',tip:'Kojenerasyon',gm:.999,cs:0,ci:0,tot:9750,lf:.84,hk:1.05,ck:0,gar:95,cum:97.9,dips:{}}
+ {n:'Şehir Hastanesi',tip:'Trijenerasyon',city:'Ankara',gm:2.4,cs:1.6,ci:1.9,tot:31842,lf:.91,hk:.98,ck:.46,av:.985,ind:false,dips:{6:14}},
+ {n:'Alışveriş Merkezi',tip:'Trijenerasyon',city:'İstanbul',gm:1.56,cs:1.1,ci:1.3,tot:24610,lf:.88,hk:.9,ck:.5,av:.975,ind:false,dips:{9:6,10:0}},
+ {n:'Termal Otel',tip:'Kojenerasyon',city:'Afyonkarahisar',gm:1.2,cs:0,ci:0,tot:18325,lf:.86,hk:1.12,ck:0,av:.98,ind:false,dips:{}},
+ {n:'Tekstil Fabrikası',tip:'Trijenerasyon',city:'Denizli',gm:3.35,cs:2.2,ci:2.6,tot:40117,lf:.89,hk:.85,ck:.44,av:.955,ind:true,dips:{14:0,15:0,16:9}},
+ {n:'Üniversite Kampüsü',tip:'Trijenerasyon',city:'İstanbul',gm:2.0,cs:1.4,ci:1.6,tot:12980,lf:.87,hk:.95,ck:.52,av:.975,ind:false,dips:{3:20,18:12}},
+ {n:'Gıda Tesisi',tip:'Kojenerasyon',city:'Konya',gm:.999,cs:0,ci:0,tot:9750,lf:.84,hk:1.05,ck:0,av:.985,ind:true,dips:{}}
 ];
-EFF.forEach((e,i)=>{ e.no=i+1; e.h=[]; for(let d=1;d<=21;d++){e.h[d]= e.dips[d]!==undefined? e.dips[d] : 24-(rand()<.12?1:0);} e.hm=sum(e.h.slice(1),x=>x);
-  e.el=e.gm*e.hm*e.lf; e.ic=e.el*(.026+rand()*.008); e.is=e.el*e.hk; e.so=e.el*e.ck; e.eaoM=e.hm/504*100; e.lfM=e.hm/504*100; });
-const EFF_MON=[]; { const hkM=[1.25,1.2,1.05,.9,.75,.65,.6,.6], ckM=[.02,.02,.05,.12,.25,.4,.5,.5]; const gmT=sum(EFF,e=>e.gm); const days=[31,28,31,30,31,30,31,31];
-  for(let m=0;m<8;m++){const el=gmT*days[m]*24*(.83+rand()*.07);EFF_MON.push({m:m+1,e:el,i:el*hkM[m],s:el*ckM[m]});}
-  EFF_MON.push({m:9,e:sum(EFF,e=>e.el),i:sum(EFF,e=>e.is),s:sum(EFF,e=>e.so)}); }
+// Bir döneme ait kayıt: h çalışma saati, H dönem saati, el brüt elektrik, net iç tüketim düşülmüş, st buhar (ton), gas doğalgaz tasarrufu (Sm³)
+function effRec(e,m,h,H,el){
+  const k=e.ind?'sanayi':'bina',i=m-1;
+  const heat=el*e.hk*SEAS_H[k][i],cool=el*e.ck*SEAS_C[k][i],net=el*(1-e.ic);
+  const fuel=el/REF.chp,ref=net/REF.grid+heat/REF.boiler+cool/REF.cop/REF.grid;
+  return {h,H,el,net,st:heat/REF.steam,gas:(ref-fuel)*1000/REF.gasKwh};
+}
+const effAgg=recs=>{const r={h:0,H:0,el:0,net:0,st:0,gas:0};recs.forEach(x=>{for(const k in r)r[k]+=x[k];});return r;};
+EFF.forEach((e,i)=>{
+  e.no=i+1; e.ic=.026+rand()*.008;
+  const day=(m,h)=>effRec(e,m,h,24,e.gm*h*e.lf*(.97+rand()*.05));
+  e.sep=[];for(let d=1;d<=21;d++)e.sep[d]=day(9,e.dips[d]!==undefined?e.dips[d]:24-(rand()<.12?1:0));
+  e.aug=[];for(let d=1;d<=31;d++)e.aug[d]=day(8,rand()<.05?Math.floor(rand()*16):24-(rand()<.15?1:0));
+  e.mon=[];
+  for(let m=1;m<=7;m++){const H=DAYS[m-1]*24,h=H*clamp(e.av+(rand()-.5)*.04,.88,1);e.mon[m]=effRec(e,m,h,H,e.gm*h*e.lf*(.97+rand()*.05));}
+  e.mon[8]=effAgg(e.aug.slice(1)); e.mon[9]=effAgg(e.sep.slice(1)); // Eylül: 1 – 21 (504 saat)
+  e.ytd=effAgg(e.mon.slice(1));
+  e.expD=e.gm*24*e.lf*EXP_AV; e.expM=[];for(let m=1;m<=12;m++)e.expM[m]=e.expD*DAYS[m-1];
+  e.py=[];for(let m=1;m<=12;m++)e.py[m]=e.expM[m]*(.9+rand()*.13); // 2025 aylık elektrik
+  e.rr=sum(e.sep.slice(17),x=>x.el)/(5*e.expD); // son 5 günün beklenene oranı, Eylül tahmini için
+});
 const MONTHS=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
 
 /* ================= state ================= */
-const state={tab:'ges',status:'all',q:'',sortKey:'no',sortDir:1,sel:null,cmp:'month',lfl:true,showY:false,alarmAll:false};
+const state={tab:'ges',status:'all',q:'',sortKey:'no',sortDir:1,sel:null,cmp:'month',lfl:true,showY:false,alarmAll:false,effCmp:'month',effSel:null};
 const scopeIds=()=>state.sel?(state.sel.plant!=null?[state.sel.plant]:P.filter(p=>p.city===state.sel.city).map(p=>p.id)):ALL;
 const scopeName=()=>state.sel?(state.sel.plant!=null?P[state.sel.plant].name:state.sel.city+' ('+scopeIds().length+' santral)'):'Tüm portföy';
 const SC={normal:'var(--green)',uyarı:'var(--amber)',kritik:'var(--red)','veri yok':'var(--grey)'};
@@ -470,19 +513,19 @@ function redraw(){mounts.forEach(m=>{if(m.el.offsetParent!==null)m.draw();});}
 function spark(vals,w=84,h=26){const mx=Math.max(...vals),mn=Math.min(...vals);const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-2-(v-mn)/(mx-mn||1)*(h-4)).toFixed(1)}`).join(' ');return `<svg class="kspark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="#fff200" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>`;}
 function kpi(label,val,unit,sub,extra='',cls=''){return `<div class="kpi ${cls}"><div class="kl">${label}</div><div class="kv">${val}<small>${unit||''}</small></div><div class="ks">${sub}</div>${extra}</div>`;}
 function renderKPIs(){
-  const host=$('#kpis');
+  const host=$('#kpis'); host.classList.toggle('eff',state.tab==='eff');
   if(state.tab==='ges'){
     host.innerHTML='';
   }else{
-    const el=sum(EFF,e=>e.el),ic=sum(EFF,e=>e.ic),is=sum(EFF,e=>e.is),so=sum(EFF,e=>e.so);
-    const below=EFF.filter(e=>e.cum<e.gar).length; const gmT=sum(EFF,e=>e.gm);
-    const lf=sum(EFF,e=>e.hm*e.gm)/(504*gmT)*100;
+    const yt=k=>sum(EFF,e=>e.ytd[k]), se=k=>sum(EFF,e=>e.mon[9][k]);
+    const gmT=sum(EFF,e=>e.gm), tri=EFF.filter(e=>e.tip==='Trijenerasyon').length;
     host.innerHTML=
-      kpi('Elektrik üretimi',fmt(el),'MWh',`Net (iç tüketim düşülmüş): <b>${fmt(el-ic)}</b> MWh`,'','key')+
-      kpi('Isıtma üretimi',fmt(is),'MWh',`Elektriğin <b>${pc(is/el*100,0)}</b>'i`.replace("'i",''))+
-      kpi('Soğutma üretimi',fmt(so),'MWh',`Trijenerasyon santrallerinden`)+
-      kpi('Ort. çalışma oranı',pc(lf,1),'',`Ağırlıklı, 504 saat üzerinden`,`<div class="kbar"><i style="width:${lf}%"></i></div>`)+
-      kpi('Garanti altı santral',below+' / '+EFF.length,'',below?`<b class="dn-t">${EFF.filter(e=>e.cum<e.gar).map(e=>esc(e.n)).join(', ')}</b>`:'Tüm santraller garanti üstünde');
+      `<div class="kcap"><b>Enerji verimliliği · toplam tasarruf</b><span>2026, 1 Ocak – 21 Eylül · tüm portföy</span></div>`+
+      kpi('Elektrik tasarrufu',fmt(yt('net')),'MWh',`Eylül 1 – 21: <b>${fmt(se('net'))}</b> MWh`)+
+      kpi('Buhar tasarrufu',fmt(yt('st')),'ton',`Eylül 1 – 21: <b>${fmt(se('st'))}</b> ton`)+
+      kpi('Doğalgaz tasarrufu',fmt(yt('gas')),'Sm³',`Eylül 1 – 21: <b>${fmt(se('gas'))}</b> Sm³`)+
+      kpi('Kurulu güç',fmt(gmT,2),'MW',`${EFF.length} santral · ${tri} trijenerasyon, ${EFF.length-tri} kojenerasyon`)+
+      `<div class="knote">Elektrik: iç tüketim düşülmüş net üretim. Buhar: atık ısıdan üretilen buhar (${fmt(REF.steam,2)} MWh/ton). Doğalgaz: aynı enerjinin ayrı üretimine göre (şebeke ${pc(REF.grid*100,1)}, kazan ${pc(REF.boiler*100,0)}, elektrikli chiller COP ${REF.cop}, ${fmt(REF.gasKwh,2)} kWh/Sm³).</div>`;
   }
 }
 function M_YTD_LFL(){const cur=92147;const prev=sum(PY.slice(1,9),x=>x)+PY[9]*((20+FRAC)/30);return (cur/prev-1)*100;}
@@ -564,24 +607,29 @@ function drawCmp(el,w,h){
       let html=`<b>${hhmm(T(i))}</b>`+(i<=NOW_I?tl('Bugün',fmt(cA[i])+' MWh'):'')+tl('Dün',fmt(cY[i])+' MWh')+tl('Beklenen',fmt(cE[i])+' MWh');showTip(html,ev.clientX,ev.clientY);});
     ov.addEventListener('pointerleave',hideTip);return;
   }
+  drawBarsCmp(el,w,h,md,'');
+}
+// Karşılaştırma çubuk grafiği; uid, aynı sayfadaki ikinci grafiğin SVG kimliklerini ayırır
+function drawBarsCmp(el,w,h,md,uid){
+  const m={l:52,r:12,t:16,b:30}; const iw=w-m.l-m.r,ih=h-m.t-m.b;
   const cats=md.cats,n=cats.length;const vmax=Math.max(...cats.map(c=>Math.max(c.cur||0,c.cmp||0,c.exp||0)));const sc=niceScale(vmax*1.05,5);const y=v=>m.t+ih-v/sc.top*ih;
   const bw=iw/n,bar=Math.min(bw*.62,46);let g='';
   sc.arr.forEach(v=>{g+=`<line x1="${m.l}" x2="${m.l+iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="txt" x="${m.l-8}" y="${y(v)+4}" text-anchor="end">${fmt(v)}</text>`;});
   const every=n>16?(bw<22?3:2):1; let bars='',lab='',ptsC='',ptsE='',dots='';
   cats.forEach((c,i)=>{const cx=m.l+bw*i+bw/2;
-    if(c.cur!=null){const op=c.fc?.28:1;const fill=c.part?'url(#hatch)':'var(--blue)';bars+=`<rect x="${cx-bar/2}" y="${y(c.cur)}" width="${bar}" height="${Math.max(0,y(0)-y(c.cur))}" rx="2.5" fill="${fill}" opacity="${op}" ${c.part?'stroke="var(--blue)" stroke-width="1.5"':''}/>`;}
+    if(c.cur!=null){const op=c.fc?.28:1;const fill=c.part?`url(#${uid}hatch)`:'var(--blue)';bars+=`<rect x="${cx-bar/2}" y="${y(c.cur)}" width="${bar}" height="${Math.max(0,y(0)-y(c.cur))}" rx="2.5" fill="${fill}" opacity="${op}" ${c.part?'stroke="var(--blue)" stroke-width="1.5"':''}/>`;}
     ptsC+=(ptsC?'L':'M')+cx.toFixed(1)+' '+y(c.cmp).toFixed(1); if(c.cmp!=null)dots+=`<circle cx="${cx}" cy="${y(c.cmp)}" r="${n>16?2.6:4}" fill="var(--orange)" stroke="var(--card)" stroke-width="1.5"/>`;
     ptsE+=(ptsE?'L':'M')+cx.toFixed(1)+' '+y(c.exp).toFixed(1);
     if(i%every===0)lab+=`<text class="txt" x="${cx}" y="${h-9}" text-anchor="middle">${c.l}</text>`;});
-  el.innerHTML=`<svg width="${w}" height="${h}" role="img" aria-label="${md.cmpName} ile karşılaştırmalı üretim"><defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--card)"/><rect width="3" height="6" fill="var(--blue)" opacity=".55"/></pattern></defs>${g}${bars}
+  el.innerHTML=`<svg width="${w}" height="${h}" role="img" aria-label="${md.cmpName} ile karşılaştırmalı üretim"><defs><pattern id="${uid}hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--card)"/><rect width="3" height="6" fill="var(--blue)" opacity=".55"/></pattern></defs>${g}${bars}
     <path d="${ptsE}" fill="none" stroke="var(--slate)" stroke-width="2" stroke-dasharray="6 5"/>
     <path d="${ptsC}" fill="none" stroke="var(--orange)" stroke-width="2.4" stroke-linejoin="round"/>${dots}${lab}
-    <g id="hv" style="display:none;pointer-events:none"><rect id="hvr" y="${m.t}" height="${ih}" fill="var(--hover)" rx="3"/></g>
+    <g id="${uid}hv" style="display:none;pointer-events:none"><rect id="${uid}hvr" y="${m.t}" height="${ih}" fill="var(--hover)" rx="3"/></g>
     <rect class="ov" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg>`;
-  const ov=$('.ov',el),svg=$('svg',el),hv=$('#hv',el),hvr=$('#hvr',el);
+  const ov=$('.ov',el),svg=$('svg',el),hv=$('#'+uid+'hv',el),hvr=$('#'+uid+'hvr',el);
   ov.addEventListener('pointermove',ev=>{const r=svg.getBoundingClientRect();const i=clamp(Math.floor((ev.clientX-r.left-m.l)/bw),0,n-1);const c=cats[i];hv.style.display='';hvr.setAttribute('x',m.l+bw*i);hvr.setAttribute('width',bw);
     let html=`<b>${c.tag||c.l}</b>`; if(c.cur!=null)html+=tl(c.fc?'Tahmin':c.part?'Şimdiye kadar':'Gerçekleşen',fmt(c.cur)+' MWh'); html+=tl(md.cmpName,fmt(c.cmp)+' MWh')+tl('Beklenen',fmt(c.exp)+' MWh');
-    if(c.cur!=null&&!c.fc){html+=tl('Önceki dönemle',sg((c.cur/c.cmp-1)*100,1)+'%')+tl('Beklenenle',sg((c.cur/c.exp-1)*100,1)+'%');} showTip(html,ev.clientX,ev.clientY);});
+    if(c.cur!=null&&!c.fc){html+=tl('Önceki dönemle',sg((c.cur/c.cmp-1)*100,1)+'%')+tl('Beklenenle',sg((c.cur/c.exp-1)*100,1)+'%');} html+=c.extra||''; showTip(html,ev.clientX,ev.clientY);});
   ov.addEventListener('pointerleave',()=>{hv.style.display='none';hideTip();});
 }
 
@@ -722,50 +770,93 @@ function renderGES(){
 }
 
 /* ================= VERIMLILIK ================= */
-function drawEffBars(el,w,h){
-  const list=EFF.slice().sort((a,b)=>(b.el+b.is+b.so)-(a.el+a.is+a.so)); const m={l:132,r:64,t:6,b:26};const iw=w-m.l-m.r,ih=h-m.t-m.b;const rh=ih/list.length,bh=Math.min(26,rh*.62);
-  const mx=Math.max(...list.map(e=>e.el+e.is+e.so));const sc=niceScale(mx,4);const x=v=>m.l+v/sc.top*iw;let g='';
-  sc.arr.forEach(v=>{g+=`<line x1="${x(v)}" x2="${x(v)}" y1="${m.t}" y2="${m.t+ih}" stroke="var(--line)"/><text class="txt" x="${x(v)}" y="${h-8}" text-anchor="middle">${fmt(v)}</text>`;});
-  let bars='';list.forEach((e,i)=>{const cy=m.t+rh*i+rh/2;let x0=0;const seg=(v,c)=>{const s=`<rect x="${x(x0)}" y="${cy-bh/2}" width="${Math.max(0,x(x0+v)-x(x0))}" height="${bh}" fill="${c}" ${x0===0?'rx="3"':''}/>`;x0+=v;return s;};
-    bars+=`<text class="txt-b" x="${m.l-10}" y="${cy+4}" text-anchor="end">${esc(e.n)}</text>`+seg(e.el,'var(--blue)')+seg(e.is,'var(--orange)')+seg(e.so,'var(--teal)')+`<text class="txt" x="${x(x0)+7}" y="${cy+4}">${fmt(x0)}</text><rect class="hit" data-i="${i}" x="0" y="${cy-rh/2}" width="${w}" height="${rh}" fill="transparent"/>`;});
-  el.innerHTML=`<svg width="${w}" height="${h}" role="img" aria-label="Santral bazında elektrik, ısıtma ve soğutma üretimi">${g}${bars}</svg>`;
-  $$('.hit',el).forEach(r=>{const e=list[+r.dataset.i];r.addEventListener('pointermove',ev=>showTip(`<b>${esc(e.n)}</b>`+tl('Elektrik',fmt(e.el)+' MWh')+tl('Isıtma',fmt(e.is)+' MWh')+tl('Soğutma',e.so?fmt(e.so)+' MWh':'–')+tl('Toplam',fmt(e.el+e.is+e.so)+' MWh'),ev.clientX,ev.clientY));r.addEventListener('pointerleave',hideTip);});
+// Kurulu güçle ağırlıklı EAO ve SPO; recs: [santral, dönem kaydı] çiftleri
+function effRate(recs){let gh=0,gH=0,el=0;recs.forEach(([e,r])=>{gh+=e.gm*r.h;gH+=e.gm*r.H;el+=r.el;});return gH?{eao:gh/gH*100,spo:el/gH*100}:{eao:null,spo:null};}
+const EST={ok:['var(--green)','Garanti üstü'],risk:['var(--amber)','Sınırda'],bad:['var(--red)','Garanti altı']}, EST_O={ok:0,risk:1,bad:2};
+function effStatus(r){const d=Math.min(r.eao-EFF_GAR.eao,r.spo-EFF_GAR.spo);return d>=0?'ok':d>-1?'risk':'bad';}
+const effPer=()=>state.effCmp==='month'?{lbl:'Eylül 1 – 21',rec:e=>e.mon[9]}:{lbl:'1 Ocak – 21 Eylül',rec:e=>e.ytd};
+const effScope=()=>state.effSel?EFF.filter(e=>e.city===state.effSel):EFF;
+function effCities(){
+  const per=effPer(),o={};
+  EFF.forEach(e=>{const r=effRate([[e,per.rec(e)]]),st=effStatus(r);const c=o[e.city]||(o[e.city]={city:e.city,plants:[],mw:0,el:0,st:'ok'});
+    c.plants.push({e,r,st});c.mw+=e.gm;c.el+=per.rec(e).el;if(EST_O[st]>EST_O[c.st])c.st=st;});
+  return o;
 }
-function drawEffEao(el,w,h){
-  const list=EFF.slice().sort((a,b)=>(a.cum-a.gar)-(b.cum-b.gar));const m={l:132,r:58,t:4,b:26};const iw=w-m.l-m.r,ih=h-m.t-m.b;const rh=ih/list.length;const lo=92,hi=100;const x=v=>m.l+(v-lo)/(hi-lo)*iw;let g='';
-  for(let v=lo;v<=hi;v+=2)g+=`<line x1="${x(v)}" x2="${x(v)}" y1="${m.t}" y2="${m.t+ih}" stroke="var(--line)"/><text class="txt" x="${x(v)}" y="${h-8}" text-anchor="middle">%${v}</text>`;
-  let b='';list.forEach((e,i)=>{const cy=m.t+rh*i+rh/2;const ok=e.cum>=e.gar;const col=ok?'var(--green)':'var(--red)';
-    b+=`<text class="txt-b" x="${m.l-10}" y="${cy+4}" text-anchor="end">${esc(e.n)}</text><rect x="${m.l}" y="${cy-8}" width="${iw}" height="16" rx="3" fill="var(--bg)"/><rect x="${m.l}" y="${cy-8}" width="${x(e.cum)-m.l}" height="16" rx="3" fill="${col}"/><line x1="${x(e.gar)}" x2="${x(e.gar)}" y1="${cy-14}" y2="${cy+14}" stroke="var(--ink)" stroke-width="2.5"/><text class="txt-b" x="${m.l+iw+8}" y="${cy+4}" style="fill:${ok?'var(--ink)':'var(--red)'}">${fmt(e.cum,1)}</text><rect class="hit" data-i="${i}" x="0" y="${cy-rh/2}" width="${w}" height="${rh}" fill="transparent"/>`;});
-  el.innerHTML=`<svg width="${w}" height="${h}" role="img" aria-label="Kümülatif EAO ve garanti edilen EAO">${g}${b}</svg>`;
-  $$('.hit',el).forEach(r=>{const e=list[+r.dataset.i];r.addEventListener('pointermove',ev=>showTip(`<b>${esc(e.n)}</b>`+tl('Kümülatif EAO',pc(e.cum,1))+tl('Garanti edilen',pc(e.gar,1))+tl('Fark',sg(e.cum-e.gar,1)+' puan')+tl('Bu ay',pc(e.eaoM,1)),ev.clientX,ev.clientY));r.addEventListener('pointerleave',hideTip);});
+function drawEffMap(el,w,h){
+  const cs=effCities(),per=effPer(),sel=state.effSel; const land=[],hi=[],labels=[];
+  PROV.forEach(([name,d,cx,cy])=>{
+    const c=cs[name];
+    if(!c){land.push(`<path d="${d}" fill="var(--land)" stroke="var(--land-line)" stroke-width="1"/>`);return;}
+    const col=EST[c.st][0], on=sel===name, dim=sel&&!on, r=9+Math.sqrt(c.mw)*3.4;
+    hi.push(`<g class="city" tabindex="0" role="button" data-c="${name}" aria-pressed="${on}" aria-label="${name}, ${c.plants.length} santral, ${EST[c.st][1]}" opacity="${dim?.32:1}">`+
+      `<path d="${d}" fill="${col}" fill-opacity=".22" stroke="${col}" stroke-width="${on?2.6:1.4}"/>`+
+      `${c.st==='bad'?`<circle class="pulse" cx="${cx}" cy="${cy}" r="${r}" fill="${col}"/>`:''}`+
+      `<circle class="c" cx="${cx}" cy="${cy}" r="${r}" fill="${col}" fill-opacity=".92" stroke="${on?'var(--ink)':'var(--card)'}" stroke-width="${on?2.6:1.8}"/>`+
+      `<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="${Math.max(9,r*.8)}" font-weight="700" fill="#fff" style="pointer-events:none">${c.plants.length}</text></g>`);
+    labels.push(`<text x="${cx}" y="${cy+r+13}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)" stroke="var(--card)" stroke-width="3.5" paint-order="stroke" style="pointer-events:none">${name}</text>`);
+  });
+  el.innerHTML=`<svg width="${w}" height="${h}" viewBox="0 0 760 330" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Verimlilik santralleri portföy haritası">${land.join('')}${hi.join('')}${labels.join('')}</svg>`;
+  $$('.city',el).forEach(g=>{const name=g.dataset.c;const c=cs[name];
+    const tip=ev=>{const r=g.getBoundingClientRect();showTip(`<b>${name}</b>`+c.plants.map(({e,r,st})=>`<div><span class="dot" style="background:${EST[st][0]}"></span> ${esc(e.n)} <span style="color:#b9c8e6">EAO ${pc(r.eao,1)} · SPO ${pc(r.spo,1)}</span></div>`).join('')+`<div style="color:#b9c8e6;margin-top:3px">${fmt(c.mw,2)} MW kurulu · ${per.lbl}: ${fmt(c.el)} MWh</div>`,ev.clientX||r.left,ev.clientY||r.top);};
+    g.addEventListener('pointermove',tip);g.addEventListener('pointerleave',hideTip);g.addEventListener('focus',tip);g.addEventListener('blur',hideTip);
+    const act=()=>{hideTip();selectEff(state.effSel===name?null:name);};g.addEventListener('click',act);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act();}});});
 }
-function renderEffNote(){
-  const bad=EFF.filter(e=>e.cum<e.gar).sort((a,b)=>(a.cum-a.gar)-(b.cum-b.gar));
-  $('#effNote').innerHTML= bad.length? bad.map(e=>{const dz=Object.entries(e.dips).filter(([d,h])=>h<12).map(([d])=>+d);return `<div class="callout"><b>${esc(e.n)}</b> kümülatif EAO'su garantinin <b>${fmt(e.gar-e.cum,1)} puan</b> altında.${dz.length?` ${dz.join(', ')} Eylül'deki duruşlar bu ayki çalışma oranını ${pc(e.eaoM,1)} seviyesine çekti.`:''}</div>`;}).join('') : `<div class="callout tealb">Tüm santraller garanti edilen EAO'nun üzerinde.</div>`;
+function renderEffMapMeta(){
+  const per=effPer();
+  $('#effMapLegend').innerHTML=Object.values(EST).map(([c,l])=>`<span><i class="lg-b" style="background:${c}"></i>${l}</span>`).join('')+
+    `<span>Dönem: ${per.lbl} · garanti EAO ${pc(EFF_GAR.eao,1)}, SPO ${pc(EFF_GAR.spo,1)}</span>`;
+  const cs=effCities(), rows=state.effSel?cs[state.effSel].plants:Object.values(cs).flatMap(c=>c.plants).sort((a,b)=>EST_O[b.st]-EST_O[a.st]||a.r.eao-b.r.eao);
+  $('#effSelInfo').innerHTML=`<div class="selcard"><h3>${state.effSel?esc(state.effSel):'Tüm portföy'} · ${per.lbl}</h3>`+
+    rows.map(({e,r,st})=>`<div class="selrow"><span class="n"><span class="dot" style="background:${EST[st][0]}"></span>${esc(e.n)} <small>${state.effSel?'':esc(e.city)+', '}${e.tip}, ${fmt(e.gm,2)} MW</small></span><span class="v">EAO ${pc(r.eao,1)} · SPO ${pc(r.spo,1)} · ${fmt(per.rec(e).el)} MWh</span></div>`).join('')+`</div>`;
 }
-function drawEffTrend(el,w,h){
-  const m={l:52,r:10,t:10,b:28};const iw=w-m.l-m.r,ih=h-m.t-m.b;const n=9;const bw=iw/n,bar=Math.min(bw*.6,54);const mx=Math.max(...EFF_MON.map(d=>d.e+d.i+d.s));const sc=niceScale(mx*1.04,5);const y=v=>m.t+ih-v/sc.top*ih;let g='';
-  sc.arr.forEach(v=>{g+=`<line x1="${m.l}" x2="${m.l+iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="txt" x="${m.l-8}" y="${y(v)+4}" text-anchor="end">${fmt(v)}</text>`;});
-  let b='';EFF_MON.forEach((d,i)=>{const cx=m.l+bw*i+bw/2;let base=0;[['e','var(--blue)'],['i','var(--orange)'],['s','var(--teal)']].forEach(([k,c])=>{const v=d[k];b+=`<rect x="${cx-bar/2}" y="${y(base+v)}" width="${bar}" height="${Math.max(0,y(base)-y(base+v))}" fill="${c}"/>`;base+=v;});
-    b+=`<text class="txt" x="${cx}" y="${h-9}" text-anchor="middle">${MONTHS[i]}${i===8?' *':''}</text><rect class="hit" data-i="${i}" x="${cx-bw/2}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent"/>`;});
-  el.innerHTML=`<svg width="${w}" height="${h}" role="img" aria-label="Aylık elektrik, ısıtma ve soğutma çıktısı">${g}${b}</svg>`;
-  $$('.hit',el).forEach(r=>{const d=EFF_MON[+r.dataset.i];r.addEventListener('pointermove',ev=>showTip(`<b>${MONTHS[d.m-1]} 2026${d.m===9?' (1 – 21 Eylül)':''}</b>`+tl('Elektrik',fmt(d.e)+' MWh')+tl('Isıtma',fmt(d.i)+' MWh')+tl('Soğutma',fmt(d.s)+' MWh')+tl('Toplam',fmt(d.e+d.i+d.s)+' MWh'),ev.clientX,ev.clientY));r.addEventListener('pointerleave',hideTip);});
+function effCmpModel(){
+  const L=effScope(), recs=f=>L.map(e=>[e,f(e)]), rt=r=>tl('EAO',pc(r.eao,1))+tl('SPO',pc(r.spo,1));
+  if(state.effCmp==='month'){
+    const expD=sum(L,e=>e.expD), cats=[];
+    for(let d=1;d<=30;d++){const c={l:String(d),exp:expD,cmp:sum(L,e=>e.aug[d].el),tag:d+' Eylül '+DOW(d)};
+      if(d<=21){c.cur=sum(L,e=>e.sep[d].el);c.extra=rt(effRate(recs(e=>e.sep[d])));}else{c.cur=sum(L,e=>e.expD*e.rr);c.fc=true;}
+      cats.push(c);}
+    return {cats,cur:sum(L,e=>e.mon[9].el),exp:expD*21,prev:sum(L,e=>sum(e.aug.slice(1,22),r=>r.el)),lblCur:'1 – 21 Eylül',lblPrev:'1 – 21 Ağustos\'a göre',cmpName:'Ağustos',
+      ...effRate(recs(e=>e.mon[9])),sub:'Günlük elektrik üretimi (MWh). 22 – 30 Eylül soluk çubukları son 5 günün gidişatına göre tahmindir.'};
+  }
+  const cats=[];
+  for(let mo=1;mo<=12;mo++){const c={l:MONTHS[mo-1],exp:sum(L,e=>e.expM[mo]),cmp:sum(L,e=>e.py[mo]),tag:MONTHS[mo-1]+' 2026'};
+    if(mo<=9){c.cur=sum(L,e=>e.mon[mo].el);c.extra=rt(effRate(recs(e=>e.mon[mo])));}
+    if(mo===9){c.part=true;c.exp*=21/30;c.cmp*=21/30;c.tag='Eylül 2026, 1 – 21';}
+    cats.push(c);}
+  return {cats,cur:sum(L,e=>e.ytd.el),exp:sum(L,e=>sum(e.expM.slice(1,9),x=>x)+e.expM[9]*21/30),prev:sum(L,e=>sum(e.py.slice(1,9),x=>x)+e.py[9]*21/30),lblCur:'1 Ocak – 21 Eylül',lblPrev:'2025 aynı döneme göre',cmpName:'2025',
+    ...effRate(recs(e=>e.ytd)),sub:'Aylık elektrik üretimi (MWh), 2025\'in aynı ayı ve beklenenle birlikte. Eylül için kıyas değerleri 1 – 21 Eylül\'e orantılanmıştır.'};
 }
-function renderEffTable(){
-  const eaoCls=e=>e.cum<e.gar?'bad':'ok';
-  const rows=EFF.map(e=>`<tr><td class="c">${e.no}</td><td class="l">${esc(e.n)}</td><td class="l">${e.tip}</td><td>${fmt(e.hm)}</td><td>${e.so?fmt(e.so,0):'–'}</td><td>${fmt(e.is,0)}</td><td>${fmt(e.el,0)}</td><td>${fmt(e.gar,1)}</td><td class="${eaoCls(e)}"><b>${fmt(e.cum,1)}</b></td></tr>`).join('');
-  $('#effTable').innerHTML=`<thead><tr><th>No</th><th>Santral Adı</th><th>Tip</th><th>Çalışma Saati</th><th>Soğutma Üretim (MWh)</th><th>Isıtma Üretim (MWh)</th><th>Elektrik Üretim (MWh)</th><th>Garanti Edilen EAO*</th><th>Kümülatif EAO*</th></tr></thead><tbody>${rows}</tbody>
-  <tfoot><tr><td></td><td class="l">Toplam</td><td></td><td>${fmt(sum(EFF,e=>e.hm))}</td><td>${fmt(sum(EFF,e=>e.so),0)}</td><td>${fmt(sum(EFF,e=>e.is),0)}</td><td>${fmt(sum(EFF,e=>e.el),0)}</td><td></td><td></td></tr></tfoot>`;
+function rateCard(k,v,g){const d=v-g,ok=d>=0;
+  return `<div class="cc"><div class="sl">${k}</div><div class="sv"${ok?'':' style="color:var(--red)"'}>${pc(v,1)}</div><div class="sub">Garanti ${pc(g,1)} <span class="delta ${ok?'up':'dn'}">${sg(d,1)} puan</span></div></div>`;}
+function renderEffCmpMeta(){
+  const md=effCmpModel(), dev=md.cur-md.exp, devPc=md.exp?dev/md.exp*100:0, vsP=(md.cur/md.prev-1)*100;
+  $('#effCmpSub').textContent=md.sub;
+  $('#effCmpCards').innerHTML=
+   `<div class="cc"><div class="sl">Gerçekleşen</div><div class="sv">${fmt(md.cur)} <small>MWh</small></div><div class="sub">${md.lblPrev} <span class="delta ${vsP>=0?'up':'dn'}">${sg(vsP,1)}%</span></div></div>`+
+   `<div class="cc"><div class="sl">Beklenen</div><div class="sv">${fmt(md.exp)} <small>MWh</small></div><div class="sub">Gerçekleşme oranı ${pc(md.cur/md.exp*100,0)}</div></div>`+
+   `<div class="cc"><div class="sl">Sapma</div><div class="sv" style="color:${dev<0?'var(--red)':'var(--green)'}">${sg(dev,0)} <small>MWh</small></div><div class="sub"><span class="delta ${dev>=0?'up':'dn'}">${sg(devPc,1)}%</span></div></div>`;
+  $('#effRateCards').innerHTML=rateCard('EAO',md.eao,EFF_GAR.eao)+rateCard('SPO',md.spo,EFF_GAR.spo);
+  $('#effCmpLegend').innerHTML=`<span><i class="lg-b" style="background:var(--blue)"></i>Gerçekleşen</span>`+
+    (state.effCmp==='month'?`<span><i class="lg-b" style="background:var(--blue);opacity:.3"></i>Tahmin</span>`:`<span><i class="lg-b" style="background:repeating-linear-gradient(45deg,var(--blue) 0 2px,var(--card) 2px 4px);box-shadow:inset 0 0 0 1.5px var(--blue)"></i>Eylül 1 – 21</span>`)+
+    `<span><i class="lg-l" style="border-color:var(--orange)"></i>${md.cmpName}</span><span><i class="lg-d" style="border-color:var(--slate)"></i>Beklenen</span>`;
+  $('#effScope').innerHTML=state.effSel
+    ?`<button class="chip" id="effScopeBtn" aria-pressed="true" aria-label="${esc(state.effSel)} seçimini kaldır">${esc(state.effSel)} · ${effScope().length} santral ✕</button>`
+    :`<span class="chip">Tüm portföy</span>`;
+  $('#effScope').insertAdjacentHTML('beforeend',` <span class="per">${md.lblCur}</span>`);
+  const b=$('#effScopeBtn'); if(b)b.addEventListener('click',()=>selectEff(null));
 }
 
 /* ================= init ================= */
 const cmpM=mount('cmp',drawCmp), mapM=mount('map',drawMap);
-const effA=mount('effBars',drawEffBars), effB=mount('effEao',drawEffEao), effC=mount('effTrend',drawEffTrend);
+const effMapM=mount('effMap',drawEffMap), effCmpM=mount('effCmp',(el,w,h)=>drawBarsCmp(el,w,h,effCmpModel(),'e-'));
 mounts.forEach(m=>ro.observe(m.el));
 function renderCmp(){renderCmpMeta();cmpM.draw();}
-function renderEff(){renderEffNote();renderEffTable();effA.draw();effB.draw();effC.draw();}
+function renderEff(){renderEffCmpMeta();renderEffMapMeta();effMapM.draw();effCmpM.draw();}
+function selectEff(city){state.effSel=city;renderEff();}
 
 $('#cmpSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.cmp=b.dataset.m;$$('#cmpSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderCmp();});
+$('#effSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.effCmp=b.dataset.m;$$('#effSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderEff();});
 $('#alarmAll').addEventListener('change',e=>{state.alarmAll=e.target.checked;renderAlarms();});
 $('#alarmToggle').addEventListener('click',()=>{
   const open=$('#alarmToggle').getAttribute('aria-expanded')==='true';
@@ -774,8 +865,9 @@ $('#alarmToggle').addEventListener('click',()=>{
   $('#alarms').style.display=open?'none':'';
 });
 function setTab(t){state.tab=t;$('#t-ges').setAttribute('aria-selected',t==='ges');$('#t-eff').setAttribute('aria-selected',t==='eff');$('#tab-ges').hidden=t!=='ges';$('#tab-eff').hidden=t!=='eff';
-  $('#subtitle').textContent=t==='ges'?'Anlık üretim, operasyon ve portföy özeti':'Kojenerasyon ve trijenerasyon santrallerinin enerji çıktısı ve EAO takibi';
-  renderKPIs();requestAnimationFrame(()=>{if(t==='ges'){cmpM.draw();mapM.draw();}else{effA.draw();effB.draw();effC.draw();}});}
+  $('#subtitle').textContent=t==='ges'?'Anlık üretim, operasyon ve portföy özeti':'Kojenerasyon ve trijenerasyon santrallerinin tasarrufu, üretimi ve EAO / SPO takibi';
+  $('#dataPill').textContent=t==='ges'?'Garanti değerleri gerçek · operasyonel veriler örnektir':'Garanti değeri ve operasyonel veriler örnektir';
+  renderKPIs();requestAnimationFrame(()=>{if(t==='ges'){cmpM.draw();mapM.draw();}else{effMapM.draw();effCmpM.draw();}});}
 $('#t-ges').addEventListener('click',()=>setTab('ges'));$('#t-eff').addEventListener('click',()=>setTab('eff'));
 $$('.tab').forEach(b=>b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const t=state.tab==='ges'?'eff':'ges';setTab(t);$('#t-'+t).focus();}}));
 const root=document.documentElement;const themeBtn=$('#themeBtn');
