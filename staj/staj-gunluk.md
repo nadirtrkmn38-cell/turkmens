@@ -275,3 +275,14 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 - [ ] Güç kalitesi ve harmonikler
 - [x] Türkiye Emisyon Ticaret Sistemi (TR ETS) — kapsam, kategoriler, tahsisat, İRD süreci
 - [ ] Karbon fiyatlandırmasının verimlilik yatırım fizibilitesine etkisi
+
+---
+
+## 6. Bitirme Projesi Fikirleri
+
+- [x] **Seçilen aday (23.09.2026):** TR ETS kapsamındaki bir sanayi tesisinde enerji verimliliği
+  önlemlerinin karbon fiyatı altında teknik ve ekonomik değerlendirmesi. Emisyon hesabı ve kategori
+  belirleme, 5–8 önlem için tasarruf, CO2 azaltımı ve yatırım maliyeti, marjinal azaltım maliyet
+  eğrisi (MACC), tahsisat fiyatı senaryolarında geri ödeme süresi, NBD ve İVO, Excel veya Python ile
+  bir karar aracı. Yapılacaklar: danışmana 1 sayfalık öneri; mentordan anonimleştirilmiş tesis verisi
+  izni; staj raporu ile metnin ayrı tutulması.
