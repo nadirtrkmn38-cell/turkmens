@@ -172,17 +172,17 @@ EDGES = [
 PANELS = [
     ("p_ek1", 220, 590, 344, 630, "EK-1 FAALİYETLERİ (ÖZET)", [
         "ENERJİ",
-        "• Yakıtların yakılması — tesisteki TÜM yakma ünitelerinin toplam anma ısıl gücü ≥ 20 MW",
+        "• Yakıtların yakılması — tesisteki TÜM yakma ünitelerinin toplam anma ısıl gücü ≥ 20 MW (tehlikeli ve belediye atıklarının yakılması hariç)",
         "• Petrol rafinasyonu — ≥ 20 MW",
         "• Kok üretimi — eşik yok",
         "METAL",
         "• Cevher kavurma, sinterleme, peletleme",
-        "• Demir-çelik üretimi ve dökümü — > 2,5 ton/saat",
+        "• Demir-çelik üretimi ve dökümü — ≥ 2,5 ton/saat",
         "• Demirli metal işleme — ≥ 20 MW",
         "• Birincil alüminyum ve alümina",
         "• İkincil alüminyum, demir dışı metaller — ≥ 20 MW",
         "MİNERAL",
-        "• Klinker — ≥ 500 t/gün (döner fırın)",
+        "• Klinker — döner fırında ≥ 500 t/gün, diğer ocaklarda > 50 t/gün",
         "• Kireç, dolomit, magnezit — ≥ 50 t/gün",
         "• Cam — ≥ 20 t/gün · Seramik — ≥ 75 t/gün",
         "• Mineral elyaf yalıtım — ≥ 20 t/gün",
@@ -203,9 +203,12 @@ PANELS = [
     ("p_20mw", 220, 1062, 344, 270, "ANMA ISIL GÜCÜ NASIL TOPLANIR?", [
         "Tesisteki tüm yakma ünitelerinin anma ısıl güçleri TOPLANIR: kazan, brülör, türbin, "
         "ısıtıcı, ocak, insineratör, kalsinatör, döner fırın, fırın, kurutucu, motor, yakıt "
-        "hücresi, yakma bacası, termal veya katalitik yakma sonrası ünitesi.",
+        "hücresi, kimyasal döngüsel yakma ünitesi, yakma bacası, termal veya katalitik yakma "
+        "sonrası ünitesi.",
         "",
-        "3 MW altındaki üniteler ve münhasıran biyokütle kullananlar bu toplama GİRMEZ.",
+        "3 MW altındaki üniteler ve münhasıran biyokütle kullananlar bu toplama GİRMEZ. Yalnız "
+        "devreye alma ve durdurmada fosil yakıt kullanan biyokütle üniteleri de münhasıran "
+        "biyokütle sayılır (EK-1).",
         "Toplam 20 MW ve üzeriyse tesis EK-1 kapsamındadır.",
     ], "panel"),
 
@@ -316,18 +319,26 @@ PANELS = [
         "satılır. Takvim, Ulusal Tahsisat Planının yayımından sonraki 15 iş günü içinde Enerji "
         "Piyasaları İşletme A.Ş. (EPİAŞ) internet sitesinde ilan edilir (m. 17).",
         "İKİNCİL PİYASA — ARZ VE TALEP",
-        "Sürekli ticaret yöntemiyle işletilir; fiyat alıcı ve satıcıların emirlerine göre oluşur "
-        "(m. 18).",
+        "Ücretsiz dağıtılan veya ihalede alınan tahsisatların sonradan alınıp satıldığı "
+        "piyasadır. Sürekli ticaret yöntemiyle işletilir; fiyat alış ve satış emirlerinin "
+        "eşleşmesiyle oluşur (m. 4/1-s · m. 18). Piyasa katılımcıları ETS kapsamındaki "
+        "işletmelerdir (m. 4/1-ff).",
         "FİYAT ARALIĞI VE İSTİKRAR",
         "Asgari ve azami tahsisat fiyatı aralıklarını belirlemeye Karbon Piyasası Kurulu "
         "yetkilidir; kararlar İklim Değişikliği Başkanlığının resmî internet sayfasında ilan "
         "edilir. Piyasa istikrar rezervi, dolaşımdaki tahsisat miktarı ve fiyatlar "
-        "değerlendirilerek devreye alınır (m. 19 · m. 21/1).",
+        "değerlendirilerek devreye alınır (m. 19 · m. 21/1). Bu fiyat aralıkları ek rezerv ve "
+        "tamamlayıcı tahsisat fiyatı mekanizmasına uygulanmaz (m. 21/2).",
         "||",
         "EK REZERV FİYATI",
         "Asgari fiyat: son 3 ayın birincil ve ikincil piyasa ağırlıklı ortalama fiyatlarından "
         "yüksek olanının %50 fazlası. Azami fiyatı İklim Değişikliği Başkanlığı ve Enerji "
-        "Piyasası Düzenleme Kurumu koordineli belirler (m. 16/6).",
+        "Piyasası Düzenleme Kurumu koordineli belirler (m. 16/6). İhale yapılmamışsa spot "
+        "piyasa fiyatları esas alınır (Geçici m. 5).",
+        "TAMAMLAYICI TAHSİSAT FİYATI",
+        "İşletmelerin talebi üzerine, İklim Değişikliği Başkanlığının belirlediği ihalelerde "
+        "teslim edilecek tahsisatlar için ilave bir birincil piyasa fiyat mekanizması "
+        "işletilebilir; başvuru Enerji Piyasaları İşletme A.Ş. aracılığıyla yapılır (m. 20).",
         "KARBON KREDİSİYLE DENKLEŞTİRME",
         "Türkiye sınırları içindeki projelerden elde edilen karbon kredileri, teslim "
         "yükümlülüğünün Karbon Piyasası Kurulunca belirlenen oranını geçmemek üzere "
@@ -367,8 +378,8 @@ PRICE_ROLES = [
      "EPİAŞ, yönetmelikteki adıyla Piyasa İşletmecisi. İhaleleri ve ikincil piyasayı "
      "işletir, İşlem Kayıt Sistemini yürütür (m. 4/1-k · m. 22/1)"),
     ("Piyasa katılımcıları",
-     "Fiyat birincil piyasada ihaleyle, ikincil piyasada alış ve satış emirleriyle oluşur "
-     "(m. 17 · m. 18)"),
+     "ETS kapsamındaki işletmeler. Fiyat birincil piyasada ihaleyle, ikincil piyasada alış "
+     "ve satış emirleriyle oluşur (m. 4/1-ff · m. 17 · m. 18)"),
 ]
 
 TITLE = ("baslik", 700, 120, 1200, 120,
