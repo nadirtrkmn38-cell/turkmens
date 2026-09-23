@@ -60,6 +60,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-v
 /* ---------- KPI kartları ---------- */
 .kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-bottom:14px}
 .kpis.eff{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpis:empty{display:none}
 @media (max-width:1320px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:900px){.kpis,.kpis.eff{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:480px){.kpis,.kpis.eff{grid-template-columns:1fr}}
@@ -590,14 +591,7 @@ const dlt=(v,d=1,u='%')=>`<span class="${v>=0?'up-t':'dn-t'}">${sg(v,d)}${u}</sp
 function renderKPIs(){
   const host=$('#kpis'); host.classList.toggle('eff',state.tab==='eff');
   if(state.tab==='ges'){
-    const pNow=S_ALL.A[NOW_I], eao=sum(P,p=>p.eao*p.mwe)/totMWe, act=P.filter(p=>p.st!=='veri yok').length;
-    host.innerHTML=
-      kpi('Anlık toplam üretim',fmt(pNow,1),'MW',`Saat 14:42 · kapasite kullanımı <b>${pc(pNow/totMWe*100,0)}</b>`,'zap','blue')+
-      kpi('Bugünkü üretim',fmt(A_NOW),'MWh',`Beklenen <b>${fmt(E_NOW)}</b> MWh · ${dlt((A_NOW/E_NOW-1)*100)}`,'cal','green',true)+
-      kpi('Emre amadelik (EAO)',pc(eao,1),'',`Garanti <b>${pc(GES_GAR.eao,2)}</b> · ${dlt(eao-GES_GAR.eao,1,' puan')}`,'gauge','blue')+
-      kpi('Aktif santral',`${act} / ${P.length}`,'',`<b>${P.length-act}</b> santralden veri gelmiyor`,'panel','teal')+
-      kpi('Aylık üretim',fmt(12082),'MWh',`1 – 21 Eylül · beklenen <b>${fmt(EXP_TO_DATE)}</b> MWh`,'trend','orange',true)+
-      kpi('Yıllık üretim',fmt(92147),'MWh',`2025 aynı döneme göre ${dlt(M_YTD_LFL())}`,'line','blue');
+    host.innerHTML='';
   }else{
     const yt=k=>sum(EFF,e=>e.ytd[k]), se=k=>sum(EFF,e=>e.mon[9][k]);
     const gmT=sum(EFF,e=>e.gm), tri=EFF.filter(e=>e.tip==='Trijenerasyon').length;
