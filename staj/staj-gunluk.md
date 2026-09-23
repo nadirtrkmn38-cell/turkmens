@@ -286,3 +286,10 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
   eğrisi (MACC), tahsisat fiyatı senaryolarında geri ödeme süresi, NBD ve İVO, Excel veya Python ile
   bir karar aracı. Yapılacaklar: danışmana 1 sayfalık öneri; mentordan anonimleştirilmiş tesis verisi
   izni; staj raporu ile metnin ayrı tutulması.
+  - **Eklenecek bölüm:** Verimlilik yatırımının ücretsiz tahsisata etkisi. Isı ve yakıt alt
+    tesislerinde faaliyet seviyesi düştükçe tahsisat da düşer (m. 13/7); verimlilik kazancının ne
+    kadarının tahsisat kaybıyla geri gittiği analiz edilecek. İlgili literatür: Branger vd. (2015).
+- [ ] **İkinci aday / yedek:** TR ETS karbon fiyatının elektrik piyasası takas fiyatına (PTF) ve
+  sanayi tüketicisinin elektrik maliyetine etkisi. EPİAŞ Şeffaflık Platformu verisiyle saatlik arz
+  sıralaması (merit order) modeli; karbon fiyatı senaryoları; kömürden gaza geçiş fiyatı. Veri
+  tamamen açık, gizlilik sorunu yok.
