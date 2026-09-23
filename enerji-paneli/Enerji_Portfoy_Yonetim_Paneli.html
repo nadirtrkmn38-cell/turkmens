@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enerji Portföy Yönetim Paneli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* renk skalası: #fff200 #ffcf01 #f9a12c #ed7d31 #de8344 · #808285 #b2bdcf #adb5c0 #e0e4ec #556a81 · #012353 #0055a3 #094357 #00888a #46a789 #95bc4f #d7df23 */
+  --bg:#f1f3f8; --card:#ffffff; --ink:#012353; --muted:#556a81; --line:#e0e4ec; --land:#e0e4ec; --land-line:#ffffff;
+  --act:#012353; --btn:#0055a3; --blue:#0055a3; --slate:#556a81; --steel:#adb5c0; --mist:#b2bdcf;
+  --orange:#ed7d31; --copper:#de8344; --amber:#f9a12c; --gold:#ffcf01; --yellow:#fff200; --green:#46a789; --lime:#95bc4f; --teal:#00888a; --teal-d:#094357; --grey:#808285;
+  --red:#d23f31; /* yalnızca "Kritik" durumu için; skalada kırmızı yok */
+  --gap:rgba(237,125,49,.27); --hover:rgba(0,85,163,.07); --tip:#012353;
+  --disp:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#061634; --card:#0c2146; --ink:#e9eef8; --muted:#adb5c0; --line:#1d3764; --land:#15305e; --land-line:#0c2146;
+    --act:#0055a3; --blue:#4c9be3; --slate:#b2bdcf; --steel:#5b6f8f;
+    --gap:rgba(237,125,49,.32); --hover:rgba(125,178,230,.10); --tip:#020a1c; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#061634; --card:#0c2146; --ink:#e9eef8; --muted:#adb5c0; --line:#1d3764; --land:#15305e; --land-line:#0c2146;
+  --act:#0055a3; --blue:#4c9be3; --slate:#b2bdcf; --steel:#5b6f8f;
+  --gap:rgba(237,125,49,.32); --hover:rgba(125,178,230,.10); --tip:#020a1c; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:14px/1.45 var(--body);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- header ---------- */
+.hdr{background:var(--card);border-bottom:1px solid var(--line);padding-block:14px;padding-inline:24px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px 24px;max-width:1720px;margin:0 auto}
+.title h1{margin:0;font:700 21px/1.15 var(--disp);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);text-wrap:balance}
+.title p{margin:3px 0 0;font-size:13px;color:var(--blue)}
+.tabs{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);padding:4px;border-radius:999px}
+.tab{border:0;background:transparent;color:var(--muted);padding:8px 22px;border-radius:999px;font-weight:600}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--act);color:#fff;box-shadow:0 2px 6px rgba(1,35,83,.18)}
+.meta{display:flex;align-items:center;justify-content:flex-end;gap:8px 10px;flex-wrap:wrap}
+.upd{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:6px 14px;font-size:12px;color:var(--muted);line-height:1.3}
+.upd b{display:block;font-size:14px;color:var(--ink);font-weight:600}
+[data-ic]{display:inline-flex}
+.upd [data-ic]{color:var(--blue)}
+.themes{display:flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px}
+.themes button{display:inline-flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--muted);padding:6px 14px;border-radius:999px;font-weight:600;font-size:13px}
+.themes button[aria-pressed="true"]{background:var(--btn);color:#fff}
+.pill{flex-basis:100%;text-align:right;font-size:11.5px;color:var(--muted)}
+.iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:12.5px}
+
+/* ---------- KPI kartları ---------- */
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.kpis.eff{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpis:empty{display:none}
+@media (max-width:1320px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:900px){.kpis,.kpis.eff{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.kpis,.kpis.eff{grid-template-columns:1fr}}
+.kpi{--ac:var(--blue);display:grid;grid-template-columns:44px minmax(0,1fr);gap:2px 12px;align-items:center;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--ac);border-radius:12px;padding:14px 16px 12px;min-width:0}
+.ki{grid-row:1/3;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--ac) 13%,var(--card));color:var(--ac)}
+.kl{font-size:13px;color:var(--muted);line-height:1.3}
+.kv{font:700 25px/1.15 var(--disp);color:var(--ac);display:flex;flex-wrap:wrap;align-items:baseline;gap:0 5px;letter-spacing:-.01em}
+.kv small{font:500 13px var(--body);color:var(--muted);letter-spacing:0}
+.ks{grid-column:1/-1;font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+.ks b{color:var(--ink);font-weight:600}
+.kpi.hl{background:color-mix(in srgb,var(--ac) 8%,var(--card));border-color:color-mix(in srgb,var(--ac) 45%,var(--card));border-left-color:var(--ac)}
+.kpi.hl .ki{background:var(--ac);color:#fff}
+.up-t{color:#2f8a6e;font-weight:600}.dn-t{color:var(--red);font-weight:600}
+.kcap{grid-column:1/-1;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 12px}
+.kcap b{font:600 15px/1.2 var(--disp);color:var(--ink)}
+.kcap span{font-size:12.5px;color:var(--muted)}
+.knote{grid-column:1/-1;font-size:12px;color:var(--muted);max-width:130ch}
+.per{font-size:12.5px;color:var(--muted)}
+
+/* ---------- layout ---------- */
+.wrap{padding:16px 24px 44px;max-width:1720px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.grid[hidden]{display:none}
+.c12{grid-column:span 12}.c8{grid-column:span 8}.c7{grid-column:span 7}.c5{grid-column:span 5}.c4{grid-column:span 4}
+@media (max-width:1180px){.c8,.c7,.c5,.c4{grid-column:span 12}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px 16px;min-width:0}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:8px 14px;flex-wrap:wrap;margin-bottom:12px}
+.ph h2{margin:0;font:650 18px/1.2 var(--disp);letter-spacing:-.005em}
+.ph p{margin:3px 0 0;color:var(--muted);font-size:12.5px;max-width:62ch}
+.tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.seg{display:inline-flex;background:var(--bg);border-radius:8px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;padding:5px 12px;border-radius:6px;font-size:12.5px;color:var(--muted);font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 11px;font-size:12.5px;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.sw{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);cursor:pointer;user-select:none}
+.sw input{appearance:none;width:32px;height:18px;border-radius:9px;background:var(--steel);position:relative;margin:0;cursor:pointer;transition:background .15s}
+.sw input::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw input:checked{background:var(--blue)}
+.sw input:checked::after{transform:translateX(14px)}
+.chart{position:relative;width:100%}
+.chart svg{display:block;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin:0 0 6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg-l{width:18px;height:0;border-top:2.5px solid}
+.lg-d{width:18px;height:0;border-top:2px dashed}
+.lg-b{width:11px;height:11px;border-radius:2px}
+.txt{font:11.5px var(--body);fill:var(--muted)}
+.txt-b{font:600 12px var(--body);fill:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px 18px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.st .sl{font-size:12px;color:var(--muted)}
+.st .sv{font:650 19px/1.2 var(--disp);margin-top:1px}
+.st .sv small{font:500 12px var(--body);color:var(--muted)}
+.delta{display:inline-block;font:600 12px var(--body);padding:1px 7px;border-radius:5px}
+.delta.up{background:rgba(70,167,137,.16);color:#1d7a5f}
+.delta.dn{background:rgba(210,63,49,.13);color:#b3291c}
+:root[data-theme="dark"] .delta.up{color:#79d7b6}:root[data-theme="dark"] .delta.dn{color:#ff9d8f}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .delta.up{color:#79d7b6}:root:not([data-theme="light"]) .delta.dn{color:#ff9d8f}}
+.cmp-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:10px}
+@media (max-width:720px){.cmp-cards{grid-template-columns:1fr}}
+.cc{background:var(--bg);border-radius:8px;padding:10px 12px;min-width:0}
+.cc .sl{font-size:12px;color:var(--muted)}
+.cc .sv{font:650 22px/1.15 var(--disp);margin-top:2px}
+.cc .sv small{font:500 12px var(--body);color:var(--muted)}
+.cc .sub{font-size:12px;color:var(--muted);margin-top:3px}
+.cmp-cards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.prog{height:6px;background:var(--line);border-radius:3px;margin-top:8px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--blue)}
+
+/* alarms */
+.agroup{border:1px solid var(--line);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.agh{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px 10px;background:var(--bg);cursor:pointer;width:100%;border:0;text-align:left}
+.agh b{font-weight:600}
+.agh .loss{font-size:12px;color:var(--muted);text-align:right}
+.agh .loss strong{color:var(--red);font-weight:600}
+.al{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:7px 10px;border-top:1px solid var(--line);font-size:12.5px}
+.al .m{color:var(--ink)}
+.al.k .m{color:var(--red)}
+.al .d{color:var(--muted);text-align:right;white-space:nowrap}
+.al .s{grid-column:1/-1;color:var(--muted);font-size:12px}
+.alist{max-height:400px;overflow:auto;padding-right:2px}
+.empty{color:var(--muted);padding:18px 4px;font-size:13px}
+
+/* waterfall */
+.wf{display:grid;grid-template-columns:150px 1fr 118px;gap:9px 10px;align-items:center;font-size:12.5px}
+.wf .lb{color:var(--ink)}
+.wf .lb small{display:block;color:var(--muted);font-size:11.5px;line-height:1.25}
+.wf .tr{position:relative;height:20px;background:transparent}
+.wf .tr i{position:absolute;top:0;bottom:0;border-radius:3px}
+.wf .vl{text-align:right;font-weight:600}
+.wf .vl small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+@media (max-width:560px){.wf{grid-template-columns:110px 1fr 84px}}
+.callout{margin-top:12px;padding:10px 12px;border-radius:8px;background:var(--bg);font-size:12.8px;border-left:4px solid var(--orange)}
+.callout.tealb{border-left-color:var(--teal)}
+
+/* map */
+.mapbox{position:relative;width:100%;aspect-ratio:760/330}
+.mapbox svg{position:absolute;inset:0}
+.pulse{animation:pulse 2.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%{transform:scale(.7);opacity:.7}100%{transform:scale(2.1);opacity:0}}
+@media (prefers-reduced-motion: reduce){.pulse{animation:none;opacity:.3}}
+.city{cursor:pointer}
+.city:hover circle.c,.city:focus circle.c{stroke-width:3}
+.stat-row{display:flex;flex-wrap:wrap;gap:6px}
+.capgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+.capgrid div{background:var(--bg);border-radius:8px;padding:8px 10px}
+.capgrid .sl{font-size:12px;color:var(--muted)}
+.capgrid .sv{font:650 18px var(--disp)}
+.capgrid .sv small{font:500 12px var(--body);color:var(--muted)}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.statgrid button,.statgrid .stat{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:9px 10px;text-align:left;min-width:0}
+.statgrid button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.statgrid .hi{background:rgba(255,242,0,.12);border-color:var(--yellow);box-shadow:inset 0 3px 0 var(--yellow)}
+.statgrid .sl{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.statgrid .sv{font:650 22px/1.2 var(--disp);margin-top:2px}
+
+/* tables */
+.tw{overflow:auto;max-height:460px;border:1px solid var(--line);border-radius:8px}
+.tw.free{max-height:none}
+table.t{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5px;min-width:920px}
+.t th{background:#002060;color:#fff;font-weight:600;padding:7px 8px;text-align:center;border-right:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.28);position:sticky;top:0;z-index:2;line-height:1.25}
+.t thead tr:nth-child(2) th{top:31px}
+.t th.sortable{cursor:pointer}
+.t th.sortable:hover{background:#0a3a86}
+.t th[aria-sort]{background:#0a3a86}
+.t td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.t td.l{text-align:left}.t td.c{text-align:center}
+.t tbody tr{cursor:pointer}
+.t tbody tr:hover td{background:var(--hover)}
+.t tbody tr.on td{background:rgba(255,242,0,.18)}
+.t tfoot td{position:sticky;bottom:0;background:var(--bg);font-weight:600;border-top:2px solid var(--ink)}
+.rbar{display:inline-flex;align-items:center;gap:6px;justify-content:flex-end}
+.rbar i{display:inline-block;height:6px;border-radius:3px;background:var(--blue)}
+.bad{color:var(--red);font-weight:600}.ok{color:#1d7a5f}
+:root[data-theme="dark"] .ok{color:#79d7b6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ok{color:#79d7b6}}
+.foot{font-size:12px;color:var(--muted);margin-top:8px}
+.search{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;font:inherit;width:170px}
+
+/* heat */
+.heat{display:grid;gap:3px 3px;font-size:12px}
+.heat .rl{padding-right:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;line-height:20px}
+.heat .rl:hover{text-decoration:underline}
+.heat .cl{text-align:center;color:var(--muted);font-size:11px}
+.hc{height:20px;border-radius:3px;cursor:default}
+.heatwrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px}
+@media (max-width:1100px){.heatwrap{grid-template-columns:1fr}}
+.hleg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted);align-items:center}
+.hleg i{display:inline-block;width:14px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+
+.tip{position:fixed;z-index:60;pointer-events:none;background:var(--tip);color:#fff;border-radius:8px;padding:8px 11px;font-size:12.5px;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.28);max-width:300px;opacity:0;transition:opacity .08s;left:0;top:0}
+.tip.on{opacity:1}
+.tip b{font-weight:600}
+.tip .tl{display:flex;justify-content:space-between;gap:16px}
+.tip .tl span:first-child{color:#b9c8e6}
+.scope{display:none}
+.scope.on{display:inline-flex}
+.kpis:empty{display:none;margin-top:0}
+.iconbtn.small{padding:4px 10px;font-size:12px}
+#mapSelInfo{margin-top:10px}
+#mapSelInfo:empty{display:none}
+#effSelInfo{margin-top:10px}
+#effSelInfo:empty{display:none}
+#effSelInfo .selrow{flex-wrap:wrap}
+#effSelInfo .selrow small{color:var(--muted)}
+.selcard{background:var(--bg);border-radius:8px;padding:10px 12px;margin-top:8px}
+.selcard h3{margin:0 0 6px;font:650 13px var(--disp)}
+.selrow{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:4px 0;border-top:1px dashed var(--line)}
+.selrow:first-of-type{border-top:0}
+.selrow .n{display:flex;align-items:center;gap:6px;color:var(--ink)}
+.selrow .v{color:var(--muted);white-space:nowrap}
+@media (max-width:1100px){.top{grid-template-columns:1fr auto}.title{grid-column:1/-1}}
+@media (max-width:720px){.top{grid-template-columns:1fr}.meta{justify-content:flex-start}.pill{text-align:left}.hdr{padding-inline:16px}.wrap{padding:12px 16px 36px}.tabs{width:100%}.tab{flex:1}.title h1{font-size:18px}.kv{font-size:23px}}
+
+/* ---------- paneller ---------- */
+.panel{border-radius:12px;padding:18px 20px;box-shadow:0 1px 2px rgba(1,35,83,.05)}
+.ph h2{display:flex;align-items:center;gap:9px;font:600 17px/1.25 var(--disp);color:var(--ink)}
+.ph h2 svg{color:var(--blue);flex:none}
+.ph h2.alarm svg{color:var(--red)}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:10px}
+.seg button[aria-pressed="true"]{background:var(--btn);color:#fff;box-shadow:none}
+
+/* harita */
+.mapbox{border-radius:10px;overflow:hidden;background:color-mix(in srgb,var(--bg) 55%,var(--card));max-width:100%}
+.mapbox svg.pan{cursor:grab;touch-action:none}
+.zoom{position:absolute;left:10px;top:10px;z-index:2;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card);box-shadow:0 1px 3px rgba(1,35,83,.08)}
+.zoom svg{position:static}
+.zoom button{width:32px;height:30px;border:0;background:transparent;display:grid;place-items:center;color:var(--ink)}
+.zoom button+button{border-top:1px solid var(--line)}
+.zoom button:hover{background:var(--hover)}
+.legend .box{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 16px;border:1px solid var(--line);border-radius:999px;padding:6px 14px;color:var(--ink)}
+.lg-c{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* portföy durum özeti */
+.statrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.statrow button{border:0;background:transparent;text-align:left;padding:10px 16px;min-width:0}
+.statrow button+button{border-left:1px solid var(--line)}
+.statrow button:hover{background:var(--hover)}
+.statrow button[aria-pressed="true"]{background:color-mix(in srgb,var(--blue) 9%,var(--card));box-shadow:inset 0 -3px 0 var(--blue)}
+.statrow .sl{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.statrow .sv{font:700 24px/1.25 var(--disp);color:var(--ink)}
+@media (max-width:560px){.statrow{grid-template-columns:repeat(3,minmax(0,1fr))}.statrow button:nth-child(4){border-left:0}.statrow button:nth-child(n+4){border-top:1px solid var(--line)}}
+.icards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:10px}
+.icard{--ac:var(--blue);display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:0}
+.icard [data-ic],.icard>svg{color:var(--ac);flex:none}
+.icard .sl{font-size:12.5px;color:var(--muted)}
+.icard .sv{font:700 21px/1.2 var(--disp);color:var(--ink)}
+.icard .sv small{font:500 12px var(--body);color:var(--muted)}
+.icard.gar{--ac:#b38f00;background:color-mix(in srgb,var(--gold) 14%,var(--card));border-color:color-mix(in srgb,var(--gold) 65%,var(--card))}
+:root[data-theme="dark"] .icard.gar{--ac:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .icard.gar{--ac:var(--gold)}}
+.agroup{border-radius:10px}
+</style></style>
+</head>
+<body>
+<header class="hdr">
+  <div class="top">
+    <div class="title"><h1>Enerji Portföy Yönetimi</h1><p id="subtitle">Anlık üretim, operasyon ve verimlilik özeti</p></div>
+    <nav class="tabs" role="tablist" aria-label="Portföy görünümü">
+      <button class="tab" role="tab" id="t-ges" aria-selected="true" aria-controls="tab-ges">GES Üretim</button>
+      <button class="tab" role="tab" id="t-eff" aria-selected="false" aria-controls="tab-eff">Verimlilik</button>
+    </nav>
+    <div class="meta">
+      <div class="upd"><span data-ic="refresh"></span><div>Son güncelleme<b>22.09.2026 11:07:22</b></div></div>
+      <div class="themes" role="group" aria-label="Tema"><button id="thL" aria-pressed="true"><span data-ic="sun" data-s="15"></span>Açık</button><button id="thD" aria-pressed="false"><span data-ic="moon" data-s="15"></span>Koyu</button></div>
+      <span class="pill" id="dataPill">Garanti değerleri gerçek · operasyonel veriler örnektir</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="kpis" id="kpis"></div>
+<!-- ================= GES ================= -->
+<section id="tab-ges" class="grid" role="tabpanel" aria-labelledby="t-ges">
+  <div class="panel c12">
+    <div class="ph"><div><h2 data-ic="grid">Portföy durum özeti</h2><p>Sözleşmesel garanti değerleri ve anlık portföy durumu. Bir duruma tıklayarak haritayı ve tabloyu filtreleyin.</p></div></div>
+    <div class="statrow" id="durumCounts" role="group" aria-label="Duruma göre filtrele"></div>
+    <div class="icards" id="capGrid"></div>
+  </div>
+
+  <div class="panel c7">
+    <div class="ph"><div><h2 data-ic="map">Portföy haritası</h2><p>İl sınırları gösterilir. Bir ile tıklayın; grafikler ve tablo o ile odaklanır.</p></div></div>
+    <div class="mapbox" id="map"></div>
+    <div class="legend" id="mapLegend" style="margin-top:10px"></div>
+    <div id="mapSelInfo"></div>
+  </div>
+
+  <div class="panel c5">
+    <div class="ph">
+      <div><h2 data-ic="bars">Üretim karşılaştırma</h2><p id="cmpSub"></p></div>
+    </div>
+    <div class="tools printhide" style="margin-bottom:10px">
+      <div class="seg" id="cmpSeg" role="group" aria-label="Dönem">
+        <button data-m="day" aria-pressed="false">Gün</button><button data-m="week" aria-pressed="false">Hafta</button>
+        <button data-m="month" aria-pressed="true">Ay</button><button data-m="year" aria-pressed="false">Yıl</button>
+      </div>
+    </div>
+    <div class="cmp-cards" id="cmpCards"></div>
+    <div class="legend" id="cmpLegend"></div>
+    <div class="chart" id="cmp" style="height:300px"></div>
+  </div>
+
+  <div class="panel c12">
+    <div class="ph"><div><h2 class="alarm" data-ic="bell">Alarmlar ve kayıp</h2><p>Santral bazında gruplanır; kayıp, alarm başladığından beri hesaplanır.</p></div>
+      <div class="tools printhide"><button class="iconbtn small" id="alarmToggle" aria-expanded="true">Gizle</button></div></div>
+    <div class="tools printhide" style="margin:-4px 0 10px"><label class="sw"><input type="checkbox" id="alarmAll"> Uyarı ve veri yoksa dahil et</label></div>
+    <div class="alist" id="alarms"></div>
+  </div>
+</section>
+
+<!-- ================= VERIMLILIK ================= -->
+<section id="tab-eff" class="grid" role="tabpanel" aria-labelledby="t-eff" hidden>
+  <div class="panel c7">
+    <div class="ph"><div><h2 data-ic="map">Portföy haritası</h2><p>Renk, seçili dönemin EAO ve SPO değerini tek garanti değeriyle karşılaştırır; sınırda, garantinin en fazla 1 puan altıdır. Bir ile tıklayın; üretim karşılaştırması o ile odaklanır.</p></div></div>
+    <div class="mapbox" id="effMap"></div>
+    <div class="legend" id="effMapLegend" style="margin-top:10px"></div>
+    <div id="effSelInfo"></div>
+  </div>
+
+  <div class="panel c5">
+    <div class="ph">
+      <div><h2 data-ic="bars">Üretim karşılaştırma</h2><p id="effCmpSub"></p></div>
+    </div>
+    <div class="tools printhide" style="margin-bottom:10px">
+      <div class="seg" id="effSeg" role="group" aria-label="Dönem">
+        <button data-m="month" aria-pressed="true">Ay</button><button data-m="year" aria-pressed="false">Yıl</button>
+      </div>
+      <span id="effScope"></span>
+    </div>
+    <div class="cmp-cards" id="effCmpCards"></div>
+    <div class="cmp-cards two" id="effRateCards"></div>
+    <div class="legend" id="effCmpLegend"></div>
+    <div class="chart" id="effCmp" style="height:280px"></div>
+    <div class="foot">EAO: Emre Amadelik Oranı, çalışma saatinin dönem saatine oranı. SPO: elektrik üretiminin, kurulu gücün dönem boyunca tam yükte üreteceği enerjiye oranı. İkisi de kurulu güçle ağırlıklıdır ve yalnızca seçili dönemi kapsar (kümülatif değildir).</div>
+  </div>
+</section>
+</main>
+<div id="tip" class="tip" role="tooltip"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ================= utils ================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const fmt=(n,d=0)=>(n==null||Number.isNaN(n))?'–':Number(n).toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const pc=(n,d=1)=>(n==null||Number.isNaN(n))?'–':'%'+fmt(n,d);
+const sg=(n,d=1)=>(n>0?'+':n<0?'−':'')+fmt(Math.abs(n),d);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const sum=(a,f=x=>x)=>a.reduce((s,x)=>s+f(x),0);
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const hhmm=t=>{const m=Math.round(t*60);return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+const DOW=d=>['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'][(((d-21)%7)+7)%7];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function interp(pts,t){if(t<=pts[0][0])return pts[0][1];for(let i=1;i<pts.length;i++){if(t<=pts[i][0]){const a=pts[i-1],b=pts[i];return a[1]+(b[1]-a[1])*(t-a[0])/(b[0]-a[0]);}}return pts[pts.length-1][1];}
+function niceScale(max,ticks=5){const raw=max/ticks;const p=Math.pow(10,Math.floor(Math.log10(raw)));const f=raw/p;const s=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p;const top=Math.ceil(max/s-1e-9)*s;const arr=[];for(let v=0;v<=top+1e-9;v+=s)arr.push(+v.toFixed(6));return{top,arr,step:s};}
+const tickFmt=step=>v=>fmt(v,step<1?1:0);
+
+/* ================= data: GES ================= */
+const rand=rng(71034582);
+const SPEC=[['Konya',8],['Kayseri',3],['Sivas',3],['Yozgat',2],['Çankırı',1],['Niğde',2],['Aksaray',2],['İstanbul',1],['Mersin',2],['Kilis',2],['Afyonkarahisar',2],['Uşak',1],['Şanlıurfa',1]];
+const PRICES=[];
+const P=[];
+SPEC.forEach(([city,n])=>{for(let k=0;k<n;k++){
+  let name=n>1?`${city} GES ${k+1}`:`${city} GES`; if(city==='Aksaray'&&k===0)name='Orion GES'; if(city==='Aksaray'&&k===1)name='Aksaray GES';
+  let st='normal'; if(name==='Orion GES'||city==='İstanbul')st='kritik'; if(city==='Mersin')st='uyarı'; if(city==='Uşak'||city==='Şanlıurfa')st='veri yok';
+  P.push({id:P.length,no:P.length+1,name,city,st,w:2.2+rand()*7.3,visitD:1+Math.floor(rand()*21)});
+}});
+{ const tw=sum(P,p=>p.w); let a=0,b=0; P.forEach((p,i)=>{ if(i<P.length-1){p.mwp=Math.round(144.8*p.w/tw*100)/100;p.mwe=Math.round(p.mwp*117.6/144.8*100)/100;a+=p.mwp;b+=p.mwe;}else{p.mwp=Math.round((144.8-a)*100)/100;p.mwe=Math.round((117.6-b)*100)/100;} }); }
+const totMWe=sum(P,p=>p.mwe), totMWp=sum(P,p=>p.mwp);
+P.forEach(p=>{
+  p.pr= p.st==='normal'?.97+rand()*.06 : p.st==='uyarı'?.97 : .98;
+  p.ratio0= p.st==='normal'?.94+rand()*.09 : p.st==='uyarı'?(p.name.endsWith('1')?.9:.88) : p.st==='kritik'?(p.name==='Orion GES'?.76:.7) : (p.city==='Uşak'?.86:.8);
+  p.gar= rand()<.5?95:96;
+  p.eao0= p.st==='normal'?95.4+rand()*3.4 : p.st==='uyarı'?(p.name.endsWith('1')?93.4:92.5) : p.st==='kritik'?(p.name==='Orion GES'?81.2:78.4) : (p.city==='Uşak'?91:88.5);
+  p.spo0= 58+rand()*8 - (p.st==='kritik'?6:0) - (p.st==='veri yok'?3:0);
+  p.spoG=59+Math.floor(rand()*4);
+});
+{ // tune weighted EAO to 94.6 and SPO to 61.7
+  const nrm=P.filter(p=>p.st==='normal');
+  let mean=sum(P,p=>p.eao0*p.mwe)/totMWe; const de=94.6-mean; nrm.forEach(p=>p.eao=clamp(p.eao0+de,90,99.8));
+  P.filter(p=>p.st!=='normal').forEach(p=>p.eao=p.eao0);
+  for(let it=0;it<6;it++){mean=sum(P,p=>p.eao*p.mwe)/totMWe; const d2=94.6-mean; nrm.forEach(p=>p.eao=clamp(p.eao+d2,90,99.8));}
+  let sm=sum(P,p=>p.spo0*p.mwp)/totMWp; const ds=61.7-sm; P.forEach(p=>p.spo=p.spo0+ds);
+}
+
+/* ---- time model: 6-min steps, 05:00 - 20:00 ---- */
+const T0=5,DT=.1,N=151,NOW_I=97,NOW_T=T0+NOW_I*DT; // 14:42
+const T=i=>T0+i*DT;
+const TR=6.75,TS=18.95,SH=1.25;
+const shape=t=>(t<=TR||t>=TS)?0:Math.pow(Math.sin(Math.PI*(t-TR)/(TS-TR)),SH);
+let shapeInt=0; for(let i=0;i<N;i++)shapeInt+=shape(T(i))*DT;
+const PK=655/shapeInt;
+const Ec=t=>PK*shape(t);
+const nz=(t,ph)=>.03*Math.sin(t*7.3+ph)+.018*Math.sin(t*17.1+ph*2);
+const F_ANCH=[[6,.72],[8,.64],[9.5,.6],[10.5,.72],[11.5,.82],[12.3,.7],[13,.62],[13.6,.84],[14.7,.94],[16,.92],[20,.9]];
+const FY_ANCH=[[6,.86],[10,.9],[13,.82],[16,.88],[20,.86]];
+const Fraw=Array.from({length:N},(_,i)=>clamp(interp(F_ANCH,T(i))+nz(T(i),1),.3,1));
+const Fy=Array.from({length:N},(_,i)=>clamp(interp(FY_ANCH,T(i))+nz(T(i),4),.3,1));
+const gfun=(p,t)=>{
+  if(p.st==='normal')return 1;
+  if(p.st==='uyarı')return t<10.5?1:(t<11?1-(t-10.5)*.24:.88);
+  if(p.name==='Orion GES')return t<9+32/60?1:(t<10+16/60?.7:.56);
+  if(p.city==='İstanbul')return t<11.8?1:.03;
+  return t<9?1:0; // veri yok
+};
+function buildA(k){P.forEach(p=>{const sh=p.mwe/totMWe;p.E=new Array(N);p.A=new Array(N).fill(0);for(let i=0;i<N;i++){const e=Ec(T(i))*sh;p.E[i]=e;if(i<=NOW_I)p.A[i]=e*clamp(Fraw[i]*k,0,1.02)*gfun(p,T(i))*p.pr;}});}
+buildA(1);
+const rawNow=sum(P,p=>sum(p.A,x=>x))*DT;
+const K=355/rawNow; buildA(K);
+const Fk=Fraw.map(f=>clamp(f*K,0,1.02));
+P.forEach(p=>{p.Y=new Array(N);const sh=p.mwe/totMWe;for(let i=0;i<N;i++)p.Y[i]=Ec(T(i))*sh*Fy[i]*p.pr;});
+{const raw=sum(P,p=>sum(p.Y,x=>x))*DT;const ky=600/raw;P.forEach(p=>{for(let i=0;i<N;i++)p.Y[i]*=ky;});}
+function seriesFor(ids){const E=new Array(N).fill(0),A=new Array(N).fill(0),Y=new Array(N).fill(0);for(const id of ids){const p=P[id];for(let i=0;i<N;i++){E[i]+=p.E[i];A[i]+=p.A[i];Y[i]+=p.Y[i];}}return{E,A,Y};}
+const ALL=P.map(p=>p.id);
+const S_ALL=seriesFor(ALL);
+const cum=(arr,to=arr.length-1)=>{let s=0;for(let i=0;i<=to;i++)s+=arr[i]*DT;return s;};
+const cumArr=arr=>{let s=0;return arr.map(v=>(s+=v*DT));};
+const E_NOW=cum(S_ALL.E,NOW_I), E_DAY=cum(S_ALL.E), A_NOW=cum(S_ALL.A,NOW_I), Y_NOW=cum(S_ALL.Y,NOW_I), Y_DAY=cum(S_ALL.Y);
+const FRAC=E_NOW/E_DAY;
+
+/* ---- daily / monthly ---- */
+const ED=[]; for(let d=1;d<=30;d++)ED[d]=E_DAY*(1+.0042*(21-d));
+const D=[]; { const raw=[];for(let d=1;d<=19;d++){let r=.8+rand()*.19;if(d===3)r=.62;if(d===9)r=.56;if(d===15)r=.68;raw[d]=ED[d]*r;}
+  const k=(12082-355-600)/sum(raw.slice(1),x=>x); for(let d=1;d<=19;d++)D[d]=raw[d]*k; D[20]=600; D[21]=355; }
+const AUG=[]; { const raw=[];for(let d=1;d<=31;d++)raw[d]=E_DAY*1.1*(.52+rand()*.36); const k=15659/sum(raw.slice(1),x=>x); for(let d=1;d<=31;d++)AUG[d]=raw[d]*k; }
+const MW=[.42,.62,.95,1.25,1.5,1.65,1.75]; const M=[]; {const rest=92147-15659-12082;const tw=sum(MW,x=>x);MW.forEach((w,i)=>M[i+1]=rest*w/tw);} M[8]=15659; M[9]=12082;
+const PY=[],EXPM=[]; for(let m=1;m<=9;m++){PY[m]=M[m]*(.86+rand()*.18);} PY[10]=9300;PY[11]=5400;PY[12]=3600;
+for(let m=1;m<=8;m++)EXPM[m]=M[m]/(.84+rand()*.14); EXPM[9]=sum(ED.slice(1),x=>x); EXPM[10]=10500;EXPM[11]=6300;EXPM[12]=4300;
+const EXP_TO_DATE=sum(ED.slice(1,21),x=>x)+E_NOW;
+const RR=sum(D.slice(14,21),x=>x)/sum(ED.slice(14,21),x=>x);
+const M_FC=12082+(E_DAY-E_NOW)*RR+sum(ED.slice(22,31),x=>x)*RR;
+
+/* ---- plant month table ---- */
+{ P.forEach(p=>{p.bek0=p.mwp;});
+  const bekTot=EXP_TO_DATE; const sB=sum(P,p=>p.mwp); P.forEach(p=>{p.bek=bekTot*p.mwp/sB;});
+  const c=12082/sum(P,p=>p.bek*p.ratio0); P.forEach(p=>{p.ratio=p.ratio0*c;p.ger=p.bek*p.ratio;});
+}
+// today per plant
+P.forEach(p=>{p.today=cum(p.A,NOW_I);p.eToday=cum(p.E,NOW_I);});
+
+/* ---- alarms ---- */
+const NOWM=14*60+41;
+const ALARMS=[
+ {plant:'Orion GES',sev:'kritik',msg:'Aks. Orion Inv. 23 Inverter Beklemede',start:10*60+16},
+ {plant:'Orion GES',sev:'kritik',msg:'Aks. Orion Inv. 01 Inverter Çevrimdışı',start:9*60+32},
+ {plant:'Orion GES',sev:'kritik',msg:'Aks. Orion Inv. 03 Inverter Çevrimdışı',start:9*60+32},
+ {plant:'İstanbul GES',sev:'kritik',msg:'Şebeke bağlantısı koptu, AG şalteri açık',start:11*60+48},
+ {plant:'Mersin GES 1',sev:'uyarı',msg:'Yüksek sıcaklık nedeniyle inverter güç sınırlaması',start:10*60+30},
+ {plant:'Mersin GES 2',sev:'uyarı',msg:'String akım dengesizliği',start:10*60+30},
+ {plant:'Uşak GES',sev:'veri yok',msg:'Haberleşme kesildi, SCADA verisi gelmiyor',start:9*60},
+ {plant:'Şanlıurfa GES',sev:'veri yok',msg:'Haberleşme kesildi, SCADA verisi gelmiyor',start:9*60}
+];
+const durTxt=min=>{const m=NOWM-min;return Math.floor(m/60)+'s '+String(m%60).padStart(2,'0')+'dk';};
+const clockTxt=min=>String(Math.floor(min/60)).padStart(2,'0')+':'+String(min%60).padStart(2,'0');
+/* loss decomposition (today, until now) */
+const LOSS={weather:0,fault:0,limit:0,nodata:0,other:0}; const PLOSS={};
+P.forEach(p=>{let sp=0;for(let i=0;i<=NOW_I;i++){const e=p.E[i]*DT,fk=Fk[i],g=gfun(p,T(i));
+  LOSS.weather+=e*(1-fk); LOSS.other+=e*fk*(1-p.pr); const s=e*fk*p.pr*(1-g); sp+=s;
+  if(p.st==='kritik')LOSS.fault+=s; else if(p.st==='uyarı')LOSS.limit+=s; else if(p.st==='veri yok')LOSS.nodata+=s; }
+  PLOSS[p.name]=sp; });
+
+
+/* heat 14 days */
+const HDAYS=[]; for(let d=8;d<=21;d++)HDAYS.push(d);
+const dayW={}; HDAYS.forEach(d=>{dayW[d]= d===21? A_NOW/E_NOW : D[d]/ED[d];});
+const dayW0=sum(HDAYS,d=>dayW[d])/HDAYS.length;
+P.forEach(p=>{const base=p.ratio/ (sum(P,q=>q.ger)/sum(P,q=>q.bek)) ; p.hm={};
+  HDAYS.forEach(d=>{
+    if(d===21){p.hm[d]= p.st==='veri yok'? null : p.today/p.eToday; return;}
+    if(p.st==='veri yok'&&d>=20){p.hm[d]=null;return;}
+    let r=dayW[d]*(p.st==='normal'?p.pr/.99:p.st==='uyarı'?.93:p.st==='kritik'?(p.name==='Orion GES'?(d>=19?.86:.99):(d>=20?.8:1)):.92);
+    r+= (rand()-.5)*.05; p.hm[d]=clamp(r/ (dayW0/.92) ,.2,1.15); });
+});
+
+/* ================= data: Verimlilik ================= */
+// Tek garanti değeri, portföyün tamamı için. Örnek değerdir; sözleşmedeki değerle değiştirin.
+const EFF_GAR={eao:95,spo:80};
+// Tasarruf, aynı elektrik, buhar ve soğutmanın ayrı üretimine göre hesaplanır.
+// chp: motor elektrik verimi, grid: şebeke referans verimi, boiler: buhar kazanı verimi,
+// cop: absorpsiyonun yerini aldığı elektrikli chiller, gasKwh: doğalgaz alt ısıl değeri (kWh/Sm³), steam: MWh/ton buhar
+const REF={chp:.42,grid:.525,boiler:.90,cop:5,gasKwh:9.59,steam:.68};
+const EXP_AV=.96; // beklenen üretim için plan emre amadelik
+const DAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
+// Oca–Eyl mevsim çarpanları: bina tipi tesislerde ısı ve soğutma talebi mevsime bağlı, sanayide daha düz
+const SEAS_H={bina:[1.18,1.15,1.08,1,.92,.86,.84,.84,.9],sanayi:[1,1,1,1,1,1,1,1,1]};
+const SEAS_C={bina:[.1,.1,.2,.4,.7,1,1.2,1.2,.9],sanayi:[.6,.6,.7,.8,.9,1,1.1,1.1,1]};
+const EFF=[
+ {n:'Şehir Hastanesi',tip:'Trijenerasyon',city:'Ankara',gm:2.4,cs:1.6,ci:1.9,tot:31842,lf:.91,hk:.98,ck:.46,av:.985,ind:false,dips:{6:14}},
+ {n:'Alışveriş Merkezi',tip:'Trijenerasyon',city:'İstanbul',gm:1.56,cs:1.1,ci:1.3,tot:24610,lf:.88,hk:.9,ck:.5,av:.975,ind:false,dips:{9:6,10:0}},
+ {n:'Termal Otel',tip:'Kojenerasyon',city:'Afyonkarahisar',gm:1.2,cs:0,ci:0,tot:18325,lf:.86,hk:1.12,ck:0,av:.98,ind:false,dips:{}},
+ {n:'Tekstil Fabrikası',tip:'Trijenerasyon',city:'Denizli',gm:3.35,cs:2.2,ci:2.6,tot:40117,lf:.89,hk:.85,ck:.44,av:.955,ind:true,dips:{14:0,15:0,16:9}},
+ {n:'Üniversite Kampüsü',tip:'Trijenerasyon',city:'İstanbul',gm:2.0,cs:1.4,ci:1.6,tot:12980,lf:.87,hk:.95,ck:.52,av:.975,ind:false,dips:{3:20,18:12}},
+ {n:'Gıda Tesisi',tip:'Kojenerasyon',city:'Konya',gm:.999,cs:0,ci:0,tot:9750,lf:.84,hk:1.05,ck:0,av:.985,ind:true,dips:{}}
+];
+// Bir döneme ait kayıt: h çalışma saati, H dönem saati, el brüt elektrik, net iç tüketim düşülmüş, st buhar (ton), gas doğalgaz tasarrufu (Sm³)
+function effRec(e,m,h,H,el){
+  const k=e.ind?'sanayi':'bina',i=m-1;
+  const heat=el*e.hk*SEAS_H[k][i],cool=el*e.ck*SEAS_C[k][i],net=el*(1-e.ic);
+  const fuel=el/REF.chp,ref=net/REF.grid+heat/REF.boiler+cool/REF.cop/REF.grid;
+  return {h,H,el,net,st:heat/REF.steam,gas:(ref-fuel)*1000/REF.gasKwh};
+}
+const effAgg=recs=>{const r={h:0,H:0,el:0,net:0,st:0,gas:0};recs.forEach(x=>{for(const k in r)r[k]+=x[k];});return r;};
+EFF.forEach((e,i)=>{
+  e.no=i+1; e.ic=.026+rand()*.008;
+  const day=(m,h)=>effRec(e,m,h,24,e.gm*h*e.lf*(.97+rand()*.05));
+  e.sep=[];for(let d=1;d<=21;d++)e.sep[d]=day(9,e.dips[d]!==undefined?e.dips[d]:24-(rand()<.12?1:0));
+  e.aug=[];for(let d=1;d<=31;d++)e.aug[d]=day(8,rand()<.05?Math.floor(rand()*16):24-(rand()<.15?1:0));
+  e.mon=[];
+  for(let m=1;m<=7;m++){const H=DAYS[m-1]*24,h=H*clamp(e.av+(rand()-.5)*.04,.88,1);e.mon[m]=effRec(e,m,h,H,e.gm*h*e.lf*(.97+rand()*.05));}
+  e.mon[8]=effAgg(e.aug.slice(1)); e.mon[9]=effAgg(e.sep.slice(1)); // Eylül: 1 – 21 (504 saat)
+  e.ytd=effAgg(e.mon.slice(1));
+  e.expD=e.gm*24*e.lf*EXP_AV; e.expM=[];for(let m=1;m<=12;m++)e.expM[m]=e.expD*DAYS[m-1];
+  e.py=[];for(let m=1;m<=12;m++)e.py[m]=e.expM[m]*(.9+rand()*.13); // 2025 aylık elektrik
+  e.rr=sum(e.sep.slice(17),x=>x.el)/(5*e.expD); // son 5 günün beklenene oranı, Eylül tahmini için
+});
+const MONTHS=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+
+/* ================= state ================= */
+const state={tab:'ges',status:'all',q:'',sortKey:'no',sortDir:1,sel:null,cmp:'month',lfl:true,showY:false,alarmAll:false,effCmp:'month',effSel:null};
+const scopeIds=()=>state.sel?(state.sel.plant!=null?[state.sel.plant]:P.filter(p=>p.city===state.sel.city).map(p=>p.id)):ALL;
+const scopeName=()=>state.sel?(state.sel.plant!=null?P[state.sel.plant].name:state.sel.city+' ('+scopeIds().length+' santral)'):'Tüm portföy';
+const SC={normal:'var(--green)',uyarı:'var(--amber)',kritik:'var(--red)','veri yok':'var(--grey)'};
+const SEV_ORDER={kritik:3,uyarı:2,'veri yok':1,normal:0};
+
+/* ================= tooltip ================= */
+const tipEl=$('#tip');
+function showTip(html,x,y){tipEl.innerHTML=html;tipEl.classList.add('on');const r=tipEl.getBoundingClientRect();let l=x+14,t=y+14;if(l+r.width>innerWidth-8)l=x-r.width-14;if(t+r.height>innerHeight-8)t=y-r.height-14;tipEl.style.left=Math.max(6,l)+'px';tipEl.style.top=Math.max(6,t)+'px';}
+function hideTip(){tipEl.classList.remove('on');}
+const tl=(a,b)=>`<div class="tl"><span>${a}</span><span>${b}</span></div>`;
+
+/* ================= chart mount / resize ================= */
+const mounts=[];
+function mount(id,fn){const el=document.getElementById(id);const m={el,fn,w:0};mounts.push(m);m.draw=()=>{const w=el.clientWidth,h=el.clientHeight;if(w>0){m.w=w;fn(el,w,h);}};return m;}
+const ro=new ResizeObserver(es=>{es.forEach(e=>{const m=mounts.find(x=>x.el===e.target);if(m&&e.contentRect.width>0&&Math.abs(e.contentRect.width-m.w)>1)m.draw();});});
+function redraw(){mounts.forEach(m=>{if(m.el.offsetParent!==null)m.draw();});}
+
+/* ================= KPIs ================= */
+function spark(vals,w=84,h=26){const mx=Math.max(...vals),mn=Math.min(...vals);const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-2-(v-mn)/(mx-mn||1)*(h-4)).toFixed(1)}`).join(' ');return `<svg class="kspark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="#fff200" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>`;}
+const ICON={
+ zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+ cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+ gauge:'<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
+ panel:'<rect x="2" y="4" width="20" height="12" rx="1"/><path d="M2 10h20M8.7 4v12M15.3 4v12M12 16v4M8 20h8"/>',
+ trend:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+ line:'<path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>',
+ bars:'<path d="M3 3v18h18"/><path d="M8 17v-5M13 17V8M18 17v-9"/>',
+ flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+ waves:'<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
+ factory:'<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1M12 18h1M7 18h1"/>',
+ refresh:'<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+ pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+ map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/>',
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+ bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+ shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+ pulse:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>', minus:'<path d="M5 12h14"/>',
+ fit:'<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>'
+};
+const ic=(n,sz=20)=>`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
+const GES_GAR={eao:99.21,spo:81.51};
+function kpi(label,val,unit,sub,icon,ac,hl){return `<div class="kpi${hl?' hl':''}" style="--ac:var(--${ac})"><div class="ki">${ic(icon,22)}</div><div class="kl">${label}</div><div class="kv">${val}<small>${unit||''}</small></div><div class="ks">${sub}</div></div>`;}
+const dlt=(v,d=1,u='%')=>`<span class="${v>=0?'up-t':'dn-t'}">${sg(v,d)}${u}</span>`;
+function renderKPIs(){
+  const host=$('#kpis'); host.classList.toggle('eff',state.tab==='eff');
+  if(state.tab==='ges'){
+    host.innerHTML='';
+  }else{
+    const yt=k=>sum(EFF,e=>e.ytd[k]), se=k=>sum(EFF,e=>e.mon[9][k]);
+    const gmT=sum(EFF,e=>e.gm), tri=EFF.filter(e=>e.tip==='Trijenerasyon').length;
+    host.innerHTML=
+      `<div class="kcap"><b>Enerji verimliliği · toplam tasarruf</b><span>2026, 1 Ocak – 21 Eylül · tüm portföy</span></div>`+
+      kpi('Elektrik tasarrufu',fmt(yt('net')),'MWh',`Eylül 1 – 21: <b>${fmt(se('net'))}</b> MWh`,'zap','blue')+
+      kpi('Buhar tasarrufu',fmt(yt('st')),'ton',`Eylül 1 – 21: <b>${fmt(se('st'))}</b> ton`,'waves','teal')+
+      kpi('Doğalgaz tasarrufu',fmt(yt('gas')),'Sm³',`Eylül 1 – 21: <b>${fmt(se('gas'))}</b> Sm³`,'flame','orange',true)+
+      kpi('Kurulu güç',fmt(gmT,2),'MW',`${EFF.length} santral · ${tri} trijenerasyon, ${EFF.length-tri} kojenerasyon`,'factory','slate')+
+      `<div class="knote">Elektrik: iç tüketim düşülmüş net üretim. Buhar: atık ısıdan üretilen buhar (${fmt(REF.steam,2)} MWh/ton). Doğalgaz: aynı enerjinin ayrı üretimine göre (şebeke ${pc(REF.grid*100,1)}, kazan ${pc(REF.boiler*100,0)}, elektrikli chiller COP ${REF.cop}, ${fmt(REF.gasKwh,2)} kWh/Sm³).</div>`;
+  }
+}
+function M_YTD_LFL(){const cur=92147;const prev=sum(PY.slice(1,9),x=>x)+PY[9]*((20+FRAC)/30);return (cur/prev-1)*100;}
+
+/* ================= HERO ================= */
+function recentRatio(S){let a=0,e=0;for(let i=NOW_I-20;i<=NOW_I;i++){a+=S.A[i];e+=S.E[i];}return e?a/e:1;}
+
+/* ================= ALARMS ================= */
+function renderAlarms(){
+  const ids=scopeIds(); const names=new Set(ids.map(i=>P[i].name));
+  const rows=ALARMS.filter(a=>names.has(a.plant)&&(state.alarmAll||a.sev==='kritik'));
+  const groups=new Map(); rows.forEach(a=>{if(!groups.has(a.plant))groups.set(a.plant,[]);groups.get(a.plant).push(a);});
+  if(!groups.size){$('#alarms').innerHTML=`<div class="empty">Seçili kapsamda ${state.alarmAll?'':'kritik '}alarm yok.</div>`;return;}
+  const sorted=[...groups.entries()].sort((a,b)=>PLOSS[b[0]]-PLOSS[a[0]]);
+  $('#alarms').innerHTML=sorted.map(([name,list])=>{const p=P.find(x=>x.name===name);const loss=PLOSS[name]||0;
+    return `<div class="agroup"><button class="agh" data-plant="${p.id}" aria-label="${esc(name)} santralini seç"><span><span class="dot" style="background:${SC[list[0].sev]}"></span> <b>${esc(name)}</b><br><small style="color:var(--muted)">${list.length} alarm</small></span><span class="loss">Tahmini kayıp<br><strong>${fmt(loss,1)} MWh</strong></span></button>`+
+      list.sort((a,b)=>a.start-b.start).map(a=>`<div class="al ${a.sev==='kritik'?'k':''}"><span class="m">${esc(a.msg)}</span><span class="d">${durTxt(a.start)}</span><span class="s">Başlangıç 21.09.2026 ${clockTxt(a.start)}</span></div>`).join('')+`</div>`;}).join('');
+  $$('.agh',$('#alarms')).forEach(b=>b.addEventListener('click',()=>{select({plant:+b.dataset.plant});}));
+}
+
+/* ================= COMPARE ================= */
+function cmpModel(){
+  const lfl=state.lfl, mode=state.cmp;
+  if(mode==='day'){
+    return {kind:'cum',title:'Bugün ile dün',cur:A_NOW,prevL:Y_NOW,prevF:Y_DAY,exp:E_NOW,lblCur:'Bugün, 14:42\'ye kadar',lblPrevL:'Dün, aynı saate kadar',lblPrevF:'Dün, tüm gün',eLabel:'Beklenen (şimdiye kadar)',
+      fcTxt:`Gün sonu tahmini <b>${fmt(A_NOW+(E_DAY-E_NOW)*RR)} MWh</b>`,sub:'Kümülatif üretim. Dün gün boyunca tamamlandığı için 355 MWh ile 600 MWh doğrudan kıyaslanamaz; aynı saatteki değer esas alınır.'};
+  }
+  if(mode==='week'){
+    const cats=[];for(let k=0;k<7;k++){const d=15+k,pd=8+k;cats.push({l:DOW(d)+' '+d,cur:d===21?A_NOW:D[d],part:d===21,cmp:(d===21&&lfl)?D[pd]*FRAC:D[pd],exp:d===21?E_NOW:ED[d],tag:d+' Eylül'});}
+    const cur=sum(cats,c=>c.cur),prevL=sum(cats,c=>c.cmp),prevF=sum(cats,(c,)=>0)+sum([8,9,10,11,12,13,14],d=>D[d]);
+    const prevLx=sum([8,9,10,11,12,13],d=>D[d])+D[14]*FRAC;
+    return {kind:'bars',cats,cur,prevL:prevLx,prevF,exp:sum(cats,c=>c.exp),lblCur:'15 – 21 Eylül',lblPrevL:'8 – 14 Eylül, eşit süre',lblPrevF:'8 – 14 Eylül, tam hafta',eLabel:'Beklenen',fcTxt:'',cmpName:'Önceki 7 gün',
+      sub:'Son 7 gün, önceki 7 günle günbegün karşılaştırılır. Bugünün çubuğu şu ana kadar olan üretimdir.'};
+  }
+  if(mode==='month'){
+    const cats=[];for(let d=1;d<=30;d++){const c={l:String(d),exp:ED[d],cmp:AUG[d],tag:d+' Eylül '+DOW(d)};
+      if(d<=20)c.cur=D[d];else if(d===21){c.cur=A_NOW;c.part=true;c.exp=ED[d];c.cmp=lfl?AUG[21]*FRAC:AUG[21];}else{c.cur=ED[d]*RR;c.fc=true;}cats.push(c);}
+    const prevL=sum(AUG.slice(1,21),x=>x)+AUG[21]*FRAC;
+    return {kind:'bars',cats,cur:12082,prevL,prevF:15659,exp:EXP_TO_DATE,lblCur:'1 – 21 Eylül',lblPrevL:'1 – 21 Ağustos, eşit süre',lblPrevF:'Ağustos, tüm ay',eLabel:'Beklenen (bugüne kadar)',cmpName:'Ağustos',
+      fcTxt:`Ay sonu tahmini <b>${fmt(M_FC)} MWh</b> (ay beklentisinin ${pc(M_FC/EXPM[9]*100,0)})`,prog:{v:12082,max:EXPM[9],txt:`Ay beklentisi ${fmt(EXPM[9])} MWh, gerçekleşen ${pc(12082/EXPM[9]*100,0)}`},
+      sub:'Günlük üretim. Soluk çubuklar tahmindir; bugünün çubuğu şu ana kadar olan üretimdir.'};
+  }
+  const cats=[];for(let mo=1;mo<=12;mo++){const c={l:MONTHS[mo-1],exp:EXPM[mo],cmp:PY[mo],tag:MONTHS[mo-1]+' 2026'};if(mo<=8)c.cur=M[mo];else if(mo===9){c.cur=M[9];c.part=true;c.cmp=lfl?PY[9]*((20+FRAC)/30):PY[9];}cats.push(c);}
+  const prevL=sum(PY.slice(1,9),x=>x)+PY[9]*((20+FRAC)/30), prevF=sum(PY.slice(1,13),x=>x);
+  const yrFc=92147+(E_DAY-E_NOW)*RR+sum(ED.slice(22,31),x=>x)*RR+(EXPM[10]+EXPM[11]+EXPM[12])*RR;
+  return {kind:'bars',cats,cur:92147,prevL,prevF,exp:sum(EXPM.slice(1,9),x=>x)+EXP_TO_DATE,lblCur:'1 Ocak – 21 Eylül',lblPrevL:'2025 aynı dönem',lblPrevF:'2025, tüm yıl',eLabel:'Beklenen (bugüne kadar)',cmpName:'2025',
+    fcTxt:`Yıl sonu tahmini <b>${fmt(yrFc)} MWh</b>`,sub:'Aylık üretim. 2026 çubukları geçen yılın aynı ayıyla (noktalar) ve beklenenle (çizgiler) birlikte gösterilir.'};
+}
+function renderCmpMeta(){
+  const md=cmpModel();
+  const dev=md.cur-md.exp, devPc=md.exp?dev/md.exp*100:0;
+  $('#cmpSub').textContent=md.sub;
+  $('#cmpCards').innerHTML=
+   `<div class="cc"><div class="sl">Gerçekleşen · ${md.lblCur}</div><div class="sv">${fmt(md.cur)} <small>MWh</small></div></div>`+
+   `<div class="cc"><div class="sl">Beklenen · ${md.lblCur}</div><div class="sv">${fmt(md.exp)} <small>MWh</small></div><div class="sub">Performans oranı ${pc(md.cur/md.exp*100,0)}</div></div>`+
+   `<div class="cc"><div class="sl">Sapma</div><div class="sv" style="color:${dev<0?'var(--red)':'var(--green)'}">${sg(dev,0)} <small>MWh</small></div><div class="sub"><span class="delta ${dev>=0?'up':'dn'}">${sg(devPc,1)}%</span></div></div>`;
+  $('#cmpLegend').innerHTML= md.kind==='cum'
+   ? `<span><i class="lg-l" style="border-color:var(--blue)"></i>Bugün</span><span><i class="lg-l" style="border-color:var(--steel)"></i>Dün</span><span><i class="lg-d" style="border-color:var(--slate)"></i>Beklenen</span>`
+   : `<span><i class="lg-b" style="background:var(--blue)"></i>Gerçekleşen</span>${state.cmp==='month'||state.cmp==='year'?`<span><i class="lg-b" style="background:var(--blue);opacity:.3"></i>Tahmin</span>`:''}<span><i class="lg-l" style="border-color:var(--orange)"></i>${md.cmpName}</span><span><i class="lg-d" style="border-color:var(--slate)"></i>Beklenen</span>`;
+}
+function drawCmp(el,w,h){
+  const md=cmpModel(); const m={l:52,r:12,t:16,b:30}; const iw=w-m.l-m.r,ih=h-m.t-m.b;
+  if(md.kind==='cum'){
+    const cA=cumArr(S_ALL.A.map((v,i)=>i<=NOW_I?v:0)),cY=cumArr(S_ALL.Y),cE=cumArr(S_ALL.E);
+    const XT0=6,XT1=19.5;const x=t=>m.l+(t-XT0)/(XT1-XT0)*iw;const sc=niceScale(Math.max(cE[N-1],cY[N-1])*1.03,5);const y=v=>m.t+ih-v/sc.top*ih;
+    const i0=Math.round((XT0-T0)/DT),i1=Math.round((XT1-T0)/DT);const pth=(arr,a,b)=>{let s='';for(let i=a;i<=b;i++)s+=(i===a?'M':'L')+x(T(i)).toFixed(1)+' '+y(arr[i]).toFixed(1);return s;};
+    let g='';sc.arr.forEach(v=>{g+=`<line x1="${m.l}" x2="${m.l+iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="txt" x="${m.l-8}" y="${y(v)+4}" text-anchor="end">${fmt(v)}</text>`;});
+    for(let t=6;t<=18;t+=2)g+=`<text class="txt" x="${x(t)}" y="${h-9}" text-anchor="middle">${String(t).padStart(2,'0')}:00</text>`;
+    const nx=x(NOW_T),ya=y(cA[NOW_I]),yy=y(cY[NOW_I]);
+    el.innerHTML=`<svg width="${w}" height="${h}" role="img" aria-label="Bugün, dün ve beklenen kümülatif üretim">${g}
+      <path d="${pth(cE,i0,i1)}" fill="none" stroke="var(--slate)" stroke-width="2" stroke-dasharray="6 5"/>
+      <path d="${pth(cY,i0,i1)}" fill="none" stroke="var(--steel)" stroke-width="2.5"/>
+      <path d="${pth(cA,i0,NOW_I)}" fill="none" stroke="var(--blue)" stroke-width="3.2" stroke-linecap="round"/>
+      <line x1="${nx}" x2="${nx}" y1="${Math.min(ya,yy)}" y2="${Math.max(ya,yy)}" stroke="var(--orange)" stroke-width="2"/>
+      <circle cx="${nx}" cy="${ya}" r="5" fill="var(--blue)" stroke="var(--card)" stroke-width="2"/><circle cx="${nx}" cy="${yy}" r="4.5" fill="var(--steel)" stroke="var(--card)" stroke-width="2"/>
+      <text class="txt-b" x="${nx+9}" y="${(ya+yy)/2+4}">${sg(A_NOW-Y_NOW,0)} MWh</text>
+      <rect class="ov" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg>`;
+    const ov=$('.ov',el),svg=$('svg',el);ov.addEventListener('pointermove',ev=>{const r=svg.getBoundingClientRect();const t=XT0+(ev.clientX-r.left-m.l)/iw*(XT1-XT0);const i=clamp(Math.round((t-T0)/DT),i0,i1);
+      let html=`<b>${hhmm(T(i))}</b>`+(i<=NOW_I?tl('Bugün',fmt(cA[i])+' MWh'):'')+tl('Dün',fmt(cY[i])+' MWh')+tl('Beklenen',fmt(cE[i])+' MWh');showTip(html,ev.clientX,ev.clientY);});
+    ov.addEventListener('pointerleave',hideTip);return;
+  }
+  drawBarsCmp(el,w,h,md,'');
+}
+// Karşılaştırma çubuk grafiği; uid, aynı sayfadaki ikinci grafiğin SVG kimliklerini ayırır
+function drawBarsCmp(el,w,h,md,uid){
+  const m={l:52,r:12,t:16,b:30}; const iw=w-m.l-m.r,ih=h-m.t-m.b;
+  const cats=md.cats,n=cats.length;const vmax=Math.max(...cats.map(c=>Math.max(c.cur||0,c.cmp||0,c.exp||0)));const sc=niceScale(vmax*1.05,5);const y=v=>m.t+ih-v/sc.top*ih;
+  const bw=iw/n,bar=Math.min(bw*.62,46);let g='';
+  sc.arr.forEach(v=>{g+=`<line x1="${m.l}" x2="${m.l+iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text class="txt" x="${m.l-8}" y="${y(v)+4}" text-anchor="end">${fmt(v)}</text>`;});
+  const every=n>16?(bw<22?3:2):1; let bars='',lab='',ptsC='',ptsE='',dots='';
+  cats.forEach((c,i)=>{const cx=m.l+bw*i+bw/2;
+    if(c.cur!=null){const op=c.fc?.28:1;const fill=c.part?`url(#${uid}hatch)`:'var(--blue)';bars+=`<rect x="${cx-bar/2}" y="${y(c.cur)}" width="${bar}" height="${Math.max(0,y(0)-y(c.cur))}" rx="2.5" fill="${fill}" opacity="${op}" ${c.part?'stroke="var(--blue)" stroke-width="1.5"':''}/>`;}
+    ptsC+=(ptsC?'L':'M')+cx.toFixed(1)+' '+y(c.cmp).toFixed(1); if(c.cmp!=null)dots+=`<circle cx="${cx}" cy="${y(c.cmp)}" r="${n>16?2.6:4}" fill="var(--orange)" stroke="var(--card)" stroke-width="1.5"/>`;
+    ptsE+=(ptsE?'L':'M')+cx.toFixed(1)+' '+y(c.exp).toFixed(1);
+    if(i%every===0)lab+=`<text class="txt" x="${cx}" y="${h-9}" text-anchor="middle">${c.l}</text>`;});
+  el.innerHTML=`<svg width="${w}" height="${h}" role="img" aria-label="${md.cmpName} ile karşılaştırmalı üretim"><defs><pattern id="${uid}hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--card)"/><rect width="3" height="6" fill="var(--blue)" opacity=".55"/></pattern></defs>${g}${bars}
+    <path d="${ptsE}" fill="none" stroke="var(--slate)" stroke-width="2" stroke-dasharray="6 5"/>
+    <path d="${ptsC}" fill="none" stroke="var(--orange)" stroke-width="2.4" stroke-linejoin="round"/>${dots}${lab}
+    <g id="${uid}hv" style="display:none;pointer-events:none"><rect id="${uid}hvr" y="${m.t}" height="${ih}" fill="var(--hover)" rx="3"/></g>
+    <rect class="ov" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg>`;
+  const ov=$('.ov',el),svg=$('svg',el),hv=$('#'+uid+'hv',el),hvr=$('#'+uid+'hvr',el);
+  ov.addEventListener('pointermove',ev=>{const r=svg.getBoundingClientRect();const i=clamp(Math.floor((ev.clientX-r.left-m.l)/bw),0,n-1);const c=cats[i];hv.style.display='';hvr.setAttribute('x',m.l+bw*i);hvr.setAttribute('width',bw);
+    let html=`<b>${c.tag||c.l}</b>`; if(c.cur!=null)html+=tl(c.fc?'Tahmin':c.part?'Şimdiye kadar':'Gerçekleşen',fmt(c.cur)+' MWh'); html+=tl(md.cmpName,fmt(c.cmp)+' MWh')+tl('Beklenen',fmt(c.exp)+' MWh');
+    if(c.cur!=null&&!c.fc){html+=tl('Önceki dönemle',sg((c.cur/c.cmp-1)*100,1)+'%')+tl('Beklenenle',sg((c.cur/c.exp-1)*100,1)+'%');} html+=c.extra||''; showTip(html,ev.clientX,ev.clientY);});
+  ov.addEventListener('pointerleave',()=>{hv.style.display='none';hideTip();});
+}
+
+
+/* ================= MAP ================= */
+const VIEW={};
+// +/− ve sürükleyerek kaydırma; görünüm yeniden çizimlerde korunur
+function zoomable(el,key){
+  const v=VIEW[key]||(VIEW[key]={k:1,x:0,y:0}); const svg=$('svg',el);
+  const apply=()=>{const w=760/v.k,h=330/v.k;v.x=clamp(v.x,0,760-w);v.y=clamp(v.y,0,330-h);svg.setAttribute('viewBox',`${v.x.toFixed(1)} ${v.y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);svg.classList.toggle('pan',v.k>1);};
+  const zoomBy=f=>{const cx=v.x+380/v.k,cy=v.y+165/v.k;v.k=clamp(v.k*f,1,5);v.x=cx-380/v.k;v.y=cy-165/v.k;apply();};
+  el.insertAdjacentHTML('beforeend',`<div class="zoom"><button type="button" data-z="in" aria-label="Yakınlaştır">${ic('plus',16)}</button><button type="button" data-z="out" aria-label="Uzaklaştır">${ic('minus',16)}</button><button type="button" data-z="fit" aria-label="Tüm haritayı göster">${ic('fit',15)}</button></div>`);
+  $$('.zoom button',el).forEach(b=>b.addEventListener('click',()=>{const z=b.dataset.z;if(z==='fit'){v.k=1;v.x=0;v.y=0;apply();}else zoomBy(z==='in'?1.5:1/1.5);}));
+  let drag=null; el._moved=false;
+  svg.addEventListener('pointerdown',e=>{el._moved=false;if(v.k>1)drag={x:e.clientX,y:e.clientY,vx:v.x,vy:v.y};});
+  svg.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>4)el._moved=true;const u=(760/v.k)/svg.getBoundingClientRect().width;v.x=drag.vx-dx*u;v.y=drag.vy-dy*u;apply();});
+  ['pointerup','pointerleave','pointercancel'].forEach(t=>svg.addEventListener(t,()=>{drag=null;}));
+  apply();
+}
+// il dolgusu + sayı dairesi + büyük harf etiket
+function cityMarks(name,d,cx,cy,col,n,on,dim,pulse,nd){
+  const r=7+Math.sqrt(n)*3,[ndx,ndy]=nd||[0,0];
+  return {
+    shape:`<g class="city" tabindex="0" role="button" data-c="${name}" aria-pressed="${!!on}" opacity="${dim?.35:1}">`+
+      `<path d="${d}" fill="${col}" fill-opacity=".62" stroke="${on?'var(--ink)':'var(--land-line)'}" stroke-width="${on?2.4:1}"/>`+
+      `${pulse?`<circle class="pulse" cx="${cx}" cy="${cy}" r="${r}" fill="${col}"/>`:''}`+
+      `<circle class="c" cx="${cx}" cy="${cy}" r="${r}" fill="var(--card)" stroke="${col}" stroke-width="2.2"/>`+
+      `<text x="${cx}" y="${cy+3.8}" text-anchor="middle" font-size="${(r*.95).toFixed(1)}" font-weight="700" fill="var(--ink)" style="pointer-events:none">${n}</text></g>`,
+    label:`<text x="${cx+ndx}" y="${cy+r+11+ndy}" text-anchor="middle" font-size="10" font-weight="700" letter-spacing=".03em" fill="var(--ink)" stroke="var(--card)" stroke-width="3" stroke-opacity=".85" paint-order="stroke" opacity="${dim?.35:1}" style="pointer-events:none">${name.toLocaleUpperCase('tr-TR')}</text>`};
+}
+
+const PROV=[
+["Adana","M415.4 217.6 L416.7 226.0 L414.4 231.2 L403.8 235.2 L397.9 246.1 L398.7 253.6 L396.7 257.6 L403.8 256.1 L404.1 262.8 L396.3 274.5 L389.4 275.9 L385.3 278.6 L391.6 278.6 L387.6 284.1 L376.5 287.4 L376.8 284.2 L373.1 280.4 L369.6 280.5 L376.0 286.4 L359.9 278.0 L364.6 275.7 L365.9 271.6 L365.4 265.6 L360.3 259.6 L354.8 244.9 L354.9 240.6 L357.7 237.6 L356.4 229.5 L366.4 227.8 L371.6 222.0 L372.7 215.9 L381.2 217.6 L387.6 215.8 L390.0 210.5 L403.0 204.2 L408.8 192.6 L417.3 190.0 L421.8 197.6 L419.2 200.8 L415.4 217.6Z",386.6,240.8],
+["Adıyaman","M506.8 208.9 L530.0 205.1 L528.6 210.9 L520.1 217.9 L518.5 226.2 L499.9 239.4 L487.2 243.5 L473.1 236.6 L466.3 238.2 L458.1 232.9 L458.4 228.6 L465.1 222.4 L488.2 217.7 L486.4 209.0 L496.7 203.5 L506.0 203.5 L503.2 207.3 L506.8 208.9Z",494.3,223.4],
+["Afyonkarahisar","M218.0 149.2 L224.1 158.5 L233.4 158.3 L233.9 165.3 L229.2 176.9 L232.7 181.6 L216.3 191.9 L209.5 187.7 L198.2 198.9 L187.1 204.1 L177.2 212.7 L174.6 221.2 L170.3 224.8 L160.7 225.6 L159.5 222.7 L153.5 221.0 L153.6 214.1 L163.8 208.3 L168.4 202.4 L163.7 192.7 L157.1 190.6 L157.8 188.0 L162.6 177.7 L171.3 172.1 L177.4 158.5 L184.6 152.6 L191.9 159.1 L201.6 152.2 L205.6 154.9 L215.5 148.6 L218.0 149.2Z",192.5,182.1],
+["Ağrı","M693.1 116.2 L693.0 122.8 L695.5 124.2 L702.0 121.4 L716.8 128.4 L736.3 127.8 L734.1 141.0 L728.7 144.2 L725.6 142.3 L719.6 142.5 L718.8 144.8 L705.7 144.3 L700.8 148.4 L689.1 142.6 L680.6 147.5 L684.1 151.0 L683.4 156.0 L667.7 161.1 L664.6 150.4 L656.6 139.6 L658.8 134.3 L658.1 126.1 L648.3 119.5 L681.6 112.0 L693.1 116.2Z",688.1,133.9],
+["Aksaray","M321.0 162.6 L334.2 173.4 L332.0 179.3 L339.4 191.4 L339.2 205.4 L328.9 212.9 L300.9 216.0 L294.1 202.7 L299.6 185.1 L302.9 181.4 L320.9 174.1 L319.5 165.3 L321.0 162.6Z",317.7,194.8],
+["Amasya","M390.8 68.1 L404.9 69.8 L412.7 62.9 L420.1 68.5 L418.9 70.9 L421.1 76.7 L415.3 86.0 L410.4 89.2 L396.4 87.1 L391.3 95.9 L383.3 102.8 L377.8 102.6 L376.7 94.3 L380.8 88.8 L381.4 83.4 L366.4 76.4 L364.2 69.8 L366.9 57.3 L382.3 61.3 L390.8 68.1Z",391.5,77.5],
+["Ankara","M282.9 82.2 L295.1 95.7 L300.7 92.8 L313.3 98.4 L307.3 110.0 L308.8 116.9 L298.6 125.0 L293.8 144.0 L299.1 147.0 L301.0 154.9 L305.4 150.1 L308.1 154.3 L321.7 161.2 L319.5 165.3 L321.8 172.5 L317.2 177.4 L302.9 181.4 L298.9 173.5 L299.3 161.1 L292.0 149.0 L283.2 156.6 L278.1 155.3 L272.9 161.3 L267.2 160.5 L263.7 163.3 L256.9 159.6 L248.6 160.8 L240.7 154.2 L245.1 151.5 L245.8 143.7 L245.1 137.5 L239.4 126.1 L239.7 118.8 L230.3 111.6 L203.8 111.3 L201.1 105.3 L207.9 98.7 L208.4 91.4 L228.3 96.8 L251.1 91.0 L260.0 91.4 L264.0 85.6 L262.2 79.5 L265.0 76.8 L282.9 82.2Z",269.6,122.8],
+["Antalya","M215.4 242.8 L239.3 249.5 L254.5 264.1 L256.8 271.6 L262.1 273.2 L265.1 286.3 L271.2 292.1 L268.1 309.1 L264.5 309.2 L256.9 302.8 L246.5 287.5 L219.0 273.8 L194.3 269.9 L189.3 274.5 L190.0 284.9 L185.5 294.5 L187.6 297.8 L182.7 304.1 L182.8 300.7 L174.6 298.7 L171.3 302.2 L163.7 302.8 L154.3 308.1 L152.8 304.7 L150.4 305.3 L152.2 304.3 L144.8 304.0 L142.9 301.3 L141.3 303.1 L137.5 299.5 L140.3 292.3 L150.0 283.6 L154.4 268.2 L159.3 264.6 L163.6 254.6 L179.1 248.6 L184.2 252.8 L198.4 252.8 L201.4 245.8 L205.9 246.8 L215.4 242.8Z",202.9,274.3],
+["Ardahan","M661.9 32.4 L671.1 32.4 L670.0 37.0 L673.4 36.4 L685.5 46.7 L682.4 49.0 L688.6 52.7 L687.8 57.3 L684.4 61.7 L674.2 65.6 L671.1 76.4 L659.8 80.0 L653.1 70.3 L651.2 62.8 L661.2 50.4 L656.8 39.7 L658.7 39.6 L661.9 32.4Z",668.2,56.0],
+["Artvin","M622.1 35.9 L631.3 39.9 L636.5 35.4 L654.3 38.3 L656.8 39.7 L661.2 50.4 L651.2 62.8 L638.7 65.4 L634.5 80.1 L624.4 79.0 L613.2 83.2 L614.1 73.4 L603.8 71.6 L615.6 57.2 L611.0 54.0 L607.3 46.6 L622.1 35.9Z",631.0,56.3],
+["Aydın","M115.6 207.9 L122.3 214.4 L118.2 221.5 L122.7 229.1 L117.3 233.8 L110.7 234.2 L111.9 240.0 L99.7 234.4 L94.1 240.1 L83.7 241.0 L68.8 235.1 L65.2 243.1 L58.9 247.1 L56.4 246.2 L57.8 240.2 L56.0 240.1 L55.2 234.5 L55.7 236.4 L57.4 234.2 L49.0 230.8 L57.9 227.7 L59.3 219.0 L66.2 217.8 L69.5 214.4 L98.0 212.6 L111.0 208.0 L115.6 207.9Z",88.9,226.1],
+["Balıkesir","M78.5 85.7 L89.4 88.1 L84.1 92.7 L86.4 94.6 L96.7 92.3 L93.7 96.6 L93.6 108.5 L100.1 119.1 L114.5 124.8 L119.1 131.4 L125.4 132.4 L122.9 144.5 L114.2 151.2 L114.2 154.7 L94.7 160.8 L88.1 151.9 L84.1 151.1 L84.1 144.9 L75.6 145.5 L69.2 142.1 L55.8 141.7 L40.4 154.3 L37.8 149.9 L33.5 149.2 L46.2 138.5 L47.1 135.1 L35.6 134.8 L36.7 127.7 L52.5 122.0 L59.3 124.0 L65.5 121.0 L68.2 115.5 L66.6 113.0 L68.8 106.4 L67.5 102.3 L72.0 96.4 L78.8 97.0 L83.5 93.5 L75.9 88.6 L78.5 85.7Z",82.9,128.9],
+["Bartın","M272.2 19.7 L277.8 31.8 L281.7 33.9 L276.4 35.3 L270.2 43.9 L262.2 49.0 L259.2 49.8 L246.3 34.1 L256.5 25.5 L272.2 19.7Z",263.8,34.1],
+["Batman","M622.0 186.1 L624.9 192.0 L625.6 203.1 L622.8 211.6 L617.9 212.5 L615.1 217.8 L619.3 220.7 L627.7 220.9 L626.5 224.8 L633.3 226.7 L621.5 234.9 L606.4 236.0 L601.0 227.8 L603.4 223.4 L600.2 220.6 L607.3 208.2 L608.1 193.8 L615.5 189.4 L615.9 186.7 L622.0 186.1Z",615.0,213.5],
+["Bayburt","M579.4 85.9 L581.8 97.2 L590.6 100.9 L589.7 104.7 L578.4 111.2 L564.0 108.9 L551.2 115.9 L548.1 113.7 L552.5 104.9 L553.9 96.0 L559.2 93.8 L563.3 86.5 L579.4 85.9Z",568.7,100.5],
+["Bilecik","M172.2 93.8 L185.1 92.8 L191.3 95.5 L195.3 103.8 L189.2 105.0 L185.0 114.9 L176.5 119.8 L169.1 120.3 L166.7 124.0 L168.5 128.0 L155.9 125.5 L154.1 117.2 L157.8 117.2 L158.5 114.1 L154.5 109.3 L160.1 98.0 L160.4 88.6 L164.5 85.6 L172.2 93.8Z",171.5,106.6],
+["Bingöl","M593.5 134.4 L604.1 139.8 L607.5 145.0 L605.7 148.4 L609.7 161.5 L605.1 167.8 L609.4 176.9 L595.4 183.6 L580.3 182.6 L577.1 189.4 L571.1 189.6 L569.1 180.9 L574.9 172.8 L570.9 165.8 L570.8 160.9 L574.9 153.1 L573.6 151.6 L560.0 158.5 L562.2 149.5 L575.0 143.6 L572.8 141.4 L581.0 135.3 L586.5 137.1 L593.5 134.4Z",588.0,160.7],
+["Bitlis","M677.8 163.7 L685.3 169.1 L684.5 173.2 L673.2 187.0 L665.3 192.2 L666.5 203.1 L669.6 205.0 L671.1 210.2 L667.3 212.9 L646.4 202.6 L639.3 207.0 L625.5 203.7 L623.8 188.0 L619.5 186.2 L623.4 183.2 L635.9 182.3 L640.4 178.4 L638.3 172.4 L643.6 171.9 L643.7 169.6 L650.4 166.3 L668.4 166.0 L667.7 161.1 L670.8 159.7 L678.4 158.2 L677.8 163.7Z",654.1,185.7],
+["Bolu","M235.0 59.7 L256.5 61.5 L256.4 64.9 L265.3 68.8 L265.8 75.6 L262.2 79.5 L264.0 85.6 L260.6 91.0 L228.3 96.8 L208.4 91.4 L207.9 98.7 L201.1 105.3 L195.3 103.8 L191.8 96.8 L190.2 90.0 L193.3 86.2 L202.5 85.2 L204.3 78.0 L220.2 79.0 L222.8 77.0 L224.5 68.4 L233.2 66.2 L235.8 62.5 L235.0 59.7Z",232.3,82.1],
+["Burdur","M188.0 228.5 L194.4 229.8 L196.8 237.5 L202.4 244.0 L198.4 252.8 L184.2 252.8 L178.1 248.7 L161.9 256.0 L156.4 267.8 L148.9 262.7 L143.0 266.5 L143.0 256.4 L150.2 243.4 L148.2 234.2 L161.5 225.2 L166.5 224.6 L169.9 228.5 L179.7 221.6 L188.0 228.5Z",170.3,242.7],
+["Bursa","M164.0 84.2 L159.3 90.9 L160.2 97.8 L154.5 109.3 L158.2 116.5 L143.6 117.0 L136.2 134.9 L119.9 131.8 L114.5 124.8 L100.1 119.1 L93.0 106.7 L93.7 96.3 L96.7 92.3 L126.7 94.4 L133.5 90.9 L127.9 87.3 L129.2 84.2 L149.7 84.4 L158.4 81.4 L164.0 84.2Z",128.5,106.6],
+["Çanakkale","M60.1 88.4 L61.0 93.6 L71.7 96.7 L67.3 102.6 L68.8 106.1 L66.6 113.0 L68.2 115.5 L65.5 121.0 L38.0 126.8 L35.4 135.1 L19.1 139.6 L12.1 138.8 L16.0 129.7 L16.6 113.0 L22.7 111.0 L25.7 106.4 L25.4 102.5 L30.2 101.4 L39.2 92.1 L50.2 92.7 L60.1 88.4ZM50.6 74.6 L48.7 84.3 L37.1 89.5 L32.8 96.2 L23.7 102.2 L24.6 105.2 L16.3 110.1 L20.5 101.5 L18.2 96.3 L42.4 83.1 L39.4 77.5 L40.4 74.7 L48.4 71.9 L50.6 74.6Z",39.1,109.6],
+["Çankırı","M315.5 63.8 L325.3 69.4 L325.7 78.0 L330.2 90.6 L328.1 96.0 L322.6 99.3 L312.8 98.3 L300.7 92.8 L295.1 95.7 L283.1 82.3 L265.0 76.8 L265.7 70.0 L268.4 67.4 L272.5 64.0 L285.7 61.1 L287.7 57.4 L300.6 63.9 L317.4 57.0 L318.4 59.2 L315.5 63.8Z",301.4,77.6],
+["Çorum","M356.1 51.7 L359.0 49.1 L362.4 57.7 L366.9 57.3 L364.2 69.8 L366.9 77.3 L381.4 83.2 L376.3 100.9 L369.8 101.7 L370.2 107.9 L365.4 110.9 L339.4 112.9 L326.1 117.2 L331.7 110.4 L327.1 101.2 L322.6 99.3 L328.1 96.0 L330.2 91.6 L325.7 78.0 L325.3 69.4 L334.8 65.6 L332.2 59.9 L340.9 46.5 L356.1 51.7Z",349.9,83.8],
+["Denizli","M154.3 191.8 L164.0 193.0 L168.4 201.7 L163.8 208.3 L153.6 214.1 L153.5 221.0 L159.5 222.7 L160.7 225.6 L148.2 234.2 L150.2 243.4 L143.6 254.5 L140.4 266.3 L137.8 270.1 L135.0 269.8 L130.7 264.5 L128.8 256.8 L119.1 251.8 L117.4 246.1 L112.3 244.2 L109.8 235.2 L117.3 233.8 L122.7 228.9 L118.2 221.5 L122.2 213.9 L115.9 209.1 L119.2 206.4 L119.7 202.5 L124.4 200.1 L136.2 203.7 L144.2 200.3 L150.1 203.9 L154.3 191.8Z",137.8,227.0],
+["Diyarbakır","M609.4 176.9 L616.0 188.6 L608.7 192.0 L607.3 208.2 L600.3 220.5 L603.4 223.4 L602.7 225.4 L591.2 227.8 L583.3 224.3 L579.9 231.2 L570.4 235.4 L555.0 236.0 L552.7 224.3 L536.6 213.8 L527.4 212.0 L530.0 204.9 L524.8 204.2 L525.0 196.5 L549.2 194.8 L554.2 188.4 L576.9 189.5 L580.3 182.6 L595.4 183.6 L609.4 176.9Z",573.3,206.7],
+["Düzce","M219.4 55.0 L223.3 59.0 L235.0 59.7 L235.8 62.5 L232.3 66.7 L224.5 68.4 L222.8 77.0 L220.2 79.0 L204.3 78.0 L205.5 76.0 L201.1 70.5 L207.4 61.6 L205.1 58.2 L219.4 55.0Z",216.6,67.2],
+["Edirne","M47.8 12.7 L45.3 27.5 L48.8 30.4 L48.9 33.8 L44.1 42.3 L46.5 52.0 L38.9 58.8 L40.4 61.9 L38.2 71.3 L40.7 79.2 L30.6 82.6 L13.1 81.7 L10.8 75.3 L14.5 74.3 L18.6 67.0 L23.5 64.2 L22.6 49.0 L34.6 43.9 L33.0 30.8 L24.1 25.8 L24.4 19.8 L31.1 19.3 L34.1 12.5 L47.8 12.7Z",33.3,49.5],
+["Elazığ","M575.3 155.1 L571.0 160.2 L570.9 165.5 L574.8 173.0 L569.0 181.6 L571.1 189.6 L554.2 188.4 L549.2 194.8 L519.1 197.9 L513.4 193.1 L498.0 189.5 L494.8 184.6 L499.6 176.3 L505.8 175.6 L505.2 162.5 L510.7 161.2 L512.8 169.2 L522.3 168.4 L539.6 175.7 L552.1 171.2 L556.6 158.5 L573.8 151.5 L575.3 155.1Z",537.2,179.4],
+["Erzincan","M570.1 117.2 L579.7 117.8 L581.8 125.0 L586.8 128.1 L584.0 136.3 L555.2 135.2 L546.5 140.7 L543.4 138.3 L526.4 138.9 L513.3 146.9 L512.2 148.8 L517.1 151.4 L511.4 153.9 L509.6 157.3 L510.7 161.2 L507.9 162.8 L505.3 159.0 L495.0 155.9 L496.5 152.2 L495.5 128.4 L502.9 121.2 L495.5 120.7 L498.7 114.0 L509.5 114.6 L511.5 110.0 L517.6 109.3 L538.9 118.9 L549.9 116.9 L554.9 112.0 L564.4 108.9 L570.9 110.5 L570.1 117.2Z",532.8,129.3],
+["Erzurum","M651.2 62.8 L653.1 70.3 L660.5 81.4 L659.4 90.0 L643.6 99.3 L646.3 104.0 L652.7 105.8 L659.9 113.8 L654.2 118.8 L648.3 119.5 L657.6 124.9 L658.8 134.3 L656.8 138.3 L646.6 142.3 L646.8 146.7 L641.2 151.8 L627.2 154.2 L619.2 146.1 L614.1 143.6 L607.5 145.0 L604.1 139.8 L595.0 134.9 L584.2 136.5 L586.8 128.1 L581.8 125.0 L579.7 117.8 L569.3 115.9 L570.9 110.5 L578.7 111.1 L590.9 102.4 L582.9 99.0 L579.2 85.4 L603.8 71.6 L614.1 73.4 L613.2 83.2 L624.8 78.9 L631.7 81.2 L634.7 79.8 L638.7 65.4 L651.2 62.8Z",621.1,109.7],
+["Eskişehir","M205.0 111.5 L230.3 111.6 L239.7 118.8 L239.4 126.1 L245.2 137.9 L245.0 151.6 L236.4 159.1 L224.6 158.6 L215.5 148.6 L205.6 154.9 L201.6 152.2 L191.1 159.1 L179.4 144.7 L179.1 138.6 L172.2 131.6 L174.1 127.8 L166.8 125.9 L169.6 119.9 L176.5 119.8 L185.7 114.4 L189.2 105.0 L200.5 105.1 L205.0 111.5Z",209.1,132.7],
+["Gaziantep","M477.8 238.3 L483.1 242.0 L478.6 243.7 L474.4 251.8 L476.4 261.2 L481.6 267.8 L481.5 272.9 L477.5 274.9 L461.8 281.5 L458.9 275.2 L451.2 270.9 L447.5 263.8 L440.7 264.4 L433.3 273.9 L419.9 266.5 L423.7 258.4 L437.7 245.6 L442.2 253.1 L449.1 247.3 L465.2 244.0 L466.3 238.2 L477.8 238.3Z",455.3,259.5],
+["Giresun","M526.8 57.9 L525.0 64.4 L526.2 73.2 L518.5 76.5 L514.4 84.0 L514.7 89.1 L523.2 94.0 L516.8 99.5 L517.8 109.0 L499.1 107.6 L491.0 102.5 L487.2 85.7 L481.4 74.6 L485.9 64.2 L501.9 66.1 L526.8 57.9Z",504.3,83.3],
+["Gümüşhane","M527.3 74.0 L545.9 84.1 L548.8 83.3 L552.0 76.2 L553.0 81.2 L558.4 84.1 L559.8 79.1 L563.9 83.6 L561.3 91.4 L553.9 96.0 L552.0 106.3 L547.5 111.7 L550.9 116.3 L537.6 118.8 L517.6 109.3 L516.8 99.5 L523.2 94.0 L514.7 89.1 L514.5 83.6 L521.4 74.1 L527.3 74.0Z",536.6,95.7],
+["Hakkari","M724.7 225.2 L726.5 232.5 L733.7 231.3 L740.8 226.0 L740.5 241.7 L749.2 248.6 L747.4 252.8 L748.4 256.6 L741.9 254.7 L730.6 261.6 L729.4 265.8 L724.8 259.2 L728.2 255.3 L726.1 250.0 L718.1 247.7 L712.7 252.3 L703.7 252.4 L694.7 247.3 L697.0 227.3 L712.6 228.7 L724.7 225.2Z",721.1,242.1],
+["Hatay","M404.9 262.9 L419.9 266.5 L429.2 273.3 L424.2 289.5 L426.4 298.0 L428.7 298.0 L430.2 302.0 L418.1 303.4 L417.4 314.6 L410.9 317.1 L409.1 324.0 L403.2 320.7 L402.8 317.7 L399.3 318.1 L401.7 313.7 L393.9 299.6 L398.9 292.2 L410.1 284.5 L410.6 275.1 L408.3 271.4 L403.2 267.6 L400.4 271.0 L399.1 269.4 L404.9 262.9Z",412.6,292.3],
+["Iğdır","M704.9 103.0 L703.3 106.8 L713.1 111.5 L727.9 110.0 L735.9 114.1 L749.0 131.4 L741.3 123.7 L736.3 127.8 L726.7 129.1 L716.6 128.3 L702.0 121.4 L696.3 124.2 L693.0 122.8 L693.0 115.7 L689.2 107.5 L692.5 106.8 L693.7 103.2 L704.9 103.0Z",715.4,117.3],
+["Isparta","M223.8 221.0 L219.3 242.0 L205.9 246.8 L196.8 237.5 L194.4 229.8 L186.6 227.9 L181.3 222.1 L169.9 228.5 L166.9 225.9 L173.6 222.7 L177.2 212.7 L187.1 204.1 L198.2 198.9 L210.1 187.4 L230.2 207.5 L222.8 215.0 L223.8 221.0Z",204.2,217.5],
+["İstanbul","M137.5 50.0 L161.3 54.6 L162.2 57.2 L152.8 61.4 L147.0 60.1 L144.0 65.9 L137.7 69.2 L127.7 61.4 L130.9 52.8 L137.5 50.0ZM96.0 34.3 L113.0 44.2 L131.9 49.8 L128.9 54.0 L129.7 57.7 L126.5 60.8 L125.3 58.6 L126.9 61.6 L120.6 64.2 L93.0 58.9 L90.4 54.3 L96.0 43.5 L96.0 34.3Z",121.5,54.4],
+["İzmir","M64.9 143.7 L68.7 162.0 L63.4 166.7 L55.5 168.5 L54.1 172.8 L58.0 176.2 L59.9 184.6 L66.9 185.1 L78.1 191.0 L82.4 196.7 L92.8 193.2 L105.2 198.6 L110.2 208.1 L98.0 212.6 L69.8 214.4 L59.8 219.0 L58.7 214.5 L48.2 209.8 L43.6 212.1 L39.4 202.3 L34.6 203.1 L32.8 208.4 L25.0 200.4 L22.8 202.1 L18.7 200.1 L21.5 197.3 L20.8 194.5 L24.5 197.9 L28.6 194.5 L27.3 191.9 L29.9 191.9 L26.8 189.4 L25.0 191.0 L23.5 181.3 L26.0 179.1 L30.2 180.7 L34.2 186.7 L34.8 189.8 L32.6 192.0 L36.1 197.8 L37.4 191.6 L41.4 195.6 L55.6 191.2 L46.9 191.7 L42.1 186.9 L44.5 187.7 L42.6 183.8 L38.0 180.6 L38.7 176.1 L44.7 176.5 L46.5 174.8 L44.7 171.8 L47.7 172.9 L51.5 169.2 L50.6 166.0 L41.1 165.5 L41.0 161.4 L44.5 159.2 L39.6 154.2 L55.8 141.7 L64.9 143.7Z",61.2,189.1],
+["Kahramanmaraş","M438.7 181.8 L453.1 183.4 L449.6 190.2 L459.7 190.7 L472.2 197.9 L466.7 217.8 L458.0 229.5 L458.5 233.5 L466.3 238.2 L466.1 242.6 L449.1 247.3 L442.2 253.1 L438.1 245.6 L431.1 250.2 L425.4 243.6 L412.5 245.7 L410.9 238.0 L416.6 226.4 L414.9 219.3 L419.3 200.5 L430.6 183.9 L438.7 181.8Z",441.2,217.6],
+["Karabük","M283.6 35.6 L286.4 40.8 L281.4 47.5 L281.4 51.0 L287.7 57.4 L285.7 61.1 L272.5 64.0 L265.7 70.0 L256.4 64.9 L256.5 61.5 L249.0 61.0 L249.6 55.6 L253.3 51.9 L269.3 44.7 L276.5 35.2 L283.6 35.6Z",270.2,53.5],
+["Karaman","M313.2 233.4 L321.3 250.3 L331.7 255.1 L314.1 262.7 L299.9 264.2 L283.1 273.8 L286.2 280.4 L293.2 285.2 L293.0 288.2 L276.6 292.9 L271.2 292.1 L265.1 286.3 L263.8 276.7 L277.2 268.6 L269.6 266.7 L267.5 263.5 L272.5 253.4 L280.7 253.3 L279.2 249.9 L281.4 245.4 L290.4 241.0 L298.5 245.1 L303.7 236.7 L313.2 233.4Z",292.2,261.9],
+["Kars","M696.1 60.5 L704.1 65.5 L706.9 75.2 L703.0 85.6 L699.0 88.3 L701.8 91.3 L700.9 95.4 L704.3 100.8 L693.7 103.2 L692.5 106.8 L689.6 106.9 L691.3 114.3 L681.6 112.0 L662.9 116.5 L652.7 105.8 L646.3 104.0 L643.7 99.5 L658.5 91.7 L659.8 80.0 L671.1 76.4 L673.9 65.9 L686.1 60.6 L688.5 52.6 L694.7 52.8 L696.1 60.5Z",680.1,88.5],
+["Kastamonu","M297.9 10.3 L332.8 13.6 L334.5 24.5 L347.5 28.1 L342.2 34.5 L342.6 46.5 L339.4 47.9 L332.2 59.9 L334.8 65.6 L325.3 69.4 L319.7 67.4 L315.6 64.3 L318.4 59.2 L317.2 57.0 L299.8 63.9 L281.8 52.0 L281.2 48.0 L286.4 40.8 L282.8 34.3 L277.8 31.8 L272.1 19.7 L297.9 10.3Z",310.9,37.1],
+["Kayseri","M395.1 147.9 L405.2 156.4 L433.0 154.1 L439.6 160.1 L431.3 183.7 L422.5 197.2 L418.5 190.5 L414.5 190.1 L408.3 193.2 L402.8 204.4 L390.0 210.5 L387.6 215.8 L380.4 217.6 L373.6 215.6 L375.5 211.5 L374.2 202.4 L365.7 199.3 L363.0 192.2 L359.6 190.2 L360.3 186.3 L366.0 182.5 L365.9 175.7 L361.4 173.2 L363.3 162.3 L372.7 162.7 L382.2 158.0 L381.7 153.6 L389.8 152.7 L395.1 147.9Z",396.9,179.2],
+["Kilis","M458.9 275.2 L460.8 282.3 L447.5 281.1 L445.4 283.1 L442.9 281.3 L444.0 278.1 L433.2 273.0 L440.7 264.4 L446.7 263.6 L451.2 270.9 L458.9 275.2Z",447.5,273.9],
+["Kırıkkale","M312.4 99.4 L327.0 101.1 L331.7 110.6 L326.3 115.1 L326.6 122.1 L320.4 127.3 L314.5 140.5 L307.6 143.7 L301.0 154.9 L299.1 147.0 L293.8 144.0 L297.9 126.8 L308.3 117.9 L307.3 110.0 L312.4 99.4Z",312.1,123.6],
+["Kırklareli","M58.9 6.0 L70.6 16.4 L76.1 12.7 L80.4 14.6 L82.4 11.5 L89.4 12.0 L90.5 17.2 L87.0 18.3 L94.1 32.5 L77.6 36.9 L69.4 50.7 L59.2 44.3 L45.5 45.0 L44.3 41.4 L48.9 33.3 L45.3 27.5 L48.2 9.6 L58.9 6.0Z",66.3,27.4],
+["Kırşehir","M326.6 122.1 L340.6 125.9 L345.3 131.5 L344.6 134.8 L349.7 138.4 L347.9 146.5 L353.6 145.2 L342.5 168.7 L337.3 168.8 L334.2 173.4 L321.6 161.1 L308.1 154.3 L305.4 150.1 L307.6 143.7 L314.5 140.5 L322.5 125.2 L326.6 122.1Z",330.5,147.0],
+["Kocaeli","M177.5 51.2 L181.6 53.7 L178.1 60.9 L181.6 68.5 L178.2 70.9 L175.7 80.7 L145.2 84.4 L144.5 78.1 L147.7 75.0 L149.6 77.7 L163.5 76.3 L164.4 74.2 L141.4 74.3 L140.5 71.2 L137.6 71.9 L147.0 60.1 L153.1 61.4 L161.9 57.8 L161.4 54.7 L172.8 54.9 L177.5 51.2Z",162.6,69.0],
+["Konya","M292.0 149.0 L299.3 161.1 L298.9 173.5 L302.9 181.4 L298.9 186.4 L294.1 201.1 L298.9 213.4 L304.1 217.0 L329.7 213.2 L341.6 228.7 L338.8 240.2 L342.9 244.1 L343.4 248.2 L331.7 255.1 L321.2 250.3 L313.2 233.4 L310.0 233.6 L303.2 237.2 L298.8 245.0 L289.5 241.1 L280.6 246.3 L279.2 250.2 L280.7 253.3 L272.3 253.6 L267.5 264.6 L277.2 268.6 L263.8 276.7 L261.7 272.8 L256.8 271.6 L254.5 264.1 L239.3 249.5 L220.8 245.4 L218.8 242.7 L223.8 224.8 L222.7 215.3 L230.4 208.2 L215.6 192.7 L232.7 181.6 L229.2 176.9 L233.9 165.3 L233.4 158.3 L238.6 157.9 L240.7 154.2 L249.8 161.4 L256.9 159.6 L263.9 163.3 L267.2 160.5 L272.9 161.3 L278.3 155.2 L283.2 156.6 L292.0 149.0Z",270.5,211.6],
+["Kütahya","M143.5 117.2 L154.1 117.2 L155.9 125.5 L164.9 128.5 L174.1 127.8 L172.2 131.5 L179.1 138.6 L179.2 144.4 L184.3 153.8 L177.0 159.0 L170.8 172.7 L163.5 177.3 L161.4 170.3 L154.5 168.5 L136.7 176.5 L128.9 176.8 L125.8 162.6 L115.5 156.9 L114.2 151.2 L122.9 144.5 L126.0 133.2 L136.5 134.8 L143.5 117.2Z",150.6,149.2],
+["Malatya","M493.2 156.0 L505.3 159.0 L507.9 162.8 L504.2 164.1 L505.8 175.6 L499.2 176.7 L494.7 183.9 L496.0 187.7 L513.7 193.2 L519.1 197.9 L525.0 196.5 L525.2 203.6 L520.6 207.6 L506.8 208.9 L503.2 207.3 L506.0 203.5 L499.6 202.5 L486.4 209.0 L488.2 217.7 L463.7 223.2 L469.2 211.6 L472.2 197.9 L459.9 190.8 L449.4 188.6 L464.3 174.3 L464.9 162.5 L487.9 159.4 L493.2 156.0Z",485.7,187.6],
+["Manisa","M75.6 145.5 L84.1 144.9 L84.1 151.1 L88.6 152.4 L94.2 160.7 L112.6 153.8 L124.2 160.2 L128.9 171.6 L128.9 176.8 L121.5 184.4 L120.6 195.6 L124.4 200.1 L119.7 202.5 L116.5 208.5 L110.2 208.1 L105.2 198.6 L92.8 193.2 L82.4 196.7 L78.1 191.0 L66.9 185.1 L59.9 184.6 L57.9 176.1 L53.8 174.1 L55.5 168.5 L63.4 166.7 L68.7 162.0 L64.9 143.7 L69.2 142.1 L75.6 145.5Z",94.0,174.9],
+["Mardin","M591.2 227.8 L601.0 226.7 L606.4 236.0 L616.5 236.1 L633.3 226.7 L636.6 231.9 L636.2 237.5 L627.9 241.7 L628.7 249.1 L633.1 250.2 L633.1 257.1 L607.5 260.9 L590.4 258.0 L569.7 268.4 L566.8 266.8 L555.0 236.0 L570.7 235.3 L579.9 231.2 L583.3 224.3 L591.2 227.8Z",595.0,245.6],
+["Mersin","M354.7 244.1 L365.4 265.6 L364.6 275.7 L359.7 278.1 L353.9 273.7 L345.9 275.8 L328.7 291.9 L326.8 298.6 L323.8 299.3 L322.4 302.9 L318.8 298.7 L311.7 307.9 L310.1 304.9 L306.7 308.3 L290.4 307.7 L287.8 311.2 L282.7 309.4 L276.9 313.9 L267.6 309.6 L271.2 292.1 L278.4 292.8 L293.0 288.2 L293.2 285.2 L286.2 280.4 L283.1 273.8 L297.5 265.3 L317.5 261.6 L351.7 244.1 L354.7 244.1Z",317.1,279.7],
+["Muğla","M99.7 234.4 L112.1 240.0 L112.4 244.4 L117.4 246.1 L119.1 251.8 L128.8 256.8 L130.7 264.5 L135.0 269.8 L137.9 269.9 L142.7 260.3 L143.1 266.6 L148.9 262.7 L154.1 267.5 L150.0 283.6 L140.2 292.5 L139.0 298.9 L131.4 295.1 L131.9 286.6 L127.8 287.2 L129.0 283.3 L132.0 283.0 L131.5 280.7 L124.7 276.5 L121.4 284.9 L119.2 280.0 L112.5 279.1 L111.3 273.4 L106.3 273.7 L106.1 270.2 L103.1 271.8 L104.9 272.4 L103.8 275.0 L99.4 274.7 L100.6 272.9 L98.4 271.9 L97.3 274.0 L100.1 277.8 L89.2 286.3 L86.5 284.3 L91.9 282.0 L86.7 280.1 L93.3 278.0 L91.5 277.1 L93.4 276.4 L92.9 274.1 L85.4 277.2 L77.6 276.1 L75.6 281.4 L63.1 280.1 L74.1 273.7 L89.5 274.8 L90.7 273.2 L88.3 272.4 L90.5 270.2 L89.0 267.9 L94.8 268.8 L96.7 264.2 L101.2 262.5 L71.1 265.4 L65.6 262.3 L59.2 265.9 L57.7 261.2 L60.4 258.5 L58.9 258.5 L58.9 257.5 L63.2 256.2 L67.4 260.0 L71.7 257.2 L69.6 254.3 L73.1 254.6 L71.5 253.3 L73.0 250.0 L69.0 252.6 L69.3 250.1 L66.7 251.2 L67.7 246.7 L66.3 248.8 L64.0 247.5 L68.1 235.4 L83.7 241.0 L94.1 240.1 L99.7 234.4Z",106.6,262.7],
+["Muş","M666.8 154.7 L668.4 166.0 L651.1 166.1 L643.7 169.6 L643.7 171.8 L638.2 172.6 L640.4 178.4 L632.9 183.7 L623.8 183.2 L614.9 187.0 L613.8 181.4 L605.1 168.1 L609.7 161.5 L605.7 148.4 L609.0 144.3 L616.4 144.5 L625.0 152.9 L631.5 154.9 L641.2 151.8 L646.8 146.7 L647.2 141.8 L656.4 138.4 L666.8 154.7Z",633.6,162.3],
+["Nevşehir","M349.7 138.4 L360.1 146.0 L359.1 151.5 L364.7 161.1 L361.4 173.2 L365.9 175.7 L366.0 182.5 L360.3 186.5 L358.3 195.1 L341.9 193.3 L337.6 189.6 L332.0 178.6 L336.3 169.7 L342.5 168.7 L346.2 159.0 L348.9 158.1 L348.5 154.2 L353.6 145.2 L347.9 146.5 L349.7 138.4Z",351.1,172.5],
+["Niğde","M344.7 194.5 L350.3 192.9 L356.2 195.8 L362.5 191.8 L365.6 199.2 L372.7 200.8 L375.5 205.3 L375.4 212.0 L371.4 217.6 L371.0 223.0 L364.9 228.6 L356.7 229.1 L357.7 237.6 L354.7 244.1 L347.2 246.4 L344.0 246.5 L339.0 241.2 L341.7 228.9 L328.9 212.9 L339.4 205.2 L339.4 191.4 L344.7 194.5Z",352.9,215.9],
+["Ordu","M448.5 54.4 L453.3 54.5 L462.9 60.8 L468.6 55.0 L472.7 56.0 L472.3 58.7 L476.3 62.5 L485.9 64.0 L481.4 74.6 L487.2 86.7 L471.3 95.8 L465.5 84.4 L429.6 71.2 L448.5 54.4Z",462.9,72.6],
+["Osmaniye","M412.2 245.4 L425.4 243.6 L431.1 250.2 L419.9 266.5 L404.1 262.8 L404.8 257.8 L402.5 255.3 L396.7 257.6 L398.7 253.6 L397.9 245.9 L403.4 235.7 L408.4 232.0 L414.4 231.2 L410.8 238.8 L412.2 245.4Z",412.1,250.7],
+["Rize","M607.6 47.0 L615.1 58.4 L600.8 73.9 L578.7 85.4 L579.8 75.0 L576.2 64.8 L572.8 62.1 L581.2 60.4 L607.6 47.0Z",593.8,65.3],
+["Sakarya","M181.3 52.8 L205.1 58.2 L207.5 61.1 L201.1 70.2 L205.5 76.1 L203.9 83.8 L193.3 86.2 L190.1 90.2 L192.2 93.0 L191.3 95.5 L181.6 92.1 L171.6 93.7 L164.0 84.2 L176.3 80.3 L178.2 70.9 L181.6 68.8 L178.1 60.9 L181.3 52.8Z",188.0,75.0],
+["Samsun","M428.3 42.7 L441.6 47.5 L443.0 52.4 L447.8 56.1 L441.8 59.3 L438.0 65.7 L429.9 69.7 L428.3 67.0 L420.3 68.6 L417.1 64.3 L411.8 62.8 L404.3 69.8 L390.5 68.0 L382.0 61.2 L362.7 57.9 L359.0 49.1 L367.6 42.9 L372.3 48.6 L378.2 48.5 L381.0 43.8 L379.6 38.1 L382.8 29.4 L400.7 24.7 L407.0 30.3 L407.7 38.6 L417.7 49.0 L422.7 48.8 L428.3 42.7Z",403.2,51.1],
+["Şanlıurfa","M527.4 212.0 L537.7 214.3 L553.9 225.8 L555.1 237.4 L564.9 263.2 L569.7 268.4 L553.4 276.5 L529.3 281.0 L509.8 278.9 L496.7 269.3 L488.7 268.8 L481.5 272.9 L481.5 267.3 L476.4 261.2 L474.6 254.4 L475.1 248.3 L478.6 243.7 L499.9 239.4 L513.4 231.8 L513.7 229.1 L518.7 225.9 L519.5 219.1 L522.7 214.5 L527.4 212.0Z",524.4,251.5],
+["Siirt","M646.4 202.6 L666.8 212.9 L675.7 211.0 L679.1 216.7 L676.9 223.2 L661.9 219.7 L651.1 228.9 L644.5 229.6 L637.0 229.0 L632.6 225.5 L628.6 226.6 L626.5 224.8 L627.7 220.9 L619.3 220.7 L615.1 217.7 L617.9 212.5 L622.8 211.6 L625.5 203.7 L639.3 207.0 L646.4 202.6Z",645.5,216.2],
+["Sinop","M361.1 6.4 L366.3 10.0 L370.8 9.3 L367.0 13.1 L368.3 18.5 L374.0 25.7 L382.8 29.4 L378.9 48.1 L372.3 48.6 L367.6 42.9 L360.7 46.3 L357.1 52.0 L342.6 46.5 L342.2 34.5 L347.5 28.1 L334.5 24.5 L332.8 13.6 L355.3 13.6 L361.1 6.4Z",358.6,30.4],
+["Şırnak","M661.7 219.8 L697.0 227.3 L694.6 246.5 L697.2 250.5 L684.1 245.2 L676.5 248.1 L669.6 245.0 L661.5 256.7 L652.5 258.6 L652.3 252.6 L646.9 250.1 L647.4 248.1 L640.5 254.6 L633.1 257.1 L632.6 248.9 L628.5 248.9 L628.0 240.4 L636.2 237.5 L636.6 231.9 L633.9 227.3 L639.0 229.6 L650.5 229.0 L661.7 219.8Z",662.4,238.5],
+["Sivas","M487.2 86.7 L490.8 102.2 L493.5 104.5 L511.5 110.0 L509.5 114.6 L498.7 114.0 L495.5 119.6 L502.9 121.2 L495.4 128.7 L496.4 153.5 L488.2 159.3 L464.9 162.5 L464.3 174.3 L454.6 182.8 L431.3 183.7 L439.6 160.1 L437.0 156.0 L426.7 154.1 L404.8 156.4 L395.1 147.9 L405.1 137.6 L408.7 128.8 L401.1 117.5 L401.9 115.2 L426.3 112.8 L432.9 101.1 L458.8 104.7 L467.2 89.7 L472.1 95.8 L487.2 86.7Z",454.2,134.3],
+["Tekirdağ","M94.1 32.5 L97.3 36.7 L94.2 49.4 L90.4 54.3 L93.0 58.9 L86.8 63.6 L78.9 61.2 L69.0 63.2 L61.0 76.9 L50.1 82.6 L49.7 72.3 L42.0 74.9 L38.4 71.9 L40.4 61.9 L39.0 58.3 L46.4 52.3 L44.9 44.5 L59.2 44.3 L69.4 50.7 L77.6 36.9 L94.1 32.5Z",66.4,56.2],
+["Tokat","M430.0 67.9 L429.9 71.6 L440.7 76.9 L449.1 76.8 L460.1 84.0 L465.8 84.6 L467.2 89.7 L463.8 98.5 L458.8 104.7 L432.9 101.1 L428.6 111.6 L419.9 115.0 L401.9 115.2 L400.0 108.4 L388.1 108.0 L383.3 102.8 L391.3 95.9 L396.4 87.1 L408.6 89.9 L415.3 86.0 L420.4 79.3 L420.1 68.5 L430.0 67.9Z",426.3,94.0],
+["Trabzon","M536.9 56.4 L545.5 61.9 L564.4 66.3 L574.0 62.6 L579.8 75.0 L578.7 85.4 L563.3 86.5 L563.9 83.6 L561.2 80.2 L558.9 79.8 L557.8 84.0 L552.9 81.1 L552.0 76.2 L546.9 84.2 L532.4 78.6 L525.8 72.6 L525.1 63.9 L527.4 58.1 L531.5 59.4 L536.9 56.4Z",552.5,72.1],
+["Tunceli","M554.0 135.5 L581.0 135.3 L572.8 141.4 L575.0 143.6 L572.7 145.2 L567.6 148.4 L563.5 147.1 L560.8 157.2 L554.5 160.6 L555.4 165.9 L551.0 172.2 L539.6 175.7 L522.3 168.4 L511.3 168.1 L509.6 157.1 L517.5 150.4 L512.2 148.8 L524.2 139.7 L533.1 137.7 L546.5 140.7 L554.0 135.5Z",540.5,153.5],
+["Uşak","M161.4 170.3 L161.8 181.0 L157.1 190.6 L153.9 192.4 L150.1 203.9 L144.2 200.3 L136.2 203.7 L131.3 202.5 L124.4 200.1 L120.6 195.6 L122.7 181.3 L128.4 176.9 L136.7 176.5 L153.7 168.6 L161.4 170.3Z",141.6,186.5],
+["Van","M691.0 142.9 L700.5 148.4 L705.7 144.3 L718.1 144.2 L721.3 152.8 L725.4 156.0 L725.9 157.9 L722.8 158.3 L725.4 161.5 L723.9 163.3 L725.6 168.5 L729.2 171.4 L727.7 177.4 L730.0 182.1 L729.3 194.1 L734.8 194.1 L736.8 197.0 L732.9 200.9 L732.7 206.2 L726.2 219.3 L733.2 220.9 L735.0 225.3 L739.4 225.3 L735.7 230.0 L726.2 232.4 L724.7 225.2 L712.6 228.7 L679.4 225.4 L676.9 223.2 L679.1 216.7 L676.9 212.0 L671.1 210.2 L669.6 205.0 L666.5 203.3 L665.4 191.9 L673.2 187.0 L685.3 171.7 L685.3 169.1 L677.7 163.4 L678.4 158.2 L684.1 154.6 L684.0 150.9 L680.6 147.5 L691.0 142.9Z",702.6,189.5],
+["Yalova","M127.1 79.9 L144.9 77.5 L144.4 84.1 L129.2 84.2 L126.5 89.4 L118.8 86.2 L127.1 79.9Z",132.3,82.8],
+["Yozgat","M369.8 101.7 L383.3 102.8 L388.1 108.0 L400.0 108.4 L401.1 117.5 L408.7 128.8 L405.1 137.6 L391.6 151.6 L381.7 153.6 L382.2 158.0 L372.7 162.7 L364.7 161.1 L359.1 151.5 L360.1 145.9 L345.0 135.3 L345.3 131.5 L340.6 125.9 L333.1 125.8 L326.6 122.1 L327.3 116.5 L339.4 112.9 L355.4 112.8 L359.5 109.9 L365.4 110.9 L370.2 107.9 L369.8 101.7Z",373.1,129.5],
+["Zonguldak","M246.2 33.4 L259.2 49.8 L250.6 53.9 L249.0 61.0 L223.3 59.0 L219.3 55.0 L222.1 51.1 L221.8 45.9 L246.2 33.4Z",239.1,49.1]
+];
+const PORTFOLIO=new Set(SPEC.map(x=>x[0]));
+function cityInfo(){const o={}; P.forEach(p=>{const c=o[p.city]||(o[p.city]={city:p.city,plants:[],mwp:0,today:0,st:'normal'});c.plants.push(p);c.mwp+=p.mwp;c.today+=p.today;if(SEV_ORDER[p.st]>SEV_ORDER[c.st])c.st=p.st;});return Object.values(o);}
+const NUDGE={'Aksaray':[0,-9],'Niğde':[16,10],'Konya':[-30,14],'Kayseri':[18,-6],'Kilis':[0,10],'Şanlıurfa':[0,10],'Uşak':[-10,0],'Afyonkarahisar':[-2,14]};
+function drawMap(el,w,h){
+  const cs=cityInfo(); const csMap={}; cs.forEach(c=>csMap[c.city]=c);
+  const land=[],hi=[],labels=[];
+  PROV.forEach(([name,d,cx,cy])=>{
+    const c=csMap[name];
+    if(!c){land.push(`<path d="${d}" fill="var(--land)" stroke="var(--land-line)" stroke-width="1"/>`);return;}
+    const dim=(state.status!=='all'&&!c.plants.some(p=>p.st===state.status))||(state.sel&&((state.sel.city&&state.sel.city!==name)||(state.sel.plant!=null&&P[state.sel.plant].city!==name)));
+    const on=state.sel&&(state.sel.city===name||(state.sel.plant!=null&&P[state.sel.plant].city===name));
+    const mk=cityMarks(name,d,cx,cy,SC[c.st],c.plants.length,on,dim,c.st==='kritik',NUDGE[name]);
+    hi.push(mk.shape.replace('role="button"',`role="button" aria-label="${name}, ${c.plants.length} santral"`)); labels.push(mk.label);
+  });
+  el.innerHTML=`<svg width="${w}" height="${h}" viewBox="0 0 760 330" preserveAspectRatio="xMidYMid meet" role="group" aria-label="İl sınırlarıyla portföy haritası">${land.join('')}${hi.join('')}${labels.join('')}</svg>`;
+  $$('.city',el).forEach(g=>{const name=g.dataset.c;const c=cs.find(x=>x.city===name);
+    const tip=ev=>{const r=g.getBoundingClientRect();showTip(`<b>${name}</b>`+c.plants.map(p=>`<div><span class="dot" style="background:${SC[p.st]}"></span> ${esc(p.name)} <span style="color:#b9c8e6">${fmt(p.today,1)} MWh</span></div>`).join('')+`<div style="color:#b9c8e6;margin-top:3px">${fmt(c.mwp,1)} MWp, bugün ${fmt(c.today,1)} MWh</div>`,ev.clientX||r.left,ev.clientY||r.top);};
+    g.addEventListener('pointermove',tip);g.addEventListener('pointerleave',hideTip);g.addEventListener('focus',tip);g.addEventListener('blur',hideTip);
+    const act=()=>{if(el._moved){el._moved=false;return;}hideTip();select(state.sel&&state.sel.city===name?null:{city:name});};g.addEventListener('click',act);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el._moved=false;act();}});});
+  zoomable(el,'ges');
+}
+function renderMapSelInfo(){
+  const host=$('#mapSelInfo'); if(!state.sel){host.innerHTML='';return;}
+  const ids=scopeIds(); const list=ids.map(id=>P[id]).sort((a,b)=>a.name.localeCompare(b.name,'tr'));
+  host.innerHTML=`<div class="selcard"><h3>${esc(scopeName())} · son tesis ziyaretleri</h3>`+
+    list.map(p=>`<div class="selrow"><span class="n"><span class="dot" style="background:${SC[p.st]}"></span>${esc(p.name)}</span><span class="v">Son ziyaret: ${p.visitD} Eylül 2026 ${DOW(p.visitD)}</span></div>`).join('')+`</div>`;
+}
+function renderDurum(){
+  const cnt=s=>P.filter(p=>p.st===s).length;
+  const items=[['all','Toplam santral',P.length,null],['normal','Normal',cnt('normal'),'var(--green)'],['uyarı','Uyarı',cnt('uyarı'),'var(--amber)'],['kritik','Kritik',cnt('kritik'),'var(--red)'],['veri yok','Veri yok',cnt('veri yok'),'var(--grey)']];
+  $('#durumCounts').innerHTML=items.map(([k,l,n,c])=>`<button data-s="${k}" aria-pressed="${state.status===k}"><div class="sl">${c?`<i class="dot" style="background:${c}"></i>`:ic('pin',14)}${l}</div><div class="sv">${n}</div></button>`).join('');
+  $$('#durumCounts button').forEach(b=>b.addEventListener('click',()=>{state.status=state.status===b.dataset.s&&b.dataset.s!=='all'?'all':b.dataset.s;renderDurum();mapM.draw();}));
+  const spo=sum(P,p=>p.spo*p.mwp)/totMWp;
+  const card=(i,l,v,u,cls='')=>`<div class="icard ${cls}">${ic(i,24)}<div><div class="sl">${l}</div><div class="sv">${v}${u?` <small>${u}</small>`:''}</div></div></div>`;
+  $('#capGrid').innerHTML=card('shield','Garanti edilen EAO',pc(GES_GAR.eao,2),'','gar')+card('shield','Garanti edilen SPO',pc(GES_GAR.spo,2),'','gar')+
+    card('pulse','SPO',pc(spo,1))+card('panel','DC kurulu güç',fmt(totMWp,1),'MWp')+card('zap','AC kurulu güç',fmt(totMWe,1),'MWe');
+  $('#mapLegend').innerHTML=`<span class="box">`+[['var(--green)','Normal'],['var(--amber)','Uyarı'],['var(--red)','Kritik'],['var(--grey)','Veri yok']].map(([c,l])=>`<span><i class="lg-c" style="background:${c}"></i>${l}</span>`).join('')+`</span>`;
+}
+
+/* ================= SELECT ================= */
+function select(sel){state.sel=sel;renderGES();}
+function renderGES(){
+  renderAlarms();renderMapSelInfo();mapM.draw();
+}
+
+/* ================= VERIMLILIK ================= */
+// Kurulu güçle ağırlıklı EAO ve SPO; recs: [santral, dönem kaydı] çiftleri
+function effRate(recs){let gh=0,gH=0,el=0;recs.forEach(([e,r])=>{gh+=e.gm*r.h;gH+=e.gm*r.H;el+=r.el;});return gH?{eao:gh/gH*100,spo:el/gH*100}:{eao:null,spo:null};}
+const EST={ok:['var(--green)','Garanti üstü'],risk:['var(--amber)','Sınırda'],bad:['var(--red)','Garanti altı']}, EST_O={ok:0,risk:1,bad:2};
+function effStatus(r){const d=Math.min(r.eao-EFF_GAR.eao,r.spo-EFF_GAR.spo);return d>=0?'ok':d>-1?'risk':'bad';}
+const effPer=()=>state.effCmp==='month'?{lbl:'Eylül 1 – 21',rec:e=>e.mon[9]}:{lbl:'1 Ocak – 21 Eylül',rec:e=>e.ytd};
+const effScope=()=>state.effSel?EFF.filter(e=>e.city===state.effSel):EFF;
+function effCities(){
+  const per=effPer(),o={};
+  EFF.forEach(e=>{const r=effRate([[e,per.rec(e)]]),st=effStatus(r);const c=o[e.city]||(o[e.city]={city:e.city,plants:[],mw:0,el:0,st:'ok'});
+    c.plants.push({e,r,st});c.mw+=e.gm;c.el+=per.rec(e).el;if(EST_O[st]>EST_O[c.st])c.st=st;});
+  return o;
+}
+function drawEffMap(el,w,h){
+  const cs=effCities(),per=effPer(),sel=state.effSel; const land=[],hi=[],labels=[];
+  PROV.forEach(([name,d,cx,cy])=>{
+    const c=cs[name];
+    if(!c){land.push(`<path d="${d}" fill="var(--land)" stroke="var(--land-line)" stroke-width="1"/>`);return;}
+    const on=sel===name, mk=cityMarks(name,d,cx,cy,EST[c.st][0],c.plants.length,on,sel&&!on,c.st==='bad');
+    hi.push(mk.shape.replace('role="button"',`role="button" aria-label="${name}, ${c.plants.length} santral, ${EST[c.st][1]}"`)); labels.push(mk.label);
+  });
+  el.innerHTML=`<svg width="${w}" height="${h}" viewBox="0 0 760 330" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Verimlilik santralleri portföy haritası">${land.join('')}${hi.join('')}${labels.join('')}</svg>`;
+  $$('.city',el).forEach(g=>{const name=g.dataset.c;const c=cs[name];
+    const tip=ev=>{const r=g.getBoundingClientRect();showTip(`<b>${name}</b>`+c.plants.map(({e,r,st})=>`<div><span class="dot" style="background:${EST[st][0]}"></span> ${esc(e.n)} <span style="color:#b9c8e6">EAO ${pc(r.eao,1)} · SPO ${pc(r.spo,1)}</span></div>`).join('')+`<div style="color:#b9c8e6;margin-top:3px">${fmt(c.mw,2)} MW kurulu · ${per.lbl}: ${fmt(c.el)} MWh</div>`,ev.clientX||r.left,ev.clientY||r.top);};
+    g.addEventListener('pointermove',tip);g.addEventListener('pointerleave',hideTip);g.addEventListener('focus',tip);g.addEventListener('blur',hideTip);
+    const act=()=>{if(el._moved){el._moved=false;return;}hideTip();selectEff(state.effSel===name?null:name);};g.addEventListener('click',act);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el._moved=false;act();}});});
+  zoomable(el,'eff');
+}
+function renderEffMapMeta(){
+  const per=effPer();
+  $('#effMapLegend').innerHTML=`<span class="box">`+Object.values(EST).map(([c,l])=>`<span><i class="lg-c" style="background:${c}"></i>${l}</span>`).join('')+`</span>`+
+    `<span>Dönem: ${per.lbl} · garanti EAO ${pc(EFF_GAR.eao,1)}, SPO ${pc(EFF_GAR.spo,1)}</span>`;
+  const cs=effCities(), rows=state.effSel?cs[state.effSel].plants:Object.values(cs).flatMap(c=>c.plants).sort((a,b)=>EST_O[b.st]-EST_O[a.st]||a.r.eao-b.r.eao);
+  $('#effSelInfo').innerHTML=`<div class="selcard"><h3>${state.effSel?esc(state.effSel):'Tüm portföy'} · ${per.lbl}</h3>`+
+    rows.map(({e,r,st})=>`<div class="selrow"><span class="n"><span class="dot" style="background:${EST[st][0]}"></span>${esc(e.n)} <small>${state.effSel?'':esc(e.city)+', '}${e.tip}, ${fmt(e.gm,2)} MW</small></span><span class="v">EAO ${pc(r.eao,1)} · SPO ${pc(r.spo,1)} · ${fmt(per.rec(e).el)} MWh</span></div>`).join('')+`</div>`;
+}
+function effCmpModel(){
+  const L=effScope(), recs=f=>L.map(e=>[e,f(e)]), rt=r=>tl('EAO',pc(r.eao,1))+tl('SPO',pc(r.spo,1));
+  if(state.effCmp==='month'){
+    const expD=sum(L,e=>e.expD), cats=[];
+    for(let d=1;d<=30;d++){const c={l:String(d),exp:expD,cmp:sum(L,e=>e.aug[d].el),tag:d+' Eylül '+DOW(d)};
+      if(d<=21){c.cur=sum(L,e=>e.sep[d].el);c.extra=rt(effRate(recs(e=>e.sep[d])));}else{c.cur=sum(L,e=>e.expD*e.rr);c.fc=true;}
+      cats.push(c);}
+    return {cats,cur:sum(L,e=>e.mon[9].el),exp:expD*21,prev:sum(L,e=>sum(e.aug.slice(1,22),r=>r.el)),lblCur:'1 – 21 Eylül',lblPrev:'1 – 21 Ağustos\'a göre',cmpName:'Ağustos',
+      ...effRate(recs(e=>e.mon[9])),sub:'Günlük elektrik üretimi (MWh). 22 – 30 Eylül soluk çubukları son 5 günün gidişatına göre tahmindir.'};
+  }
+  const cats=[];
+  for(let mo=1;mo<=12;mo++){const c={l:MONTHS[mo-1],exp:sum(L,e=>e.expM[mo]),cmp:sum(L,e=>e.py[mo]),tag:MONTHS[mo-1]+' 2026'};
+    if(mo<=9){c.cur=sum(L,e=>e.mon[mo].el);c.extra=rt(effRate(recs(e=>e.mon[mo])));}
+    if(mo===9){c.part=true;c.exp*=21/30;c.cmp*=21/30;c.tag='Eylül 2026, 1 – 21';}
+    cats.push(c);}
+  return {cats,cur:sum(L,e=>e.ytd.el),exp:sum(L,e=>sum(e.expM.slice(1,9),x=>x)+e.expM[9]*21/30),prev:sum(L,e=>sum(e.py.slice(1,9),x=>x)+e.py[9]*21/30),lblCur:'1 Ocak – 21 Eylül',lblPrev:'2025 aynı döneme göre',cmpName:'2025',
+    ...effRate(recs(e=>e.ytd)),sub:'Aylık elektrik üretimi (MWh), 2025\'in aynı ayı ve beklenenle birlikte. Eylül için kıyas değerleri 1 – 21 Eylül\'e orantılanmıştır.'};
+}
+function rateCard(k,v,g){const d=v-g,ok=d>=0;
+  return `<div class="cc"><div class="sl">${k}</div><div class="sv"${ok?'':' style="color:var(--red)"'}>${pc(v,1)}</div><div class="sub">Garanti ${pc(g,1)} <span class="delta ${ok?'up':'dn'}">${sg(d,1)} puan</span></div></div>`;}
+function renderEffCmpMeta(){
+  const md=effCmpModel(), dev=md.cur-md.exp, devPc=md.exp?dev/md.exp*100:0, vsP=(md.cur/md.prev-1)*100;
+  $('#effCmpSub').textContent=md.sub;
+  $('#effCmpCards').innerHTML=
+   `<div class="cc"><div class="sl">Gerçekleşen</div><div class="sv">${fmt(md.cur)} <small>MWh</small></div><div class="sub">${md.lblPrev} <span class="delta ${vsP>=0?'up':'dn'}">${sg(vsP,1)}%</span></div></div>`+
+   `<div class="cc"><div class="sl">Beklenen</div><div class="sv">${fmt(md.exp)} <small>MWh</small></div><div class="sub">Gerçekleşme oranı ${pc(md.cur/md.exp*100,0)}</div></div>`+
+   `<div class="cc"><div class="sl">Sapma</div><div class="sv" style="color:${dev<0?'var(--red)':'var(--green)'}">${sg(dev,0)} <small>MWh</small></div><div class="sub"><span class="delta ${dev>=0?'up':'dn'}">${sg(devPc,1)}%</span></div></div>`;
+  $('#effRateCards').innerHTML=rateCard('EAO',md.eao,EFF_GAR.eao)+rateCard('SPO',md.spo,EFF_GAR.spo);
+  $('#effCmpLegend').innerHTML=`<span><i class="lg-b" style="background:var(--blue)"></i>Gerçekleşen</span>`+
+    (state.effCmp==='month'?`<span><i class="lg-b" style="background:var(--blue);opacity:.3"></i>Tahmin</span>`:`<span><i class="lg-b" style="background:repeating-linear-gradient(45deg,var(--blue) 0 2px,var(--card) 2px 4px);box-shadow:inset 0 0 0 1.5px var(--blue)"></i>Eylül 1 – 21</span>`)+
+    `<span><i class="lg-l" style="border-color:var(--orange)"></i>${md.cmpName}</span><span><i class="lg-d" style="border-color:var(--slate)"></i>Beklenen</span>`;
+  $('#effScope').innerHTML=state.effSel
+    ?`<button class="chip" id="effScopeBtn" aria-pressed="true" aria-label="${esc(state.effSel)} seçimini kaldır">${esc(state.effSel)} · ${effScope().length} santral ✕</button>`
+    :`<span class="chip">Tüm portföy</span>`;
+  $('#effScope').insertAdjacentHTML('beforeend',` <span class="per">${md.lblCur}</span>`);
+  const b=$('#effScopeBtn'); if(b)b.addEventListener('click',()=>selectEff(null));
+}
+
+/* ================= init ================= */
+const cmpM=mount('cmp',drawCmp), mapM=mount('map',drawMap);
+const effMapM=mount('effMap',drawEffMap), effCmpM=mount('effCmp',(el,w,h)=>drawBarsCmp(el,w,h,effCmpModel(),'e-'));
+mounts.forEach(m=>ro.observe(m.el));
+function renderCmp(){renderCmpMeta();cmpM.draw();}
+function renderEff(){renderEffCmpMeta();renderEffMapMeta();effMapM.draw();effCmpM.draw();}
+function selectEff(city){state.effSel=city;renderEff();}
+
+$('#cmpSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.cmp=b.dataset.m;$$('#cmpSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderCmp();});
+$('#effSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.effCmp=b.dataset.m;$$('#effSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderEff();});
+$('#alarmAll').addEventListener('change',e=>{state.alarmAll=e.target.checked;renderAlarms();});
+$('#alarmToggle').addEventListener('click',()=>{
+  const open=$('#alarmToggle').getAttribute('aria-expanded')==='true';
+  $('#alarmToggle').setAttribute('aria-expanded',(!open).toString());
+  $('#alarmToggle').textContent=open?'Göster':'Gizle';
+  $('#alarms').style.display=open?'none':'';
+});
+function setTab(t){state.tab=t;$('#t-ges').setAttribute('aria-selected',t==='ges');$('#t-eff').setAttribute('aria-selected',t==='eff');$('#tab-ges').hidden=t!=='ges';$('#tab-eff').hidden=t!=='eff';
+  $('#subtitle').textContent=t==='ges'?'Anlık üretim, operasyon ve portföy özeti':'Kojenerasyon ve trijenerasyon santrallerinin tasarrufu, üretimi ve EAO / SPO takibi';
+  $('#dataPill').textContent=t==='ges'?'Garanti değerleri gerçek · operasyonel veriler örnektir':'Garanti değeri ve operasyonel veriler örnektir';
+  renderKPIs();requestAnimationFrame(()=>{if(t==='ges'){cmpM.draw();mapM.draw();}else{effMapM.draw();effCmpM.draw();}});}
+$('#t-ges').addEventListener('click',()=>setTab('ges'));$('#t-eff').addEventListener('click',()=>setTab('eff'));
+$$('.tab').forEach(b=>b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const t=state.tab==='ges'?'eff':'ges';setTab(t);$('#t-'+t).focus();}}));
+const root=document.documentElement;
+function isDark(){const a=root.getAttribute('data-theme');return a?a==='dark':matchMedia('(prefers-color-scheme: dark)').matches;}
+function syncTheme(){const d=isDark();$('#thL').setAttribute('aria-pressed',!d);$('#thD').setAttribute('aria-pressed',d);}
+$('#thL').addEventListener('click',()=>{root.setAttribute('data-theme','light');syncTheme();redraw();});
+$('#thD').addEventListener('click',()=>{root.setAttribute('data-theme','dark');syncTheme();redraw();});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{syncTheme();redraw();});
+syncTheme();
+$$('[data-ic]').forEach(n=>n.insertAdjacentHTML('afterbegin',ic(n.dataset.ic,+(n.dataset.s||20))));
+
+renderKPIs();renderDurum();renderCmpMeta();renderAlarms();renderMapSelInfo();renderEff();
+requestAnimationFrame(()=>{cmpM.draw();mapM.draw();});
+window.__dbg={P,S_ALL,A_NOW,E_NOW,Y_NOW,FRAC,LOSS,M_FC,RR,K,Fk};
+})();
+</script>
+</body>
+</html>
