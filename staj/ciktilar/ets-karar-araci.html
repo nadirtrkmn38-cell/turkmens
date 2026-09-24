@@ -1,0 +1,849 @@
+<title>ETS Kapsam Karar Aracı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#f3f5f0; --panel:#ffffff; --sunk:#eceee8; --ink:#14212a; --ink2:#4d5c62; --ink3:#7a878b; --line:#d3d9d2;
+  --accent:#0b5d58; --accent-soft:#e3efec; --on-accent:#ffffff;
+  --green:#2c6a3b; --green-soft:#dcebdd; --amber:#8f5c09; --amber-soft:#f8ead1;
+  --red:#8c2a24; --red-soft:#f6e1de; --event:#5b6776; --event-soft:#e6eaef;
+  --sans:"Archivo","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0f1618; --panel:#172024; --sunk:#1e292e; --ink:#e3e9e5; --ink2:#a9b6b5; --ink3:#7d8b8c; --line:#2d3b3f;
+    --accent:#5cc0b3; --accent-soft:#143330; --on-accent:#0b1a18;
+    --green:#86c996; --green-soft:#17301e; --amber:#e3ab52; --amber-soft:#33270f;
+    --red:#ee958c; --red-soft:#3a1d1b; --event:#aab4c2; --event-soft:#222a33;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0f1618; --panel:#172024; --sunk:#1e292e; --ink:#e3e9e5; --ink2:#a9b6b5; --ink3:#7d8b8c; --line:#2d3b3f;
+  --accent:#5cc0b3; --accent-soft:#143330; --on-accent:#0b1a18;
+  --green:#86c996; --green-soft:#17301e; --amber:#e3ab52; --amber-soft:#33270f;
+  --red:#ee958c; --red-soft:#3a1d1b; --event:#aab4c2; --event-soft:#222a33;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--ground);color:var(--ink);font:15px/1.55 var(--sans)}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:32px 56px}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--mono)}
+.num{font-variant-numeric:tabular-nums}
+
+/* üst */
+.eyebrow{font:600 11.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.top h1{font-size:clamp(28px,4.2vw,42px);font-weight:800;letter-spacing:-.015em;line-height:1.1;margin-top:10px}
+.top .lead{color:var(--ink2);font-size:16.5px;max-width:62ch;margin-top:10px}
+.top .src{font:12px var(--mono);color:var(--ink3);margin-top:10px}
+.demo{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:22px;padding:12px 16px;
+  background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:8px}
+.demo p{flex:1 1 320px;font-size:14px}
+.demo .acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:600 13px var(--sans);border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  border-radius:6px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--ink3);padding:6px 8px}
+.btn.ghost:hover{color:var(--red)}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start;margin-top:28px}
+.main{display:flex;flex-direction:column;gap:22px;min-width:0}
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)} aside{position:static;order:-1}}
+
+/* soru blokları */
+.q{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px}
+.q-head{display:flex;gap:14px;align-items:flex-start}
+.q-no{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  font:600 14px var(--mono);background:var(--ink);color:var(--ground)}
+.q-head h2{font-size:20px;font-weight:700;line-height:1.25}
+.q-head .ref{margin-top:4px}
+.q-body{margin-top:18px;display:flex;flex-direction:column;gap:18px}
+.sub-h{font:600 11.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.hint{font-size:13.5px;color:var(--ink2)}
+.ref{font:500 11.5px var(--mono);color:var(--ink3);white-space:nowrap}
+p .ref,li .ref{white-space:normal}
+
+input[type=number],input[type=text],select{background:var(--panel);border:1px solid var(--line);border-radius:6px;
+  padding:7px 9px;width:100%;min-width:0}
+input[type=number]{font-family:var(--mono);font-variant-numeric:tabular-nums}
+input:hover,select:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:17px;height:17px;margin:0;flex:none}
+
+/* yakma üniteleri */
+.units{display:flex;flex-direction:column;gap:8px}
+.urow{display:grid;grid-template-columns:minmax(0,1fr) 96px 170px 34px;gap:8px;align-items:center}
+.urow.head{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.urow.off input[type=number]{color:var(--ink3)}
+@media (max-width:560px){
+  .urow{grid-template-columns:minmax(0,1fr) 84px 34px}
+  .urow .fuel{grid-column:1 / 3}
+  .urow.head .h-fuel{display:none}
+}
+.utag{font:500 11px var(--mono);color:var(--ink3)}
+.sumline{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:12px 14px;border-radius:8px;background:var(--sunk)}
+.sumline b{font:600 18px var(--mono);font-variant-numeric:tabular-nums}
+
+/* faaliyet listesi */
+.acts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:4px 18px}
+.agroup{grid-column:1 / -1;font:600 11px var(--mono);letter-spacing:.1em;color:var(--ink3);margin-top:10px}
+.arow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;align-items:start;padding:8px 0;border-top:1px solid var(--line)}
+.arow label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.arow label input{margin-top:3px}
+.arow .aname{font-size:14.5px;line-height:1.35}
+.arow .athr{font:12px var(--mono);color:var(--ink3)}
+.arow .acap{grid-column:2;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.arow .acap input{width:110px}
+.arow .acap select{width:auto}
+
+.chip{display:inline-block;font:600 11.5px/1.5 var(--mono);padding:1px 8px;border-radius:99px;white-space:nowrap;
+  background:var(--sunk);color:var(--ink2)}
+.chip.in{background:var(--accent-soft);color:var(--accent)}
+.chip.wait{background:var(--amber-soft);color:var(--amber)}
+.chip.risk{background:var(--red-soft);color:var(--red)}
+.chip.event{background:var(--event-soft);color:var(--event)}
+
+/* özel durum */
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.opt input{margin-top:3px}
+.opt b{display:block;font-weight:600}
+.opt span{font-size:13.5px;color:var(--ink2)}
+
+/* emisyon */
+.emis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.field label{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px}
+.field .hint{margin-top:6px;font-size:12.5px}
+.bignum{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.bignum b{font:600 30px var(--mono);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.scale-wrap{padding-top:26px}
+.scale{position:relative;display:flex;height:34px;border-radius:6px;overflow:visible}
+.seg{display:flex;align-items:center;padding-inline:10px;font:600 12px var(--mono);white-space:nowrap;overflow:hidden}
+.seg.a{background:var(--amber-soft);color:var(--amber);border-radius:6px 0 0 6px}
+.seg.b{background:var(--red-soft);color:var(--red)}
+.seg.c{background:color-mix(in srgb,var(--red) 22%,var(--red-soft));color:var(--red);border-radius:0 6px 6px 0}
+.mark{position:absolute;top:-24px;bottom:-4px;width:2px;background:var(--ink);transform:translateX(-1px);transition:left .25s}
+.mark span{position:absolute;top:-2px;left:6px;font:600 11.5px var(--mono);white-space:nowrap;color:var(--ink)}
+.mark.flip span{left:auto;right:6px}
+.ticks{display:flex;justify-content:space-between;font:11px var(--mono);color:var(--ink3);margin-top:6px;position:relative;height:16px}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.mark{transition:none}}
+
+details.help{border-top:1px dashed var(--line);padding-top:10px}
+details.help summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--accent);list-style:none}
+details.help summary::before{content:"+ ";font-family:var(--mono)}
+details.help[open] summary::before{content:"− "}
+details.help summary::-webkit-details-marker{display:none}
+.pbody{margin-top:10px;font-size:13.5px;color:var(--ink2);display:flex;flex-direction:column;gap:6px;max-width:72ch}
+.pbody h4{font:600 11px var(--mono);letter-spacing:.1em;color:var(--ink);margin-top:8px}
+.pbody ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.pcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4px 32px}
+.pcols .pbody{max-width:none}
+
+/* yan panel — yolunuz */
+.path{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.path-h{padding:16px 18px 6px}
+.trail{list-style:none;margin:0;padding:6px 18px 14px}
+.trail li{position:relative;padding:0 0 14px 26px}
+.trail li::before{content:"";position:absolute;left:5px;top:7px;width:12px;height:12px;border-radius:50%;
+  border:2px solid var(--ink3);background:var(--panel)}
+.trail li::after{content:"";position:absolute;left:11px;top:21px;bottom:-2px;width:2px;background:var(--line)}
+.trail li:last-child::after{display:none}
+.trail li.done::before{background:var(--accent);border-color:var(--accent)}
+.trail li.off{opacity:.45}
+.trail .k{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.trail .v{font-weight:600;font-size:14px;line-height:1.35}
+.verdict{padding:16px 18px;border-top:1px solid var(--line);background:var(--tone-soft,var(--sunk))}
+.verdict .t{font-weight:800;font-size:17px;color:var(--tone,var(--ink));letter-spacing:.01em}
+.verdict p{font-size:13.5px;color:var(--ink2);margin-top:4px}
+.verdict .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.verdict a{display:inline-block;margin-top:12px;font-weight:600;font-size:13.5px;color:var(--tone,var(--accent))}
+
+.tone-green{--tone:var(--green);--tone-soft:var(--green-soft)}
+.tone-amber{--tone:var(--amber);--tone-soft:var(--amber-soft)}
+.tone-red{--tone:var(--red);--tone-soft:var(--red-soft)}
+.tone-neutral{--tone:var(--ink);--tone-soft:var(--sunk)}
+
+/* sonuç */
+.results{display:flex;flex-direction:column;gap:22px;margin-top:6px}
+.res{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.res-head{padding:22px;background:var(--tone-soft);border-bottom:1px solid var(--line)}
+.res-head .eyebrow{color:var(--tone)}
+.res-head h2{font-size:26px;font-weight:800;color:var(--tone);margin-top:6px;letter-spacing:.005em}
+.res-head p{margin-top:8px;max-width:66ch;color:var(--ink)}
+.res-head .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.res-body{padding:8px 22px 22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px}
+.card h3{font-size:18px;font-weight:700}
+.card-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+
+.prog{display:flex;align-items:center;gap:12px;padding:14px 0 6px}
+.bar{flex:1;height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.prog span{font:600 12px var(--mono);color:var(--ink2);white-space:nowrap}
+
+.steps{list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:16px 0;border-top:1px solid var(--line)}
+.step > input{margin-top:4px;cursor:pointer}
+.step .no{font:600 11px var(--mono);letter-spacing:.08em;color:var(--ink3)}
+.step h4{font-size:16px;font-weight:700;line-height:1.3;margin-top:2px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.step .s{font-size:14px;color:var(--ink2);margin-top:4px}
+.step .who{display:flex;gap:8px;align-items:flex-start;margin-top:8px;font-size:13.5px}
+.step .who em{font:600 10.5px/1.9 var(--mono);font-style:normal;letter-spacing:.06em;padding:0 6px;border-radius:4px;
+  background:var(--ink);color:var(--ground);flex:none}
+.step .mine{margin-top:8px;font-size:13.5px;padding:8px 10px;border-radius:6px;background:var(--accent-soft);color:var(--ink)}
+.step.done h4 span.t{text-decoration:line-through;text-decoration-color:var(--ink3);color:var(--ink3)}
+.step.done .s,.step.done .who{opacity:.6}
+.step.event h4{color:var(--event)}
+.loop{display:flex;gap:10px;align-items:center;font:600 12px var(--mono);color:var(--tone);padding:10px 12px;margin:4px 0 6px;
+  border:1px dashed var(--tone);border-radius:6px}
+.step details.help{margin-top:10px}
+.kayit{margin-top:14px;padding:14px;border-radius:8px;background:var(--sunk)}
+.kayit b{display:block;margin-bottom:4px}
+.kayit p{font-size:13.5px;color:var(--ink2)}
+
+.tl{list-style:none;margin:16px 0 0;padding:0}
+.tl li{display:grid;grid-template-columns:190px minmax(0,1fr);gap:4px 18px;padding:12px 0;border-top:1px solid var(--line)}
+.tl .d{font:600 13.5px var(--mono);font-variant-numeric:tabular-nums}
+.tl .w{font-weight:600}
+.tl .n{font-size:13.5px;color:var(--ink2)}
+.tl li.risk .d{color:var(--red)}
+.tl li.event .d{color:var(--event)}
+@media (max-width:560px){.tl li{grid-template-columns:minmax(0,1fr)}}
+.note{font-size:13px;color:var(--ink3);margin-top:12px}
+.yearsel{display:flex;gap:8px;align-items:center;font-size:13.5px}
+.yearsel select{width:auto}
+
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
+.kv > div{padding:14px;border-radius:8px;background:var(--sunk)}
+.kv .k{font-size:13px;color:var(--ink2)}
+.kv .v{font:600 20px var(--mono);font-variant-numeric:tabular-nums;margin-top:4px;letter-spacing:-.01em}
+.kv .x{font-size:12.5px;color:var(--ink3);margin-top:4px}
+.kv .risk .v{color:var(--red)}
+.kv .good .v{color:var(--green)}
+
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px}
+.range{display:flex;gap:10px;align-items:center}
+.range input{flex:1;accent-color:var(--accent)}
+.range b{font:600 14px var(--mono);min-width:44px;text-align:right}
+.cmp{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.cmp > div{padding:14px;border:1px solid var(--line);border-radius:8px}
+.cmp .h{font-weight:700}
+.cmp .x{font-size:13px;color:var(--ink2);margin-top:4px}
+.cmp .v{font:600 22px var(--mono);font-variant-numeric:tabular-nums;color:var(--green);margin-top:10px}
+.cmp .y{font-size:13px;color:var(--ink2)}
+
+.opp{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.opp h3{color:var(--accent)}
+.opp .pbody{color:var(--ink)}
+
+.refs{margin-top:34px;display:flex;flex-direction:column;gap:12px}
+.refs > details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+.refs summary{cursor:pointer;font-weight:700;font-size:16px}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:14px}
+.roles div{padding:12px;border-radius:8px;background:var(--sunk)}
+.roles b{display:block;font-size:14px}
+.roles p{font-size:13px;color:var(--ink2);margin-top:4px}
+footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3);
+  display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Türkiye Emisyon Ticaret Sistemi · Tesis değerlendirmesi</div>
+    <h1>İşletmem ETS kapsamına giriyor mu?</h1>
+    <p class="lead">Üç soruyu tesis bazında yanıtlayın. Kapsam durumunuz, kategoriniz, yapmanız gereken adımlar,
+      takviminiz ve ceza riskleriniz aşağıda anında oluşur.</p>
+    <p class="src">Dayanak: Türkiye Emisyon Ticaret Sistemi Yönetmeliği — Resmî Gazete 27.08.2026 / 33353</p>
+    <div class="demo" id="demo">
+      <p id="demoText"></p>
+      <div class="acts">
+        <button class="btn" type="button" id="btnExample">Örnek tesisi yükle</button>
+        <button class="btn" type="button" id="btnClear">Boş formla başla</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="main">
+
+      <section class="q" id="s1" aria-labelledby="s1h">
+        <div class="q-head"><div class="q-no">1</div>
+          <div><h2 id="s1h">Tesiste EK-1 listesindeki bir faaliyet yürütülüyor mu?</h2><div class="ref">m. 27 · EK-1</div></div></div>
+        <div class="q-body">
+          <div>
+            <div class="sub-h">Yakma üniteleri</div>
+            <p class="hint" style="margin-top:4px">Kazan, brülör, türbin, fırın, kurutucu, motor gibi tüm yakma ünitelerini anma ısıl gücüyle girin.
+              Bu tablo hem 20 MW eşiğini hem de 2. adımdaki emisyon tahminini besler.</p>
+          </div>
+          <div class="units" id="units"></div>
+          <div><button class="btn" type="button" id="btnAddUnit">+ Ünite ekle</button></div>
+          <div class="sumline" id="yakmaSum"></div>
+          <details class="help" id="h20"><summary>Anma ısıl gücü nasıl toplanır?</summary><div class="pbody" data-panel="p_20mw"></div></details>
+
+          <div>
+            <div class="sub-h">Diğer EK-1 faaliyetleri</div>
+            <p class="hint" style="margin-top:4px">Tesiste yürütülen faaliyetleri işaretleyin, eşiği olanlar için kurulu kapasiteyi girin.
+              Aynı faaliyetin kapasiteleri toplanır; eşik fiilî üretime değil kurulu kapasiteye bakar.</p>
+          </div>
+          <div class="acts-grid" id="acts"></div>
+          <p class="hint">Listede olmayan bir faaliyet için EK-1'in tam metnine bakın (25 faaliyet).</p>
+          <details class="help"><summary>En çok kaçırılan üç kural</summary><div class="pbody" data-panel="p_kural"></div></details>
+        </div>
+      </section>
+
+      <section class="q" id="s2" aria-labelledby="s2h">
+        <div class="q-head"><div class="q-no">2</div>
+          <div><h2 id="s2h">Tesis özel durumlardan birine giriyor mu?</h2><div class="ref">m. 2/2 · m. 5/2-3 · Geçici m. 6</div></div></div>
+        <div class="q-body">
+          <div class="opts" id="ozel">
+            <label class="opt"><input type="radio" name="ozel" id="oz-yok" value="yok"><div><b>Hiçbiri</b><span>Standart değerlendirme uygulanır.</span></div></label>
+            <label class="opt"><input type="radio" name="ozel" id="oz-disi" value="disi"><div><b>Ar-Ge tesisi veya bölümü, münhasıran biyokütle kullanan tesis, askerî unsur</b><span>Yönetmelik uygulanmaz (m. 2/2).</span></div></label>
+            <label class="opt"><input type="radio" name="ozel" id="oz-kalici" value="kalici"><div><b>Okul, üniversite, hastane veya savunma sanayi kuruluşuna ait tesis</b><span>Kalıcı olarak ETS dışı; izleme, raporlama ve doğrulama sürer (m. 5/2-3).</span></div></label>
+            <label class="opt"><input type="radio" name="ozel" id="oz-gecici" value="gecici"><div><b>Doğal gaz veya ham petrol iletimi ve depolanması</b><span>Birinci uygulama dönemi sonuna kadar ETS dışı; izleme, raporlama ve doğrulama sürer (Geçici m. 6).</span></div></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="q" id="s3" aria-labelledby="s3h">
+        <div class="q-head"><div class="q-no">3</div>
+          <div><h2 id="s3h">Kurulu kapasiteye göre ihtiyatlı hesaplanan yıllık emisyon kaç ton CO₂e?</h2><div class="ref">m. 4 · m. 5/1</div></div></div>
+        <div class="q-body">
+          <div class="emis">
+            <div class="field">
+              <label>Yakma ünitelerinden ön tahmin</label>
+              <div class="bignum"><b id="estFuel">0</b><span class="hint">t CO₂e / yıl</span></div>
+              <p class="hint">Her ünite tam yükte 8.760 saat çalışır; IPCC 2006 varsayılan emisyon faktörleri.</p>
+            </div>
+            <div class="field">
+              <label for="proses">Proses emisyonu (t CO₂e / yıl)</label>
+              <input type="number" id="proses" min="0" step="100" inputmode="decimal" placeholder="0">
+              <p class="hint">Klinker, kireç, cam gibi hammaddeden gelen emisyon.</p>
+            </div>
+            <div class="field">
+              <label for="bilinen">Hesaplanmış emisyonunuz varsa</label>
+              <input type="number" id="bilinen" min="0" step="100" inputmode="decimal" placeholder="Tahmin yerine kullanılır">
+              <p class="hint">Doldurulursa kategori bu değerle belirlenir.</p>
+            </div>
+          </div>
+          <div>
+            <div class="bignum"><span class="hint">Kategoriye esas emisyon</span><b id="estTotal">0</b><span class="hint" id="estSrc"></span></div>
+            <div class="scale-wrap">
+              <div class="scale" id="scale">
+                <div class="seg a" id="segA">A · İRD</div><div class="seg b" id="segB">B · ETS</div><div class="seg c" id="segC">C · ETS</div>
+                <div class="mark" id="mark"><span id="markT"></span></div>
+              </div>
+              <div class="ticks" id="ticks"></div>
+            </div>
+          </div>
+          <details class="help"><summary>Kapsamdaki sera gazları</summary><div class="pbody" data-panel="p_gaz"></div></details>
+        </div>
+      </section>
+
+      <div class="results" id="results"></div>
+    </div>
+
+    <aside>
+      <div class="path" id="path">
+        <div class="path-h"><div class="eyebrow">Yolunuz</div></div>
+        <ol class="trail" id="trail"></ol>
+        <div class="verdict" id="verdict"></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="refs">
+    <details id="fiyat"><summary>Fiyatı kim, neye göre belirler?</summary>
+      <div class="roles" id="roles"></div>
+      <div class="pcols" id="fiyatBody" style="margin-top:8px"></div>
+    </details>
+    <details><summary>Kısaltmalar</summary><div class="pbody" data-panel="p_kisalt"></div></details>
+  </div>
+
+  <footer>
+    <span>Bu araç bilgilendirme amaçlıdır ve ön değerlendirme niteliğindedir. Kesin kapsam belirlemesi tesisin kapasite raporu,
+      yakma ünitelerinin anma ısıl güçleri ve onaylı izleme planı üzerinden yapılır; nihai yetki Çevre, Şehircilik ve İklim
+      Değişikliği Bakanlığına bağlı İklim Değişikliği Başkanlığındadır.</span>
+    <span class="mono">RG 27.08.2026 / 33353</span>
+  </footer>
+</div>
+
+<script>
+const D = {"nodes": {"start": {"t": "Tesis değerlendirmesini başlat", "s": ""}, "k1": {"t": "Tesiste EK-1 listesindeki bir faaliyet yürütülüyor mu?", "s": "m. 27 · EK-1"}, "k4": {"t": "Kurulu kapasiteye göre ihtiyatlı hesaplanan yıllık emisyon kaç ton CO₂e?", "s": "m. 4 · m. 5/1"}, "out1": {"t": "KAPSAM DIŞI", "s": "Hiçbir yükümlülük doğmaz. Tahsisat, izin, izleme ve raporlama yok."}, "ird": {"t": "ETS DIŞI — İRD YÜKÜMLÜSÜ", "s": "Kategori A ve ETS dışı bırakılan özel tesisler. Tahsisat almaz, teslim etmezsiniz; izleme, raporlama ve doğrulama (İRD) sürer."}, "ets": {"t": "ETS KAPSAMINDA", "s": "Sera gazı emisyon izni + izleme, raporlama ve doğrulama + her yıl emisyona denk tahsisat teslimi."}, "i1": {"t": "İzleme planını hazırlayın", "s": "İlk izlemeden en az 6 ay önce İklim Değişikliği Başkanlığına sunulur (m. 28/3)"}, "i2": {"t": "Emisyonları izleyin", "s": "Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü"}, "i3": {"t": "Akredite kuruluşa doğrulatın", "s": "Doğrulanmamış rapor sunulamaz · doğrulayıcı ISO/IEC 17029 akreditasyonlu olmalı (m. 30/1 · m. 33/2)"}, "i4": {"t": "30 Nisan'a kadar raporlayın", "s": "CEZA RİSKİ · Önceki yılın doğrulanmış emisyonu ve faaliyet seviyeleri · geç sunumda kategoriye göre ceza, Kategori A için 627.450 ₺ (m. 29/1 · m. 35)"}, "e1": {"t": "İzleme planını ve İzleme Metodolojisi Planını hazırlayın", "s": "İzlemeye başlamadan en az 6 ay önce sunulur · ikisi de izin başvurusunun ekidir (m. 28/3 · m. 13/4 · EK-3 · EK-4)"}, "e2": {"t": "Yetkili personeli belirleyin", "s": "Kategori B: en az 1 yıl deneyimli 1 kişi · Kategori C: en az 2 yıl deneyimli 2 kişi · mühendislik veya fen fakültesi mezunu (EK-3/9)"}, "e3": {"t": "Sera gazı emisyon izni başvurusu", "s": "Planlar ve personel bilgisiyle EK-3 dosyası · azami 60 gün · 5 yıl geçerli (m. 7-8)"}, "e4": {"t": "Emisyonları izleyin", "s": "Alt tesis bazında: ürün, ölçülebilir ısı, yakıt, üretim süreci"}, "e5": {"t": "Akredite kuruluşa doğrulatın", "s": "Doğrulanmamış rapor sunulamaz · 4734 sayılı Kamu İhale Kanununa tabi işletmeler MEDAS dışındadır (m. 30)"}, "e6": {"t": "30 Nisan — rapor + faaliyet seviyesi", "s": "CEZA RİSKİ · İkisi birlikte sunulur (m. 29 · m. 13/5)"}, "e7": {"t": "Ulusal Tahsisat Planı yayımlanır", "s": "DIŞ OLAY · Raporların son teslim tarihinden itibaren 60 gün içinde Resmî Gazete'de (m. 11/2)"}, "e8": {"t": "Ücretsiz tahsisat başvurusu", "s": "Ulusal Tahsisat Planının yayımından itibaren 30 gün · geç başvuruda bedel %50 artırımlı (m. 14)"}, "e9": {"t": "Açığı kapatın", "s": "Birincil piyasa (ihale) · İkincil piyasa · Karbon kredisiyle denkleştirme · Bankalama ve ödünç alma"}, "e10": {"t": "Tahsisatı teslim edin", "s": "CEZA RİSKİ · Kasım son iş günü, ek rezervde Aralık son iş günü · eksik her tahsisat için son 3 ay ortalama fiyatın 2 katı ceza (m. 16 · 7552 s. Kanun m. 14)"}, "kayit": {"t": "Sürekli yükümlülükler — her iki profil için", "s": "Tüm veri ve bilgi kayıtlarını en az 10 yıl saklayın (m. 37) · Faaliyet, tesis niteliği, kategori veya izin sahibi değişikliklerini 30 gün içinde İklim Değişikliği Başkanlığına bildirin (m. 9/1 · m. 34/4-5)"}}, "who": {"i1": "İşletme hazırlar · İklim Değişikliği Başkanlığı onaylar", "i2": "İşletme · İklim Değişikliği Başkanlığınca onaylanan izleme planına göre", "i3": "Doğrulayıcıyı İklim Değişikliği Başkanlığının MEDAS sistemi atar · Türk Akreditasyon Kurumu akredite eder", "i4": "İklim Değişikliği Başkanlığına, elektronik sistem üzerinden", "e1": "İşletme hazırlar · İklim Değişikliği Başkanlığı onaylar", "e2": "İşletme belirler · kendi personeli yoksa bu nitelikte dış uzman görevlendirebilir", "e3": "Başvuru İklim Değişikliği Başkanlığına yapılır ve orada değerlendirilir", "e4": "İşletme · İklim Değişikliği Başkanlığınca onaylanan izleme planına göre", "e5": "Doğrulayıcıyı İklim Değişikliği Başkanlığının MEDAS sistemi atar · Türk Akreditasyon Kurumu akredite eder", "e6": "İklim Değişikliği Başkanlığına, elektronik sistem üzerinden", "e7": "İklim Değişikliği Başkanlığı hazırlar · Karbon Piyasası Kurulu onaylar", "e8": "Başvuru İklim Değişikliği Başkanlığına · aktarım Enerji Piyasası Düzenleme Kurumu usulüyle", "e9": "İhaleyi ve ikincil piyasayı Enerji Piyasaları İşletme A.Ş. (EPİAŞ) işletir", "e10": "İşlem Kayıt Sistemi üzerinden · sistemi Enerji Piyasaları İşletme A.Ş. (EPİAŞ) işletir"}, "panels": {"p_ek1": {"t": "EK-1 FAALİYETLERİ (ÖZET)", "l": ["ENERJİ", "• Yakıtların yakılması — tesisteki TÜM yakma ünitelerinin toplam anma ısıl gücü ≥ 20 MW (tehlikeli ve belediye atıklarının yakılması hariç)", "• Petrol rafinasyonu — ≥ 20 MW", "• Kok üretimi — eşik yok", "METAL", "• Cevher kavurma, sinterleme, peletleme", "• Demir-çelik üretimi ve dökümü — ≥ 2,5 ton/saat", "• Demirli metal işleme — ≥ 20 MW", "• Birincil alüminyum ve alümina", "• İkincil alüminyum, demir dışı metaller — ≥ 20 MW", "MİNERAL", "• Klinker — döner fırında ≥ 500 t/gün, diğer ocaklarda > 50 t/gün", "• Kireç, dolomit, magnezit — ≥ 50 t/gün", "• Cam — ≥ 20 t/gün · Seramik — ≥ 75 t/gün", "• Mineral elyaf yalıtım — ≥ 20 t/gün", "• Alçı taşı ürünleri — ≥ 20 MW", "SELÜLOZ VE KÂĞIT", "• Selüloz üretimi — eşik yok", "• Kâğıt, mukavva, karton — ≥ 20 t/gün", "KİMYA", "• Karbon siyahı — ≥ 20 MW", "• Nitrik asit, adipik asit, glioksal, amonyak", "• Organik kimyasallar — ≥ 100 t/gün", "• Hidrojen ve sentez gazı — ≥ 5 t/gün", "• Soda külü ve sodyum bikarbonat", "", "Tam liste 25 faaliyettir. Ayrıntı için EK-1'e bakınız."]}, "p_20mw": {"t": "ANMA ISIL GÜCÜ NASIL TOPLANIR?", "l": ["Tesisteki tüm yakma ünitelerinin anma ısıl güçleri TOPLANIR: kazan, brülör, türbin, ısıtıcı, ocak, insineratör, kalsinatör, döner fırın, fırın, kurutucu, motor, yakıt hücresi, kimyasal döngüsel yakma ünitesi, yakma bacası, termal veya katalitik yakma sonrası ünitesi.", "", "3 MW altındaki üniteler ve münhasıran biyokütle kullananlar bu toplama GİRMEZ. Yalnız devreye alma ve durdurmada fosil yakıt kullanan biyokütle üniteleri de münhasıran biyokütle sayılır (EK-1).", "Toplam 20 MW ve üzeriyse yakıt yakma faaliyeti EK-1 kapsamına girer."]}, "p_kural": {"t": "EN ÇOK KAÇIRILAN ÜÇ KURAL", "l": ["• Aynı tesiste aynı kategorideki faaliyetlerin kapasiteleri toplanarak eşiğe bakılır (EK-1).", "• Eşik kurulu kapasiteye bakar, fiilî üretime değil.", "• EK-1'deki bir faaliyeti yürüten işletmenin diğer EK-1 faaliyetleri de kapasite gözetilmeksizin kapsama dâhil olur (m. 27/2)."]}, "p_kisalt": {"t": "KISALTMALAR", "l": ["• ETS — Emisyon Ticaret Sistemi", "• İRD — İzleme, raporlama ve doğrulama", "• EPDK — Enerji Piyasası Düzenleme Kurumu", "• EPİAŞ — Enerji Piyasaları İşletme A.Ş.; yönetmelikteki adıyla Piyasa İşletmecisi", "• MEDAS — Merkezi Elektronik Doğrulayıcı Kuruluş Atama Sistemi; İklim Değişikliği Başkanlığınca kurulur", "• TÜRKAK — Türk Akreditasyon Kurumu", "", "Karbon Piyasası Kurulu, Çevre, Şehircilik ve İklim Değişikliği Bakanı başkanlığında toplanır; sekretaryasını İklim Değişikliği Başkanlığı yürütür (m. 23/1)."]}, "p_ceza": {"t": "İDARİ PARA CEZALARI (m. 35)", "l": ["Doğrulanmış raporu süresinde sunmayanlara, tesis kategorisine göre:", "", "• Kategori A — ≤ 50.000 t · 627.450 ₺", "• Kategori B — 50.001–250.000 t · 1.254.900 ₺", "• Kategori B — 250.001–500.000 t · 2.509.800 ₺", "• Kategori C — 500.001–2.000.000 t · 4.392.150 ₺", "• Kategori C — > 2.000.000 t · 6.274.500 ₺", "", "ETS kapsamındaki işletmelere bu tutarlar İKİ KAT uygulanır.", "İzinsiz faaliyet ayrı bir ceza kalemidir: 1.254.900 – 12.549.000 ₺.", "", "TAHSİSAT TESLİM ETMEMEK", "Teslim edilmeyen her tahsisat için, son 3 ayın birincil ve ikincil piyasa ortalama fiyatlarından yüksek olanının 2 katı idari para cezası (7552 sayılı İklim Kanunu m. 14). Ceza borcu silmez: eksik miktar ertesi yılın teslim yükümlülüğüne eklenir (m. 16/2)."]}, "p_takvim": {"t": "ÖRNEK TAKVİM — 2027 SİSTEM YILI", "l": ["Her yıl aynı döngü tekrarlanır; tarihler 2027 emisyonları için örnektir.", "", "• 1 Ocak – 31 Aralık 2027 — emisyon ve faaliyet seviyesi izlenir", "• 30 Nisan 2028 — doğrulanmış emisyon ve faaliyet seviyesi raporları; İklim Değişikliği Başkanlığı en fazla 1 ay uzatabilir (m. 29/1)", "• En geç 29 Haziran 2028 — Ulusal Tahsisat Planı yayımlanır: 30 Nisan + 60 gün (m. 11/2)", "• Plan + 30 gün, en geç 29 Temmuz 2028 — ücretsiz tahsisat başvurusu (m. 14/2)", "• 30 Kasım 2028 — tahsisat teslimi: Kasım'ın son iş günü (m. 16/1)", "• 29 Aralık 2028 — ek rezerv kullananlar için teslim: Aralık'ın son iş günü (m. 16/7)", "", "Plan daha erken yayımlanırsa başvuru süresi de o tarihten itibaren işler.", "", "İlk İzleme Metodolojisi Planı: pilot döneme dâhil işletmeler 27 Ekim 2026'ya kadar sunar; İklim Değişikliği Başkanlığı 6 aya kadar uzatabilir (Geçici m. 3)."]}, "p_dikkat": {"t": "SERA GAZI EMİSYON İZNİ NEDİR?", "l": ["ETS kapsamındaki bir işletmenin, emisyona yol açan faaliyetini sürdürebilmesi için İklim Değişikliği Başkanlığından alması zorunlu izindir (m. 4 · m. 6). Tesisin izlemeyi onaylı plana göre yapacağını ve teslim yükümlülüğünü üstlendiğini gösterir.", "BAŞVURU DOSYASI (EK-3)", "• İşletme ve tesis bilgileri, hammaddeler", "• İzleme planı ve İzleme Metodolojisi Planı", "• Yetkili personel belgeleri, başvuru bedeli", "SÜREÇ VE SÜRE", "• Her tesis için ayrı izin; aynı adresteki tesisler tek izin (m. 7/2)", "• Azami 60 günde değerlendirilir; eksikler 3 ayda tamamlanmazsa ret (m. 7)", "• 5 yıl geçerli; bitiminden en az 6 ay önce yenileme başvurusu (m. 8)", "• Değişiklikler 30 gün içinde bildirilir (m. 9)", "İPTAL VE CEZA", "• Yanıltıcı beyan, faaliyetin sona ermesi veya teslim yükümlülüğünün yerine getirilmemesi halinde iptal edilir (m. 10)", "• İzinsiz faaliyet cezası 1.254.900 – 12.549.000 ₺ (m. 35)", "• Geçiş: 7552 sayılı İklim Kanununun yürürlüğünden itibaren 3 yıl içinde izin alınmalıdır; bu sürede bir kereye mahsus izinli sayılırsınız. Karbon Piyasası Kurulu kararıyla İklim Değişikliği Başkanlığı süreyi 2 yıla kadar uzatabilir (Geçici m. 2)."]}, "p_hesap": {"t": "İKİ HESAP", "l": ["Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü (EK-6)", "Biyokütlenin emisyon faktörü sıfır kabul edilir.", "", "Ücretsiz tahsisat = Kıyas değeri × Ücretsiz tahsisat oranı × Sektörel faaliyet katsayısı × Faaliyet seviyesi (m. 13/7); ilan edilirse sektörel düzeltme faktörüyle de çarpılır (m. 13/11)", "", "Açık = Doğrulanmış emisyon − Ücretsiz tahsisat", "Bu fark her yıl piyasadan satın alınır. Azaltım yatırımlarının geri ödeme hesabına bu kalem de girer."]}, "p_gaz": {"t": "KAPSAMDAKİ SERA GAZLARI (EK-2)", "l": ["• Karbondioksit (CO₂)", "• Metan (CH₄)", "• Diazot oksit (N₂O)", "• Hidroflorokarbonlar (HFC)", "• Perflorokarbonlar (PFC)", "• Kükürt heksaflorür (SF₆)", "", "Kategori hesabında biyokütle kaynaklı CO₂ hariç, transfer edilen CO₂ dâhil tutulur (m. 4)."]}, "p_biz": {"t": "★ BİZİM DEVREYE GİRDİĞİMİZ YER", "l": ["Açık, her yıl piyasadan satın alınan bir maliyet kalemidir. Açığı küçültmek hem bu maliyeti hem de fiyat riskini azaltır.", "", "NE YAPABİLİRİZ", "• Yatırım odaklı enerji etüdü", "• Atık ısı geri kazanımı ve ısı pompası uygulamaları", "• Motor, değişken hızlı sürücü (VSD) ve basınçlı hava sistemleri verimliliği", "• Yakıt dönüşümü ve biyokütle — biyokütlenin emisyon faktörü sıfır kabul edilir (EK-6)", "• Elektrifikasyon ile tesis içi yakma emisyonunun azaltılması", "• Çatı güneş enerjisi santrali (GES) ve öz tüketim; YEK-G (Yenilenebilir Enerji Kaynak Garanti) belgeli yeşil elektrik tedariki", "• ISO 50001 enerji yönetim sistemi kurulumu", "• Kestirimci bakım ve veri altyapısı — izleme, raporlama ve doğrulama yükümlülüğüyle aynı altyapıyı besler", "• Fizibilite: geri ödeme ve net bugünkü değer (NBD) hesabına tahsisat maliyetinin dâhil edilmesi", "• Verimlilik Artırıcı Proje (VAP) destekleri ve 9903 sayılı Yatırımlarda Devlet Yardımları Hakkında Cumhurbaşkanı Kararı kapsamındaki teşviklerle yatırım maliyetinin düşürülmesi", "• Yeşil dönüşüm projeleri"]}, "p_ozel": {"t": "ÖZEL DURUMLAR — AYRICA DEĞERLENDİRİLİR", "l": ["EK-1 faaliyeti yürütse de aşağıdaki tesisler farklı değerlendirilir. Tesisiniz bu gruptaysa ayrı bir inceleme yapılmalıdır.", "YÖNETMELİK DIŞI", "• Araştırma-geliştirme (Ar-Ge) tesis veya bölümleri, münhasıran biyokütle kullanan tesisler, askerî unsurlar (m. 2/2)", "ETS DIŞI — İZLEME, RAPORLAMA VE DOĞRULAMA SÜRER", "• Kalıcı: okul, üniversite, hastane ve savunma sanayi kuruluşlarına ait tesisler (m. 5/2-3)", "• Geçici: doğal gaz ve ham petrol iletimi ve depolanması, birinci uygulama dönemi sonuna kadar (Geçici m. 6)"]}, "p_fiyat": {"t": "FİYAT OLUŞUMU VE YETKİLİ KURUMLAR", "l": ["Tahsisatın sabit bir tarifesi yoktur; fiyat piyasada oluşur. Devlet fiyatı doğrudan koymaz, arzı ve sınırları belirler.", "ARZ — ÜST SINIR", "ETS üst sınırı emisyon yoğunluğu temelli belirlenir ve Ulusal Tahsisat Planı ile açıklanır. Birincil piyasada satışa sunulacak tahsisat miktarını Karbon Piyasası Kurulu tespit eder (m. 11 · m. 23/2).", "BİRİNCİL PİYASA — İHALE", "Tahsisatlar, İklim Değişikliği Başkanlığınca belirlenen ihale takvimine göre ihaleyle satılır. Takvim, Ulusal Tahsisat Planının yayımından sonraki 15 iş günü içinde Enerji Piyasaları İşletme A.Ş. (EPİAŞ) internet sitesinde ilan edilir (m. 17).", "İKİNCİL PİYASA — ARZ VE TALEP", "Ücretsiz dağıtılan veya ihalede alınan tahsisatların sonradan alınıp satıldığı piyasadır. Sürekli ticaret yöntemiyle işletilir; fiyat alış ve satış emirlerinin eşleşmesiyle oluşur (m. 4/1-s · m. 18). Piyasa katılımcıları ETS kapsamındaki işletmelerdir (m. 4/1-ff).", "FİYAT ARALIĞI VE İSTİKRAR", "Asgari ve azami tahsisat fiyatı aralıklarını belirlemeye Karbon Piyasası Kurulu yetkilidir; kararlar İklim Değişikliği Başkanlığının resmî internet sayfasında ilan edilir. Piyasa istikrar rezervi, dolaşımdaki tahsisat miktarı ve fiyatlar değerlendirilerek devreye alınır (m. 19 · m. 21/1). Bu fiyat aralıkları ek rezerv ve tamamlayıcı tahsisat fiyatı mekanizmasına uygulanmaz (m. 21/2).", "||", "EK REZERV FİYATI", "Asgari fiyat: son 3 ayın birincil ve ikincil piyasa ağırlıklı ortalama fiyatlarından yüksek olanının %50 fazlası. Azami fiyatı İklim Değişikliği Başkanlığı ve Enerji Piyasası Düzenleme Kurumu koordineli belirler (m. 16/6). İhale yapılmamışsa spot piyasa fiyatları esas alınır (Geçici m. 5).", "TAMAMLAYICI TAHSİSAT FİYATI", "İşletmelerin talebi üzerine, İklim Değişikliği Başkanlığının belirlediği ihalelerde teslim edilecek tahsisatlar için ilave bir birincil piyasa fiyat mekanizması işletilebilir; başvuru Enerji Piyasaları İşletme A.Ş. aracılığıyla yapılır (m. 20).", "KARBON KREDİSİYLE DENKLEŞTİRME", "Türkiye sınırları içindeki projelerden elde edilen karbon kredileri, teslim yükümlülüğünün Karbon Piyasası Kurulunca belirlenen oranını geçmemek üzere kullanılabilir (m. 25/1).", "PİYASANIN İŞLEYİŞİ", "İşlem Kayıt Sistemini ve birincil ile ikincil ETS piyasasını Enerji Piyasaları İşletme A.Ş. (EPİAŞ) işletir. Piyasa işleyişinin usul ve esaslarını Çevre, Şehircilik ve İklim Değişikliği Bakanlığı, Enerji ve Tabii Kaynaklar Bakanlığı ve Sermaye Piyasası Kurulu ile koordineli olarak Enerji Piyasası Düzenleme Kurumu belirler. Türkiye Odalar ve Borsalar Birliği Başkanı başkanlığındaki Danışma Kurulu, Karbon Piyasası Kuruluna sunulmak üzere istişari kararlar alır (m. 4/1-k · m. 21/3 · m. 22/1 · m. 24)."]}, "p_lejant": {"t": "RENK ANAHTARI", "l": ["YEŞİL — yükümlülük yok, sistem hiç uygulanmaz", "SARI — yalnızca izleme, raporlama ve doğrulama", "KIRMIZI — tam ETS: izin, izleme-raporlama-doğrulama ve tahsisat teslimi", "GRİ — yardımcı bilgi, akışın parçası değil", "KİM — başvurunun yapıldığı ve işlemi yürüten kurum"]}}, "roles": [["Karbon Piyasası Kurulu", "Çevre, Şehircilik ve İklim Değişikliği Bakanı başkanlığında toplanır. Satışa sunulacak tahsisat miktarını, asgari–azami fiyat aralığını ve karbon kredisi oranını belirler (m. 21/1 · m. 23 · m. 25/1)"], ["İklim Değişikliği Başkanlığı", "İhale takvimini ve istikrar rezervine aktarılacak miktarı belirler, Karbon Piyasası Kurulu kararlarını ilan eder (m. 17/1 · m. 19/2 · m. 21/1)"], ["Enerji Piyasası Düzenleme Kurumu", "ETS piyasasının ve İşlem Kayıt Sisteminin usul ve esaslarını belirler (m. 21/3 · m. 22/5)"], ["Enerji Piyasaları İşletme A.Ş.", "EPİAŞ, yönetmelikteki adıyla Piyasa İşletmecisi. İhaleleri ve ikincil piyasayı işletir, İşlem Kayıt Sistemini yürütür (m. 4/1-k · m. 22/1)"], ["Piyasa katılımcıları", "ETS kapsamındaki işletmeler. Fiyat birincil piyasada ihaleyle, ikincil piyasada alış ve satış emirleriyle oluşur (m. 4/1-ff · m. 17 · m. 18)"]]};
+
+/* ───── sabitler ───── */
+const FUELS = {
+  gaz:['Doğal gaz',56.1], lpg:['LPG',63.1], motorin:['Motorin',74.1], fueloil:['Fuel-oil',77.4],
+  petrokok:['Petrokok',97.5], komur:['Taş kömürü',94.6], linyit:['Linyit',101.0], bio:['Münhasıran biyokütle',0]
+};
+const TJ_PER_MW_YEAR = 8760 * 3.6 / 1000;   // 31,536 TJ
+const ACTS = [
+  {g:'ENERJİ', id:'rafineri', ad:'Petrol rafinasyonu', esik:20, u:'MW'},
+  {g:'ENERJİ', id:'kok', ad:'Kok üretimi'},
+  {g:'METAL', id:'cevher', ad:'Cevher kavurma, sinterleme, peletleme'},
+  {g:'METAL', id:'demircelik', ad:'Demir-çelik üretimi ve dökümü', esik:2.5, u:'ton/saat'},
+  {g:'METAL', id:'demirli', ad:'Demirli metal işleme', esik:20, u:'MW'},
+  {g:'METAL', id:'biral', ad:'Birincil alüminyum ve alümina'},
+  {g:'METAL', id:'ikincil', ad:'İkincil alüminyum, demir dışı metaller', esik:20, u:'MW'},
+  {g:'MİNERAL', id:'klinker', ad:'Klinker', klinker:true, u:'t/gün'},
+  {g:'MİNERAL', id:'kirec', ad:'Kireç, dolomit, magnezit', esik:50, u:'t/gün'},
+  {g:'MİNERAL', id:'cam', ad:'Cam', esik:20, u:'t/gün'},
+  {g:'MİNERAL', id:'seramik', ad:'Seramik', esik:75, u:'t/gün'},
+  {g:'MİNERAL', id:'elyaf', ad:'Mineral elyaf yalıtım', esik:20, u:'t/gün'},
+  {g:'MİNERAL', id:'alci', ad:'Alçı taşı ürünleri', esik:20, u:'MW'},
+  {g:'SELÜLOZ VE KÂĞIT', id:'seluloz', ad:'Selüloz üretimi'},
+  {g:'SELÜLOZ VE KÂĞIT', id:'kagit', ad:'Kâğıt, mukavva, karton', esik:20, u:'t/gün'},
+  {g:'KİMYA', id:'karbon', ad:'Karbon siyahı', esik:20, u:'MW'},
+  {g:'KİMYA', id:'nitrik', ad:'Nitrik asit, adipik asit, glioksal, amonyak'},
+  {g:'KİMYA', id:'organik', ad:'Organik kimyasallar', esik:100, u:'t/gün'},
+  {g:'KİMYA', id:'hidrojen', ad:'Hidrojen ve sentez gazı', esik:5, u:'t/gün'},
+  {g:'KİMYA', id:'soda', ad:'Soda külü ve sodyum bikarbonat'},
+];
+const IRD_STEPS = ['i1','i2','i3','i4'], ETS_STEPS = ['e1','e2','e3','e4','e5','e6','e7','e8','e9','e10'];
+const LOG_MIN = 3, LOG_MAX = Math.log10(5e6);   // ölçek: 1.000 t – 5.000.000 t
+
+const EXAMPLE = () => ({
+  units:[
+    {ad:'Buhar kazanı 1', mw:14, yakit:'gaz'},
+    {ad:'Buhar kazanı 2', mw:14, yakit:'gaz'},
+    {ad:'Kızgın yağ kazanı', mw:6, yakit:'gaz'},
+    {ad:'Kurutucu brülörü', mw:2.5, yakit:'gaz'},
+  ],
+  acts:{}, caps:{}, klinkerTip:'doner', ozel:'yok', proses:'', bilinen:'',
+  yil:2027, tahsisat:45000, fiyat:1500, tasarruf:10, done:{}, example:true
+});
+const EMPTY = () => ({
+  units:[{ad:'', mw:'', yakit:'gaz'}], acts:{}, caps:{}, klinkerTip:'doner', ozel:'yok', proses:'', bilinen:'',
+  yil:2027, tahsisat:'', fiyat:'', tasarruf:10, done:{}, example:false
+});
+
+/* ───── durum ───── */
+const KEY = 'ets-karar-araci-v1';
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
+if (!S || !Array.isArray(S.units)) S = EXAMPLE();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+/* ───── yardımcılar ───── */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num = v => { if (v === '' || v == null) return null; const n = Number(String(v).replace(',', '.')); return isFinite(n) ? n : null; };
+const fmt = (n, d=0) => Number(n).toLocaleString('tr-TR', {maximumFractionDigits:d, minimumFractionDigits:0});
+const tl = n => fmt(Math.round(n)) + ' ₺';
+const refify = s => s.replace(/\(((?:m\.|EK-|Geçici|7552)[^()]*)\)/g, '<span class="ref">($1)</span>');
+const isHead = l => l === l.toLocaleUpperCase('tr-TR') && /[A-ZÇĞİÖŞÜ]{3}/.test(l) && l.length < 80;
+
+function linesHTML(lines){
+  let h = '', ul = false;
+  for (const l of lines){
+    if (l.startsWith('• ')){ if (!ul){ h += '<ul>'; ul = true; } h += '<li>' + refify(esc(l.slice(2))) + '</li>'; continue; }
+    if (ul){ h += '</ul>'; ul = false; }
+    if (!l) continue;
+    h += isHead(l) ? '<h4>' + esc(l) + '</h4>' : '<p>' + refify(esc(l)) + '</p>';
+  }
+  return ul ? h + '</ul>' : h;
+}
+function panelCols(key){
+  const cols = [[]];
+  D.panels[key].l.forEach(l => l === '||' ? cols.push([]) : cols[cols.length - 1].push(l));
+  return cols.map(c => '<div class="pbody">' + linesHTML(c) + '</div>').join('');
+}
+function fillPanels(root){
+  root.querySelectorAll('[data-panel]').forEach(el => { el.innerHTML = linesHTML(D.panels[el.dataset.panel].l); });
+}
+const utc = (y, m, d) => new Date(Date.UTC(y, m, d));
+const addDays = (d, n) => { const x = new Date(d); x.setUTCDate(x.getUTCDate() + n); return x; };
+function lastWorkday(y, m){ let d = utc(y, m + 1, 0); while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d = addDays(d, -1); return d; }
+const dfmt = d => d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
+
+/* ───── hesap ───── */
+function compute(){
+  const units = S.units.map(u => ({...u, mwN: num(u.mw) || 0}));
+  const counted = units.filter(u => u.mwN >= 3 && u.yakit !== 'bio');
+  const sumMW = counted.reduce((a, u) => a + u.mwN, 0);
+  const yakmaMet = sumMW >= 20;
+  const acts = {};
+  for (const a of ACTS){
+    if (!S.acts[a.id]){ acts[a.id] = null; continue; }
+    if (a.klinker){
+      const v = num(S.caps.klinker);
+      acts[a.id] = v == null ? 'eksik' : (S.klinkerTip === 'doner' ? v >= 500 : v > 50) ? 'asti' : 'alti';
+    } else if (a.esik == null) acts[a.id] = 'esiksiz';
+    else { const v = num(S.caps[a.id]); acts[a.id] = v == null ? 'eksik' : v >= a.esik ? 'asti' : 'alti'; }
+  }
+  const metActs = ACTS.filter(a => acts[a.id] === 'asti' || acts[a.id] === 'esiksiz');
+  const anyMet = yakmaMet || metActs.length > 0;
+  const estFuel = units.reduce((a, u) => a + u.mwN * TJ_PER_MW_YEAR * FUELS[u.yakit][1], 0);
+  const proses = num(S.proses) || 0;
+  const bilinen = num(S.bilinen);
+  const E = bilinen != null ? bilinen : estFuel + proses;
+  const hasData = units.some(u => u.mwN > 0) || ACTS.some(a => S.acts[a.id]) || bilinen != null;
+  const cat = E <= 50000 ? 'A' : E <= 500000 ? 'B' : 'C';
+  let prof;
+  if (!hasData) prof = 'bos';
+  else if (!anyMet) prof = 'kapsamdisi';
+  else if (S.ozel === 'disi') prof = 'yonetmelik';
+  else if (S.ozel === 'kalici' || S.ozel === 'gecici' || cat === 'A') prof = 'ird';
+  else prof = 'ets';
+  return {units, sumMW, yakmaMet, acts, metActs, anyMet, estFuel, proses, bilinen, E, hasData, cat, prof};
+}
+function cezaRapor(E, ets){
+  const t = E <= 50000 ? 627450 : E <= 250000 ? 1254900 : E <= 500000 ? 2509800 : E <= 2000000 ? 4392150 : 6274500;
+  return ets ? t * 2 : t;
+}
+
+/* ───── 1. adım: yakma üniteleri ───── */
+function renderUnits(){
+  const fuelOpts = sel => Object.entries(FUELS).map(([k, [n, ef]]) =>
+    `<option value="${k}"${k === sel ? ' selected' : ''}>${n} · ${fmt(ef, 1)} t/TJ</option>`).join('');
+  $('units').innerHTML =
+    '<div class="urow head"><span>Ünite</span><span>MW</span><span class="h-fuel">Yakıt · emisyon faktörü</span><span></span></div>' +
+    S.units.map((u, i) => `<div class="urow" data-i="${i}">
+      <input type="text" id="u-ad-${i}" aria-label="Ünite adı" placeholder="Ör. Buhar kazanı" value="${esc(u.ad)}">
+      <input type="number" id="u-mw-${i}" aria-label="Anma ısıl gücü, MW" min="0" step="0.1" inputmode="decimal" value="${esc(u.mw)}">
+      <select class="fuel" id="u-fuel-${i}" aria-label="Yakıt">${fuelOpts(u.yakit)}</select>
+      <button class="btn ghost" type="button" aria-label="Üniteyi sil" data-del="${i}">✕</button>
+    </div>`).join('');
+}
+$('units').addEventListener('input', e => {
+  const row = e.target.closest('.urow'); if (!row || row.classList.contains('head')) return;
+  const u = S.units[+row.dataset.i];
+  if (e.target.id.startsWith('u-ad-')) u.ad = e.target.value;
+  else if (e.target.id.startsWith('u-mw-')) u.mw = e.target.value;
+  else if (e.target.id.startsWith('u-fuel-')) u.yakit = e.target.value;
+  touch();
+});
+$('units').addEventListener('click', e => {
+  const b = e.target.closest('[data-del]'); if (!b) return;
+  S.units.splice(+b.dataset.del, 1);
+  if (!S.units.length) S.units.push({ad:'', mw:'', yakit:'gaz'});
+  renderUnits(); touch();
+});
+$('btnAddUnit').addEventListener('click', () => {
+  S.units.push({ad:'', mw:'', yakit:'gaz'}); renderUnits(); touch();
+  $('u-ad-' + (S.units.length - 1)).focus();
+});
+
+/* ───── 1. adım: diğer faaliyetler ───── */
+function renderActs(){
+  let h = '', g = '';
+  for (const a of ACTS){
+    if (a.g !== g){ g = a.g; h += `<div class="agroup">${esc(g)}</div>`; }
+    const thr = a.klinker ? 'döner fırında ≥ 500 t/gün, diğer ocaklarda > 50 t/gün'
+      : a.esik != null ? `eşik ≥ ${fmt(a.esik, 1)} ${a.u}` : 'eşik yok';
+    let cap = '';
+    if (a.klinker) cap = `<select id="cap-klinker-tip" aria-label="Fırın tipi">
+        <option value="doner">Döner fırın</option><option value="diger">Diğer ocaklar</option></select>
+      <input type="number" id="cap-klinker" min="0" step="1" inputmode="decimal" aria-label="Klinker kapasitesi, t/gün"><span class="utag">t/gün</span>`;
+    else if (a.esik != null) cap = `<input type="number" id="cap-${a.id}" min="0" step="0.1" inputmode="decimal" aria-label="${esc(a.ad)} kapasitesi, ${a.u}"><span class="utag">${a.u}</span>`;
+    h += `<div class="arow" data-id="${a.id}">
+      <label><input type="checkbox" id="act-${a.id}"><span><span class="aname">${esc(a.ad)}</span><br><span class="athr">${thr}</span></span></label>
+      <div class="acap" id="acap-${a.id}">${cap}<span class="chip" id="chip-${a.id}"></span></div>
+    </div>`;
+  }
+  $('acts').innerHTML = h;
+}
+function syncActsInputs(){
+  for (const a of ACTS){
+    $('act-' + a.id).checked = !!S.acts[a.id];
+    if (a.klinker){ $('cap-klinker').value = S.caps.klinker ?? ''; $('cap-klinker-tip').value = S.klinkerTip; }
+    else if (a.esik != null) $('cap-' + a.id).value = S.caps[a.id] ?? '';
+  }
+}
+$('acts').addEventListener('input', e => {
+  const t = e.target;
+  if (t.id.startsWith('act-')) S.acts[t.id.slice(4)] = t.checked;
+  else if (t.id === 'cap-klinker-tip') S.klinkerTip = t.value;
+  else if (t.id.startsWith('cap-')) S.caps[t.id.slice(4)] = t.value;
+  touch();
+});
+
+/* ───── 2–3. adım girdileri ───── */
+document.querySelectorAll('input[name=ozel]').forEach(r => r.addEventListener('change', () => { S.ozel = r.value; touch(); }));
+$('proses').addEventListener('input', e => { S.proses = e.target.value; touch(); });
+$('bilinen').addEventListener('input', e => { S.bilinen = e.target.value; touch(); });
+
+/* ───── ölçek ───── */
+const pos = v => Math.min(1, Math.max(0, (Math.log10(Math.max(v, 1)) - LOG_MIN) / (LOG_MAX - LOG_MIN)));
+function renderScale(){
+  const pA = pos(50000), pB = pos(500000);
+  $('segA').style.width = (pA * 100) + '%';
+  $('segB').style.width = ((pB - pA) * 100) + '%';
+  $('segC').style.width = ((1 - pB) * 100) + '%';
+  $('ticks').innerHTML = [[1000,'1 bin'],[50000,'50 bin'],[500000,'500 bin'],[5e6,'5 milyon t']]
+    .map(([v, t], i, a) => `<span style="left:${pos(v) * 100}%;${i === 0 ? 'transform:none' : i === a.length - 1 ? 'transform:translateX(-100%)' : ''}">${t}</span>`).join('');
+}
+
+/* ───── yolunuz (yan panel) ───── */
+const PROF = {
+  bos:        {tone:'neutral', t:'Henüz sonuç yok', d:'Yakma ünitelerini veya EK-1 faaliyetlerini girdikçe sonuç burada oluşur.'},
+  kapsamdisi: {tone:'green', t:'KAPSAM DIŞI', d:() => D.nodes.out1.s},
+  yonetmelik: {tone:'green', t:'YÖNETMELİK DIŞI', d:'Ar-Ge tesis veya bölümleri, münhasıran biyokütle kullanan tesisler ve askerî unsurlar bu yönetmeliğin kapsamında değildir (m. 2/2).'},
+  ird:        {tone:'amber', t:() => D.nodes.ird.t, d:() => D.nodes.ird.s},
+  ets:        {tone:'red', t:() => D.nodes.ets.t, d:() => D.nodes.ets.s},
+};
+const val = x => typeof x === 'function' ? x() : x;
+
+function renderTrail(c){
+  const ozelTxt = {yok:'Özel durum yok', disi:'Ar-Ge, münhasıran biyokütle veya askerî', kalici:'Okul, üniversite, hastane veya savunma sanayi', gecici:'Doğal gaz veya ham petrol iletimi ve depolanması'}[S.ozel];
+  const ek1Txt = !c.hasData ? 'Veri bekleniyor'
+    : c.anyMet ? 'Evet · ' + [c.yakmaMet ? `yakıt yakma ${fmt(c.sumMW, 1)} MW` : null, ...c.metActs.map(a => a.ad.toLocaleLowerCase('tr-TR'))].filter(Boolean).slice(0, 2).join(', ') + (c.metActs.length + (c.yakmaMet ? 1 : 0) > 2 ? '…' : '')
+    : 'Hayır';
+  const stop1 = !c.hasData || !c.anyMet, stop2 = stop1 || S.ozel === 'disi';
+  const items = [
+    ['Soru 1 · EK-1 faaliyeti', ek1Txt, c.hasData],
+    ['Soru 2 · Özel durum', stop1 ? '—' : ozelTxt, !stop1],
+    ['Soru 3 · Emisyon', stop2 ? '—' : `${fmt(c.E)} t CO₂e · Kategori ${c.cat}`, !stop2],
+  ];
+  $('trail').innerHTML = items.map(([k, v, on]) => `<li class="${on ? 'done' : 'off'}"><div class="k">${k}</div><div class="v">${esc(v)}</div></li>`).join('');
+
+  const p = PROF[c.prof];
+  $('path').className = 'path tone-' + p.tone;
+  let meta = '';
+  if (c.prof === 'ets' || c.prof === 'ird'){
+    meta = `<span class="chip">Kategori ${c.cat}</span><span class="chip">${c.prof === 'ets' ? ETS_STEPS.length : IRD_STEPS.length} adım</span>`;
+    if (c.prof === 'ird' && S.ozel !== 'yok') meta += '<span class="chip">özel durum</span>';
+  }
+  $('verdict').innerHTML = `<div class="t">${esc(val(p.t))}</div><p>${refify(esc(val(p.d)))}</p>
+    ${meta ? '<div class="meta">' + meta + '</div>' : ''}
+    ${c.prof === 'ets' || c.prof === 'ird' ? '<a href="#sonuc">Adımlara ve takvime git ↓</a>' : ''}`;
+}
+
+/* ───── sonuç ───── */
+let lastKey = '';
+function stepParts(s){
+  const m = s.match(/^(CEZA RİSKİ|DIŞ OLAY) · /);
+  return m ? {badge:m[1], s:s.slice(m[0].length)} : {badge:null, s};
+}
+function stepHTML(id, i, c){
+  const n = D.nodes[id], {badge, s} = stepParts(n.s);
+  const ev = badge === 'DIŞ OLAY';
+  const chip = badge ? `<span class="chip ${ev ? 'event' : 'risk'}">${badge}</span>` : '';
+  let mine = '';
+  if (id === 'e2') mine = c.cat === 'C' ? 'Sizin durumunuz, Kategori C: en az 2 yıl deneyimli 2 kişi.' : 'Sizin durumunuz, Kategori B: en az 1 yıl deneyimli 1 kişi.';
+  if (id === 'i4' || id === 'e6') mine = `Geç sunumda sizin kategorinize uygulanacak ceza: ${tl(cezaRapor(c.E, c.prof === 'ets'))} (m. 35).`;
+  const extra = id === 'e3' ? `<details class="help"><summary>Sera gazı emisyon izni nedir?</summary><div class="pbody">${linesHTML(D.panels.p_dikkat.l)}</div></details>` : '';
+  const done = !!S.done[id];
+  return `<li class="step${ev ? ' event' : ''}${done ? ' done' : ''}" id="st-${id}">
+    <input type="checkbox" id="done-${id}" data-step="${id}"${done ? ' checked' : ''} aria-label="${esc(n.t)} tamamlandı">
+    <div>
+      <div class="no">ADIM ${i + 1}</div>
+      <h4><span class="t">${esc(n.t)}</span>${chip}</h4>
+      <p class="s">${refify(esc(s))}</p>
+      ${D.who[id] ? `<div class="who"><em>KİM</em><span>${esc(D.who[id])}</span></div>` : ''}
+      ${mine ? `<p class="mine">${refify(esc(mine))}</p>` : ''}
+      ${extra}
+    </div>
+  </li>`;
+}
+function renderResults(c){
+  const key = c.prof + '|' + c.cat + '|' + S.ozel;
+  if (key === lastKey){ updateNumbers(c); return; }
+  lastKey = key;
+  const R = $('results');
+  if (c.prof !== 'ets' && c.prof !== 'ird'){
+    const p = PROF[c.prof];
+    R.innerHTML = c.prof === 'bos' ? '' : `<section class="res tone-${p.tone}" id="sonuc"><div class="res-head">
+      <div class="eyebrow">Sonuç</div><h2>${esc(val(p.t))}</h2><p>${refify(esc(val(p.d)))}</p>
+      ${c.prof === 'kapsamdisi' ? '<p class="hint" style="margin-top:10px">Kapasite artışı veya yeni bir EK-1 faaliyeti bu sonucu değiştirir; değişiklikleri 30 gün içinde bildirme yükümlülüğü kapsama girildiğinde başlar (m. 9/1).</p>' : ''}
+      </div></section>`;
+    return;
+  }
+  const ets = c.prof === 'ets', steps = ets ? ETS_STEPS : IRD_STEPS, p = PROF[c.prof];
+  const loopAt = ets ? 'e4' : 'i2';
+  let ozelNote = '';
+  if (!ets && S.ozel === 'kalici') ozelNote = 'Tesisiniz okul, üniversite, hastane veya savunma sanayi kuruluşuna ait olduğu için emisyon düzeyinden bağımsız olarak ETS dışıdır (m. 5/2-3).';
+  if (!ets && S.ozel === 'gecici') ozelNote = 'Doğal gaz ve ham petrol iletimi ve depolanması, birinci uygulama dönemi sonuna kadar ETS dışıdır (Geçici m. 6).';
+
+  R.innerHTML = `
+  <section class="res tone-${p.tone}" id="sonuc">
+    <div class="res-head">
+      <div class="eyebrow">Sonuç</div>
+      <h2>${esc(val(p.t))}</h2>
+      <p>${refify(esc(val(p.d)))}</p>
+      ${ozelNote ? `<p style="margin-top:8px">${refify(esc(ozelNote))}</p>` : ''}
+      <div class="meta"><span class="chip">Kategori ${c.cat}</span><span class="chip num" id="rE"></span></div>
+    </div>
+    <div class="res-body">
+      <div class="prog"><div class="bar"><i id="progBar"></i></div><span id="progTxt"></span></div>
+      <ol class="steps">${steps.map((id, i) => (id === loopAt ? `<li class="loop">↻ Bu adımdan itibaren her sistem yılı için tekrarlanır</li>` : '') + stepHTML(id, i, c)).join('')}</ol>
+      <div class="kayit"><b>${esc(D.nodes.kayit.t)}</b><p>${refify(esc(D.nodes.kayit.s))}</p></div>
+    </div>
+  </section>
+
+  <section class="card" id="takvim">
+    <div class="card-head"><h3>Takviminiz</h3>
+      <label class="yearsel" for="yil">Sistem yılı <select id="yil">${[2026,2027,2028,2029,2030].map(y => `<option${y === S.yil ? ' selected' : ''}>${y}</option>`).join('')}</select></label></div>
+    <ol class="tl" id="tl"></ol>
+    <p class="note">İş günü hesabında yalnız hafta sonları dikkate alınmıştır; resmî tatiller ayrıca kontrol edilmelidir.
+      ${ets ? 'İlk İzleme Metodolojisi Planı: pilot döneme dâhil işletmeler 27 Ekim 2026\'ya kadar sunar; İklim Değişikliği Başkanlığı 6 aya kadar uzatabilir (Geçici m. 3).' : ''}</p>
+  </section>
+
+  <section class="card" id="ceza">
+    <div class="card-head"><h3>Ceza riskleriniz</h3><span class="ref">m. 35 · 7552 s. Kanun m. 14</span></div>
+    <div class="kv" id="cezaKv"></div>
+    <details class="help" style="margin-top:14px"><summary>Tüm kategoriler için ceza tablosu</summary><div class="pbody">${linesHTML(D.panels.p_ceza.l)}</div></details>
+  </section>
+
+  ${ets ? `<section class="card" id="acik">
+    <div class="card-head"><h3>Açık ve verimlilik hesabı</h3><span class="ref">m. 13/7 · m. 16</span></div>
+    <p class="hint" style="margin-top:6px">Kıyas değerleri ve ücretsiz tahsisat oranları henüz ilan edilmedi. Tahsisat ve fiyat alanlarındaki değerler
+      varsayımdır; kendi senaryonuzu girin.</p>
+    <div class="calc">
+      <div class="field"><label>Doğrulanmış emisyon</label><div class="bignum"><b id="aE" style="font-size:22px"></b><span class="hint">t CO₂e</span></div></div>
+      <div class="field"><label for="tahsisat">Ücretsiz tahsisat (t)</label><input type="number" id="tahsisat" min="0" step="100" inputmode="decimal"></div>
+      <div class="field"><label for="fiyatIn">Tahsisat fiyatı (₺ / t)</label><input type="number" id="fiyatIn" min="0" step="50" inputmode="decimal"></div>
+    </div>
+    <div class="kv" id="acikKv"></div>
+    <div style="margin-top:22px">
+      <div class="field"><label for="tasarruf">Verimlilik önlemiyle yakıt tüketimi ve emisyon ne kadar azalır?</label>
+        <div class="range"><input type="range" id="tasarruf" min="0" max="40" step="1"><b id="tasarrufT"></b></div></div>
+      <div class="cmp" id="cmp"></div>
+      <p class="note">Yakıt faturasındaki tasarruf bu hesaba dâhil değildir; toplam kazanç onunla birlikte değerlendirilir.</p>
+    </div>
+    <details class="help" style="margin-top:14px"><summary>İki hesap: emisyon ve ücretsiz tahsisat</summary><div class="pbody">${linesHTML(D.panels.p_hesap.l)}</div></details>
+  </section>` : ''}
+
+  <section class="card opp" id="biz">
+    <div class="card-head"><h3>${esc(D.panels.p_biz.t.replace(/^★\s*/, ''))}</h3></div>
+    ${!ets ? '<p class="hint" style="margin-top:6px">Tesisiniz bugün tahsisat teslim etmiyor; ancak emisyon 50.000 t CO₂e\'yi aşarsa ETS\'ye geçer ve bu değişiklik 30 gün içinde bildirilir (m. 9/1). Aşağıdaki önlemler hem bu eşikten uzak durmayı hem enerji maliyetini düşürmeyi sağlar.</p>' : ''}
+    <div class="pbody">${linesHTML(D.panels.p_biz.l)}</div>
+  </section>`;
+
+  if (ets){
+    $('tahsisat').value = S.tahsisat; $('fiyatIn').value = S.fiyat; $('tasarruf').value = S.tasarruf;
+    $('tahsisat').addEventListener('input', e => { S.tahsisat = e.target.value; save(); updateNumbers(compute()); });
+    $('fiyatIn').addEventListener('input', e => { S.fiyat = e.target.value; save(); updateNumbers(compute()); });
+    $('tasarruf').addEventListener('input', e => { S.tasarruf = +e.target.value; save(); updateNumbers(compute()); });
+  }
+  $('yil').addEventListener('change', e => { S.yil = +e.target.value; save(); renderTakvim(ets); });
+  R.querySelector('.steps').addEventListener('change', e => {
+    const id = e.target.dataset.step; if (!id) return;
+    S.done[id] = e.target.checked; $('st-' + id).classList.toggle('done', e.target.checked); save(); renderProgress(steps);
+  });
+  renderTakvim(ets);
+  renderProgress(steps);
+  updateNumbers(c);
+}
+function renderProgress(steps){
+  const n = steps.filter(id => S.done[id]).length;
+  $('progBar').style.width = (n / steps.length * 100) + '%';
+  $('progTxt').textContent = `${n} / ${steps.length} adım tamamlandı`;
+}
+function renderTakvim(ets){
+  const y = S.yil, rap = utc(y + 1, 3, 30), utp = addDays(rap, 60), bas = addDays(utp, 30);
+  const rows = [
+    ['', `1 Ocak – 31 Aralık ${y}`, 'Emisyon ve faaliyet seviyesi izlenir', 'Onaylı izleme planına göre yıl boyunca'],
+    ['risk', dfmt(rap), 'Doğrulanmış emisyon ve faaliyet seviyesi raporları', 'İklim Değişikliği Başkanlığı en fazla 1 ay uzatabilir (m. 29/1)'],
+  ];
+  if (ets) rows.push(
+    ['event', 'En geç ' + dfmt(utp), 'Ulusal Tahsisat Planı yayımlanır', '30 Nisan + 60 gün (m. 11/2)'],
+    ['', 'En geç ' + dfmt(bas), 'Ücretsiz tahsisat başvurusu', 'Plan + 30 gün; plan daha erken yayımlanırsa süre o tarihten işler (m. 14/2)'],
+    ['risk', dfmt(lastWorkday(y + 1, 10)), 'Tahsisat teslimi', 'Kasım ayının son iş günü (m. 16/1)'],
+    ['risk', dfmt(lastWorkday(y + 1, 11)), 'Ek rezerv kullananlar için teslim', 'Aralık ayının son iş günü (m. 16/7)'],
+  );
+  $('tl').innerHTML = rows.map(([cls, d, w, n]) => `<li class="${cls}"><div class="d">${d}</div><div><div class="w">${esc(w)}</div><div class="n">${refify(esc(n))}</div></div></li>`).join('');
+}
+function updateNumbers(c){
+  if (!$('rE')) return;
+  $('rE').textContent = fmt(c.E) + ' t CO₂e';
+  const ets = c.prof === 'ets';
+  const kv = [[`Doğrulanmış raporu süresinde sunmamak`, tl(cezaRapor(c.E, ets)), ets ? 'Kategorinizin tutarı, ETS kapsamında iki kat' : 'Kategorinizin tutarı', 'risk']];
+  if (ets){
+    kv.push(['İzinsiz faaliyet', '1.254.900 – 12.549.000 ₺', 'Sera gazı emisyon izni olmadan faaliyet', 'risk']);
+    kv.push(['Tahsisat teslim etmemek', 'Fiyatın 2 katı / t', 'Son 3 ayın yüksek ortalama fiyatı esas alınır; eksik miktar ertesi yıla eklenir (m. 16/2)', 'risk']);
+  }
+  $('cezaKv').innerHTML = kv.map(([k, v, x, cl]) => `<div class="${cl}"><div class="k">${esc(k)}</div><div class="v">${v}</div><div class="x">${refify(esc(x))}</div></div>`).join('');
+  if (!ets) return;
+
+  const E = c.E, T = num(S.tahsisat), P = num(S.fiyat), s = (S.tasarruf || 0) / 100;
+  $('aE').textContent = fmt(E);
+  $('tasarrufT').textContent = '%' + Math.round(s * 100);
+  if (T == null){
+    $('acikKv').innerHTML = '<div><div class="k">Açık</div><div class="v">—</div><div class="x">Ücretsiz tahsisat miktarını girin.</div></div>';
+    $('cmp').innerHTML = ''; return;
+  }
+  const gap = E - T, money = v => P == null ? 'Fiyat girin' : tl(v * P);
+  $('acikKv').innerHTML = gap >= 0 ? `
+    <div class="risk"><div class="k">Açık · piyasadan alınacak</div><div class="v">${fmt(gap)} t</div><div class="x">Emisyon − ücretsiz tahsisat</div></div>
+    <div><div class="k">Yıllık maliyet</div><div class="v">${money(gap)}</div><div class="x">Açık × fiyat</div></div>
+    <div class="risk"><div class="k">Teslim edilmezse ceza</div><div class="v">${money(gap * 2)}</div><div class="x">Fiyatın 2 katı; borç silinmez, ertesi yıla eklenir</div></div>`
+  : `<div class="good"><div class="k">Fazla tahsisat</div><div class="v">${fmt(-gap)} t</div><div class="x">İkincil piyasada satılabilir veya bankalanabilir</div></div>
+    <div class="good"><div class="k">Piyasa değeri</div><div class="v">${money(-gap)}</div><div class="x">Fazla × fiyat</div></div>`;
+  const dA = s * E, dB = s * (E - T);
+  $('cmp').innerHTML = `
+    <div><div class="h">Tahsisat değişmez</div>
+      <div class="x">Ürün kıyası alt tesisi; ısı kıyasında kazan veya üretim tarafındaki verim artışı (tüketilen ölçülebilir ısı aynı kalır)</div>
+      <div class="v">−${fmt(dA)} t</div><div class="y">açık azalması · ${money(dA)} / yıl</div></div>
+    <div><div class="h">Tahsisat orantılı düşer</div>
+      <div class="x">Yakıt kıyası alt tesisi; ısı kıyasında ısı talebinin azalması (faaliyet seviyesi de düşer). Tahsisatın tamamı bu alt tesisten geliyorsa:</div>
+      <div class="v">−${fmt(Math.max(dB, 0))} t</div><div class="y">açık azalması · ${money(Math.max(dB, 0))} / yıl</div></div>`;
+}
+
+/* ───── ana döngü ───── */
+function updateStep1(c){
+  const n = c.units.filter(u => u.mwN > 0).length;
+  const excl = c.units.filter(u => u.mwN > 0 && (u.mwN < 3 || u.yakit === 'bio'));
+  document.querySelectorAll('.urow[data-i]').forEach(r => {
+    const u = c.units[+r.dataset.i]; r.classList.toggle('off', !!u && u.mwN > 0 && (u.mwN < 3 || u.yakit === 'bio'));
+  });
+  let chip;
+  if (!n) chip = '<span class="chip">Ünite girilmedi</span>';
+  else if (c.yakmaMet) chip = '<span class="chip in">≥ 20 MW · yakıt yakma kapsamda</span>';
+  else if (c.anyMet) chip = '<span class="chip in">20 MW altı · m. 27/2 ile kapsamda</span>';
+  else chip = '<span class="chip">20 MW altında</span>';
+  $('yakmaSum').innerHTML = `<span class="hint">Toplama giren anma ısıl gücü</span><b>${fmt(c.sumMW, 1)} MW</b>${chip}
+    ${excl.length ? `<span class="hint">Toplama girmeyen: ${excl.map(u => esc(u.ad || 'adsız ünite')).join(', ')} (3 MW altı veya münhasıran biyokütle)</span>` : ''}`;
+  for (const a of ACTS){
+    const st = c.acts[a.id], el = $('chip-' + a.id);
+    $('acap-' + a.id).hidden = !st;
+    if (!st){ el.textContent = ''; continue; }
+    const m = {asti:['in','Eşik aşıldı'], esiksiz:['in','Eşiksiz · kapsamda'], eksik:['wait','Kapasite girin'],
+      alti: c.anyMet ? ['in','m. 27/2 ile kapsamda'] : ['','Eşik altında']}[st];
+    el.className = 'chip ' + m[0]; el.textContent = m[1];
+  }
+}
+function updateStep3(c){
+  $('estFuel').textContent = fmt(c.estFuel);
+  $('estTotal').textContent = fmt(c.E) + ' t';
+  $('estSrc').textContent = c.bilinen != null ? '· girdiğiniz değer' : c.proses ? '· tahmin + proses' : '· tahmin';
+  const p = pos(c.E);
+  $('mark').style.left = (p * 100) + '%';
+  $('mark').classList.toggle('flip', p > .7);
+  $('markT').textContent = c.hasData ? 'Kategori ' + c.cat : '';
+  $('mark').hidden = !c.hasData;
+}
+function update(){
+  const c = compute();
+  updateStep1(c); updateStep3(c); renderTrail(c); renderResults(c);
+  $('demoText').innerHTML = S.example
+    ? '<b>Örnek tesisle açıldı:</b> doğal gazlı dört yakma ünitesi, toplam 36,5 MW. Değerleri kendi tesisinizinkilerle değiştirin.'
+    : 'Tesis verilerinizi girdikçe sonuç anında güncellenir. Girdiğiniz değerler yalnız bu tarayıcıda saklanır.';
+}
+function touch(){ S.example = false; save(); update(); }
+function load(state){
+  S = state; lastKey = ''; save();
+  renderUnits(); syncActsInputs();
+  $('oz-' + S.ozel).checked = true; $('proses').value = S.proses; $('bilinen').value = S.bilinen;
+  update();
+}
+$('btnExample').addEventListener('click', () => load(EXAMPLE()));
+$('btnClear').addEventListener('click', () => load(EMPTY()));
+
+/* ───── başlangıç ───── */
+fillPanels(document);
+renderActs();
+renderScale();
+$('roles').innerHTML = D.roles.map(([k, v]) => `<div><b>${esc(k)}</b><p>${refify(esc(v))}</p></div>`).join('');
+$('fiyatBody').innerHTML = panelCols('p_fiyat');
+load(S);
+</script>
