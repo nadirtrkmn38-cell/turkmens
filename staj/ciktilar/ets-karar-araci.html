@@ -548,7 +548,7 @@ const ACTS = [
 ];
 const IRD_STEPS = ['i1','i2','i3','i4'], ETS_STEPS = ['e1','e2','e3','e4','e5','e6','e7','e8','e9','e10'];
 const LOG_MIN = 3, LOG_MAX = Math.log10(5e6);   // ölçek: 1.000 t – 5.000.000 t
-const EX_TAHSISAT = 45000, EX_FIYAT = 1500;
+const EX_GERCEK = 45000, EX_TAHSISAT = 31500, EX_FIYAT = 1500;
 
 const EXAMPLE = () => ({
   units:[
@@ -558,11 +558,11 @@ const EXAMPLE = () => ({
     {ad:'Kurutucu brülörü', mw:2.5, yakit:'gaz'},
   ],
   acts:{}, caps:{}, klinkerTip:'doner', ozel:'yok', proses:'', bilinen:'',
-  yil:2027, tahsisat:EX_TAHSISAT, fiyat:EX_FIYAT, tasarruf:10, done:{}, tab:'adim', example:true
+  yil:2027, gercek:EX_GERCEK, tahsisat:EX_TAHSISAT, fiyat:EX_FIYAT, tasarruf:10, done:{}, tab:'adim', example:true
 });
 const EMPTY = () => ({
   units:[{ad:'', mw:'', yakit:'gaz'}], acts:{}, caps:{}, klinkerTip:'doner', ozel:'yok', proses:'', bilinen:'',
-  yil:2027, tahsisat:'', fiyat:'', tasarruf:10, done:{}, tab:'adim', example:false
+  yil:2027, gercek:'', tahsisat:'', fiyat:'', tasarruf:10, done:{}, tab:'adim', example:false
 });
 
 /* ───── durum ───── */
@@ -631,6 +631,7 @@ function compute(){
   if (!hasData) prof = 'bos';
   else if (!anyMet) prof = 'kapsamdisi';
   else if (S.ozel === 'disi') prof = 'yonetmelik';
+  else if (E <= 0) prof = 'eksik';
   else if (S.ozel === 'kalici' || S.ozel === 'gecici' || cat === 'A') prof = 'ird';
   else prof = 'ets';
   return {units, sumMW, yakmaMet, acts, metActs, anyMet, estFuel, proses, bilinen, E, hasData, cat, prof};
@@ -646,6 +647,7 @@ const PROF = {
   kapsamdisi: {st:'st-out', ic:'check', short:'Kapsam dışı', t:'Kapsam dışı', d:() => D.nodes.out1.s},
   yonetmelik: {st:'st-out', ic:'check', short:'Yönetmelik dışı', t:'Yönetmelik dışı', d:'Ar-Ge tesis veya bölümleri, münhasıran biyokütle kullanan tesisler ve askerî unsurlar bu yönetmeliğin kapsamında değildir (m. 2/2).'},
   ird:        {st:'st-ird', ic:'info', short:'İRD yükümlüsü', t:'ETS dışı, İRD yükümlüsü', d:() => D.nodes.ird.s},
+  eksik:      {st:'', ic:'minus', short:'Emisyon bekleniyor', t:'Emisyon bilgisi gerekli', d:'EK-1 kapsamında bir faaliyet var. Kategoriyi belirlemek için yakma ünitelerini, proses emisyonunu veya hesaplanmış emisyonu girin.'},
   ets:        {st:'st-ets', ic:'alert', short:'ETS kapsamında', t:'ETS kapsamında', d:() => D.nodes.ets.s},
 };
 const val = x => typeof x === 'function' ? x() : x;
@@ -737,8 +739,8 @@ function renderStepper(c){
   const items = [
     ['s1', 'EK-1 faaliyeti', ek1, c.hasData],
     ['s2', 'Özel durum', stop1 ? 'Gerekmiyor' : OZEL_TXT[S.ozel], !stop1],
-    ['s3', 'Emisyon ve kategori', stop2 ? 'Gerekmiyor' : `${fmt(c.E)} t, Kategori ${c.cat}`, !stop2],
-    ['results', 'Sonuç', PROF[c.prof].short, c.prof !== 'bos'],
+    ['s3', 'Emisyon ve kategori', stop2 ? 'Gerekmiyor' : c.prof === 'eksik' ? 'Emisyon girilmedi' : `${fmt(c.E)} t, Kategori ${c.cat}`, !stop2 && c.prof !== 'eksik'],
+    ['results', 'Sonuç', PROF[c.prof].short, c.prof !== 'bos' && c.prof !== 'eksik'],
   ];
   $('stepper').innerHTML = items.map(([id, l, v, on], i) =>
     `<li class="${on ? 'done' : 'off'}"><a href="#${id}"><span class="n">${on ? ico('check', '') : i + 1}</span><span><span class="l">${l}</span><span class="v">${esc(v)}</span></span></a></li>`).join('');
@@ -746,9 +748,9 @@ function renderStepper(c){
 function renderSummary(c){
   const p = PROF[c.prof], inScope = c.prof === 'ets' || c.prof === 'ird';
   const rows = [];
-  if (c.hasData) rows.push(['Yakma toplamı', fmt(c.sumMW, 1) + ' MW']);
+  if (c.sumMW > 0) rows.push(['Yakma toplamı', fmt(c.sumMW, 1) + ' MW']);
   if (inScope){
-    rows.push(['Emisyon', fmt(c.E) + ' t CO₂e'], ['Kategori', c.cat], ['Yükümlülük adımı', String(c.prof === 'ets' ? ETS_STEPS.length : IRD_STEPS.length)]);
+    rows.push(['Kapasiteye göre emisyon', fmt(c.E) + ' t CO₂e'], ['Kategori', c.cat], ['Yükümlülük adımı', String(c.prof === 'ets' ? ETS_STEPS.length : IRD_STEPS.length)]);
     rows.push(['Rapor son günü', dfmt(utc(S.yil + 1, 3, 30))]);
     if (c.prof === 'ets') rows.push(['Tahsisat teslimi', dfmt(lastWorkday(S.yil + 1, 10))]);
     rows.push(['Geç rapor cezası', tl(cezaRapor(c.E, c.prof === 'ets'))]);
@@ -794,8 +796,9 @@ function renderResults(c){
   lastKey = key;
   const R = $('results'), p = PROF[c.prof];
   if (c.prof !== 'ets' && c.prof !== 'ird'){
-    R.hidden = c.prof === 'bos';
-    R.innerHTML = c.prof === 'bos' ? '' : `<div class="res-top solo ${p.st}"><span class="ic">${ico(p.ic)}</span><div>
+    const none = c.prof === 'bos' || c.prof === 'eksik';
+    R.hidden = none;
+    R.innerHTML = none ? '' : `<div class="res-top solo ${p.st}"><span class="ic">${ico(p.ic)}</span><div>
       <div class="k">Sonuç</div><h2>${esc(p.t)}</h2><p>${refify(esc(val(p.d)))}</p>
       ${c.prof === 'kapsamdisi' ? '<p class="small muted">Kapasite artışı veya yeni bir EK-1 faaliyeti bu sonucu değiştirir.</p>' : ''}
       </div></div>`;
@@ -829,7 +832,7 @@ function renderResults(c){
 
   <div class="tabpanel" role="tabpanel" id="tp-takvim" aria-labelledby="tab-takvim">
     <div class="bar-row"><p class="hint">Her sistem yılı aynı döngü tekrarlanır.</p>
-      <label class="yearsel" for="yil">Sistem yılı <select id="yil">${[2026,2027,2028,2029,2030].map(y => `<option${y === S.yil ? ' selected' : ''}>${y}</option>`).join('')}</select></label></div>
+      <label class="yearsel" for="yil">Sistem yılı <select id="yil">${[2027,2028,2029,2030,2031].map(y => `<option${y === S.yil ? ' selected' : ''}>${y}</option>`).join('')}</select></label></div>
     <ol class="tl" id="tl"></ol>
     <div class="foot-note">
       <p>${tag('varsayim')} İş günü hesabında yalnız hafta sonları dikkate alındı; resmî ve idari tatiller ayrıca kontrol edilmelidir.</p>
@@ -849,7 +852,7 @@ function renderResults(c){
     <div class="pending">${tag('ilan')} Kıyas değerleri, ücretsiz tahsisat oranları, sektörel katsayılar ve hangi ürünlerin
       ürün kıyası alacağı henüz açıklanmadı; piyasa fiyatı da oluşmadı. Bu yüzden tahsisat ve fiyat alanları senaryo girdisidir.</div>
     <div class="calc">
-      <div class="kpi"><div class="k">Doğrulanmış emisyon</div><div class="v" id="aE"></div><div class="x">3. adımdaki değer</div></div>
+      <div class="kpi"><label class="k" for="gercek">Gerçekleşen yıllık emisyon, t <span id="tgG"></span></label><input type="number" id="gercek" min="0" step="100" inputmode="decimal"><div class="x" id="aE"></div></div>
       <div class="kpi"><label class="k" for="tahsisat">Ücretsiz tahsisat, t <span id="tgT"></span></label><input type="number" id="tahsisat" min="0" step="100" inputmode="decimal"></div>
       <div class="kpi"><label class="k" for="fiyatIn">Tahsisat fiyatı, ₺/t <span id="tgF"></span></label><input type="number" id="fiyatIn" min="0" step="50" inputmode="decimal"></div>
     </div>
@@ -872,7 +875,8 @@ function renderResults(c){
   </div>`;
 
   if (ets){
-    $('tahsisat').value = S.tahsisat; $('fiyatIn').value = S.fiyat; $('tasarruf').value = S.tasarruf;
+    $('gercek').value = S.gercek ?? ''; $('tahsisat').value = S.tahsisat; $('fiyatIn').value = S.fiyat; $('tasarruf').value = S.tasarruf;
+    $('gercek').addEventListener('input', e => { S.gercek = e.target.value; save(); updateNumbers(compute()); });
     $('tahsisat').addEventListener('input', e => { S.tahsisat = e.target.value; save(); updateNumbers(compute()); });
     $('fiyatIn').addEventListener('input', e => { S.fiyat = e.target.value; save(); updateNumbers(compute()); });
     $('tasarruf').addEventListener('input', e => { S.tasarruf = +e.target.value; save(); updateNumbers(compute()); });
@@ -932,18 +936,19 @@ function updateNumbers(c){
   $('cezaKv').innerHTML = kv.map(([k, v, x]) => `<div class="tile risk"><div class="k">${esc(k)}</div><div class="v">${v}</div><div class="x">${refify(esc(x))}</div></div>`).join('');
   if (!ets) return;
 
-  const E = c.E, T = num(S.tahsisat), P = num(S.fiyat), s = (S.tasarruf || 0) / 100;
-  $('aE').innerHTML = fmt(E) + '<small>t CO₂e</small>';
+  const E = num(S.gercek), T = num(S.tahsisat), P = num(S.fiyat), s = (S.tasarruf || 0) / 100;
+  $('aE').textContent = `Kategori hesabındaki kapasite değeri ${fmt(c.E)} t; açık gerçekleşen emisyona göre hesaplanır.`;
+  $('tgG').innerHTML = E === EX_GERCEK ? tag('ornek') : '';
   $('tgT').innerHTML = T === EX_TAHSISAT ? tag('ornek') : '';
   $('tgF').innerHTML = P === EX_FIYAT ? tag('ornek') : '';
   $('tasarrufT').textContent = '%' + Math.round(s * 100);
-  if (T == null){
-    $('acikKv').innerHTML = '<div class="tile"><div class="k">Açık</div><div class="v">—</div><div class="x">Ücretsiz tahsisat miktarını girin.</div></div>';
+  if (T == null || E == null){
+    $('acikKv').innerHTML = '<div class="tile"><div class="k">Açık</div><div class="v">—</div><div class="x">Gerçekleşen emisyonu ve ücretsiz tahsisat miktarını girin.</div></div>';
     $('cmp').innerHTML = ''; return;
   }
   const gap = E - T, money = v => P == null ? 'Fiyat girin' : tl(v * P);
   $('acikKv').innerHTML = gap >= 0 ? `
-    <div class="tile risk"><div class="k">Açık, piyasadan alınacak</div><div class="v">${fmt(gap)} t</div><div class="x">Emisyon − ücretsiz tahsisat</div></div>
+    <div class="tile risk"><div class="k">Açık, piyasadan alınacak</div><div class="v">${fmt(gap)} t</div><div class="x">Gerçekleşen emisyon − ücretsiz tahsisat</div></div>
     <div class="tile"><div class="k">Yıllık maliyet</div><div class="v">${money(gap)}</div><div class="x">Açık × fiyat</div></div>
     <div class="tile risk"><div class="k">Teslim edilmezse ceza ${tag('varsayim')}</div><div class="v">${money(gap * 2)}</div><div class="x">Son 3 ay ortalaması yerine girilen fiyat kullanıldı. Borç silinmez, ertesi yıla eklenir.</div></div>`
   : `<div class="tile good"><div class="k">Fazla tahsisat</div><div class="v">${fmt(-gap)} t</div><div class="x">İkincil piyasada satılabilir veya sonraki yıla aktarılabilir</div></div>
@@ -992,7 +997,7 @@ function updateStep3(c){
   $('mark').style.left = (p * 100) + '%';
   $('mark').classList.toggle('flip', p > .7);
   $('markT').textContent = 'Kategori ' + c.cat;
-  $('mark').hidden = !c.hasData;
+  $('mark').hidden = !c.hasData || c.E <= 0;
 }
 
 /* ───── veri kaynakları tablosu ───── */
@@ -1003,7 +1008,7 @@ const SOURCES = [
   ['Yakıt emisyon faktörleri', 'dis', 'IPCC 2006 varsayılan değerleri. Resmî hesapta onaylı izleme planındaki faktörler kullanılır'],
   ['Emisyon ön tahmini: tam yük, yılda 8.760 saat', 'varsayim', 'Kurulu kapasiteye göre ihtiyatlı hesap için üst sınır kabulü. Yönetmelikteki yöntem izleme planında uygulanır'],
   ['Örnek tesis: 4 doğal gaz ünitesi, toplam 36,5 MW', 'ornek', 'Aracın dolu açılması için girilmiştir; gerçek bir tesise ait değildir'],
-  ['Ücretsiz tahsisat 45.000 t ve fiyat 1.500 ₺/t', 'ornek', 'Senaryo girdisidir. Tahsisat miktarı ve piyasa fiyatı henüz belli değildir'],
+  ['Gerçekleşen emisyon 45.000 t, ücretsiz tahsisat 31.500 t, fiyat 1.500 ₺/t', 'ornek', 'Senaryo girdisidir. Gerçekleşen emisyon, kapasiteye göre üst sınır tahminin yaklaşık %70\'i alındı; tahsisat miktarı ve piyasa fiyatı henüz belli değildir'],
   ['Kıyas değerleri, ücretsiz tahsisat oranları, sektörel katsayılar, ürün kıyası listesi', 'ilan', 'İklim Değişikliği Başkanlığı hazırlar, Karbon Piyasası Kurulu onaylar; Ulusal Tahsisat Planı ile açıklanır (m. 11 · m. 13)'],
   ['Asgari ve azami fiyat aralığı, satışa sunulacak miktar', 'ilan', 'Karbon Piyasası Kurulu belirler (m. 21/1 · m. 23/2)'],
   ['Karbon kredisiyle denkleştirme oranı', 'ilan', 'Karbon Piyasası Kurulu belirler (m. 25/1)'],
@@ -1024,7 +1029,7 @@ function update(){
   const c = compute();
   updateStep1(c); updateStep3(c); renderStepper(c); renderSummary(c); renderResults(c);
   $('demoText').innerHTML = S.example
-    ? `${tag('ornek')} Sayfa örnek bir tesisle açıldı: doğal gazlı dört yakma ünitesi, toplam 36,5 MW. Kendi tesis değerlerinizi girin veya boş formla başlayın.`
+    ? `${tag('ornek')} Sayfa örnek bir tesisle açıldı: doğal gazlı dört yakma ünitesi, toplam 36,5 MW. 2,5 MW'lık kurutucu 3 MW altında kaldığı için 20 MW toplamına girmez. Kendi tesis değerlerinizi girin veya boş formla başlayın.`
     : 'Girdiğiniz değerler yalnız bu tarayıcıda saklanır. Örnek tesise istediğiniz zaman geri dönebilirsiniz.';
 }
 function touch(){ S.example = false; save(); update(); }
