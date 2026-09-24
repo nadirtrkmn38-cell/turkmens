@@ -569,7 +569,7 @@ const D = /*@DATA@*/null;
 /* ───── sabitler ───── */
 const FUELS = {
   gaz:['Doğal gaz',56.1], lpg:['LPG',63.1], motorin:['Motorin',74.1], fueloil:['Fuel-oil',77.4],
-  petrokok:['Petrokok',97.5], komur:['Taş kömürü',94.6], linyit:['Linyit',101.0], bio:['Münhasıran biyokütle',0]
+  petrokok:['Petrokok',97.5], komur:['Taş kömürü',94.6], linyit:['Linyit',101.0], rdf:['RDF (atıktan türetilmiş yakıt)',91.7], bio:['Münhasıran biyokütle',0]
 };
 const TJ_PER_MW_YEAR = 8760 * 3.6 / 1000;   // 31,536 TJ
 const ACTS = [
@@ -1083,6 +1083,7 @@ const SOURCES = [
   ['Yakıt emisyon faktörleri', 'dis', 'IPCC 2006 varsayılan değerleri. Resmî hesapta onaylı izleme planındaki faktörler kullanılır'],
   ['Emisyon ön tahmini: tam yük, yılda 8.760 saat', 'varsayim', 'Kurulu kapasiteye göre ihtiyatlı hesap için üst sınır kabulü. Yönetmelikteki yöntem izleme planında uygulanır'],
   ['Örnek tesisler: gazlı kazan tesisi (36,5 MW) ve elektrikli demir-çelik (120 ton/saat, 80.000 t proses emisyonu)', 'ornek', 'Aracın nasıl çalıştığını göstermek için girilmiştir; gerçek tesislere ait değildir'],
+  ['RDF emisyon faktörü 91,7 t CO₂/TJ', 'varsayim', 'IPCC 2006 belediye atığının fosil kısmı için varsayılan değer; RDF tamamen fosil kabul edildi (ihtiyatlı). Biyokütle payı analizle belgelenirse gerçek faktör düşer'],
   ['Proses emisyonu kaynak açıklamaları', 'dis', 'Genel teknik bilgidir. Tesise özgü proses emisyonu onaylı izleme planındaki yöntemle hesaplanır'],
   ['Elektrik tüketiminin kategoriye girmemesi', 'Açıklama', 'Kategori tesisin doğrudan emisyonuna göre belirlenir; şebeke elektriğinin emisyonu elektriği üreten tesiste sayılır'],
   ['Açık hesabındaki gerçekleşen emisyon, ücretsiz tahsisat ve 1.500 ₺/t fiyat', 'ornek', 'Senaryo girdisidir. Gerçekleşen emisyon kapasiteye göre üst sınır tahminin altında seçildi; tahsisat miktarı ve piyasa fiyatı henüz belli değildir'],
