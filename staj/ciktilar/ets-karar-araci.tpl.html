@@ -201,6 +201,12 @@ input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:17px;hei
 .prow{display:grid;grid-template-columns:minmax(0,1fr) 150px auto;gap:6px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
 .prow b{display:block;font-weight:600;font-size:14px}
 .prow span:not(.unit){display:block;font-size:12.5px;color:var(--ink3)}
+.prow .auto{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.5}
+.prow .auto .tag{margin-right:4px}
+.route-sel{display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--ink2);margin-top:8px;flex-wrap:wrap}
+.route-sel select{width:auto;padding:5px 8px;font-size:13px}
+.prow{align-items:start}
+.prow input{margin-top:2px}
 .prow.empty{grid-template-columns:1fr;color:var(--ink3);font-size:13.5px}
 @media (max-width:560px){.prow{grid-template-columns:minmax(0,1fr) 120px}.prow .unit{display:none}}
 
@@ -606,7 +612,25 @@ const PROSES_HINT = {
   nitrik:'N₂O (nitrik ve adipik asit), amonyakta hammadde karbonu', organik:'Hammadde karbonu ve fleyr', hidrojen:'Buhar reformunda hammadde karbonu',
   soda:'Kireçtaşı kalsinasyonu',
 };
-const BASE = {acts:{}, caps:{}, proses:{}, prosesDiger:'', klinkerTip:'doner', ozel:'yok', bilinen:'', yil:2027, tasarruf:10, done:{}, tab:'adim'};
+// IPCC 2006 Tier 1 varsayılan proses katsayıları, t CO₂ / t ürün
+const PROSES_EF = {klinker:0.52, kirec:0.75, cam:0.20};
+const ROUTE_EF = {eaf:0.08, bof:1.46};
+const PROSES_NOTE = {
+  seramik:'Seramikte emisyonun büyük kısmı fırın ve kurutuculardaki yakıttan gelir; bunları A tablosuna girin. Hammadde karbonatlarından gelen pay tesise özgüdür; biliniyorsa girin.',
+  alci:'Bu faaliyette emisyon genellikle yalnız yakmadan gelir. Üniteleri A tablosuna girin; burayı boş bırakabilirsiniz.',
+  kagit:'Bu faaliyette emisyon genellikle yalnız yakmadan gelir. Üniteleri A tablosuna girin; burayı boş bırakabilirsiniz.',
+  demirli:'Bu faaliyette emisyon genellikle yakmadan gelir. Üniteleri A tablosuna girin; indirgeyici veya karbonat kullanımı varsa girin.',
+  ikincil:'Bu faaliyette emisyon genellikle yakmadan gelir. Üniteleri A tablosuna girin; karbonlu katkı varsa girin.',
+};
+const PROSES_GENERIC = 'Bu faaliyet için standart bir katsayı kullanılmadı. Proses emisyonu biliniyorsa girin; bilinmiyorsa boş bırakın. Fırın ve kazan gibi yakıt kullanan üniteler A tablosunda olmalı.';
+function procAuto(a){
+  const cap = num(a.klinker ? S.caps.klinker : S.caps[a.id]); if (cap == null) return null;
+  const ef = a.id === 'demircelik' ? ROUTE_EF[S.route || 'eaf'] : PROSES_EF[a.id]; if (!ef) return null;
+  const h = a.u === 'ton/saat' ? 8760 : a.u === 't/gün' ? 365 : null; if (!h) return null;
+  return {v: cap * h * ef, ef, per: a.u === 'ton/saat' ? '8.760 saat' : '365 gün'};
+}
+
+const BASE = {route:'eaf', acts:{}, caps:{}, proses:{}, prosesDiger:'', klinkerTip:'doner', ozel:'yok', bilinen:'', yil:2027, tasarruf:10, done:{}, tab:'adim'};
 const EXAMPLES = {
   gaz: () => ({...structuredClone(BASE), example:'gaz',
     units:[
@@ -618,7 +642,7 @@ const EXAMPLES = {
     gercek:45000, tahsisat:31500, fiyat:1500, exVals:{gercek:45000, tahsisat:31500, fiyat:1500}}),
   eaf: () => ({...structuredClone(BASE), example:'eaf',
     units:[{ad:'Pota ısıtıcıları', mw:6, yakit:'gaz'}],
-    acts:{demircelik:true}, caps:{demircelik:120}, proses:{demircelik:80000},
+    acts:{demircelik:true}, caps:{demircelik:120}, proses:{}, route:'eaf',
     gercek:70000, tahsisat:50000, fiyat:1500, exVals:{gercek:70000, tahsisat:50000, fiyat:1500}}),
 };
 const EMPTY = () => ({...structuredClone(BASE), example:false, units:[{ad:'', mw:'', yakit:'gaz'}], gercek:'', tahsisat:'', fiyat:'', exVals:{}});
@@ -686,7 +710,8 @@ function compute(){
   const metActs = ACTS.filter(a => acts[a.id] === 'asti' || acts[a.id] === 'esiksiz');
   const anyMet = yakmaMet || metActs.length > 0;
   const estFuel = units.reduce((a, u) => a + u.mwN * TJ_PER_MW_YEAR * FUELS[u.yakit][1], 0);
-  const proses = ACTS.reduce((a, x) => a + (S.acts[x.id] ? (num(S.proses[x.id]) || 0) : 0), 0) + (num(S.prosesDiger) || 0);
+  const procVal = x => { const v = num(S.proses[x.id]); if (v != null) return v; const au = procAuto(x); return au ? au.v : 0; };
+  const proses = ACTS.reduce((a, x) => a + (S.acts[x.id] ? procVal(x) : 0), 0) + (num(S.prosesDiger) || 0);
   const bilinen = num(S.bilinen);
   const E = bilinen != null ? bilinen : estFuel + proses;
   const hasData = units.some(u => u.mwN > 0) || ACTS.some(a => S.acts[a.id]) || bilinen != null;
@@ -786,11 +811,32 @@ $('pr-diger').addEventListener('input', e => { S.prosesDiger = e.target.value; t
 function renderProc(){
   const sel = ACTS.filter(a => S.acts[a.id]);
   $('procList').innerHTML = sel.length ? sel.map(a => `<div class="prow">
-      <div><b>${esc(a.ad)}</b><span>${esc(PROSES_HINT[a.id] || '')}</span></div>
-      <input type="number" id="pr-${a.id}" min="0" step="100" inputmode="decimal" placeholder="0" aria-label="${esc(a.ad)} proses emisyonu, t CO₂e" value="${esc(S.proses[a.id] ?? '')}"><span class="unit">t CO₂e / yıl</span>
+      <div><b>${esc(a.ad)}</b><span>${esc(PROSES_HINT[a.id] || '')}</span>
+        ${a.id === 'demircelik' ? `<label class="route-sel">Üretim yolu <select id="route" aria-label="Demir-çelik üretim yolu">
+          <option value="eaf"${S.route !== 'bof' ? ' selected' : ''}>Elektrik ark ocağı · 0,08 t CO₂/t</option>
+          <option value="bof"${S.route === 'bof' ? ' selected' : ''}>Yüksek fırın ve bazik oksijen fırını · 1,46 t CO₂/t</option></select></label>` : ''}
+        <p class="auto" id="auto-${a.id}"></p></div>
+      <input type="number" id="pr-${a.id}" min="0" step="100" inputmode="decimal" aria-label="${esc(a.ad)} proses emisyonu, t CO₂e" value="${esc(S.proses[a.id] ?? '')}"><span class="unit">t CO₂e / yıl</span>
     </div>`).join('')
     : '<div class="prow empty">B bölümünde üretim faaliyeti seçilmedi. Seçilen her faaliyet için burada bir satır açılır.</div>';
+  updateProc();
 }
+function updateProc(){
+  for (const a of ACTS){
+    const el = $('auto-' + a.id); if (!el) continue;
+    const au = procAuto(a), inp = $('pr-' + a.id), manual = num(S.proses[a.id]) != null;
+    if (au){
+      el.innerHTML = `${tag('varsayim')} Otomatik tahmin <b class="num">${fmt(au.v)} t</b>: kurulu kapasite × ${au.per} × ${fmt(au.ef, 2)} t CO₂/t (IPCC 2006).`
+        + (manual ? ' Girdiğiniz değer kullanılıyor.' : ' Farklı bir değeriniz varsa sağa girin.');
+      inp.placeholder = fmt(Math.round(au.v));
+    } else {
+      const needCap = (PROSES_EF[a.id] || a.id === 'demircelik');
+      el.innerHTML = needCap ? 'Otomatik tahmin için B bölümünde kapasiteyi girin.' : esc(PROSES_NOTE[a.id] || PROSES_GENERIC);
+      inp.placeholder = '0';
+    }
+  }
+}
+$('procList').addEventListener('change', e => { if (e.target.id === 'route'){ S.route = e.target.value; touch(); } });
 $('procList').addEventListener('input', e => { if (e.target.id.startsWith('pr-')){ S.proses[e.target.id.slice(3)] = e.target.value; touch(); } });
 $('bilinen').addEventListener('input', e => { S.bilinen = e.target.value; touch(); });
 
@@ -1082,8 +1128,9 @@ const SOURCES = [
   ['EK-1 faaliyet listesi', 'Özet', 'Sayfadaki liste özettir; 25 faaliyetin tamamı ve tanımları için EK-1'],
   ['Yakıt emisyon faktörleri', 'dis', 'IPCC 2006 varsayılan değerleri. Resmî hesapta onaylı izleme planındaki faktörler kullanılır'],
   ['Emisyon ön tahmini: tam yük, yılda 8.760 saat', 'varsayim', 'Kurulu kapasiteye göre ihtiyatlı hesap için üst sınır kabulü. Yönetmelikteki yöntem izleme planında uygulanır'],
-  ['Örnek tesisler: gazlı kazan tesisi (36,5 MW) ve elektrikli demir-çelik (120 ton/saat, 80.000 t proses emisyonu)', 'ornek', 'Aracın nasıl çalıştığını göstermek için girilmiştir; gerçek tesislere ait değildir'],
+  ['Örnek tesisler: gazlı kazan tesisi (36,5 MW) ve elektrikli demir-çelik (120 ton/saat)', 'ornek', 'Aracın nasıl çalıştığını göstermek için girilmiştir; gerçek tesislere ait değildir'],
   ['RDF emisyon faktörü 91,7 t CO₂/TJ', 'varsayim', 'IPCC 2006 belediye atığının fosil kısmı için varsayılan değer; RDF tamamen fosil kabul edildi (ihtiyatlı). Biyokütle payı analizle belgelenirse gerçek faktör düşer'],
+  ['Otomatik proses emisyonu: klinker 0,52; kireç 0,75; cam 0,20; demir-çelik 0,08 (elektrik ark ocağı) veya 1,46 (bazik oksijen fırını) t CO₂/t', 'varsayim', 'IPCC 2006 Tier 1 varsayılan katsayıları, kurulu kapasitenin tam yıl çalıştığı kabulüyle. Diğer faaliyetlerde katsayı kullanılmadı; değer kullanıcı tarafından girilir'],
   ['Proses emisyonu kaynak açıklamaları', 'dis', 'Genel teknik bilgidir. Tesise özgü proses emisyonu onaylı izleme planındaki yöntemle hesaplanır'],
   ['Elektrik tüketiminin kategoriye girmemesi', 'Açıklama', 'Kategori tesisin doğrudan emisyonuna göre belirlenir; şebeke elektriğinin emisyonu elektriği üreten tesiste sayılır'],
   ['Açık hesabındaki gerçekleşen emisyon, ücretsiz tahsisat ve 1.500 ₺/t fiyat', 'ornek', 'Senaryo girdisidir. Gerçekleşen emisyon kapasiteye göre üst sınır tahminin altında seçildi; tahsisat miktarı ve piyasa fiyatı henüz belli değildir'],
@@ -1105,7 +1152,7 @@ function renderSources(){
 /* ───── ana döngü ───── */
 function update(){
   const c = compute();
-  updateStep1(c); updateStep3(c); renderStepper(c); renderSummary(c); renderResults(c);
+  updateStep1(c); updateStep3(c); updateProc(); renderStepper(c); renderSummary(c); renderResults(c);
   $('demoText').innerHTML = S.example && DEMO[S.example]
     ? `${tag('ornek')} ${DEMO[S.example]} Kendi tesis değerlerinizi girin veya boş formla başlayın.`
     : 'Girdiğiniz değerler yalnız bu tarayıcıda saklanır. Örneklere istediğiniz zaman geri dönebilirsiniz.';
