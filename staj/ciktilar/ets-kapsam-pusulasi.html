@@ -1,0 +1,723 @@
+<title>ETS Kapsam Pusulası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root{
+    --paper:#F2F3EE;
+    --surface:#FFFFFF;
+    --surface-2:#E9EBE3;
+    --ink:#18242A;
+    --ink-soft:#5A6663;
+    --ink-faint:#8A938F;
+    --line:#D7DBD1;
+    --line-strong:#B9BFB2;
+    --accent:#0C5F5A;
+    --accent-soft:#DDEAE7;
+    --amber:#9A540A;
+    --amber-soft:#F6E9D6;
+    --red:#8F211D;
+    --red-soft:#F4E0DE;
+    --shadow:0 1px 2px rgba(24,36,42,.06), 0 8px 24px -16px rgba(24,36,42,.35);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#12171A;
+      --surface:#1A2124;
+      --surface-2:#232B2E;
+      --ink:#E8EAE4;
+      --ink-soft:#A3ADA8;
+      --ink-faint:#78827E;
+      --line:#2C3539;
+      --line-strong:#3E4A4E;
+      --accent:#5FBDAF;
+      --accent-soft:#16332F;
+      --amber:#E0A34A;
+      --amber-soft:#2E2617;
+      --red:#E58A83;
+      --red-soft:#331D1C;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12171A;
+    --surface:#1A2124;
+    --surface-2:#232B2E;
+    --ink:#E8EAE4;
+    --ink-soft:#A3ADA8;
+    --ink-faint:#78827E;
+    --line:#2C3539;
+    --line-strong:#3E4A4E;
+    --accent:#5FBDAF;
+    --accent-soft:#16332F;
+    --amber:#E0A34A;
+    --amber-soft:#2E2617;
+    --red:#E58A83;
+    --red-soft:#331D1C;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size:16px;
+    line-height:1.6;
+    margin:0;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding-inline:18px;padding-block:0 72px}
+
+  h1,h2,h3,h4,.ui,button,label,input,select,th,.eyebrow,.pill,.num{
+    font-family:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  }
+  .mono{font-family:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;font-variant-numeric:tabular-nums}
+
+  /* ---------- masthead ---------- */
+  header.mast{
+    border-bottom:2px solid var(--ink);
+    padding-block:28px 18px;
+    margin-bottom:28px;
+  }
+  .eyebrow{
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin:0 0 10px;
+  }
+  h1{
+    font-size:clamp(28px,6vw,42px);line-height:1.08;margin:0 0 12px;
+    font-weight:700;letter-spacing:-.02em;text-wrap:balance;
+  }
+  .standfirst{font-size:17px;color:var(--ink-soft);margin:0;max-width:60ch}
+  .srcline{
+    margin-top:16px;font-size:12.5px;color:var(--ink-faint);
+    font-family:"IBM Plex Mono", monospace;
+  }
+
+  /* ---------- progress rail ---------- */
+  .rail{
+    position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;
+    background:var(--paper);border-bottom:1px solid var(--line);
+    margin-inline:-18px;padding:10px 18px;
+    display:flex;gap:6px;align-items:center;overflow-x:auto;
+  }
+  .rail-step{
+    flex:0 0 auto;display:flex;align-items:center;gap:7px;
+    font-family:"Archivo",sans-serif;font-size:12px;font-weight:500;
+    color:var(--ink-faint);padding:4px 9px 4px 5px;border-radius:3px;
+    border:1px solid transparent;white-space:nowrap;
+  }
+  .rail-step .dot{
+    width:18px;height:18px;border-radius:50%;display:grid;place-items:center;
+    border:1.5px solid var(--line-strong);font-size:10px;font-weight:700;
+    color:var(--ink-faint);background:var(--surface);
+  }
+  .rail-step.done{color:var(--accent)}
+  .rail-step.done .dot{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+  .rail-step.active{color:var(--ink);border-color:var(--line-strong);background:var(--surface)}
+  .rail-step.active .dot{border-color:var(--ink);color:var(--ink)}
+
+  /* ---------- steps ---------- */
+  .step{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:4px;margin-top:20px;box-shadow:var(--shadow);
+    transition:opacity .2s ease;
+  }
+  .step[data-locked="true"]{opacity:.42}
+  .step-head{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:18px 20px 0;
+  }
+  .num{
+    flex:0 0 auto;width:30px;height:30px;border-radius:2px;
+    background:var(--ink);color:var(--paper);
+    display:grid;place-items:center;font-size:13px;font-weight:700;
+    font-family:"IBM Plex Mono",monospace;
+  }
+  .step[data-locked="true"] .num{background:var(--line-strong);color:var(--surface)}
+  .step h2{font-size:19px;margin:2px 0 0;line-height:1.3;letter-spacing:-.01em;font-weight:600}
+  .step-body{padding:14px 20px 20px 64px}
+  @media (max-width:520px){
+    .step-body{padding-left:20px}
+  }
+  .lede{color:var(--ink-soft);margin:0 0 16px;font-size:15.5px}
+  .madde{
+    display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;
+    color:var(--ink-faint);border:1px solid var(--line);border-radius:2px;
+    padding:1px 5px;margin-left:6px;vertical-align:1px;white-space:nowrap;
+  }
+
+  /* ---------- activity checklist ---------- */
+  .group-label{
+    font-family:"Archivo",sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);
+    margin:18px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line);
+  }
+  .group-label:first-of-type{margin-top:0}
+  .chk{
+    display:flex;gap:11px;align-items:flex-start;
+    padding:8px 10px;border-radius:3px;cursor:pointer;
+    border:1px solid transparent;
+  }
+  .chk:hover{background:var(--surface-2)}
+  .chk input{margin:3px 0 0;accent-color:var(--accent);width:16px;height:16px;flex:0 0 auto;cursor:pointer}
+  .chk span{font-size:14.5px;line-height:1.45}
+  .chk b{font-weight:600;font-family:"Archivo",sans-serif;font-size:13.5px}
+  .chk:has(input:checked){background:var(--accent-soft);border-color:var(--accent)}
+  .chk input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .thr{color:var(--accent);font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600}
+
+  .chk.none-opt{margin-top:14px;border:1px dashed var(--line-strong)}
+  .chk.none-opt:has(input:checked){background:var(--surface-2);border-color:var(--ink-soft);border-style:solid}
+
+  /* ---------- radios ---------- */
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{
+    display:flex;gap:11px;align-items:flex-start;padding:11px 13px;
+    border:1px solid var(--line);border-radius:3px;cursor:pointer;background:var(--surface);
+  }
+  .opt:hover{border-color:var(--line-strong)}
+  .opt input{margin:3px 0 0;accent-color:var(--accent);width:16px;height:16px;flex:0 0 auto;cursor:pointer}
+  .opt span{font-size:14.5px;line-height:1.45}
+  .opt b{display:block;font-family:"Archivo",sans-serif;font-size:14px;font-weight:600;margin-bottom:1px}
+  .opt small{display:block;color:var(--ink-soft);font-size:13px;line-height:1.4}
+  .opt:has(input:checked){background:var(--accent-soft);border-color:var(--accent)}
+  .opt input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* ---------- numeric input ---------- */
+  .field{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:4px 0 16px}
+  .field input[type="number"]{
+    font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;
+    padding:10px 12px;border:1.5px solid var(--line-strong);border-radius:3px;
+    background:var(--surface);color:var(--ink);width:190px;
+  }
+  .field input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  .unit{font-family:"Archivo",sans-serif;font-size:13px;color:var(--ink-soft);font-weight:500}
+
+  .scale{display:flex;flex-direction:column;gap:0;margin-top:14px;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+  .scale-row{
+    display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:center;
+    padding:11px 13px;border-bottom:1px solid var(--line);font-size:14px;
+  }
+  .scale-row:last-child{border-bottom:0}
+  .scale-row.hit{background:var(--accent-soft)}
+  .scale-row .cat{font-family:"Archivo",sans-serif;font-weight:700;font-size:13px}
+  .scale-row .rng{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft)}
+  .scale-row .out{font-family:"Archivo",sans-serif;font-size:12px;font-weight:600;text-align:right}
+
+  /* ---------- callouts ---------- */
+  .note{
+    border-left:3px solid var(--amber);background:var(--amber-soft);
+    padding:12px 14px;margin:16px 0 0;font-size:14.5px;line-height:1.5;border-radius:0 3px 3px 0;
+  }
+  .note b{font-family:"Archivo",sans-serif;font-size:13px;display:block;margin-bottom:3px;letter-spacing:.01em}
+  .note.tight{margin-top:12px}
+
+  /* ---------- verdict ---------- */
+  .verdict{
+    border:2px solid var(--line-strong);border-radius:4px;padding:20px;
+    background:var(--surface-2);
+  }
+  .verdict[data-tone="out"]{border-color:var(--accent);background:var(--accent-soft)}
+  .verdict[data-tone="mrv"]{border-color:var(--amber);background:var(--amber-soft)}
+  .verdict[data-tone="ets"]{border-color:var(--red);background:var(--red-soft)}
+  .verdict-tag{
+    font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;font-weight:700;color:var(--ink-soft);margin-bottom:8px;
+  }
+  .verdict h3{font-size:22px;margin:0 0 8px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
+  .verdict p{margin:0;font-size:15.5px;color:var(--ink)}
+  .verdict .sub{color:var(--ink-soft);font-size:14.5px;margin-top:8px}
+
+  .todo{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:2px}
+  .todo li{
+    display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;
+    padding:11px 0;border-top:1px solid var(--line);font-size:15px;
+  }
+  .todo li .when{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;
+    color:var(--accent);white-space:nowrap;letter-spacing:-.01em;
+  }
+  .todo li b{font-family:"Archivo",sans-serif;font-weight:600;font-size:14.5px}
+  .todo li em{font-style:normal;color:var(--ink-soft);display:block;font-size:14px;line-height:1.45}
+
+  /* ---------- reference tables ---------- */
+  .ref{margin-top:52px}
+  .ref h2{
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    font-weight:600;margin:0 0 4px;
+  }
+  .ref h3{font-size:24px;margin:0 0 6px;font-weight:700;letter-spacing:-.015em}
+  .ref > p{color:var(--ink-soft);margin:0 0 18px;font-size:15.5px;max-width:62ch}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
+  th{
+    font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    text-align:left;color:var(--ink-soft);font-weight:600;
+    padding:11px 14px;border-bottom:1.5px solid var(--line-strong);background:var(--surface-2);
+  }
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  .disclaimer{
+    margin-top:44px;padding:16px 18px;border:1px dashed var(--line-strong);border-radius:4px;
+    font-size:13.5px;color:var(--ink-soft);line-height:1.55;
+  }
+  .disclaimer b{font-family:"Archivo",sans-serif;color:var(--ink);font-size:13px}
+
+  .reset{
+    margin-top:18px;font-family:"Archivo",sans-serif;font-size:13px;font-weight:500;
+    background:none;border:1px solid var(--line-strong);color:var(--ink-soft);
+    padding:8px 14px;border-radius:3px;cursor:pointer;
+  }
+  .reset:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .reset:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">Türkiye Emisyon Ticaret Sistemi · Tesis Değerlendirmesi</p>
+    <h1>İşletmem ETS kapsamına giriyor mu?</h1>
+    <p class="standfirst">Dört soruyu tesis bazında yanıtlayın; sistem sizin için kapsam durumunu, tesis kategorinizi ve takvimli yükümlülük listenizi çıkarsın.</p>
+    <p class="srcline">Dayanak: Türkiye Emisyon Ticaret Sistemi Yönetmeliği — RG 27.08.2026 / 33353</p>
+  </header>
+
+  <nav class="rail" id="rail" aria-label="İlerleme">
+    <span class="rail-step active" data-rs="1"><span class="dot">1</span>Faaliyet</span>
+    <span class="rail-step" data-rs="2"><span class="dot">2</span>İstisna</span>
+    <span class="rail-step" data-rs="3"><span class="dot">3</span>Kategori</span>
+    <span class="rail-step" data-rs="4"><span class="dot">4</span>Kurum türü</span>
+    <span class="rail-step" data-rs="5"><span class="dot">5</span>Sonuç</span>
+  </nav>
+
+  <!-- ADIM 1 -->
+  <section class="step" id="s1">
+    <div class="step-head">
+      <span class="num">1</span>
+      <h2>Tesisinizde bu faaliyetlerden biri yürütülüyor mu?</h2>
+    </div>
+    <div class="step-body">
+      <p class="lede">Yönetmeliğin EK-1 listesi kapsamın tek kapısıdır. Listede olmayan bir faaliyet, emisyonu ne olursa olsun sisteme girmez. Eşik değerleri üretim kapasitesine bakar, fiilî üretime değil. <span class="madde">EK-1 · MADDE 2</span></p>
+
+      <p class="group-label">Enerji</p>
+      <label class="chk"><input type="checkbox" data-act><span><b>Yakıtların yakılması</b> — <span class="thr">toplam anma ısıl gücü ≥ 20 MW</span> olan tesislerde (tehlikeli veya belediye atıklarının yakılması hariç)</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Petrol rafinasyonu</b> — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Kok üretimi</b> — <span class="thr">eşik yok</span></span></label>
+
+      <p class="group-label">Metal</p>
+      <label class="chk"><input type="checkbox" data-act><span><b>Metal cevheri kavrulması, sinterlenmesi veya peletlenmesi</b> (sülfür cevheri dâhil) — <span class="thr">eşik yok</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Demir, temper ve/veya çelik üretimi ve dökümü</b> (birincil veya ikincil ergitme, sürekli döküm dâhil) — <span class="thr">&gt; 2,5 ton/saat</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Demir içeren metallerin üretimi veya işlenmesi</b> (haddeleme, yeniden ısıtma, tav fırınları, metal işleme, dökümhaneler, kaplama, dekapaj) — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Birincil alüminyum veya alümina üretimi</b> — <span class="thr">eşik yok</span> · CO₂ ve PFC</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>İkincil alüminyum üretimi</b> — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Demir dışı metallerin üretimi veya işletilmesi</b> (alaşım üretimi, rafinasyon, dökümhane dökümü) — <span class="thr">≥ 20 MW</span>, indirgeme maddesi olarak kullanılan yakıtlar dâhil</span></label>
+
+      <p class="group-label">Mineral</p>
+      <label class="chk"><input type="checkbox" data-act><span><b>Klinker üretimi</b> — döner fırınlarda <span class="thr">≥ 500 ton/gün</span>, diğer ocaklarda <span class="thr">&gt; 50 ton/gün</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Kireç üretimi veya dolomit/magnezit kalsinasyonu</b> — <span class="thr">≥ 50 ton/gün</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Cam üretimi</b> (cam elyafı dâhil) — ergitme kapasitesi <span class="thr">≥ 20 ton/gün</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Pişirme ile seramik ürün üretimi</b> (kiremit, tuğla, refrakter tuğla, karo, taş ürün, porselen) — <span class="thr">≥ 75 ton/gün</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Mineral elyaf yalıtım malzemesi üretimi</b> (cam, taş veya cüruf ile) — ergitme kapasitesi <span class="thr">≥ 20 ton/gün</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Alçı taşı kurutma/kalsinasyonu, alçı pano ve alçı taşı ürünleri üretimi</b> — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></label>
+
+      <p class="group-label">Selüloz ve kâğıt</p>
+      <label class="chk"><input type="checkbox" data-act><span><b>Odundan veya diğer lifli malzemelerden selüloz üretimi</b> — <span class="thr">eşik yok</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Kâğıt, mukavva veya karton üretimi</b> — <span class="thr">≥ 20 ton/gün</span></span></label>
+
+      <p class="group-label">Kimya</p>
+      <label class="chk"><input type="checkbox" data-act><span><b>Karbon siyahı üretimi</b> (petrol, katran, kraking ve damıtma kalıntılarının karbonizasyonu dâhil) — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Nitrik asit üretimi</b> — <span class="thr">eşik yok</span> · CO₂ ve N₂O</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Adipik asit üretimi</b> — <span class="thr">eşik yok</span> · CO₂ ve N₂O</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Glioksal ve glioksilik asit üretimi</b> — <span class="thr">eşik yok</span> · CO₂ ve N₂O</span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Amonyak üretimi</b> — <span class="thr">eşik yok</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Büyük hacimli organik kimyasal madde üretimi</b> (kraking, reforming, kısmî veya tam yükseltgenme vb.) — <span class="thr">≥ 100 ton/gün</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Hidrojen (H₂) ve sentez gazı üretimi</b> — <span class="thr">≥ 5 ton/gün</span></span></label>
+      <label class="chk"><input type="checkbox" data-act><span><b>Soda külü (Na₂CO₃) ve sodyum bikarbonat (NaHCO₃) üretimi</b> — <span class="thr">eşik yok</span></span></label>
+
+      <label class="chk none-opt"><input type="checkbox" id="actNone"><span><b>Hiçbiri — listedeki faaliyetlerin hiçbirini yürütmüyoruz</b></span></label>
+
+      <div class="note">
+        <b>Üç kritik ayrıntı</b>
+        ① <strong>Kapasiteler toplanır:</strong> aynı tesiste aynı kategoriye giren birden çok faaliyet varsa kapasiteleri toplayarak eşiğe bakın.<br>
+        ② <strong>20 MW hesabı:</strong> tesisteki tüm yakma ünitelerinin (kazan, brülör, türbin, ısıtıcı, ocak, insineratör, kalsinatör, döner fırın, fırın, kurutucu, motor, yakıt hücresi, termal/katalitik yakma sonrası üniteler) anma ısıl güçleri toplanır. <span class="thr">3 MW altındaki</span> üniteler ve münhasıran biyokütle kullananlar bu toplama girmez.<br>
+        ③ <strong>Bir faaliyet hepsini çeker:</strong> EK-1'deki herhangi bir faaliyeti yürütüyorsanız, aynı tesisteki diğer EK-1 faaliyetleri <em>kapasite gözetilmeksizin</em> kapsama dâhil olur. <span class="madde">MADDE 27/2</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADIM 2 -->
+  <section class="step" id="s2" data-locked="true">
+    <div class="step-head">
+      <span class="num">2</span>
+      <h2>Yönetmeliğin tamamen dışında kalan bir durum var mı?</h2>
+    </div>
+    <div class="step-body">
+      <p class="lede">Aşağıdaki üç durum yönetmeliğin kapsamı dışındadır — izleme ve raporlama dâhil hiçbir yükümlülük doğmaz. Yalnızca ilgili tesis veya tesis bölümü için geçerlidir. <span class="madde">MADDE 2/2</span></p>
+      <div class="opts" id="exOpts">
+        <label class="opt"><input type="checkbox" data-ex><span><b>Ar-Ge tesisi veya tesis bölümü</b><small>Araştırma ve geliştirme faaliyetlerinin yürütüldüğü, yeni ürün veya süreçlerin geliştirildiği ya da test edildiği yerler</small></span></label>
+        <label class="opt"><input type="checkbox" data-ex><span><b>Münhasıran biyokütle kullanan tesis veya bölüm</b><small>Yalnızca ünitenin başlatılması veya kapatılmasında fosil yakıt kullanılması bu niteliği bozmaz</small></span></label>
+        <label class="opt"><input type="checkbox" data-ex><span><b>Askerî unsur</b><small>MSB merkez ve taşra teşkilatı, ANT Başkanlığı, Genelkurmay, kuvvet komutanlıkları, Jandarma, Sahil Güvenlik, MSÜ, Harita Genel Müdürlüğü tesisleri</small></span></label>
+        <label class="opt"><input type="radio" name="exnone" id="exNone"><span><b>Hiçbiri geçerli değil</b><small>Ticari/sınai bir üretim tesisiyiz</small></span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADIM 3 -->
+  <section class="step" id="s3" data-locked="true">
+    <div class="step-head">
+      <span class="num">3</span>
+      <h2>Yıllık emisyonunuz ne kadar? Tesis kategoriniz buradan çıkar.</h2>
+    </div>
+    <div class="step-body">
+      <p class="lede">Kategori, <strong>kurulu kapasitenize göre ihtiyatlı olarak hesaplanan</strong> yıllık emisyondur — geçen yıl fiilen ne saldığınız değil. Biyokütle kaynaklı CO₂ hariç, transfer edilen CO₂ dâhil tutulur. <span class="madde">MADDE 4</span></p>
+      <div class="field">
+        <input type="number" id="emis" min="0" step="1000" placeholder="örn. 120000" inputmode="numeric" aria-label="Yıllık emisyon, ton CO2 eşdeğeri">
+        <span class="unit">ton CO₂ eşdeğeri / yıl</span>
+      </div>
+      <div class="scale" id="scale">
+        <div class="scale-row" data-cat="A">
+          <span class="cat">Kategori A</span>
+          <span class="rng">≤ 50.000 t CO₂e</span>
+          <span class="out">ETS dışı · yalnız İRD</span>
+        </div>
+        <div class="scale-row" data-cat="B">
+          <span class="cat">Kategori B</span>
+          <span class="rng">50.001 – 500.000 t CO₂e</span>
+          <span class="out">ETS kapsamında</span>
+        </div>
+        <div class="scale-row" data-cat="C">
+          <span class="cat">Kategori C</span>
+          <span class="rng">&gt; 500.000 t CO₂e</span>
+          <span class="out">ETS kapsamında</span>
+        </div>
+      </div>
+      <div class="note tight">
+        <b>Kategori A da boş durmaz</b>
+        Kategori A tesisler tahsisat almaz ve teslim etmez; ancak EK-1 faaliyeti yürüttükleri için <strong>izleme, raporlama ve doğrulama (İRD)</strong> yükümlülükleri aynen devam eder. Raporu süresinde vermeyen Kategori A tesise <span class="mono">627.450 ₺</span> idari para cezası uygulanır. <span class="madde">MADDE 35</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADIM 4 -->
+  <section class="step" id="s4" data-locked="true">
+    <div class="step-head">
+      <span class="num">4</span>
+      <h2>İşletmeniz hangi türde?</h2>
+    </div>
+    <div class="step-body">
+      <p class="lede">Belirli kurum türleri, emisyonları ne olursa olsun ETS'nin ticaret tarafının dışında tutulur — ama izleme ve raporlama yükümlülüğü devam eder. <span class="madde">MADDE 5/2-3</span></p>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="kurum" value="ticari"><span><b>Sınai veya ticari işletme</b><small>Fabrika, üretim tesisi, enerji santrali, rafineri vb.</small></span></label>
+        <label class="opt"><input type="radio" name="kurum" value="istisna"><span><b>Okul, üniversite, hastane veya savunma sanayi kuruluşu</b><small>Yerine getirdiği faaliyetlerle sınırlı olmak üzere ETS kapsamı dışında; İRD yükümlülüğü sürer</small></span></label>
+        <label class="opt"><input type="radio" name="kurum" value="gaz"><span><b>Doğal gaz veya ham petrol iletimi ve depolaması</b><small>Birinci uygulama dönemi sonuna kadar ETS dışı — izleme, raporlama ve doğrulama hariç</small><span class="madde">GEÇİCİ MADDE 6</span></span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADIM 5 -->
+  <section class="step" id="s5" data-locked="true">
+    <div class="step-head">
+      <span class="num">5</span>
+      <h2>Sonuç ve yükümlülük listeniz</h2>
+    </div>
+    <div class="step-body">
+      <div class="verdict" id="verdict" data-tone="none">
+        <p class="verdict-tag">Durum</p>
+        <h3 id="vTitle">Yukarıdaki adımları tamamlayın</h3>
+        <p id="vText">Faaliyetinizi, istisna durumunuzu, yıllık emisyonunuzu ve kurum türünüzü girdiğinizde tesisinize özel yükümlülük listesi ve takvimi burada oluşur.</p>
+        <p class="sub" id="vSub" hidden></p>
+      </div>
+      <ul class="todo" id="todo"></ul>
+      <button class="reset" id="reset" type="button">Baştan başla</button>
+    </div>
+  </section>
+
+  <!-- REFERANS: TAKVİM -->
+  <section class="ref">
+    <h2>Referans</h2>
+    <h3>Yıllık döngü ve süreler</h3>
+    <p>ETS kapsamındaki bir tesis için bir yükümlülük yılı bu ritimle işler. Süreler yönetmelikte gün bazında tanımlıdır.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Ne zaman</th><th>Ne yapılır</th><th>Dayanak</th></tr></thead>
+        <tbody>
+          <tr><td class="n">İzlemeden 6 ay önce</td><td>İzleme planı onaylanmak üzere İklim Değişikliği Başkanlığı'na sunulur. Uygun bulunmazsa eksiklikler için 30 gün ek süre verilir.</td><td class="n">m. 28/3-4</td></tr>
+          <tr><td class="n">30 Nisan</td><td>Bir önceki takvim yılına (1 Ocak – 31 Aralık) ait sera gazı emisyonları ve faaliyet seviyeleri raporlanır. Başkanlık bu süreyi en fazla 1 ay uzatabilir.</td><td class="n">m. 29/1</td></tr>
+          <tr><td class="n">Rapordan önce</td><td>Rapor, MEDAS tarafından atanan ve ISO/IEC 17029'a göre akredite doğrulayıcı kuruluşça doğrulanır. Doğrulanmamış rapor sunulamaz.</td><td class="n">m. 30</td></tr>
+          <tr><td class="n">UTP + 60 gün önce</td><td>Ulusal Tahsisat Planı, doğrulanmış raporların son teslim tarihinden itibaren 60 gün içinde Resmî Gazete'de yayımlanır.</td><td class="n">m. 11/2</td></tr>
+          <tr><td class="n">UTP + 30 gün</td><td>Ücretsiz tahsisat başvurusu yapılır. Geç başvuranlar başvuru bedelini %50 artırımlı öder.</td><td class="n">m. 14/2, 14/7</td></tr>
+          <tr><td class="n">Kasım son iş günü</td><td>Doğrulanmış rapordaki emisyona denk tahsisat İşlem Kayıt Sistemi üzerinden teslim edilir.</td><td class="n">m. 16/1</td></tr>
+          <tr><td class="n">Aralık son iş günü</td><td>Ek rezerv kullanan tesisler için teslim son tarihi.</td><td class="n">m. 16/7</td></tr>
+          <tr><td class="n">Değişiklikten 30 gün</td><td>Kategori değişikliği, tesis niteliği/işleyişi değişikliği, izin sahibi değişikliği Başkanlığa bildirilir.</td><td class="n">m. 9/1, 34/4-5</td></tr>
+          <tr><td class="n">İzin bitimine 6 ay</td><td>Sera gazı emisyon izni 5 yıl geçerlidir; bitiminden en az 6 ay önce yenileme başvurusu zorunludur.</td><td class="n">m. 8</td></tr>
+          <tr><td class="n">10 yıl</td><td>Tüm veriler ve bilgi kayıtları saklanır, talep hâlinde idarenin incelemesine sunulur.</td><td class="n">m. 37</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- REFERANS: CEZALAR -->
+  <section class="ref">
+    <h3>Doğrulanmış raporu süresinde sunmamanın bedeli</h3>
+    <p>İdari para cezaları tesis kategorisine göre kademelidir. ETS kapsamındaki işletmelere bu tutarlar <strong>iki kat</strong> uygulanır.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tesis</th><th>Yıllık emisyon</th><th>Ceza</th><th>ETS kapsamındaysa</th></tr></thead>
+        <tbody>
+          <tr><td>Kategori A</td><td class="n">≤ 50.000 t</td><td class="n">627.450 ₺</td><td class="n">—</td></tr>
+          <tr><td>Kategori B</td><td class="n">50.001 – 250.000 t</td><td class="n">1.254.900 ₺</td><td class="n">2.509.800 ₺</td></tr>
+          <tr><td>Kategori B</td><td class="n">250.001 – 500.000 t</td><td class="n">2.509.800 ₺</td><td class="n">5.019.600 ₺</td></tr>
+          <tr><td>Kategori C</td><td class="n">500.001 – 2.000.000 t</td><td class="n">4.392.150 ₺</td><td class="n">8.784.300 ₺</td></tr>
+          <tr><td>Kategori C</td><td class="n">&gt; 2.000.000 t</td><td class="n">6.274.500 ₺</td><td class="n">12.549.000 ₺</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <b>İzinsiz faaliyet ayrı bir ceza kalemidir</b>
+      ETS kapsamında olup sera gazı emisyon izni almadan ya da süresi biten/iptal edilen izinle faaliyete devam edenlere <span class="mono">1.254.900 ₺</span> ile <span class="mono">12.549.000 ₺</span> arasında ceza uygulanır. Onaylı izleme planı bulunmayan ve bu nedenle kategorilendirilemeyen tesisler için kurulu kapasiteye eşdeğer bir kategori belirlenerek ceza kesilir. <span class="madde">MADDE 35/1-c</span>
+    </div>
+  </section>
+
+  <!-- REFERANS: HESAP -->
+  <section class="ref">
+    <h3>İki hesap, iki cümle</h3>
+    <p>Sistemin bütün mali sonucu bu iki formülün farkından çıkar: ne kadar saldığınız, ne kadar bedava hakkınız olduğu.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Hesap</th><th>Formül</th><th>Notlar</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Emisyon miktarı</b></td>
+            <td class="n">Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü</td>
+            <td>Biyokütlenin emisyon faktörü sıfır kabul edilir. Her faaliyet, tesis ve yakıt için ayrı hesaplanır. <span class="madde">EK-6</span></td>
+          </tr>
+          <tr>
+            <td><b>Ücretsiz tahsisat</b></td>
+            <td class="n">Kıyas değeri × Ücretsiz tahsisat oranı × Sektörel faaliyet katsayısı × Faaliyet seviyesi</td>
+            <td>Alt tesis bazında hesaplanır, kesirli sonuç bir üst tam sayıya yuvarlanır. <span class="madde">m. 13/7, 13/10</span></td>
+          </tr>
+          <tr>
+            <td><b>Açık</b></td>
+            <td class="n">Doğrulanmış emisyon − Ücretsiz tahsisat</td>
+            <td>Aradaki fark birincil piyasadan (ihale), ikincil piyasadan, karbon kredisiyle denkleştirmeden veya esneklik mekanizmalarından kapatılır.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Bu araç bilgilendirme amaçlıdır.</b>
+    Sonuçlar, 27.08.2026 tarihli ve 33353 sayılı Resmî Gazete'de yayımlanan Türkiye Emisyon Ticaret Sistemi Yönetmeliği'nin metnine dayanır ve ön değerlendirme niteliğindedir. Kesin kapsam belirlemesi tesisin kapasite raporu, yakma ünitelerinin anma ısıl güçleri ve onaylı izleme planı üzerinden yapılır; nihai yetki İklim Değişikliği Başkanlığı'ndadır. Yönetmeliğin uygulanmasına ilişkin usul ve esaslar ayrı tebliğlerle düzenlenmektedir.
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var acts = Array.prototype.slice.call(document.querySelectorAll('[data-act]'));
+  var actNone = document.getElementById('actNone');
+  var exs = Array.prototype.slice.call(document.querySelectorAll('[data-ex]'));
+  var exNone = document.getElementById('exNone');
+  var emis = document.getElementById('emis');
+  var kurums = Array.prototype.slice.call(document.querySelectorAll('input[name="kurum"]'));
+  var scaleRows = Array.prototype.slice.call(document.querySelectorAll('.scale-row'));
+
+  function anyChecked(list){ return list.some(function(c){ return c.checked; }); }
+
+  function category(v){
+    if (v === null || isNaN(v)) return null;
+    if (v <= 50000) return 'A';
+    if (v <= 500000) return 'B';
+    return 'C';
+  }
+
+  function fmt(n){ return n.toLocaleString('tr-TR'); }
+
+  function render(){
+    var hasAct = anyChecked(acts);
+    var saidNone = actNone.checked;
+    var s1done = hasAct || saidNone;
+
+    var hasEx = anyChecked(exs);
+    var exAnswered = hasEx || exNone.checked;
+    var s2done = s1done && hasAct && exAnswered;
+
+    var val = emis.value === '' ? null : Number(emis.value);
+    var cat = category(val);
+    var s3done = s2done && !hasEx && cat !== null;
+
+    var kurum = (kurums.filter(function(r){return r.checked;})[0] || {}).value || null;
+    var s4done = s3done && kurum !== null;
+
+    // lock / unlock
+    document.getElementById('s2').dataset.locked = (s1done && hasAct) ? 'false' : 'true';
+    document.getElementById('s3').dataset.locked = (s2done && !hasEx) ? 'false' : 'true';
+    document.getElementById('s4').dataset.locked = s3done ? 'false' : 'true';
+    document.getElementById('s5').dataset.locked = 'false';
+
+    // scale highlight
+    scaleRows.forEach(function(r){ r.classList.toggle('hit', r.dataset.cat === cat); });
+
+    // rail
+    var state = [s1done, s2done, s3done, s4done, s4done];
+    var railSteps = Array.prototype.slice.call(document.querySelectorAll('.rail-step'));
+    var activeIdx = state.indexOf(false);
+    if (activeIdx === -1) activeIdx = 4;
+    railSteps.forEach(function(el, i){
+      el.classList.toggle('done', state[i]);
+      el.classList.toggle('active', i === activeIdx && !state[i]);
+    });
+
+    verdict(hasAct, saidNone, hasEx, cat, val, kurum, s4done);
+  }
+
+  var vBox = document.getElementById('verdict');
+  var vTitle = document.getElementById('vTitle');
+  var vText = document.getElementById('vText');
+  var vSub = document.getElementById('vSub');
+  var todo = document.getElementById('todo');
+
+  function item(when, title, detail){
+    return '<li><span class="when">' + when + '</span><span><b>' + title + '</b><em>' + detail + '</em></span></li>';
+  }
+
+  function verdict(hasAct, saidNone, hasEx, cat, val, kurum, done){
+    // default
+    if (!hasAct && !saidNone){
+      vBox.dataset.tone = 'none';
+      vTitle.textContent = 'Yukarıdaki adımları tamamlayın';
+      vText.textContent = 'Faaliyetinizi, istisna durumunuzu, yıllık emisyonunuzu ve kurum türünüzü girdiğinizde tesisinize özel yükümlülük listesi ve takvimi burada oluşur.';
+      vSub.hidden = true; todo.innerHTML = '';
+      return;
+    }
+
+    if (saidNone && !hasAct){
+      vBox.dataset.tone = 'out';
+      vTitle.textContent = 'Kapsam dışısınız';
+      vText.textContent = 'EK-1 listesindeki faaliyetlerden hiçbirini yürütmüyorsanız Türkiye Emisyon Ticaret Sistemi size uygulanmaz. Tahsisat, izin, izleme veya raporlama yükümlülüğünüz doğmaz.';
+      vSub.hidden = false;
+      vSub.innerHTML = 'Yine de takip edin: yeni bir üretim hattı, ilave kazan veya kapasite artışı sizi eşiğin üstüne taşıyabilir. Özellikle toplam anma ısıl gücünüz 20 MW’a yaklaşıyorsa yıllık olarak yeniden değerlendirin.';
+      todo.innerHTML = '';
+      return;
+    }
+
+    if (hasEx){
+      vBox.dataset.tone = 'out';
+      vTitle.textContent = 'Yönetmelik kapsamı dışısınız';
+      vText.textContent = 'İşaretlediğiniz durum (Ar-Ge, münhasıran biyokütle veya askerî unsur) yönetmeliğin kapsam dışı tuttuğu hâllerdendir. Bu tesis veya tesis bölümü için izleme, raporlama ve tahsisat yükümlülüğü doğmaz.';
+      vSub.hidden = false;
+      vSub.innerHTML = 'Dikkat: istisna yalnızca ilgili tesis <em>bölümü</em> için geçerlidir. Aynı sahada istisna kapsamına girmeyen bir üretim hattınız varsa onu ayrıca değerlendirin.';
+      todo.innerHTML = '';
+      return;
+    }
+
+    if (cat === null){
+      vBox.dataset.tone = 'none';
+      vTitle.textContent = 'Yıllık emisyonunuzu girin';
+      vText.textContent = 'EK-1 faaliyeti yürütüyorsunuz; artık yükümlülüğünüzün ağırlığını yıllık emisyon miktarınız belirleyecek.';
+      vSub.hidden = true; todo.innerHTML = '';
+      return;
+    }
+
+    var mrvOnly = (cat === 'A') || (kurum === 'istisna') || (kurum === 'gaz');
+    var reason = cat === 'A'
+      ? 'Kategori A tesisler ETS’nin ticaret tarafına girmez.'
+      : (kurum === 'istisna'
+          ? 'Okul, üniversite, hastane ve savunma sanayi kuruluşlarına ait tesisler, yerine getirdikleri faaliyetlerle sınırlı olmak üzere ETS kapsamı dışındadır.'
+          : 'Doğal gaz ve ham petrol iletimi ile depolaması, birinci uygulama dönemi sonuna kadar ETS kapsamı dışındadır.');
+
+    if (!kurum){
+      vBox.dataset.tone = cat === 'A' ? 'mrv' : 'ets';
+      vTitle.textContent = 'Kategori ' + cat + ' tesis';
+      vText.textContent = 'Son adımda kurum türünüzü seçin — bazı kurum türleri emisyonu ne olursa olsun ticaret tarafının dışında tutulur.';
+      vSub.hidden = true; todo.innerHTML = '';
+      return;
+    }
+
+    if (mrvOnly){
+      vBox.dataset.tone = 'mrv';
+      vTitle.textContent = 'ETS dışı — ama İRD yükümlüsüsünüz';
+      vText.textContent = reason + ' Tahsisat almaz, tahsisat teslim etmezsiniz. Buna karşılık EK-1 faaliyeti yürüttüğünüz için izleme, raporlama ve doğrulama yükümlülükleriniz aynen devam eder.';
+      vSub.hidden = false;
+      vSub.innerHTML = 'Tesis kategoriniz: <strong>Kategori ' + cat + '</strong>' + (val !== null ? ' · beyan edilen ' + fmt(val) + ' t CO₂e/yıl' : '') + '. Raporu süresinde vermemenin cezası bu kategoride ' + (cat === 'A' ? '627.450 ₺' : cat === 'B' ? '1.254.900 – 2.509.800 ₺' : '4.392.150 – 6.274.500 ₺') + '.';
+      todo.innerHTML =
+        item('6 ay önce', 'İzleme planını onaylatın', 'Emisyonları ilk izlemeye başlamadan en az 6 ay önce izleme planınızı İklim Değişikliği Başkanlığı’na sunun.') +
+        item('Sürekli', 'Emisyonları izleyin', 'Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü. Biyokütle faktörü sıfırdır. Hesaplama faktörleri için akredite laboratuvar kullanın.') +
+        item('Her yıl', 'Raporu doğrulatın', 'Sera gazı emisyon raporunu Başkanlığa göndermeden önce ISO/IEC 17029 akreditasyonlu, MEDAS’ın atadığı doğrulayıcı kuruluşa doğrulatın.') +
+        item('30 Nisan', 'Raporu sunun', 'Bir önceki takvim yılına ait doğrulanmış emisyon ve faaliyet seviyesi raporunu elektronik ortamda Başkanlığa iletin.') +
+        item('30 gün', 'Değişiklikleri bildirin', 'Faaliyet, tesis niteliği, kategori veya izin sahibi değişikliklerini 30 gün içinde bildirin.') +
+        item('10 yıl', 'Kayıtları saklayın', 'Tüm veri ve bilgi kayıtlarını en az 10 yıl saklayın, talep hâlinde idarenin incelemesine sunun.');
+      return;
+    }
+
+    // ETS kapsamında
+    vBox.dataset.tone = 'ets';
+    vTitle.textContent = 'ETS kapsamındasınız — Kategori ' + cat;
+    vText.textContent = 'EK-1 faaliyeti yürütüyorsunuz ve yıllık emisyonunuz Kategori ' + cat + ' aralığında. İzleme–raporlama–doğrulama yükümlülüklerine ek olarak sera gazı emisyon izni almanız ve her yıl emisyonunuza denk tahsisat teslim etmeniz gerekir.';
+    vSub.hidden = false;
+    vSub.innerHTML = (val !== null ? 'Beyan edilen ' + fmt(val) + ' t CO₂e/yıl. ' : '') +
+      'Tahsisat açığınız = doğrulanmış emisyon − ücretsiz tahsisat. Bu fark her yıl piyasadan satın alınacak maliyettir; azaltım yatırımlarının geri ödemesini bu fark üzerinden hesaplayın.';
+
+    var personel = cat === 'C'
+      ? 'Kategori C tesislerde sera gazı izleme ve raporlama alanında en az 2 yıl tecrübeli, asgari 2 personel bulundurulması zorunludur.'
+      : 'Kategori B tesislerde sera gazı izleme ve raporlama alanında en az 1 yıl tecrübeli, asgari 1 personel bulundurulması zorunludur.';
+
+    todo.innerHTML =
+      item('Şimdi', 'Sera gazı emisyon izni alın', 'EK-3’teki bilgi ve belgelerle Başkanlığa başvurun. Başvuru azami 60 günde değerlendirilir, izin 5 yıl geçerlidir. Her tesis için ayrı izin gerekir; aynı adreste birden çok tesis varsa tek izin alınır.') +
+      item('Personel', 'Yetkili personeli atayın', personel) +
+      item('6 ay önce', 'İzleme planını onaylatın', 'İlk izlemeye başlamadan en az 6 ay önce izleme planını Başkanlığa sunun. Uygun bulunmazsa eksikler için 30 gün ek süre verilir.') +
+      item('2 ay içinde', 'İzleme Metodolojisi Planı', 'Pilot uygulama dönemindeki işletmeler ilk İMP’yi Yönetmeliğin yürürlük tarihinden itibaren 2 ay içinde elektronik ortamda sunar. Ücretsiz tahsisat hesabının temeli budur.') +
+      item('Sürekli', 'Emisyonları izleyin', 'Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü. Alt tesis bazında ürün, ölçülebilir ısı, yakıt ve üretim süreci kırılımıyla tutun.') +
+      item('Her yıl', 'Doğrulatın', 'MEDAS’ın atadığı, ISO/IEC 17029 akreditasyonlu doğrulayıcı kuruluşa doğrulatmadan rapor sunulamaz.') +
+      item('30 Nisan', 'Rapor + faaliyet seviyesi', 'Doğrulanmış sera gazı emisyon raporunu ve doğrulanmış faaliyet seviyesi raporunu birlikte sunun.') +
+      item('UTP + 30 gün', 'Ücretsiz tahsisat başvurusu', 'Ulusal Tahsisat Planı yayımlandıktan sonraki 30 gün içinde tesis bazında başvurun. Geç kalan başvuru bedeli %50 artırımlı ödenir.') +
+      item('Yıl boyu', 'Açığı kapatın', 'Birincil piyasa ihalelerinden veya ikincil piyasadan tahsisat alın; karbon kredisiyle denkleştirme ve bankalama/ödünç alma esneklikleri kullanılabilir.') +
+      item('Kasım son iş günü', 'Tahsisatı teslim edin', 'Doğrulanmış rapordaki emisyona denk tahsisatı İşlem Kayıt Sistemi üzerinden teslim edin. Ek rezerv kullananlar için son tarih Aralık ayının son iş günüdür.') +
+      item('10 yıl', 'Kayıtları saklayın', 'Tüm veri ve bilgi kayıtlarını en az 10 yıl saklayın.');
+  }
+
+  // --- events ---
+  acts.forEach(function(c){
+    c.addEventListener('change', function(){
+      if (c.checked) actNone.checked = false;
+      render();
+    });
+  });
+  actNone.addEventListener('change', function(){
+    if (actNone.checked) acts.forEach(function(c){ c.checked = false; });
+    render();
+  });
+  exs.forEach(function(c){
+    c.addEventListener('change', function(){
+      if (c.checked) exNone.checked = false;
+      render();
+    });
+  });
+  exNone.addEventListener('change', function(){
+    if (exNone.checked) exs.forEach(function(c){ c.checked = false; });
+    render();
+  });
+  emis.addEventListener('input', render);
+  kurums.forEach(function(r){ r.addEventListener('change', render); });
+
+  document.getElementById('reset').addEventListener('click', function(){
+    acts.forEach(function(c){ c.checked = false; });
+    exs.forEach(function(c){ c.checked = false; });
+    actNone.checked = false;
+    exNone.checked = false;
+    emis.value = '';
+    kurums.forEach(function(r){ r.checked = false; });
+    render();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  render();
+})();
+</script>
