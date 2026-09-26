@@ -260,8 +260,11 @@ function readEl(el){ const k = el.dataset.k, t = el.dataset.t;
 ['input','change'].forEach(ev => document.addEventListener(ev, e => { if (e.target.dataset && e.target.dataset.k){ readEl(e.target); markCustom(); update(); } }));
 document.addEventListener('focusout', e => { if (e.target.dataset && e.target.dataset.t === 'tl') e.target.value = fmt(parseNum(e.target.value)); });
 function markCustom(){ if (!preset) return; preset = null; $('#notice p').innerHTML = '<b>Kendi değerleriniz.</b> Örneğe dönmek için bir seçeneğe tıklayın.'; renderPresets(); }
-function renderPresets(){ $('#presets').innerHTML = PRESETS.map(p=>`<button type="button" class="btn" data-preset="${p.id}" aria-pressed="${p.id===preset}">${esc(p.name)}</button>`).join(''); }
-$('#presets').addEventListener('click', e => { const b = e.target.closest('[data-preset]'); if (!b) return; const p = PRESETS.find(x=>x.id===b.dataset.preset);
+const BLANK = Object.assign({}, BASE, {tep:0,iso:false,evdes:false,eyDone:false,tur:'',mak:0});
+function renderPresets(){ $('#presets').innerHTML = `<button type="button" class="btn" data-preset="bos" aria-pressed="${preset==='bos'}">Boş sayfa</button>` + PRESETS.map(p=>`<button type="button" class="btn" data-preset="${p.id}" aria-pressed="${p.id===preset}">${esc(p.name)}</button>`).join(''); }
+$('#presets').addEventListener('click', e => { const b = e.target.closest('[data-preset]'); if (!b) return;
+  if (b.dataset.preset === 'bos'){ S = Object.assign({}, BLANK); preset = 'bos'; $('#notice p').innerHTML = '<b>Boş sayfa.</b> İl, işletme, yatırım türü ve tutarları girin.'; writeForm(); renderPresets(); update(); return; }
+  const p = PRESETS.find(x=>x.id===b.dataset.preset);
   S = Object.assign({}, BASE, p.v); preset = p.id; $('#notice p').innerHTML = `<b>Örnek senaryo: ${esc(p.name)}.</b> Değerler gösterim içindir.`; writeForm(); renderPresets(); update(); });
 
 /* ---------- konum türevleri ---------- */
@@ -517,6 +520,7 @@ function update(){
   const K = konum(S.il, S.ilce, S.osb);
   ilCard(K); cmpIl();
   const T = S.tur;
+  if (!T){ $('#gucBox').hidden = true; $('#kojenBox').hidden = true; $('#stepper').innerHTML=''; $('#resTop').innerHTML = '<div><div class="k">'+esc(S.il)+'</div><h2>Yatırım türünü seçin</h2><p>Sonuçlar 03 · Yatırım türü seçildiğinde hesaplanır.</p></div>'; ['prog','kars'].forEach(k=>$('#tp-'+k).innerHTML='<p class="muted">Yatırım türü seçilmedi.</p>'); renderCalls(); $('#summary').innerHTML='<div class="sum-h"><span>Özet</span></div><div class="status"><div><div class="t">Yatırım türü seçilmedi</div><p>'+esc(S.il)+' · '+K.b+'. bölge</p></div></div>'; return; }
   $('#gucBox').hidden = !(OZ.includes(T) || BESS.includes(T) || LISANSLI.includes(T));
   $('#kwLbl').textContent = BESS.includes(T) ? 'Depolama gücü' : 'Kurulu güç';
   $('#kojenBox').hidden = T !== 'T14';
@@ -545,7 +549,7 @@ function update(){
   const best = money.filter(p=>p.pid!=='P10').sort((a,b)=>b.amt-a.amt)[0];
   $('#resTop').innerHTML = `<div><div class="k">${esc(S.il)} · ${esc(TUR[T])}</div><h2>${act.length} destek yolu açık</h2><p>${best?`En yüksek tahmini yatırım desteği: ${esc(best.P.ad)}, ${mn(best.amt)}. `:''}${K.gecici?'Geçici 6. bölge hükmü uygulanıyor. ':''}Yatırım desteği ile gelir/piyasa desteği ayrı gruplarda.</p></div><div class="counts"><span class="chip ok dot">${ok} uygun</span><span class="chip warn dot">${wa} koşullu</span><span class="chip no dot">${no.length} uygun değil</span></div>`;
   const s = ok ? 's-ok' : wa ? 's-warn' : 's-no';
-  $('#summary').innerHTML = `<div class="sum-h"><span>Özet</span>${preset?tag('ORN'):''}</div>
+  $('#summary').innerHTML = `<div class="sum-h"><span>Özet</span>${preset&&preset!=='bos'?tag('ORN'):''}</div>
     <div class="status ${s}"><span class="ic">${ok?ICON.check:ICON.alert}</span><div><div class="t">${ok} uygun · ${wa} koşullu</div><p>${esc(S.il)} · ${K.b}. bölge${K.gecici?' (→ 6)':''} · SGK ${K.sgk?K.sgk+' yıl':'yok'}</p></div></div>
     <dl class="dl">${out.map(p=>`<div><dt>${esc(p.P.ad.split(' (')[0].split(' → ')[0])}</dt>${p.st==='no'?'<dd class="st"><span class="chip no">Uygun değil</span></dd>':p.amt>0?`<dd>${mn(p.amt)}</dd>`:p.custom?`<dd>${esc(p.custom)}</dd>`:`<dd class="st">${chipFor(p.st)}</dd>`}</div>`).join('')}</dl>
     ${soon.length?`<div class="sum-h" style="border-top:1px solid var(--line)"><span>Yaklaşan ve açık çağrılar</span></div><div class="sumcalls">${soon.map(i=>`<div><span>${esc(i.t.o)}</span><span>${esc(i.s[0])}</span></div>`).join('')}</div>`:''}
