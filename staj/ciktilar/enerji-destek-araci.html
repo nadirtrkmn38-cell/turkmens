@@ -1,0 +1,1203 @@
+<title>Enerji Yatırımı Destek Aracı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600;700;800&family=Red+Hat+Mono:wght@500;600&family=Red+Hat+Text:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#f3f5f8; --panel:#ffffff; --sunk:#eef2f6; --hover:#f6f8fb;
+  --ink:#0f1b2a; --ink2:#475467; --ink3:#7a8699; --line:#e0e6ec; --line2:#cbd4de;
+  --hero:#0b1f33; --hero2:#10304c; --hero-ink:#ffffff; --hero-ink2:#a9bccd; --hero-line:rgba(255,255,255,.14);
+  --accent:#2f5bd3; --accent-ink:#ffffff; --accent-soft:#ebf0fd; --accent-line:#bfcdf4;
+  --ok:#067647; --ok-soft:#ecf7f0; --ok-line:#b4e2c7;
+  --warn:#b54708; --warn-soft:#fff5e8; --warn-line:#f7d4a6;
+  --no:#b42318; --no-soft:#fdf0ef; --no-line:#f5c6c1;
+  --info:#475467; --info-soft:#eff2f5;
+  --t-mev-fg:#ffffff; --t-mev-bg:#1d3048;
+  --t-duy:#0a6d9c;
+  --t-hes:#0b7a6e; --t-hes-bg:#e5f3f0;
+  --t-tey:#8f5200; --t-tey-bg:#fff3dc;
+  --t-var:#6941c6; --t-var-bg:#f3effe;
+  --t-yor:#5a6475; --t-yor-bg:#eef1f4;
+  --t-orn:#a1407a; --t-orn-bg:#fbeef5;
+  --bar:#2f5bd3; --bar2:#0b7a6e;
+  --shadow:0 1px 2px rgba(16,28,42,.05),0 1px 1px rgba(16,28,42,.03);
+  --display:"Red Hat Display","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --text:"Red Hat Text","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:"Red Hat Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0b1219; --panel:#111b25; --sunk:#16222e; --hover:#15212c;
+    --ink:#e6edf3; --ink2:#a4b2c1; --ink3:#7d8b9c; --line:#1f2d3a; --line2:#2c3c4c;
+    --hero:#081725; --hero2:#0e2539; --hero-ink:#ffffff; --hero-ink2:#93a8bb; --hero-line:rgba(255,255,255,.1);
+    --accent:#86a5ff; --accent-ink:#0a1433; --accent-soft:#17213d; --accent-line:#2b3a66;
+    --ok:#62d29b; --ok-soft:#0f281c; --ok-line:#1f5037;
+    --warn:#f0ae55; --warn-soft:#2a200f; --warn-line:#5a4118;
+    --no:#f48c82; --no-soft:#2a1514; --no-line:#5a2622;
+    --info:#aab5c3; --info-soft:#1a2531;
+    --t-mev-fg:#0b1520; --t-mev-bg:#c6d4e6;
+    --t-duy:#6cc3ee;
+    --t-hes:#56cfbe; --t-hes-bg:#0e2c29;
+    --t-tey:#f0b660; --t-tey-bg:#2b2111;
+    --t-var:#b9a2f5; --t-var-bg:#231b3b;
+    --t-yor:#a4b0bf; --t-yor-bg:#1b2632;
+    --t-orn:#ee9cc8; --t-orn-bg:#2d1624;
+    --bar:#86a5ff; --bar2:#56cfbe;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0b1219; --panel:#111b25; --sunk:#16222e; --hover:#15212c;
+  --ink:#e6edf3; --ink2:#a4b2c1; --ink3:#7d8b9c; --line:#1f2d3a; --line2:#2c3c4c;
+  --hero:#081725; --hero2:#0e2539; --hero-ink:#ffffff; --hero-ink2:#93a8bb; --hero-line:rgba(255,255,255,.1);
+  --accent:#86a5ff; --accent-ink:#0a1433; --accent-soft:#17213d; --accent-line:#2b3a66;
+  --ok:#62d29b; --ok-soft:#0f281c; --ok-line:#1f5037;
+  --warn:#f0ae55; --warn-soft:#2a200f; --warn-line:#5a4118;
+  --no:#f48c82; --no-soft:#2a1514; --no-line:#5a2622;
+  --info:#aab5c3; --info-soft:#1a2531;
+  --t-mev-fg:#0b1520; --t-mev-bg:#c6d4e6;
+  --t-duy:#6cc3ee;
+  --t-hes:#56cfbe; --t-hes-bg:#0e2c29;
+  --t-tey:#f0b660; --t-tey-bg:#2b2111;
+  --t-var:#b9a2f5; --t-var-bg:#231b3b;
+  --t-yor:#a4b0bf; --t-yor-bg:#1b2632;
+  --t-orn:#ee9cc8; --t-orn-bg:#2d1624;
+  --bar:#86a5ff; --bar2:#56cfbe;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--ground);color:var(--ink);font:15px/1.55 var(--text);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.ref{font:500 12px var(--mono);color:var(--ink3)}
+.muted{color:var(--ink2)}
+svg.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.in{max-width:1220px;margin:0 auto;padding-inline:24px}
+@media (max-width:560px){.in{padding-inline:16px}}
+
+/* üst bant */
+.appbar{background:var(--hero);color:var(--hero-ink);border-bottom:1px solid var(--hero-line)}
+.appbar .in{display:flex;flex-wrap:wrap;gap:6px 24px;align-items:center;justify-content:space-between;padding-block:14px}
+.brand{display:flex;gap:10px;align-items:center;font:700 15px var(--display)}
+.brand-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink)}
+.brand-mark svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.appbar .meta{font-size:13px;color:var(--hero-ink2)}
+.hero{background:linear-gradient(180deg,var(--hero) 0%,var(--hero2) 100%);color:var(--hero-ink)}
+.hero .in{padding-block:38px 30px}
+.kicker{font:600 13px var(--text);color:var(--hero-ink2);letter-spacing:.02em}
+.hero h1{font-size:clamp(29px,4.2vw,44px);font-weight:800;line-height:1.08;margin-top:10px;letter-spacing:-.02em;max-width:22ch}
+.hero .lead{max-width:66ch;margin-top:12px;font-size:16.5px;color:var(--hero-ink2)}
+
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin-top:28px;border:1px solid var(--hero-line);border-radius:10px;overflow:hidden;background:var(--hero-line)}
+.strip > div{background:var(--hero);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.strip .k{font-size:12.5px;color:var(--hero-ink2);line-height:1.35}
+.strip .v{font:600 20px var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.strip .v small{font:500 12px var(--text);color:var(--hero-ink2);margin-left:4px}
+.strip .s{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font:500 11.5px var(--mono);color:var(--hero-ink2)}
+@media (max-width:860px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:440px){.strip{grid-template-columns:minmax(0,1fr)}}
+
+.stepper{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 0;list-style:none;padding:0}
+.stepper a{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:8px;border:1px solid var(--hero-line);
+  color:var(--hero-ink);text-decoration:none;background:rgba(255,255,255,.03);height:100%}
+.stepper a:hover{background:rgba(255,255,255,.07)}
+.stepper .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:600 13px var(--mono);border:1.5px solid var(--hero-ink2);color:var(--hero-ink2);flex:none}
+.stepper .l{display:block;font-weight:600;font-size:14px;line-height:1.3}
+.stepper .v{display:block;font-size:12.5px;color:var(--hero-ink2);margin-top:2px;line-height:1.35}
+@media (max-width:760px){.stepper{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* düzen */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:start;padding-block:28px 40px}
+.col{display:flex;flex-direction:column;gap:20px;min-width:0}
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:flex;flex-direction:column;gap:14px}
+@media (max-width:1000px){.layout{grid-template-columns:minmax(0,1fr)} aside{position:static}}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+.sec{padding:24px}
+@media (max-width:560px){.sec{padding:18px}}
+.sec-h{display:flex;gap:14px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.sec-no{font:600 12.5px var(--mono);color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:3px 8px;flex:none;margin-top:3px}
+.sec-h h2{font-size:21px;font-weight:700;line-height:1.25}
+.sec-h p{font-size:14px;color:var(--ink2);margin-top:4px;max-width:70ch}
+.sec-b{display:flex;flex-direction:column;gap:20px;padding-top:18px}
+.lbl{font:600 14px var(--text);color:var(--ink);display:block}
+.lbl-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.hint{font-size:13px;color:var(--ink2);max-width:78ch}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px 18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px 18px}
+.sub-h{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);padding-top:4px}
+
+/* etiketler */
+.tag{flex:none;display:inline-flex;align-items:center;font:600 10.5px/1 var(--text);letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 6px;border-radius:4px;white-space:nowrap;vertical-align:1px;border:1px solid transparent;cursor:help}
+.t-mev{color:var(--t-mev-fg);background:var(--t-mev-bg)}
+.t-duy{color:var(--t-duy);background:transparent;border-color:var(--t-duy)}
+.t-hes{color:var(--t-hes);background:var(--t-hes-bg)}
+.t-tey{color:var(--t-tey);background:var(--t-tey-bg);border:1px dashed var(--t-tey)}
+.t-var{color:var(--t-var);background:var(--t-var-bg)}
+.t-yor{color:var(--t-yor);background:var(--t-yor-bg)}
+.t-orn{color:var(--t-orn);background:var(--t-orn-bg)}
+.strip .tag{border-color:rgba(255,255,255,.35)}
+.strip .t-duy{color:#8fd3f5;border-color:#8fd3f5}
+.strip .t-tey{color:#f5c77e;background:rgba(245,199,126,.1);border-color:#f5c77e}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 22px;padding:16px 18px;font-size:13px;color:var(--ink2)}
+.legend .it{display:flex;gap:9px;align-items:flex-start}
+.legend .it .tag{margin-top:1px}
+.legend-h{padding:14px 18px 0;font:600 13px var(--text);color:var(--ink)}
+
+.notice{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;padding:14px 16px;border-radius:10px;background:var(--t-orn-bg);border:1px solid color-mix(in srgb,var(--t-orn) 28%,transparent)}
+.notice p{flex:1 1 300px;font-size:14px}
+.presets{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;gap:6px;align-items:center;font:600 13.5px var(--text);border:1px solid var(--line2);background:var(--panel);
+  color:var(--ink);border-radius:7px;padding:8px 13px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--hover);border-color:var(--ink3)}
+.btn[aria-pressed="true"]{border-color:var(--t-orn);color:var(--t-orn);box-shadow:0 0 0 1px var(--t-orn) inset}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
+input[type=number],input[type=text],select{background:var(--panel);border:1px solid var(--line2);border-radius:7px;padding:9px 11px;width:100%;min-width:0}
+input.tl,input[type=number]{font-family:var(--mono);font-variant-numeric:tabular-nums}
+input:hover,select:hover{border-color:var(--ink3)}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:17px;height:17px;margin:0;flex:none}
+.inwrap{position:relative;display:flex;align-items:center}
+.inwrap input{padding-right:54px}
+.inwrap .u{position:absolute;right:11px;font:500 12.5px var(--text);color:var(--ink3);pointer-events:none}
+.calc-note{font:500 12.5px var(--mono);color:var(--ink2);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border:1px solid var(--line2);border-radius:8px;cursor:pointer;background:var(--panel)}
+.opt:hover{background:var(--hover)}
+.opt:has(input:checked){border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;background:var(--accent-soft)}
+.opt input{margin-top:3px}
+.opt b{display:block;font-weight:600;line-height:1.35}
+.opt span{display:block;font-size:13px;color:var(--ink2);margin-top:3px}
+.checks-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.chk:hover{background:var(--hover)}
+.chk input{margin-top:2px}
+.chk b{display:block;font-weight:600;font-size:14px;line-height:1.35}
+.chk span{display:block;font-size:12.5px;color:var(--ink2);margin-top:2px}
+
+.chip{flex:none;display:inline-flex;align-items:center;gap:6px;font:600 12px/1.2 var(--text);padding:4px 8px;border-radius:6px;white-space:nowrap;background:var(--sunk);color:var(--ink2)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.no{background:var(--no-soft);color:var(--no)}
+.chip.dot::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* sonuç */
+.res-top{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:14px 28px;align-items:flex-end;justify-content:space-between}
+.res-top .k{font:600 13px var(--text);color:var(--ink2)}
+.res-top h2{font-size:25px;font-weight:800;margin-top:2px}
+.res-top p{margin-top:6px;max-width:64ch;font-size:14px;color:var(--ink2)}
+.counts{display:flex;gap:8px;flex-wrap:wrap}
+.tabs{display:flex;gap:4px;padding:0 16px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs button{border:0;background:none;padding:14px 10px 12px;font:600 14px var(--text);color:var(--ink2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabpanel{padding:20px 24px 24px}
+@media (max-width:560px){.tabpanel{padding:16px 16px 18px}.res-top{padding:18px}}
+
+.pgroup{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:6px 0 10px}
+.plist{display:flex;flex-direction:column;gap:14px}
+.pcard{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.pcard.st-ok{border-color:var(--ok-line)}
+.pcard.st-warn{border-color:var(--warn-line)}
+.ph{display:flex;flex-wrap:wrap;gap:12px 20px;justify-content:space-between;align-items:flex-start;padding:16px 18px}
+.st-ok .ph{background:var(--ok-soft)}
+.st-warn .ph{background:var(--warn-soft)}
+.st-no .ph{background:var(--sunk)}
+.ph h3{font-size:18px;font-weight:700;line-height:1.3}
+.ph .own{font-size:13px;color:var(--ink2);margin-top:3px}
+.ph .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.amt{text-align:right;min-width:0}
+.amt .v{font:600 24px var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}
+.amt .l{font-size:12.5px;color:var(--ink2);display:flex;gap:6px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+@media (max-width:560px){.amt{text-align:left}.amt .l{justify-content:flex-start}}
+.pb{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4px 28px;padding:6px 18px 16px}
+.pb h4{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:12px 0 6px}
+.clist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.clist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.clist li:first-child{border-top:0}
+.clist .meta{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin-top:4px}
+.ci{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;margin-top:1px}
+.ci svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ci.ok{background:var(--ok-soft);color:var(--ok)}
+.ci.warn{background:var(--warn-soft);color:var(--warn)}
+.ci.no{background:var(--no-soft);color:var(--no)}
+.ci.info{background:var(--info-soft);color:var(--info)}
+.ci.dot{background:transparent;color:var(--ink3)}
+details.more{border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+details.more summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--accent);list-style:none;display:flex;gap:6px;align-items:center;padding:4px 0}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary svg{width:16px;height:16px;transition:transform .2s}
+details.more[open] summary svg{transform:rotate(90deg)}
+.brk{margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.brk div{display:flex;justify-content:space-between;gap:12px;padding:8px 12px;border-top:1px solid var(--line);font-size:13.5px;align-items:center}
+.brk div:first-child{border-top:0}
+.brk dt{color:var(--ink2);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.brk dd{margin:0;font:600 13.5px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.brk .h{background:var(--sunk);font:700 12px var(--text);letter-spacing:.04em;color:var(--ink2)}
+details.nope{border:1px solid var(--line);border-radius:10px;margin-top:16px}
+details.nope summary{cursor:pointer;padding:14px 18px;font-weight:600;list-style:none;display:flex;gap:8px;align-items:center}
+details.nope summary::-webkit-details-marker{display:none}
+details.nope summary svg{transition:transform .2s;color:var(--ink3)}
+details.nope[open] summary svg{transform:rotate(90deg)}
+.nope-list{padding:0 18px 12px}
+.nope-list .row{padding:12px 0;border-top:1px solid var(--line)}
+.nope-list .row b{font-family:var(--display)}
+.nope-list .row ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink2);display:flex;flex-direction:column;gap:4px}
+
+/* karşılaştırma */
+.bars{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.brow{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr) 128px;gap:12px;align-items:center}
+.brow .n{font-weight:600;font-size:14px;line-height:1.3}
+.brow .n small{display:block;font-weight:500;font-size:12px;color:var(--ink3)}
+.track{height:14px;border-radius:4px;background:var(--sunk);overflow:hidden}
+.track i{display:block;height:100%;border-radius:4px;background:var(--bar);transition:width .35s ease}
+.track i.alt{background:var(--bar2)}
+.track i.soft{background:repeating-linear-gradient(135deg,var(--bar2) 0 6px,color-mix(in srgb,var(--bar2) 55%,transparent) 6px 12px)}
+.brow .v{font:600 14px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:640px){.brow{grid-template-columns:minmax(0,1fr) 110px}.brow .track{grid-column:1 / -1;grid-row:2}}
+@media (prefers-reduced-motion:reduce){.track i{transition:none}}
+.key{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-top:14px}
+.key span{display:inline-flex;gap:6px;align-items:center}
+.key i{width:14px;height:10px;border-radius:2px;display:inline-block;background:var(--bar)}
+.key i.alt{background:var(--bar2)}
+.key i.soft{background:repeating-linear-gradient(135deg,var(--bar2) 0 4px,color-mix(in srgb,var(--bar2) 55%,transparent) 4px 8px)}
+.tbl-wrap{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:8px}
+table.t{border-collapse:collapse;width:100%;min-width:680px;font-size:13.5px}
+table.t th{background:var(--sunk);text-align:left;font:600 12.5px var(--text);color:var(--ink2);padding:10px 14px}
+table.t td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+table.t td:first-child{font-weight:600}
+table.t td.n{font-family:var(--mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+.callout{margin-top:16px;padding:14px 16px;border-radius:8px;background:var(--sunk);font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.callout .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+
+/* yol haritası */
+.steps{list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.step:first-child{border-top:0}
+.step .sn{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 13px var(--mono);border:1.5px solid var(--line2);color:var(--ink2);background:var(--panel)}
+.step.done .sn{background:var(--ok);border-color:var(--ok);color:#fff}
+.step h4{font-size:16px;font-weight:700;line-height:1.3;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.step ul{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;font-size:14px;color:var(--ink2)}
+.step ul li{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.step ul li b{color:var(--ink);font-weight:600}
+.tl{list-style:none;margin:10px 0 0;padding:0}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 20px;padding:12px 0;border-top:1px solid var(--line)}
+.tl li:first-child{border-top:0}
+.tl .d{font:600 14px var(--mono);font-variant-numeric:tabular-nums}
+.tl .w{font-weight:600}
+.tl .x{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;align-items:center}
+.tl li.past .d,.tl li.past .w{color:var(--ink3)}
+.tl li.soon .d{color:var(--warn)}
+@media (max-width:600px){.tl li{grid-template-columns:minmax(0,1fr)}}
+.sub{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+.sub h3{font-size:17px;font-weight:700}
+
+/* kaynaklar */
+table.src td:nth-child(2){white-space:nowrap}
+table.src td:last-child{color:var(--ink2)}
+.pending{margin-top:16px;padding:14px 16px;border-radius:8px;border:1px dashed var(--t-tey);font-size:13.5px;color:var(--ink2)}
+.pending b{color:var(--ink)}
+.pending ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+
+/* özet kartı */
+.sum-h{padding:14px 18px;border-bottom:1px solid var(--line);font:600 13px var(--text);color:var(--ink2);display:flex;justify-content:space-between;gap:8px;align-items:center}
+.status{padding:18px;display:flex;gap:12px;align-items:flex-start;background:var(--st-soft,var(--sunk));border-bottom:1px solid var(--line)}
+.status .ic{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:var(--panel);color:var(--st,var(--ink3));flex:none;border:1px solid var(--st-line,var(--line))}
+.status .t{font:800 17px var(--display);color:var(--st,var(--ink));line-height:1.25}
+.status p{font-size:13px;color:var(--ink2);margin-top:3px}
+.s-ok{--st:var(--ok);--st-soft:var(--ok-soft);--st-line:var(--ok-line)}
+.s-warn{--st:var(--warn);--st-soft:var(--warn-soft);--st-line:var(--warn-line)}
+.s-no{--st:var(--no);--st-soft:var(--no-soft);--st-line:var(--no-line)}
+.dl{margin:0;padding:4px 18px 8px}
+.dl div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px;align-items:center}
+.dl div:first-child{border-top:0}
+.dl dt{color:var(--ink2);min-width:0}
+.dl dd{margin:0;font:600 13.5px var(--mono);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dl dd.st{font:600 12px var(--text)}
+.sum-f{padding:4px 18px 16px;display:flex;flex-direction:column;gap:10px}
+.sum-f .btn{justify-content:center}
+.deadline{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-size:13px;font-weight:600}
+.deadline.past{background:var(--sunk);color:var(--ink2)}
+.cum h3{font-size:17px;font-weight:700}
+.cum{padding:20px 24px}
+.cum ul{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 28px;font-size:13.5px;color:var(--ink2)}
+.cum li.res{grid-column:1 / -1}
+@media (max-width:560px){.cum{padding:18px}}
+.cum li{display:flex;flex-direction:column;gap:5px}
+.cum .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.cum li.res{padding-top:10px;border-top:1px solid var(--line);color:var(--ink)}
+
+footer{border-top:1px solid var(--line);background:var(--panel)}
+footer .in{padding-block:18px 28px;display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:space-between;font-size:12.5px;color:var(--ink3)}
+footer p{max-width:110ch}
+</style>
+
+<header class="appbar">
+  <div class="in">
+    <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>Enerji Verimliliği · Destek Analizi</div>
+    <div class="meta">Mevzuat taraması: 26.09.2026 · 2026 parasal eşikleri</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <div class="kicker">9903 sayılı Karar · VAP · EPS · EKA · KOSGEB · Lisanssız üretim</div>
+    <h1>Enerji yatırımınız hangi devlet desteğine uygun?</h1>
+    <p class="lead">İşletme ve yatırım bilgisini girin. Araç her programın şartını mevzuat maddesiyle kontrol eder, destek tutarını 2026 eşikleriyle hesaplar ve aynı ekipmana birlikte kullanılamayan destekleri karşılaştırır.</p>
+    <div class="strip" id="strip"></div>
+    <ol class="stepper" id="stepper"></ol>
+  </div>
+</section>
+
+<main class="in layout">
+  <div class="col">
+
+    <div class="panel">
+      <div class="legend-h">Etiketler: her bilginin nereden geldiği</div>
+      <div class="legend" id="legend"></div>
+    </div>
+
+    <div class="notice" id="notice">
+      <p><b>Örnek senaryo yüklü.</b> Değerler gösterim içindir; kendi projenizin bilgilerini girin ya da başka bir örnek seçin.</p>
+      <div class="presets" id="presets"></div>
+    </div>
+
+    <!-- 1 -->
+    <section class="panel sec" id="s1">
+      <div class="sec-h">
+        <span class="sec-no">01</span>
+        <div><h2>İşletme profili</h2><p>Sektör, ölçek ve enerji yönetimi durumu hangi programlara başvurabileceğinizi belirler.</p></div>
+      </div>
+      <div class="sec-b">
+        <div class="field">
+          <span class="lbl">Faaliyet alanı</span>
+          <div class="opts" role="radiogroup" aria-label="Faaliyet alanı">
+            <label class="opt"><input type="radio" name="sektor" value="imalat" data-k="sektor"><div><b>İmalat sanayii</b><span>Üretim tesisi, fabrika</span></div></label>
+            <label class="opt"><input type="radio" name="sektor" value="bina" data-k="sektor"><div><b>Ticari ve hizmet binası</b><span>Otel, AVM, hastane, ofis</span></div></label>
+            <label class="opt"><input type="radio" name="sektor" value="diger" data-k="sektor"><div><b>Diğer</b><span>Tarım, lojistik, kamu dışı diğer</span></div></label>
+          </div>
+        </div>
+        <div class="grid3">
+          <div class="field">
+            <label class="lbl" for="olcek">Ölçek</label>
+            <select id="olcek" data-k="olcek">
+              <option value="kobi">KOBİ</option>
+              <option value="buyuk">Büyük işletme</option>
+            </select>
+            <span class="hint">KOBİ tanımı: 7297 sayılı CBK ile yürürlüğe giren KOBİ Yönetmeliği.</span>
+          </div>
+          <div class="field">
+            <label class="lbl" for="tep">Yıllık toplam enerji tüketimi</label>
+            <div class="inwrap"><input id="tep" class="tl" type="text" inputmode="numeric" data-k="tep" data-t="tl"><span class="u">TEP</span></div>
+            <span class="calc-note" id="tepNote"></span>
+          </div>
+          <div class="field">
+            <label class="lbl" for="bolge">Yatırım bölgesi</label>
+            <select id="bolge" data-k="bolge">
+              <option value="1">1. bölge</option><option value="2">2. bölge</option><option value="3">3. bölge</option>
+              <option value="4">4. bölge</option><option value="5">5. bölge</option><option value="6">6. bölge</option>
+            </select>
+            <span class="hint">İl–bölge eşleşmesi 9903 sayılı Karar EK-2’dedir.</span>
+          </div>
+        </div>
+        <div class="field">
+          <span class="lbl">Enerji yönetimi ön koşulları</span>
+          <div class="checks-in">
+            <label class="chk" id="alanWrap"><input type="checkbox" id="alan20" data-k="alan20" data-t="bool"><div><b>İnşaat alanı 20.000 m² veya üzeri</b><span>Ticari ve hizmet binalarında yükümlülük eşiği</span></div></label>
+            <label class="chk"><input type="checkbox" id="iso" data-k="iso" data-t="bool"><div><b>TS EN ISO 50001 belgesi var</b><span>VAP ve EKA başvurusunda şart</span></div></label>
+            <label class="chk"><input type="checkbox" id="evdes" data-k="evdes" data-t="bool"><div><b>EVDES’e üye</b><span>evdes.enerji.gov.tr kaydı</span></div></label>
+            <label class="chk" id="eyWrap"><input type="checkbox" id="eyDone" data-k="eyDone" data-t="bool"><div><b>Enerji yöneticisi atandı, tüketim bildirildi</b><span>Yönetmelik m.9 ve m.32/1 yükümlülükleri</span></div></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="panel sec" id="s2">
+      <div class="sec-h">
+        <span class="sec-no">02</span>
+        <div><h2>Yatırım</h2><p>Programların kapsam dışı listeleri yatırımın türüne göre değişir. En yakın seçeneği işaretleyin.</p></div>
+      </div>
+      <div class="sec-b">
+        <div class="field">
+          <span class="lbl">Yatırım türü</span>
+          <div class="opts" role="radiogroup" aria-label="Yatırım türü">
+            <label class="opt"><input type="radio" name="tur" value="verim" data-k="tur"><div><b>Verimlilik projesi</b><span>Atık ısı geri kazanımı, ısı pompası, motor/sürücü, kompresör, buhar, yalıtım</span></div></label>
+            <label class="opt"><input type="radio" name="tur" value="kojen" data-k="tur"><div><b>Kojenerasyon (öz tüketim)</b><span>Isı ve elektriği tesiste kullanılan sistem</span></div></label>
+            <label class="opt"><input type="radio" name="tur" value="ges" data-k="tur"><div><b>Öz tüketim GES / RES</b><span>Çatı, arazi veya tesis içi yenilenebilir elektrik</span></div></label>
+            <label class="opt"><input type="radio" name="tur" value="yesil" data-k="tur"><div><b>Kapsamlı yeşil dönüşüm</b><span>Enerji, emisyon, su ve atık hedefli çok kalemli proje</span></div></label>
+            <label class="opt"><input type="radio" name="tur" value="yakit" data-k="tur"><div><b>Yakıt dönüşümü</b><span>Kömür/fuel-oil’den doğal gaza veya elektrifikasyona geçiş</span></div></label>
+            <label class="opt"><input type="radio" name="tur" value="satis" data-k="tur"><div><b>Satış amaçlı üretim / depolama</b><span>Lisanslı santral, şebekeye satış, dağıtım</span></div></label>
+            <label class="opt"><input type="radio" name="tur" value="operasyon" data-k="tur"><div><b>Yatırımsız iyileştirme</b><span>İşletme, bakım ve yönetimle enerji yoğunluğunu düşürmek</span></div></label>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label class="lbl" for="model">Uygulama modeli</label>
+            <select id="model" data-k="model">
+              <option value="kendi">İşletme yatırımı kendisi yapar</option>
+              <option value="eps">ESCO ile enerji performans sözleşmesi (EPS)</option>
+            </select>
+            <span class="hint">EPS’de yatırımı enerji hizmet şirketi yapar, tasarrufu garanti eder.</span>
+          </div>
+          <div class="field">
+            <span class="lbl">Durum</span>
+            <label class="chk"><input type="checkbox" id="yeni" data-k="yeni" data-t="bool"><div><b>Yeni tesis kurulumu</b><span>Mevcut tesiste değil, sıfırdan yatırım</span></div></label>
+            <label class="chk"><input type="checkbox" id="basladi" data-k="basladi" data-t="bool"><div><b>Yatırıma başlandı / harcama yapıldı</b><span>Sipariş, fatura veya montaj başladı</span></div></label>
+          </div>
+        </div>
+        <div class="grid3" id="gesBox">
+          <div class="field">
+            <label class="lbl" for="gesKw">GES/RES kurulu gücü</label>
+            <div class="inwrap"><input id="gesKw" class="tl" type="text" inputmode="numeric" data-k="gesKw" data-t="tl"><span class="u">kWe</span></div>
+          </div>
+          <div class="field">
+            <label class="lbl" for="sozKw">Bağlantı anlaşmasındaki sözleşme gücü</label>
+            <div class="inwrap"><input id="sozKw" class="tl" type="text" inputmode="numeric" data-k="sozKw" data-t="tl"><span class="u">kW</span></div>
+          </div>
+          <div class="field">
+            <label class="lbl" for="tuketim">Yıllık elektrik tüketimi</label>
+            <div class="inwrap"><input id="tuketim" class="tl" type="text" inputmode="numeric" data-k="tuketim" data-t="tl"><span class="u">MWh</span></div>
+            <span class="calc-note" id="gesNote"></span>
+          </div>
+        </div>
+        <label class="chk" id="kojenBox"><input type="checkbox" id="kojenBelge" data-k="kojenBelge" data-t="bool"><div><b>Kojenerasyon Tesisi Verim Belgesi var</b><span>VAP başvuru tarihi itibarıyla aranır</span></div></label>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="panel sec" id="s3">
+      <div class="sec-h">
+        <span class="sec-no">03</span>
+        <div><h2>Tutarlar ve varsayımlar</h2><p>Tüm tutarlar KDV hariç. Varsayım etiketli oranları güncel değerle değiştirebilirsiniz.</p></div>
+      </div>
+      <div class="sec-b">
+        <div class="grid3">
+          <div class="field">
+            <label class="lbl" for="syt">Sabit yatırım / proje bedeli</label>
+            <div class="inwrap"><input id="syt" class="tl" type="text" inputmode="numeric" data-k="syt" data-t="tl"><span class="u">TL</span></div>
+            <span class="calc-note" id="sytNote"></span>
+          </div>
+          <div class="field">
+            <label class="lbl" for="mak">Makine-teçhizat payı</label>
+            <div class="inwrap"><input id="mak" type="number" min="0" max="100" step="1" data-k="mak" data-t="num"><span class="u">%</span></div>
+            <span class="hint">KDV istisnası ve gümrük muafiyeti bu kısma uygulanır.</span>
+          </div>
+          <div class="field">
+            <label class="lbl" for="bigMak">Birim fiyatı ≥ 2,5 mn TL makineler</label>
+            <div class="inwrap"><input id="bigMak" class="tl" type="text" inputmode="numeric" data-k="bigMak" data-t="tl"><span class="u">TL</span></div>
+            <span class="hint">Yalnız Stratejik Hamle makine desteği hesabında kullanılır.</span>
+          </div>
+          <div class="field">
+            <label class="lbl" for="kredi">TL yatırım kredisi</label>
+            <div class="inwrap"><input id="kredi" class="tl" type="text" inputmode="numeric" data-k="kredi" data-t="tl"><span class="u">TL</span></div>
+            <span class="hint">En az 1 yıl vadeli; faiz desteği hesabı için.</span>
+          </div>
+          <div class="field">
+            <label class="lbl" for="tasarruf">Yıllık enerji tasarrufu</label>
+            <div class="inwrap"><input id="tasarruf" class="tl" type="text" inputmode="numeric" data-k="tasarruf" data-t="tl"><span class="u">TL/yıl</span></div>
+            <span class="calc-note" id="pbNote"></span>
+          </div>
+          <div class="field">
+            <label class="lbl" for="gider">2026 yıllık enerji gideri</label>
+            <div class="inwrap"><input id="gider" class="tl" type="text" inputmode="numeric" data-k="gider" data-t="tl"><span class="u">TL</span></div>
+            <span class="hint">EKA desteği bu tutar üzerinden hesaplanır.</span>
+          </div>
+        </div>
+        <div class="sub-h">Varsayımlar</div>
+        <div class="grid3">
+          <div class="field">
+            <div class="lbl-row"><label class="lbl" for="repo">TCMB bir hafta vadeli repo</label><span data-tag="var"></span></div>
+            <div class="inwrap"><input id="repo" type="number" min="0" max="100" step="0.25" data-k="repo" data-t="num"><span class="u">%</span></div>
+            <span class="hint">Kredi kullanım tarihindeki oran esas alınır (9903 m.15/1). Güncel oranı girin.</span>
+          </div>
+          <div class="field">
+            <div class="lbl-row"><label class="lbl" for="kv">Kurumlar vergisi oranı</label><span data-tag="var"></span></div>
+            <div class="inwrap"><input id="kv" type="number" min="0" max="100" step="1" data-k="kv" data-t="num"><span class="u">%</span></div>
+            <span class="hint">Genel oran. İndirimli oran %60 düşük uygulanır.</span>
+          </div>
+          <div class="field">
+            <div class="lbl-row"><label class="lbl" for="kdv">KDV oranı (makine)</label><span data-tag="var"></span></div>
+            <div class="inwrap"><input id="kdv" type="number" min="0" max="100" step="1" data-k="kdv" data-t="num"><span class="u">%</span></div>
+            <span class="hint">İstisnanın nakit akışı etkisini göstermek için.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- sonuç -->
+    <section class="panel" id="sonuc" aria-live="polite">
+      <div class="res-top" id="resTop"></div>
+      <div class="tabs" role="tablist" aria-label="Sonuç ayrıntıları" id="tabs"></div>
+      <div class="tabpanel" role="tabpanel" id="tp-prog" aria-labelledby="tab-prog"></div>
+      <div class="tabpanel" role="tabpanel" id="tp-kars" aria-labelledby="tab-kars" hidden></div>
+      <div class="tabpanel" role="tabpanel" id="tp-yol" aria-labelledby="tab-yol" hidden></div>
+      <div class="tabpanel" role="tabpanel" id="tp-kay" aria-labelledby="tab-kay" hidden></div>
+    </section>
+
+    <section class="panel cum" id="cum"></section>
+  </div>
+
+  <aside>
+    <div class="panel" id="summary"></div>
+  </aside>
+</main>
+
+<footer>
+  <div class="in">
+    <p>Ön değerlendirme aracıdır; destek kararı ilgili kurumun incelemesiyle verilir. Başvuru öncesinde güncel ilan, usul ve esaslar ile Resmî Gazete metni kontrol edilmelidir. Tutarlar 2026 yılı içindir ve her yıl yeniden değerleme oranıyla güncellenir.</p>
+    <p>Kaynak taraması: 26.09.2026</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- 2026 parasal eşikleri ---------- */
+const K = {
+  vapCap: 27092663,     // ETKB açıklaması (AA 27.06.2026); EVY m.16/2 + m.16/4
+  ekaCap: 18061775,     // ETKB EKA duyurusu (id 30623)
+  asg12: 15100000,      // 9903 m.5/2 (12 mn) 2026 güncellemesi
+  asg36: 7500000,       // 9903 m.5/2 (6 mn) 2026 güncellemesi
+  strYesil: 62700000,   // 9903 m.8/8 (50 mn) 2026 güncellemesi
+  faizOnc: 30100000,    // 9903 m.15/3-c (24 mn) 2026
+  faizStr: 226000000,   // 9903 m.15/3-b (180 mn) 2026
+  faizHedef: 15100000,  // 9903 m.15/3-ç (12 mn) × 1,2549 (hesap)
+  makStr: 226000000,    // 9903 m.16/2-b (180 mn) × 1,2549 (hesap)
+  vapMin: 5000000,      // ETKB duyurusu, 01.07.2026
+  epsMin: 5000000,      // ETKB EPS duyurusu
+  kosGes: 14000000, kosTemiz: 4000000
+};
+const EKA_END = new Date(2026, 8, 30, 23, 59, 59);
+const TODAY = new Date();
+
+/* ---------- etiketler ---------- */
+const TAGS = {
+  mev: ['Mevzuat', 'Resmî Gazete’de yayımlı metin ya da ona dayanan usul ve esaslar; madde numarası yanında.'],
+  duy: ['Duyuru', 'Bakanlık veya kurumun resmî duyurusu ya da program sayfası.'],
+  hes: ['Hesaplanan', 'Girdilerinizden bu araçta hesaplanır.'],
+  tey: ['Teyit edilecek', 'İkincil kaynaktan alındı veya birincil metinde doğrulanamadı; resmî kaynaktan kontrol edin.'],
+  var: ['Varsayım', 'Değiştirilebilir kabul; güncel değerle değiştirin.'],
+  yor: ['Yorum', 'Mevzuatta açık hüküm yok; maddelerden çıkarılan değerlendirme.'],
+  orn: ['Örnek', 'Örnek senaryo verisi; gerçek proje bilgisi değil.']
+};
+const tag = k => `<span class="tag t-${k}" title="${TAGS[k][1]}">${TAGS[k][0]}</span>`;
+const ref = t => t ? `<span class="ref">${t}</span>` : '';
+const meta = (tg, rf) => `<span class="meta">${(Array.isArray(tg)?tg:[tg]).filter(Boolean).map(tag).join('')}${ref(rf)}</span>`;
+
+/* ---------- biçim ---------- */
+const nf0 = new Intl.NumberFormat('tr-TR', {maximumFractionDigits:0});
+const nf1 = new Intl.NumberFormat('tr-TR', {minimumFractionDigits:1, maximumFractionDigits:1});
+const fmt = n => nf0.format(Math.round(n||0));
+const TL = n => fmt(n) + ' TL';
+const mn = n => nf1.format((n||0)/1e6) + ' mn TL';
+const pct = n => '%' + nf1.format(n).replace(/,0$/,'');
+const parseNum = v => { const s = String(v).replace(/\./g,'').replace(/\s/g,'').replace(',', '.'); const x = parseFloat(s.replace(/[^\d.]/g,'')); return isFinite(x) ? x : 0; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const ICON = {
+  ok:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  warn:'<svg viewBox="0 0 24 24"><path d="M12 6v8M12 18.5v.01"/></svg>',
+  no:'<svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg>',
+  info:'<svg viewBox="0 0 24 24"><path d="M12 11v7M12 6.5v.01"/></svg>',
+  dot:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg>',
+  chev:'<svg class="i" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>',
+  check:'<svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  alert:'<svg class="i" viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>',
+  clock:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+};
+
+/* ---------- örnek senaryolar ---------- */
+const BASE = {sektor:'imalat', olcek:'buyuk', tep:0, bolge:'2', alan20:false, iso:true, evdes:true, eyDone:true,
+  tur:'verim', model:'kendi', yeni:false, basladi:false, gesKw:0, sozKw:0, tuketim:0, kojenBelge:false,
+  syt:0, mak:80, bigMak:0, kredi:0, tasarruf:0, gider:0, repo:40, kv:25, kdv:20};
+const PRESETS = [
+  {id:'atik', name:'Atık ısı + ısı pompası', v:{sektor:'imalat', olcek:'buyuk', tep:4500, bolge:'2', tur:'verim', syt:24000000, mak:80, bigMak:6000000, kredi:12000000, tasarruf:5500000, gider:120000000}},
+  {id:'ges', name:'Çatı GES (KOBİ)', v:{sektor:'imalat', olcek:'kobi', tep:600, bolge:'4', iso:false, evdes:false, eyDone:false, tur:'ges', syt:22000000, mak:90, kredi:10000000, tasarruf:6000000, gider:30000000, gesKw:1800, sozKw:1200, tuketim:2600}},
+  {id:'eps', name:'ESCO ile buhar sistemi', v:{sektor:'imalat', olcek:'buyuk', tep:2500, bolge:'3', tur:'verim', model:'eps', syt:9000000, mak:85, kredi:0, tasarruf:2600000, gider:70000000}},
+  {id:'kojen', name:'Kojenerasyon 80 mn TL', v:{sektor:'imalat', olcek:'buyuk', tep:12000, bolge:'2', tur:'kojen', kojenBelge:true, syt:80000000, mak:85, bigMak:45000000, kredi:40000000, tasarruf:14000000, gider:400000000}},
+  {id:'otel', name:'Otel · yatırımsız', v:{sektor:'bina', olcek:'buyuk', tep:900, bolge:'1', tur:'operasyon', syt:0, mak:0, kredi:0, tasarruf:0, gider:45000000}}
+];
+let S = Object.assign({}, BASE, PRESETS[0].v);
+let preset = 'atik';
+let tab = 'prog';
+
+/* ---------- form bağlama ---------- */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+function writeForm(){
+  $$('[data-k]').forEach(el => {
+    const k = el.dataset.k, t = el.dataset.t;
+    if (el.type === 'radio') el.checked = (String(S[k]) === el.value);
+    else if (t === 'bool') el.checked = !!S[k];
+    else if (t === 'tl') el.value = S[k] ? fmt(S[k]) : '0';
+    else el.value = S[k];
+  });
+}
+function readEl(el){
+  const k = el.dataset.k, t = el.dataset.t;
+  if (el.type === 'radio'){ if (el.checked) S[k] = el.value; }
+  else if (t === 'bool') S[k] = el.checked;
+  else if (t === 'tl') S[k] = parseNum(el.value);
+  else if (t === 'num') S[k] = parseNum(el.value);
+  else S[k] = el.value;
+}
+document.addEventListener('input', e => { if (e.target.dataset && e.target.dataset.k){ readEl(e.target); markCustom(); update(); } });
+document.addEventListener('change', e => { if (e.target.dataset && e.target.dataset.k){ readEl(e.target); markCustom(); update(); } });
+document.addEventListener('focusout', e => { const el = e.target; if (el.dataset && el.dataset.t === 'tl'){ el.value = fmt(parseNum(el.value)); } });
+function markCustom(){
+  if (!preset) return;
+  preset = null;
+  $('#notice p').innerHTML = '<b>Kendi değerleriniz.</b> Örnek senaryoya dönmek için bir seçeneğe tıklayın.';
+  renderPresets();
+}
+function renderPresets(){
+  $('#presets').innerHTML = PRESETS.map(p => `<button type="button" class="btn" data-preset="${p.id}" aria-pressed="${p.id===preset}">${esc(p.name)}</button>`).join('');
+}
+$('#presets').addEventListener('click', e => {
+  const b = e.target.closest('[data-preset]'); if (!b) return;
+  const p = PRESETS.find(x => x.id === b.dataset.preset);
+  S = Object.assign({}, BASE, p.v); preset = p.id;
+  $('#notice p').innerHTML = `<b>Örnek senaryo: ${esc(p.name)}.</b> Değerler gösterim içindir; kendi projenizin bilgilerini girin.`;
+  writeForm(); renderPresets(); update();
+});
+
+/* ---------- yardımcı hesaplar ---------- */
+const bolgeN = () => parseInt(S.bolge, 10) || 1;
+const asgari = () => bolgeN() <= 2 ? K.asg12 : K.asg36;
+function obliged(){
+  if (S.sektor === 'imalat') return S.tep >= 1000;
+  if (S.sektor === 'bina') return S.tep >= 500 || S.alan20;
+  return false;
+}
+const payback = () => S.tasarruf > 0 ? S.syt / S.tasarruf : Infinity;
+const SGK = {1:'uygulanmaz', 2:'1 yıl', 3:'2 yıl', 4:'4 yıl', 5:'8 yıl', 6:'12 yıl'};
+function sgkText(){
+  const b = bolgeN();
+  if (b === 1) return '1. bölgede işveren hissesi desteği uygulanmaz';
+  return `${b}. bölgede ${SGK[b]}, asgari ücrete isabet eden işveren hissesinin ${b===6?'tamamı':'%50’si'}`;
+}
+function tesvik(kind, base){
+  const oranV = {onc:.30, str:.40, hedef:.20}[kind];
+  const pay = {onc:.25, str:.30, hedef:.25}[kind];
+  const cap = {onc:12.5, str:15, hedef:12.5}[kind];
+  const puan = Math.min(S.repo * pay, cap);
+  const krediEff = Math.min(S.kredi, base * .70);
+  const faizHam = krediEff * puan / 100 * 5;
+  const lim = {onc:Math.min(base*.10, K.faizOnc), str:Math.min(base*.15, K.faizStr), hedef:Math.min(base*.10, K.faizHedef)}[kind];
+  const faiz = Math.min(faizHam, lim);
+  const vergi = base * oranV;
+  return {oranV, puan, krediEff, faizHam, lim, faiz, vergi};
+}
+const kdvNakit = base => base * S.mak/100 * S.kdv/100;
+const kvIndirimli = () => S.kv * (1 - .60);
+const R = (t, text, tg, rf) => ({t, text, tg, rf});
+const statusOf = rs => rs.some(r => r.t === 'no') ? 'no' : rs.some(r => r.t === 'warn') ? 'warn' : 'ok';
+const ekaDaysLeft = () => Math.ceil((EKA_END - TODAY) / 864e5);
+
+/* ---------- programlar ---------- */
+function evaluate(){
+  const P = [];
+  const asg = asgari(), b = bolgeN(), pb = payback(), ob = obliged();
+  const common = (rs, refPre) => {
+    if (!S.evdes) rs.push(R('warn', 'EVDES üyeliği gerekli; kayıt başvurudan önce yapılır.', 'mev', refPre + ' m.5/1-a'));
+    if (ob && !S.eyDone) rs.push(R('warn', 'Enerji yöneticisi görevlendirme ve bilgi verme yükümlülükleri yerine getirilmiş olmalı.', 'mev', refPre + ' m.5/1-b,c'));
+    if (!S.iso) rs.push(R('warn', 'TS EN ISO 50001 Enerji Yönetim Sistemi belgesi gerekli.', 'mev', refPre + ' m.5/1-ç'));
+  };
+
+  /* VAP */
+  (function(){
+    const rs = [];
+    const ex = {ges:['Elektrik üretimine yönelik yenilenebilir enerji projeleri kapsam dışı.','m.6/7-ğ'],
+      yakit:['Yakıt dönüşümüne yönelik projeler kapsam dışı.','m.6/7-ç'],
+      satis:['Satış amaçlı kojenerasyon ve elektrik üretimi projeleri kapsam dışı.','m.6/7-f,ğ']};
+    if (ex[S.tur]) rs.push(R('no', ex[S.tur][0], 'mev', 'VAP UE ' + ex[S.tur][1]));
+    if (S.tur === 'operasyon') rs.push(R('no', 'VAP bir ekipman/yatırım projesini destekler. Yatırımsız iyileştirme için EKA’ya bakın.', 'yor', 'VAP UE m.6/1'));
+    if (S.yeni) rs.push(R('no', 'Yeni tesis kurulumuna yönelik projeler kapsam dışı.', 'mev', 'VAP UE m.6/7-d'));
+    if (S.basladi) rs.push(R('no', 'Uygulanmış veya uygulamasına başlanmış projeler kapsam dışı.', 'mev', 'VAP UE m.6/7-a'));
+    if (S.tur !== 'operasyon'){
+      if (S.syt <= K.vapMin) rs.push(R('no', `01.07.2026’dan itibaren yatırım bedeli 5 mn TL’nin üzerinde olmalı (girilen: ${mn(S.syt)}).`, 'duy', 'ETKB duyurusu · Bakan Oluru 12.03.2026'));
+      const lim = S.tur === 'kojen' ? 10 : 7;
+      if (!isFinite(pb)) rs.push(R('warn', 'Geri ödeme süresi kontrolü için yıllık tasarrufu girin.', 'hes', ''));
+      else if (pb > lim) rs.push(R('no', `Geri ödeme ${nf1.format(pb)} yıl; ${S.tur==='kojen'?'kojenerasyon için':'bu proje tipi için'} azami ${lim} yıl.`, ['duy','hes'], 'ETKB duyurusu · Bakan Oluru 12.03.2026'));
+      else rs.push(R('ok', `Geri ödeme ${nf1.format(pb)} yıl; azami ${lim} yıl sınırının içinde.`, ['duy','hes'], 'ETKB duyurusu · Bakan Oluru 12.03.2026'));
+      if (S.tur === 'kojen' && !S.kojenBelge) rs.push(R('warn', 'Başvuru tarihinde Kojenerasyon Tesisi Verim Belgesi gerekli.', 'mev', 'VAP UE m.5/1-d'));
+    }
+    common(rs, 'VAP UE');
+    const st = statusOf(rs);
+    const amt = Math.min(S.syt * .30, K.vapCap);
+    P.push({id:'vap', short:'VAP', name:'Verimlilik Artırıcı Proje (VAP)', own:'Enerji ve Tabii Kaynaklar Bakanlığı · EVDES', kind:'Hibe', st, rs,
+      amount: st==='no' ? null : amt, amountL:'Tahmini hibe', amountTag:'hes',
+      brk: st==='no' ? null : [['Proje bedeli × %30', S.syt*.30, 'hes'], ['2026 üst limiti', K.vapCap, 'duy'], ['Tahmini hibe', amt, 'hes']],
+      sup:[
+        ['Proje bedelinin (KDV hariç) %30’una kadar hibe', 'mev', 'EVY m.16/2 · VAP UE m.7/4'],
+        ['2026 üst limiti 27.092.663 TL; her yıl yeniden değerleme oranıyla artar', 'duy', 'ETKB açıklaması (AA, 27.06.2026) · EVY m.16/4'],
+        ['01.01.2027’den itibaren etüt kapsamında hazırlanan projede %30, etüt dışında %25', 'duy', 'ETKB duyurusu · Oluru 12.03.2026'],
+        ['Destek kararından sonra 3 ay içinde, desteğin %50’sine kadar erken ödeme; teminat erken ödemenin %25 fazlası', 'mev', 'VAP UE m.13, m.15/1'],
+        ['Uygulama süresi proje başlangıcından itibaren 2 yıl', 'mev', 'VAP UE m.4/1-l, m.9/1'],
+        ['Ödeme için gerçekleşen tasarruf oranı %90’ın üzerinde olmalı', 'mev', 'VAP UE m.9/5'],
+        ['Devam edenler dahil en fazla 5 proje', 'mev', 'VAP UE m.6/6'],
+        ['Enerji izleme sistemi maliyeti proje bedeline dahil edilebilir', 'duy', 'ETKB duyurusu · Oluru 12.03.2026'],
+        ['Etüt-proje sertifikalı mühendisin hazırladığı projede yatırım bedeli en fazla 15 mn TL', 'duy', 'ETKB duyurusu · Oluru 12.03.2026'],
+        ['2026 denetim bedeli: uygulama öncesi 60.000 TL, sonrası 95.000 TL (+KDV)', 'duy', 'ETKB 2026 VAP denetim bedelleri'],
+        ['Asgari anlık tasarruf: sanayi ve enerji 150 kW, diğer 50 kW', 'tey', '2022 VAP ilanı (yatirimadestek.gov.tr)']
+      ],
+      cash:'Uygulama ve son denetimden sonra; %50’si teminatla erken alınabilir', key:'ISO 50001 · 5 mn TL üzeri · geri ödeme ≤ 7/10 yıl'});
+  })();
+
+  /* EPS */
+  (function(){
+    const rs = [];
+    if (S.model !== 'eps') rs.push(R('warn', 'Başvuruyu işletmeyle EPS imzalayan enerji hizmet şirketi (ESCO) yapar. Uygulama modelini EPS seçerseniz bu yol açılır.', 'mev', 'EPS UE m.4, m.5/1'));
+    if (!ob) rs.push(R('no', 'Sözleşme makamı enerji yöneticisi görevlendirmekle yükümlü olmalı: sanayide ≥ 1.000 TEP; ticari ve hizmet binasında ≥ 500 TEP veya ≥ 20.000 m².', 'mev', 'EPS UE m.2 · EVY m.9/1-2'));
+    const ex = {ges:['Elektrik üretimine yönelik yenilenebilir enerji projeleri kapsam dışı.','m.6/3-g'],
+      yakit:['Yakıt dönüşümü projeleri kapsam dışı.','m.6/3-c'],
+      satis:['Isı/elektrik satışı amaçlı projeler kapsam dışı.','m.6/3-e,f,g']};
+    if (ex[S.tur]) rs.push(R('no', ex[S.tur][0], 'mev', 'EPS UE ' + ex[S.tur][1]));
+    if (S.tur === 'operasyon') rs.push(R('no', 'Program ekipman yatırımını destekler.', 'duy', 'ETKB EPS duyurusu'));
+    if (S.yeni) rs.push(R('no', 'Yeni tesis kurulumu kapsam dışı.', 'mev', 'EPS UE m.6/3-ç'));
+    if (S.basladi) rs.push(R('no', 'Uygulanmış veya başlanmış projeler kapsam dışı.', 'mev', 'EPS UE m.6/3-a'));
+    if (S.tur !== 'operasyon'){
+      if (S.syt < K.epsMin) rs.push(R('no', `Özel sektörde yatırım bedeli 5 mn TL’nin altında olmamalı (girilen: ${mn(S.syt)}).`, 'duy', 'ETKB EPS duyurusu'));
+      if (isFinite(pb) && pb < 1) rs.push(R('no', `Basit geri ödeme ${nf1.format(pb)} yıl; 1 yılın altında olmamalı.`, ['duy','hes'], 'ETKB EPS duyurusu'));
+      else if (isFinite(pb)) rs.push(R('ok', `Basit geri ödeme ${nf1.format(pb)} yıl; 1 yıl alt sınırını sağlıyor.`, ['duy','hes'], 'ETKB EPS duyurusu'));
+    }
+    const st = statusOf(rs);
+    const amt = Math.min(S.syt * .30, K.vapCap);
+    P.push({id:'eps', short:'EPS (ESCO)', name:'Enerji Performans Sözleşmesi (EPS) desteği', own:'Enerji ve Tabii Kaynaklar Bakanlığı · ESCO başvurur', kind:'Hibe', st, rs,
+      amount: st==='no' ? null : amt, amountL:'Tahmini hibe', amountTag:'hes',
+      brk: st==='no' ? null : [['Yatırım bedeli × %30', S.syt*.30, 'hes'], ['Azami tutar (VAP limiti varsayıldı)', K.vapCap, 'yor'], ['Tahmini hibe', amt, 'hes']],
+      sup:[
+        ['KDV hariç yatırım bedelinin %30’una kadar hibe (5627 m.8/1-a)', 'mev', 'EPS UE m.7/5, m.8/1'],
+        ['Azami tutar başvuru yılı için ilan edilir; araç 2026 VAP üst limitini kullanır', 'yor', 'EPS UE m.7/5'],
+        ['Desteğin %50’si erken ödenir; teminat erken ödemenin %25 fazlası', 'mev', 'EPS UE m.8/3, m.9/1'],
+        ['Nihai ödeme, garanti edilen tasarrufun en az %70’i ölçme-doğrulama uzmanınca doğrulanınca', 'mev', 'EPS UE m.8/4'],
+        ['Yalnız ekipman desteklenir; enerji izleme sistemi maliyeti dahil', 'duy', 'ETKB EPS duyurusu'],
+        ['Başvuru dosyasında sözleşme, etüt raporu, ölçme-doğrulama planı ve proforma faturalar yer alır', 'mev', 'EPS UE m.6/2'],
+        ['Başvuru sahibi ve sözleşme makamı bu proje için başka kamu desteği almamış olmalı', 'mev', 'EPS UE m.5/4']
+      ],
+      cash:'%50 erken ödeme; kalanı tasarruf doğrulanınca', key:'ESCO + EPS · yükümlü işletme · ≥ 5 mn TL'});
+  })();
+
+  /* EKA */
+  (function(){
+    const rs = [];
+    if (S.sektor === 'diger') rs.push(R('no', '2026 çağrısı imalat sanayi ile otel, AVM, hastane ve ofis binalarına açık.', 'duy', 'ETKB EKA duyurusu (id 30623)'));
+    common(rs, 'EKA UE');
+    if (S.gider <= 0) rs.push(R('warn', 'Destek 2026 enerji gideri üzerinden hesaplanır; tutarı girin.', 'hes', ''));
+    const d = ekaDaysLeft();
+    if (d < 0) rs.push(R('warn', '2026 başvuru dönemi 30.09.2026’da kapandı; sonraki ilanı bekleyin.', 'duy', 'ETKB EKA duyurusu (id 30623)'));
+    else rs.push(R('info', `Başvuru 1 Temmuz – 30 Eylül 2026; son gün için ${d} gün kaldı.`, 'duy', 'ETKB EKA duyurusu (id 30623)'));
+    rs.push(R('info', 'Yatırım şartı yok: 2023–2025 referans dönemine göre 2026’daki enerji yoğunluğu, karbon yoğunluğu veya spesifik tüketim azalması ödüllendirilir.', ['mev','duy'], 'EKA UE m.1, m.4 · duyuru'));
+    const st = statusOf(rs);
+    const amt = Math.min(S.gider * .30, K.ekaCap);
+    P.push({id:'eka', short:'EKA', name:'Enerji ve Karbon Azaltım (EKA) desteği', own:'Enerji ve Tabii Kaynaklar Bakanlığı · EVDES', kind:'Hibe · performans', st, rs,
+      amount: st==='no' ? null : amt, amountL:'Azami hibe (üst sınır)', amountTag:'hes',
+      brk: st==='no' ? null : [['2026 enerji gideri × %30', S.gider*.30, 'hes'], ['2026 üst limiti', K.ekaCap, 'duy'], ['Azami hibe', amt, 'hes']],
+      sup:[
+        ['2026 enerji giderinin %30’una kadar, 18.061.775 TL’yi aşmamak üzere hibe', 'duy', 'ETKB EKA duyurusu · EVY m.16/3'],
+        ['Her sektörde puanlamada ilk 10 başvuru izlemeye alınır; toplam 20 işletme', 'duy', 'ETKB EKA duyurusu · AA 27.06.2026'],
+        ['2027’deki nihai değerlendirmede azaltım puanı %70’in üzerinde olmalı; oran buna göre belirlenir', 'duy', 'ETKB EKA duyurusu'],
+        ['2026’ya özel olarak karbon emisyon yoğunluğu kriteri önceliklendirildi (COP31)', 'duy', 'ETKB açıklaması (AA, 27.06.2026)'],
+        ['Anlamlı bir referans denklem kurulamazsa başvuru değerlendirilmez', 'mev', 'EKA UE m.7/1-ç'],
+        ['İzleme dosyası izleyen yılın Temmuz sonuna kadar verilir; ödeme Temmuz 2027 ve sonrası', 'mev', 'EKA UE m.10/1 · duyuru']
+      ],
+      cash:'Temmuz 2027 ve sonrası', key:'Sektörde ilk 10 · azaltım puanı > %70'});
+  })();
+
+  /* 9903 Yeşil Dönüşüm */
+  const yesilUygun = ['verim','kojen','yesil','yakit'].includes(S.tur);
+  (function(){
+    const rs = [];
+    if (S.tur === 'ges') rs.push(R('no', 'Yenilenebilir enerji üretim tesisi yeşil dönüşüm projesine girmez; ayrı teşvik belgesiyle desteklenir (aşağıdaki öz tüketim kartı).', 'mev', 'YDDP Tebliği (RG 26.07.2024/32613)'));
+    if (S.tur === 'satis') rs.push(R('no', 'Satış amaçlı üretim ve depolama yeşil dönüşüm projesi değildir.', 'yor', '9903 m.12'));
+    if (S.tur === 'operasyon') rs.push(R('no', 'Teşvik belgesi bir sabit yatırım gerektirir.', 'mev', '9903 m.5/2'));
+    if (S.sektor !== 'imalat') rs.push(R('no', 'Programa yalnız imalat sanayinde faaliyet gösteren sermaye şirketleri başvurabilir.', 'mev', 'YDDP Tebliği'));
+    if (S.yeni) rs.push(R('no', 'Mevcut tesise ilave dışındaki komple yeni yatırımlar desteklenmez.', 'mev', 'YDDP Tebliği'));
+    if (yesilUygun){
+      if (S.syt < asg) rs.push(R('no', `Asgari sabit yatırım ${b}. bölgede ${TL(asg)}; girilen ${mn(S.syt)}.`, ['mev','tey'], '9903 m.5/2 · 2026 güncellemesi'));
+      else rs.push(R('ok', `Asgari sabit yatırım (${b}. bölge ${mn(asg)}) sağlanıyor.`, ['mev','tey'], '9903 m.5/2 · 2026 güncellemesi'));
+    }
+    if (S.basladi) rs.push(R('warn', 'Teşvik belgesi müracaatından önce yapılan harcamalar kapsama alınmaz.', 'mev', '9903 m.5/6'));
+    if (S.tur === 'yakit') rs.push(R('info', 'Yakıt dönüşümü, birim üretim başına enerji veya emisyon hedefi ölçülebildiği ölçüde yol haritasına girebilir.', 'yor', 'YDDP Tebliği · proje hedefi'));
+    rs.push(R('info', 'Şablona uygun yol haritası raporu ve birim üretim başına ölçülebilir hedef (enerji, sera gazı, su, atık vb.) zorunlu; rapor başvurudan sonra en geç 40 iş günü içinde yüklenir.', 'mev', 'YDDP Tebliği'));
+    const str = yesilUygun && S.syt >= K.strYesil;
+    if (str) rs.push(R('ok', `${mn(K.strYesil)} ve üzeri yeşil dönüşüm yatırımı, değerlendirme süreci olmadan Stratejik Hamle kapsamında desteklenebilir.`, ['mev','tey'], '9903 m.8/8'));
+    const st = statusOf(rs);
+    const o = tesvik('onc', S.syt), s2 = tesvik('str', S.syt);
+    const makD = Math.min(S.bigMak * .25, Math.min(S.syt*.15, K.makStr));
+    const brk = st==='no' ? null : [
+      ['h','Öncelikli yatırım'],
+      ['Vergi indirimi · yatırıma katkı tutarı (%30)', o.vergi, 'hes'],
+      [`Faiz desteği · ${nf1.format(o.puan)} puan × 5 yıl, üst sınır ${mn(o.lim)}`, o.faiz, 'hes'],
+      ['KDV istisnası · nakit akışı etkisi', kdvNakit(S.syt), 'hes']
+    ];
+    if (brk && str){
+      brk.push(['h','Stratejik Hamle (alternatif)'],
+        ['Vergi indirimi · yatırıma katkı tutarı (%40)', s2.vergi, 'hes'],
+        [`Faiz desteği · ${nf1.format(s2.puan)} puan × 5 yıl, üst sınır ${mn(s2.lim)}`, s2.faiz, 'hes'],
+        ['ya da makine desteği · %25, üst sınır SYT %15', makD, 'hes']);
+    }
+    const bestStr = str ? s2.vergi + Math.max(s2.faiz, makD) : 0;
+    const amt = str ? Math.max(o.vergi + o.faiz, bestStr) : o.vergi + o.faiz;
+    const sup = [
+      ['Gümrük vergisi muafiyeti ve KDV istisnası (makine-teçhizat)', 'mev', '9903 m.4/3, m.13, m.14'],
+      [`Vergi indirimi: yatırıma katkı oranı %30; kurumlar vergisi %60 indirimli (%${S.kv} → %${nf1.format(kvIndirimli()).replace(/,0$/,'')})`, 'mev', '9903 m.20/1-c'],
+      ['Faiz/kâr payı desteği: repo oranının %25’i, en fazla 12,5 puan; kredinin sabit yatırımın %70’ine kadar kısmı; en çok 5 yıl', 'mev', '9903 m.15/1-c'],
+      ['Faiz desteği üst sınırı: sabit yatırımın %10’u ve 30,1 mn TL (2026)', ['mev','tey'], '9903 m.15/3-c'],
+      [`Sigorta primi işveren hissesi (ilave istihdam için): ${sgkText()}`, 'mev', '9903 m.18/1-2']
+    ];
+    if (str) sup.push(['Stratejik Hamle: katkı oranı %40; faiz repo × %30 (≤ 15 puan, üst sınır %15 ve 226 mn TL) ya da makine desteği %25 (birim ≥ 2,5 mn TL; faizle birlikte olmaz); SGK desteği 8 yıl (6. bölgede 12)', ['mev','tey'], '9903 m.15/1-b, m.16, m.18/3, m.20/1-b']);
+    P.push({id:'yesil', short:'Yeşil dönüşüm · 9903', name:'Yeşil Dönüşüm Programı → 9903 teşviki', own:'Sanayi ve Teknoloji Bakanlığı · program portalı + E-TUYS', kind:'Vergi · faiz · KDV · gümrük', st, rs,
+      amount: st==='no' ? null : amt, amountL: str ? 'Vergi katkısı + faiz/makine (en iyi seçenek)' : 'Vergi katkısı + faiz desteği', amountTag:'hes',
+      chips: str ? [['ok','Stratejik yol açık']] : [], brk, sup,
+      cash:'Vergi: kâr oluştukça yıllara yayılır; faiz: yatırım ilerleme raporuyla izleyen yıl', key:'İmalat · yol haritası raporu · asgari yatırım'});
+  })();
+
+  /* 9903 Öncelikli (e) öz tüketim GES/RES */
+  if (S.tur === 'ges'){
+    const rs = [];
+    if (S.sektor !== 'imalat') rs.push(R('no', 'Bu bent yalnız imalat sanayii işletmelerinin öz tüketimi içindir; diğer sektörler için Hedef Yatırım kartına bakın.', 'mev', '9903 m.9/1-e'));
+    if (S.syt < asg) rs.push(R('no', `Asgari sabit yatırım ${b}. bölgede ${TL(asg)}; girilen ${mn(S.syt)}.`, ['mev','tey'], '9903 m.5/2 · 2026 güncellemesi'));
+    let share = 1;
+    if (S.gesKw > 0 && S.sozKw > 0 && S.gesKw > S.sozKw){
+      share = S.sozKw / S.gesKw;
+      rs.push(R('warn', `Teşvik, bağlantı anlaşmasındaki sözleşme gücüyle sınırlı: ${fmt(S.sozKw)} kW / ${fmt(S.gesKw)} kWe → yatırımın yaklaşık %${Math.round(share*100)}’i kapsamda.`, ['mev','hes'], '9903 m.9/1-e'));
+    } else if (S.gesKw > 0 && S.sozKw > 0) rs.push(R('ok', 'Kurulu güç sözleşme gücünü aşmıyor.', 'mev', '9903 m.9/1-e'));
+    else rs.push(R('warn', 'Kurulu güç ve sözleşme gücünü girin.', 'hes', ''));
+    if (S.basladi) rs.push(R('warn', 'Teşvik belgesi müracaatından önce yapılan harcamalar kapsama alınmaz.', 'mev', '9903 m.5/6'));
+    const st = statusOf(rs);
+    const base = S.syt * share;
+    const o = tesvik('onc', base);
+    P.push({id:'ges9903', short:'Öz tüketim GES · 9903', name:'Öz tüketim GES/RES → 9903 Öncelikli', own:'Sanayi ve Teknoloji Bakanlığı · E-TUYS', kind:'Vergi · KDV · gümrük', st, rs,
+      amount: st==='no' ? null : o.vergi, amountL:'Vergi indirimi · yatırıma katkı tutarı', amountTag:'hes',
+      brk: st==='no' ? null : [['Kapsamdaki yatırım', base, 'hes'], ['Yatırıma katkı tutarı (%30)', o.vergi, 'hes'], ['KDV istisnası · nakit akışı etkisi', kdvNakit(base), 'hes']],
+      sup:[
+        ['Gümrük vergisi muafiyeti ve KDV istisnası', 'mev', '9903 m.4/3, m.13, m.14'],
+        [`Vergi indirimi: katkı oranı %30, kurumlar vergisi %60 indirimli`, 'mev', '9903 m.20/1-c'],
+        ['Faiz/kâr payı desteği sağlanmaz', 'mev', '9903 m.9/2'],
+        ['Elektrik üretimine yatırım yeri tahsis edilmez', 'mev', '9903 m.21/3'],
+        [`Sigorta primi işveren hissesi (ilave istihdam için): ${sgkText()}`, 'mev', '9903 m.18']
+      ],
+      cash:'Vergi: kâr oluştukça yıllara yayılır', key:'İmalat · sözleşme gücüne kadar · asgari yatırım'});
+  }
+
+  /* 9903 Hedef (EK-3) */
+  const enerjiUretim = S.tur === 'satis' || (S.tur === 'ges' && S.sektor !== 'imalat');
+  if (enerjiUretim || (S.sektor === 'imalat' && ['verim','kojen','yakit'].includes(S.tur))){
+    const rs = [];
+    rs.push(R('warn', 'Yatırım konusu EK-3 listesinde, oradaki şartlarla yer almalı; listeyi konu bazında kontrol edin.', 'mev', '9903 m.5/1, m.10/1'));
+    if (S.syt < asg) rs.push(R('no', `Asgari sabit yatırım ${b}. bölgede ${TL(asg)}; girilen ${mn(S.syt)}.`, ['mev','tey'], '9903 m.5/2'));
+    if (S.basladi) rs.push(R('warn', 'Müracaattan önceki harcamalar kapsama alınmaz.', 'mev', '9903 m.5/6'));
+    if (enerjiUretim) rs.push(R('info', 'Elektrik üretimi, dağıtımı, depolama ve gaz dağıtımı yatırımlarında vergi indirimi ve faiz desteği yok.', 'mev', '9903 m.10/2-3'));
+    if (enerjiUretim && b === 6) rs.push(R('info', '6. bölgede Öncelikli sayılır; ancak (e), (f), (g) dışı elektrik üretimi, dağıtım ve depolamada vergi indirimi ve faiz yine yok.', 'mev', '9903 m.9/1-ç, m.9/3'));
+    if (!enerjiUretim) rs.push(R('info', 'Yeşil Dönüşüm Programına alınmayan bir modernizasyon yatırımı için alternatif yol.', 'yor', '9903 m.10'));
+    const st = statusOf(rs);
+    const h = tesvik('hedef', S.syt);
+    const faiz = (!enerjiUretim && b >= 4) ? h.faiz : 0;
+    const vergi = enerjiUretim ? 0 : h.vergi;
+    const amt = vergi + faiz;
+    const brk = st==='no' ? null : (enerjiUretim
+      ? [['KDV istisnası · nakit akışı etkisi', kdvNakit(S.syt), 'hes']]
+      : [['Vergi indirimi · yatırıma katkı tutarı (%20, İstanbul hariç)', h.vergi, 'hes'], [b>=4 ? `Faiz desteği · ${nf1.format(h.puan)} puan × 5 yıl, üst sınır ${mn(h.lim)}` : 'Faiz desteği (yalnız 4–6. bölge)', faiz, 'hes'], ['KDV istisnası · nakit akışı etkisi', kdvNakit(S.syt), 'hes']]);
+    P.push({id:'hedef', short:'Hedef yatırım · 9903', name:'9903 Hedef Yatırım (EK-3)', own:'Sanayi ve Teknoloji Bakanlığı · E-TUYS', kind: enerjiUretim ? 'KDV · gümrük' : 'Vergi · KDV · gümrük', st, rs,
+      amount: st==='no' ? null : (amt > 0 ? amt : null), amountL: enerjiUretim ? 'KDV istisnası ve gümrük muafiyeti' : 'Vergi katkısı + faiz desteği', amountTag:'hes', brk,
+      sup:[
+        ['Gümrük vergisi muafiyeti ve KDV istisnası', 'mev', '9903 m.4/3'],
+        ['Vergi indirimi: katkı oranı %20; İstanbul ve enerji üretim/dağıtım/depolama yatırımlarında yok', 'mev', '9903 m.20/1-ç, m.10/2'],
+        ['Faiz desteği yalnız 4., 5. ve 6. bölgede: repo × %25, ≤ 12,5 puan; üst sınır %10 ve 15,1 mn TL', ['mev','hes'], '9903 m.10/3, m.15/1-ç, m.15/3-ç'],
+        [`Sigorta primi işveren hissesi: ${sgkText()}`, 'mev', '9903 m.18']
+      ],
+      cash:'Vergi: kâr oluştukça; KDV/gümrük: alım anında', key:'EK-3 konu şartı · asgari yatırım'});
+  }
+
+  /* KOSGEB */
+  (function(){
+    const rs = [];
+    if (S.olcek !== 'kobi') rs.push(R('no', 'Program yalnız KOBİ’lere açık.', 'duy', 'KOSGEB program sayfası'));
+    if (S.sektor !== 'imalat') rs.push(R('no', 'Sanayi (imalat) KOBİ’lerine yöneliktir.', 'duy', 'KOSGEB program sayfası'));
+    if (S.tur === 'satis' || S.tur === 'operasyon') rs.push(R('no', 'Bileşenler öz tüketim GES ile temiz ve döngüsel üretim yatırımlarını kapsar.', 'yor', 'KOSGEB program sayfası'));
+    rs.push(R('warn', 'Sayfada 2023-01 ve 2023-02 çağrıları “yürürlükte” görünüyor; 2026’da başvuruya açık olup olmadığını KOSGEB e-Hizmetler’den teyit edin.', 'tey', 'KOSGEB program sayfası'));
+    const st = statusOf(rs);
+    const gesMi = S.tur === 'ges';
+    const rate = gesMi ? .60 : .70, cap = gesMi ? K.kosGes : K.kosTemiz;
+    const amt = Math.min(S.syt * rate, cap);
+    P.push({id:'kosgeb', short:'KOSGEB YSDP', name:'KOSGEB Yeşil Sanayi Destek Programı', own:'KOSGEB · Türkiye Yeşil Sanayi Projesi (Dünya Bankası finansmanlı)', kind:'Geri ödemeli', st, rs,
+      amount: st==='no' ? null : amt, amountL: (gesMi ? 'GES bileşeni' : 'Temiz ve döngüsel ekonomi bileşeni') + ' · azami', amountTag:'hes',
+      brk: st==='no' ? null : [[`Uygun gider × %${rate*100}`, S.syt*rate, 'hes'], ['Üst limit', cap, 'duy'], ['Azami geri ödemeli destek', amt, 'hes']],
+      sup:[
+        ['GES bileşeni: üst limit 14 mn TL, destek oranı %60; çatı üstü veya tesis içi (on-site) GES', 'duy', 'KOSGEB program sayfası'],
+        ['Temiz ve döngüsel ekonomi: üst limit 4 mn TL, %70; enerji, su, hammadde verimliliği, simbiyoz', 'duy', 'KOSGEB program sayfası'],
+        ['Destek geri ödemelidir; hibe değildir', 'duy', 'KOSGEB program sayfası'],
+        ['Proje süresi en az 8, en fazla 12 ay', 'duy', 'KOSGEB program sayfası'],
+        ['Deprem bölgesinde hasar gören işletmelerde oran %80 veya %90', 'duy', 'KOSGEB program sayfası']
+      ],
+      cash:'Proje süresince; sonra geri ödenir', key:'KOBİ · imalat · açık çağrı'});
+  })();
+
+  /* Lisanssız üretim */
+  if (S.tur === 'ges'){
+    const rs = [];
+    const kat = S.sektor === 'imalat' ? 2 : 1;
+    const lim = S.sozKw * kat;
+    if (S.sozKw > 0 && S.gesKw > lim) rs.push(R('no', `Kurulu güç ${fmt(S.gesKw)} kWe; sınır sözleşme gücünün ${kat===2?'2 katı':'kendisi'}: ${fmt(lim)} kW.`, ['mev','hes'], 'LÜY m.5/1-h'));
+    else if (S.sozKw > 0) rs.push(R('ok', `Kurulu güç ${fmt(S.gesKw)} kWe; sınır ${fmt(lim)} kW (${kat===2?'sanayide sözleşme gücünün 2 katı':'sözleşme gücü'}).`, ['mev','hes'], 'LÜY m.5/1-h'));
+    if (S.tuketim > 0 && S.gesKw > 0) rs.push(R('info', `Yıllık üretim ilişkili tüketimin 2 katını (${fmt(S.tuketim*2)} MWh) geçemez; sınır üstü ihtiyaç fazlası YEKDEM’e bedelsiz katkı sayılır.`, ['mev','hes'], 'LÜY m.26/17'));
+    else rs.push(R('info', 'Yıllık üretim ilişkili tüketimin 2 katını geçemez; sınır üstü ihtiyaç fazlası YEKDEM’e bedelsiz katkı sayılır.', 'mev', 'LÜY m.26/17'));
+    if (S.sektor === 'imalat' && S.gesKw > S.sozKw && S.sozKw > 0 && S.gesKw <= lim) rs.push(R('info', 'Lisanssız kurallar sanayide 2 kata izin verir, 9903 teşviki ise sözleşme gücüyle sınırlıdır; aradaki kısım teşvik dışında kalır.', 'yor', 'LÜY m.5/1-h · 9903 m.9/1-e'));
+    P.push({id:'lisanssiz', short:'Lisanssız üretim', name:'Lisanssız üretim kuralları', own:'EPDK · Elektrik Piyasasında Lisanssız Elektrik Üretim Yönetmeliği', kind:'Düzenleme', st: statusOf(rs), rs,
+      amount:null, custom: S.sozKw > 0 ? {v: fmt(lim) + ' kW', l:'İzin verilen azami kurulu güç', tg:'hes'} : null,
+      sup:[
+        ['Mahsuplaşma saatlik yapılır; 01.05.2026’dan itibaren piyasa işletmecisi yürütür', 'mev', 'LÜY m.26/1 (RG 02.04.2026/33212)'],
+        ['Saatlik ihtiyaç fazlası görevli tedarik şirketince 10 yıl satın alınır', 'mev', 'LÜY m.26/4'],
+        ['Üretimin tamamını şebekeye vermeden kullanan tesiste şebekeye verilen enerji bedelsiz sayılır', 'mev', 'LÜY m.5/1-ç, m.26/5'],
+        ['Farklı ölçüm noktasındaki tesis, aynı dağıtım bölgesi şartı olmadan aynı kişinin tüketim tesisleriyle ilişkilendirilebilir', 'mev', 'LÜY m.5/1-h, m.28/1'],
+        ['Üretim tesisinin elektriksel gücüne kadar bütünleşik depolama kurulabilir', 'mev', 'LÜY Ek m.3'],
+        ['Fiyat ve yerli katkı YEK Kanunu ile Cumhurbaşkanı Kararına göre belirlenir', 'mev', 'LÜY m.26/11']
+      ],
+      cash:'Ekonomik etki mahsuplaşma ve satış üzerinden', key:'Sözleşme gücü · 2× tüketim'});
+  }
+  return P;
+}
+
+/* ---------- çizim ---------- */
+const chipFor = st => st==='ok' ? '<span class="chip ok dot">Uygun</span>' : st==='warn' ? '<span class="chip warn dot">Koşullu</span>' : '<span class="chip no dot">Uygun değil</span>';
+function clist(rs){
+  return `<ul class="clist">${rs.map(r => `<li><span class="ci ${r.t}">${ICON[r.t]}</span><div>${esc(r.text)}${(r.tg&&[].concat(r.tg).length)||r.rf ? `<div class="meta">${[].concat(r.tg).filter(Boolean).map(tag).join('')}${ref(r.rf)}</div>`:''}</div></li>`).join('')}</ul>`;
+}
+function slist(sup){
+  const item = s => `<li><span class="ci dot">${ICON.dot}</span><div>${esc(s[0])}<div class="meta">${[].concat(s[1]).map(tag).join('')}${ref(s[2])}</div></div></li>`;
+  const head = sup.slice(0, 5), rest = sup.slice(5);
+  return `<ul class="clist">${head.map(item).join('')}</ul>` + (rest.length ? `<details class="more"><summary>${ICON.chev}${rest.length} kural daha</summary><ul class="clist">${rest.map(item).join('')}</ul></details>` : '');
+}
+function brkHtml(brk){
+  if (!brk) return '';
+  return `<dl class="brk">${brk.map(r => r[0]==='h' ? `<div class="h">${esc(r[1])}</div>` : `<div><dt>${esc(r[0])} ${tag(r[2])}</dt><dd>${TL(r[1])}</dd></div>`).join('')}</dl>`;
+}
+function card(p){
+  const amt = p.custom ? `<div class="amt"><div class="v">${p.custom.v}</div><div class="l">${esc(p.custom.l)} ${tag(p.custom.tg)}</div></div>`
+    : p.amount != null ? `<div class="amt"><div class="v">${mn(p.amount)}</div><div class="l">${esc(p.amountL)} ${tag(p.amountTag)}</div></div>`
+    : (p.st !== 'no' && p.amountL) ? `<div class="amt"><div class="l">${esc(p.amountL)}</div></div>` : '';
+  const chips = [chipFor(p.st), `<span class="chip">${esc(p.kind)}</span>`].concat((p.chips||[]).map(c => `<span class="chip ${c[0]}">${esc(c[1])}</span>`)).join('');
+  return `<article class="pcard st-${p.st}">
+    <div class="ph"><div><h3>${esc(p.name)}</h3><div class="own">${esc(p.own)}</div><div class="chips">${chips}</div></div>${amt}</div>
+    <div class="pb">
+      <div><h4>Şart kontrolü</h4>${clist(p.rs)}${brkHtml(p.brk)}</div>
+      <div><h4>Destek unsurları ve kurallar</h4>${slist(p.sup)}</div>
+    </div>
+  </article>`;
+}
+
+function renderStatic(){
+  $('#legend').innerHTML = Object.keys(TAGS).map(k => `<div class="it">${tag(k)}<span>${TAGS[k][1]}</span></div>`).join('');
+  $$('[data-tag]').forEach(el => el.outerHTML = tag(el.dataset.tag));
+  $('#strip').innerHTML = [
+    ['VAP hibe üst limiti', '27.092.663', 'TL', 'duy', 'EVY m.16/2 · 2026'],
+    ['EKA hibe üst limiti', '18.061.775', 'TL', 'duy', 'EVY m.16/3 · 2026'],
+    ['9903 asgari yatırım (1–2 / 3–6. bölge)', '15,1 / 7,5', 'mn TL', 'tey', '9903 m.5/2 · 2026'],
+    ['Stratejik Hamle eşiği (yeşil dönüşüm)', '62,7', 'mn TL', 'tey', '9903 m.8/8 · 2026']
+  ].map(r => `<div><span class="k">${r[0]}</span><span class="v">${r[1]}<small>${r[2]}</small></span><span class="s">${tag(r[3])}${r[4]}</span></div>`).join('');
+  const T = [['prog','Programlar'],['kars','Karşılaştırma'],['yol','Yol haritası'],['kay','Kaynaklar']];
+  $('#tabs').innerHTML = T.map(([k,l]) => `<button type="button" role="tab" id="tab-${k}" aria-controls="tp-${k}" aria-selected="${k===tab}" data-tab="${k}">${l}</button>`).join('');
+  $('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; setTab(b.dataset.tab); });
+  $('#tabs').addEventListener('keydown', e => {
+    if (!['ArrowRight','ArrowLeft'].includes(e.key)) return;
+    const ks = T.map(t => t[0]); let i = ks.indexOf(tab) + (e.key==='ArrowRight'?1:-1); i = (i+ks.length)%ks.length;
+    setTab(ks[i]); $('#tab-'+ks[i]).focus();
+  });
+  renderSources();
+}
+function setTab(k){
+  tab = k;
+  $$('#tabs [data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab===k));
+  ['prog','kars','yol','kay'].forEach(x => $('#tp-'+x).hidden = x!==k);
+}
+
+function update(){
+  // görünürlük
+  $('#gesBox').hidden = S.tur !== 'ges';
+  $('#kojenBox').hidden = S.tur !== 'kojen';
+  $('#alanWrap').hidden = S.sektor !== 'bina';
+  const ob = obliged();
+  $('#eyWrap').style.opacity = ob ? '' : '.55';
+  $('#tepNote').innerHTML = ob ? `<span class="chip warn">Enerji yöneticisi yükümlüsü</span>${ref('EVY m.9/1-2')}` : `<span class="chip">Yöneticilik yükümlülüğü yok</span>${ref('EVY m.9')}`;
+  $('#sytNote').innerHTML = S.syt ? `${mn(S.syt)} · asgari ${mn(asgari())} ${tag('tey')}` : '';
+  const pb = payback();
+  $('#pbNote').innerHTML = isFinite(pb) && S.syt ? `Basit geri ödeme ${nf1.format(pb)} yıl ${tag('hes')}` : '';
+  $('#gesNote').innerHTML = S.tuketim ? `2× sınır: ${fmt(S.tuketim*2)} MWh/yıl ${tag('hes')}` : '';
+
+  const P = evaluate();
+  const act = P.filter(p => p.st !== 'no');
+  const ok = P.filter(p => p.st === 'ok'), wa = P.filter(p => p.st === 'warn'), no = P.filter(p => p.st === 'no');
+  const money = act.filter(p => p.amount != null && p.id !== 'lisanssiz');
+  const hibe = money.filter(p => ['vap','eps'].includes(p.id)).sort((a,b)=>b.amount-a.amount)[0];
+
+  // stepper
+  const SEK = {imalat:'İmalat', bina:'Ticari/hizmet binası', diger:'Diğer'};
+  const TUR = {verim:'Verimlilik projesi', kojen:'Kojenerasyon', ges:'Öz tüketim GES/RES', yesil:'Yeşil dönüşüm', yakit:'Yakıt dönüşümü', satis:'Satış amaçlı üretim', operasyon:'Yatırımsız iyileştirme'};
+  $('#stepper').innerHTML = [
+    ['#s1','İşletme', `${SEK[S.sektor]} · ${S.olcek==='kobi'?'KOBİ':'Büyük'} · ${S.bolge}. bölge`],
+    ['#s2','Yatırım', `${TUR[S.tur]}${S.model==='eps'?' · EPS':''}`],
+    ['#s3','Tutarlar', S.syt ? mn(S.syt) : 'Yatırım tutarı yok'],
+    ['#sonuc','Sonuç', `${ok.length} uygun · ${wa.length} koşullu`]
+  ].map((r,i) => `<li><a href="${r[0]}"><span class="n">${i+1}</span><span><span class="l">${r[1]}</span><span class="v">${esc(r[2])}</span></span></a></li>`).join('');
+
+  // üst sonuç
+  $('#resTop').innerHTML = `<div><div class="k">Ön değerlendirme sonucu</div><h2>${act.length ? `${act.length} destek yolu açık` : 'Açık destek yolu bulunamadı'}</h2>
+    <p>${hibe ? `En yüksek nakit hibe: ${esc(hibe.short)}, ${mn(hibe.amount)}. ` : ''}Aynı ekipman için VAP, EPS, 9903 ve KOSGEB desteklerinden yalnız biri kullanılabilir; karşılaştırma sekmesine bakın.</p></div>
+    <div class="counts"><span class="chip ok dot">${ok.length} uygun</span><span class="chip warn dot">${wa.length} koşullu</span><span class="chip no dot">${no.length} uygun değil</span></div>`;
+
+  // programlar
+  const order = p => p.st==='ok'?0:1;
+  const shown = act.slice().sort((a,b) => order(a)-order(b));
+  $('#tp-prog').innerHTML = (shown.length ? `<div class="plist">${shown.map(card).join('')}</div>` : `<p class="muted">Girilen bilgilerle açık bir destek yolu yok. Kapsam dışı nedenlerine aşağıdan bakın.</p>`)
+    + (no.length ? `<details class="nope"><summary>${ICON.chev}Uygun olmayan programlar ve nedeni (${no.length})</summary><div class="nope-list">${no.map(p => `<div class="row"><b>${esc(p.name)}</b><ul>${p.rs.filter(r=>r.t==='no').map(r => `<li>${esc(r.text)} ${ref(r.rf)}</li>`).join('')}</ul></div>`).join('')}</div></details>` : '');
+
+  renderCompare(money);
+  renderRoad(P);
+  renderSummary(P, ok, wa, no, money);
+  renderCum();
+}
+
+function renderCompare(money){
+  const rows = money.filter(p => p.amount > 0);
+  const max = Math.max(1, ...rows.map(p => p.amount));
+  const cls = p => ['vap','eps','eka'].includes(p.id) ? '' : p.id === 'kosgeb' ? 'soft' : 'alt';
+  const bars = rows.length ? `<div class="bars">${rows.sort((a,b)=>b.amount-a.amount).map(p => `<div class="brow"><div class="n">${esc(p.name)}<small>${esc(p.kind)}${p.id==='eka'?' · tamamlayıcı':''}</small></div><div class="track"><i class="${cls(p)}" style="width:${(p.amount/max*100).toFixed(1)}%"></i></div><div class="v">${mn(p.amount)}</div></div>`).join('')}</div>
+    <div class="key"><span><i></i>Nakit hibe</span><span><i class="alt"></i>Vergi ve finansman avantajı</span><span><i class="soft"></i>Geri ödemeli destek</span></div>` : '<p class="muted">Karşılaştırılacak tutarlı bir destek yok.</p>';
+  const table = rows.length ? `<div class="tbl-wrap"><table class="t"><thead><tr><th>Program</th><th>Tahmini tutar</th><th>Niteliği</th><th>Nakde dönüşü</th><th>Kritik şart</th></tr></thead><tbody>${rows.map(p => `<tr><td>${esc(p.name)}</td><td class="n">${TL(p.amount)}</td><td>${esc(p.kind)}</td><td>${esc(p.cash||'')}</td><td>${esc(p.key||'')}</td></tr>`).join('')}</tbody></table></div>` : '';
+  $('#tp-kars').innerHTML = `<p class="muted" style="max-width:74ch">Tutarlar farklı niteliktedir. Hibe nakit olarak ödenir; vergi indirimi ancak kâr oluştukça kullanılır ve yıllara yayılır; KOSGEB desteği geri ödenir. EKA ekipmana değil enerji giderine bağlı olduğu için tamamlayıcı gösterilir.</p>
+    ${bars}${table}
+    <div class="callout">${ICON.alert}<div>Aynı ekipman için VAP, EPS, 9903 teşviki ve KOSGEB desteğinden yalnız biri seçilebilir. Karar verirken tutarın yanında nakde dönüş zamanını ve şartları birlikte tartın.
+      <div class="meta">${tag('mev')}${ref('9903 m.33/1 · EVY m.17/A-6 · VAP UE m.11/1 · EPS UE m.5/4')}${tag('yor')}</div></div></div>`;
+}
+
+function renderRoad(P){
+  const has = id => P.some(p => p.id === id && p.st !== 'no');
+  const pre = S.iso && S.evdes && (!obliged() || S.eyDone);
+  const li = (t, tg, rf) => `<li><span>${t}</span>${[].concat(tg).map(tag).join('')}${ref(rf)}</li>`;
+  const steps = [];
+  steps.push({done:pre, h:'Ön koşulları tamamlayın', items:[
+    li('<b>EVDES üyeliği</b> (VAP, EPS, EKA başvuruları buradan)', 'mev', 'VAP UE m.5/1-a · EKA UE m.5/1-a'),
+    li('<b>Enerji yöneticisi</b> görevlendirmesi ve her yıl Mart sonuna kadar tüketim bildirimi', 'mev', 'EVY m.9, m.32/1'),
+    li('<b>TS EN ISO 50001</b> belgesi (TÜRKAK akrediteli kuruluştan)', 'mev', 'VAP UE m.5/1-ç · EKA UE m.5/1-ç · EVY m.9')
+  ]});
+  const et = [];
+  if (has('vap') || has('eps')) et.push(li('<b>Mevcut durum ölçümü</b>: kalibrasyon belgeli cihazla, ölçüm yöntemi ve hesap kabulleriyle', 'mev', 'VAP UE m.6/5, m.12/4'));
+  if (has('vap')) et.push(li('2027’den itibaren <b>etüt kapsamında</b> hazırlanan proje %30, etüt dışı %25 alır', 'duy', 'ETKB · Oluru 12.03.2026'));
+  if (has('eps')) et.push(li('<b>Etüt raporu ve ölçme-doğrulama planı</b> (ÖD uzmanı hazırlar)', 'mev', 'EPS UE m.6/2'));
+  if (has('yesil')) et.push(li('<b>Yol haritası raporu</b>: Bakanlık şablonu, birim üretim başına ölçülebilir hedef, yeşil dönüşüm ekibi ve lideri', 'mev', 'YDDP Tebliği'));
+  if (has('eka')) et.push(li('<b>Referans veri</b>: 2023–2025 enerji, üretim ve emisyon verileri; anlamlı referans denklem', 'mev', 'EKA UE m.7/1-ç'));
+  if (et.length) steps.push({h:'Ölçün, etüt edin, dosyayı hazırlayın', items:et});
+  steps.push({h:'Harcamadan önce başvurun', items:[
+    li('Başlanmış projeler VAP ve EPS kapsamı dışında', 'mev', 'VAP UE m.6/7-a · EPS UE m.6/3-a'),
+    li('9903’te müracaat tarihinden önceki harcamalar belgeye alınmaz', 'mev', '9903 m.5/6')
+  ]});
+  const ch = [];
+  if (has('vap') || has('eps') || has('eka')) ch.push(li('<b>evdes.enerji.gov.tr</b>: VAP, EPS ve EKA (EKA 2026: 1 Temmuz – 30 Eylül)', 'duy', 'ETKB duyuruları'));
+  if (has('yesil') || has('ges9903') || has('hedef')) ch.push(li('<b>E-TUYS</b> teşvik belgesi' + (has('yesil') ? '; yeşil dönüşüm için önce program portalı' : ''), 'mev', '9903 m.5/12 · YDDP Tebliği'));
+  if (has('kosgeb')) ch.push(li('<b>KOSGEB e-Hizmetler</b>: açık çağrıya proje başvurusu', 'duy', 'KOSGEB'));
+  if (S.tur === 'ges') ch.push(li('<b>Görevli dağıtım şirketi</b>: lisanssız üretim bağlantı başvurusu; öncelik aynı ölçüm noktası ve tüketim miktarına göre', 'mev', 'LÜY m.14/6'));
+  if (ch.length) steps.push({h:'Doğru kanaldan başvurun', items:ch});
+  const up = [];
+  if (has('vap')) up.push(li('<b>VAP</b>: 2 yıl içinde uygulama; bir defaya mahsus revizyon hakkı', 'mev', 'VAP UE m.8/2, m.9/1'));
+  if (has('kosgeb')) up.push(li('<b>KOSGEB</b>: proje süresi 8–12 ay', 'duy', 'KOSGEB'));
+  if (has('eka')) up.push(li('<b>EKA</b>: uygulama ve izleme dönemi Ocak–Aralık 2026', 'duy', 'ETKB EKA duyurusu'));
+  if (has('yesil') || has('ges9903') || has('hedef')) up.push(li('<b>9903</b>: faiz ve makine desteği, izleyen yıl verilen yatırım ilerleme raporuna göre ödenir', 'mev', '9903 m.17/1'));
+  if (up.length) steps.push({h:'Uygulayın ve raporlayın', items:up});
+  const pay = [];
+  if (has('vap')) pay.push(li('<b>VAP</b>: son denetim, gerçekleşen tasarruf oranı %90 üzeri → ödeme; bir yıl sonra değerlendirme raporu', ['mev','duy'], 'VAP UE m.9/5 · Oluru 12.03.2026'));
+  if (has('eps')) pay.push(li('<b>EPS</b>: garanti tasarrufun en az %70’i doğrulanınca nihai ödeme', 'mev', 'EPS UE m.8/4'));
+  if (has('eka')) pay.push(li('<b>EKA</b>: izleme dosyası Temmuz 2027 sonuna kadar; ödeme Temmuz 2027 ve sonrası', ['mev','duy'], 'EKA UE m.10/1'));
+  if (has('yesil') || has('ges9903') || has('hedef')) pay.push(li('<b>9903</b>: tamamlama vizesi; yeşil dönüşümde hedefe ulaşılamazsa Öncelikli niteliği kaybedilir', 'mev', 'YDDP Tebliği'));
+  if (pay.length) steps.push({h:'Doğrulatın ve ödemeyi alın', items:pay});
+
+  const events = [
+    ['2026-05-01','Lisanssız üretimde saatlik mahsuplaşmanın piyasa işletmecisine geçtiği hüküm yürürlükte','mev','LÜY m.26 · RG 02.04.2026/33212'],
+    ['2026-07-01','VAP’ta yalnız 5 mn TL üzeri projeler kabul ediliyor','duy','ETKB · Oluru 12.03.2026'],
+    ['2026-09-30','EKA 2026 başvurusu için son gün','duy','ETKB EKA duyurusu'],
+    ['2027-01-01','VAP oranı: etüt kapsamında %30, etüt dışı %25','duy','ETKB · Oluru 12.03.2026'],
+    ['2027-01-01','TL tutarları yeniden değerleme oranıyla güncellenir','mev','9903 m.5/10 · EVY m.16/4'],
+    ['2027-07-31','EKA izleme dosyası son teslim; ödemeler Temmuz 2027’den itibaren','mev','EKA UE m.10/1'],
+    ['2030-12-31','9903 kapsamında teşvik belgesi müracaatlarının son günü','mev','9903 m.5/5']
+  ];
+  const fd = s => s.split('-').reverse().join('.');
+  const tl = events.map(e => { const d = new Date(e[0]+'T23:59:59'); const diff = (d - TODAY)/864e5; const c = diff < 0 ? 'past' : diff < 30 ? 'soon' : '';
+    return `<li class="${c}"><span class="d">${fd(e[0])}</span><div><div class="w">${esc(e[1])}</div><div class="x">${tag(e[2])}${ref(e[3])}${c==='past'?'<span class="chip">Geçti</span>':c==='soon'?`<span class="chip warn">${Math.ceil(diff)} gün</span>`:''}</div></div></li>`; }).join('');
+
+  $('#tp-yol').innerHTML = `<ol class="steps">${steps.map((s,i) => `<li class="step${s.done?' done':''}"><span class="sn">${s.done?'✓':i+1}</span><div><h4>${esc(s.h)}${s.done?'<span class="chip ok">Tamam</span>':''}</h4><ul>${s.items.join('')}</ul></div></li>`).join('')}</ol>
+    <div class="sub"><h3>Takvim</h3><ul class="tl">${tl}</ul></div>`;
+}
+
+function renderSummary(P, ok, wa, no, money){
+  const s = ok.length ? 's-ok' : wa.length ? 's-warn' : 's-no';
+  const best = money.filter(p => p.id !== 'eka').sort((a,b)=>b.amount-a.amount)[0];
+  const d = ekaDaysLeft();
+  const rel = P.filter(p => p.id !== 'lisanssiz');
+  $('#summary').innerHTML = `<div class="sum-h"><span>Özet</span>${preset ? tag('orn') : ''}</div>
+    <div class="status ${s}"><span class="ic">${ok.length ? ICON.check : ICON.alert}</span><div><div class="t">${ok.length} uygun · ${wa.length} koşullu</div><p>${best ? `En yüksek tahmini yatırım desteği: ${esc(best.short)}, ${mn(best.amount)}` : 'Tutar hesaplanan yatırım desteği yok'}</p></div></div>
+    <dl class="dl">${rel.map(p => `<div><dt>${esc(p.short)}</dt>${p.st==='no' ? '<dd class="st"><span class="chip no">Uygun değil</span></dd>' : p.amount != null ? `<dd>${mn(p.amount)}</dd>` : `<dd class="st">${chipFor(p.st)}</dd>`}</div>`).join('')}</dl>
+    <div class="sum-f">
+      <div class="deadline${d<0?' past':''}">${ICON.clock}${d<0 ? 'EKA 2026 başvuru dönemi kapandı' : `EKA 2026 son başvuru: 30.09.2026 · ${d} gün`}</div>
+      <a class="btn primary" href="#sonuc">Ayrıntılı sonuca git</a>
+    </div>`;
+}
+
+function renderCum(){
+  $('#cum').innerHTML = `<h3>Birlikte kullanım kuralı</h3><ul>
+    <li><span>9903 teşvikinden yararlanan yatırım başka kamu desteğinden yararlanamaz; yalnız sübvansiyonlu kredi desteği istisna.</span>${meta('mev','9903 m.33/1')}</li>
+    <li><span>Başka kamu desteği alınan veya başvurulan ekipmanla VAP’a başvurulamaz; aksi halde destek geri alınır.</span>${meta('mev','EVY m.17/A-6 · VAP UE m.11/1')}</li>
+    <li><span>EPS projesinde ESCO ve işletme bu proje için kamu desteği almamış olmalı.</span>${meta('mev','EPS UE m.5/4')}</li>
+    <li><span>EKA ekipmana değil enerji giderine bağlı; yatırım desteğiyle aynı yıl kullanımına açık bir yasak bulunamadı, Bakanlıktan teyit edin.</span>${meta('yor','')}</li>
+    <li class="res"><span><b>Sonuç:</b> aynı ekipman için VAP, EPS, 9903 ve KOSGEB’den biri seçilir.</span>${meta('yor','')}</li>
+  </ul>`;
+}
+
+function renderSources(){
+  const L = (u, t) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
+  const rows = [
+    [L('https://www.lexpera.com.tr/mevzuat/cumhurbaskani-kararlari/yatirimlarda-devlet-yardimlari-hakkinda-karar-9903','Yatırımlarda Devlet Yardımları Hakkında Karar (9903)'), 'mev', 'Karar 29.05.2025 · RG 30.05.2025/32915. Destek unsurları, oranlar, limitler, program kapsamları, kümülasyon (m.33).'],
+    [L('https://www.resmigazete.gov.tr/eskiler/2025/06/20250621-14.htm','Kararın Uygulanmasına İlişkin Tebliğ (2025/1)'), 'mev', 'RG 21.06.2025/32933; değişiklik 2026/1 RG 09.04.2026/33219. Uygulama esasları.'],
+    ['2026 yılı 9903 TL tutarları (Sanayi ve Teknoloji Bakanlığı güncellemesi)', 'tey', 'Teşvik Akademi, 30.01.2026 derlemesi. 2025 yeniden değerleme oranı %25,49 ile tutarlı (12 mn × 1,2549 ≈ 15,1 mn). Hedef faiz limiti ve Stratejik makine limiti bu oranla hesaplandı.'],
+    [L('https://www.resmigazete.gov.tr/eskiler/2024/07/20240726-19.htm','Yeşil Dönüşüm Destek Programı Uygulama Usul ve Esasları Tebliği'), 'mev', 'RG 26.07.2024/32613; değişiklik 09.07.2025. Başvuru şartı, yol haritası, proje hedefi, kapsam dışı yatırımlar.'],
+    [L('https://www.lexpera.com.tr/mevzuat/yonetmelikler/enerji-kaynaklarinin-ve-enerjinin-kullaniminda-verimliligin-artirilmasina-dair-yonetmelik-2011-28097-5','Enerji Verimliliği Yönetmeliği (EVY)'), 'mev', 'RG 27.10.2011/28097; son değişiklik RG 21.09.2024/32669. m.9 yükümlülük eşikleri, m.16 destek oranları ve tavanlar, m.17/A kümülasyon.'],
+    [L('https://enerji.gov.tr/Media/Dizin/EVCED/tr/EnerjiVerimlili%C4%9Fi/Destekler/dokumanlar/VAP_Destekleri/Verimlilik_Artirici_Proje_(VAP)_Destek_Programi_Hakkinda_Uygulama_Usul_Esaslari.pdf','VAP Destek Programı Uygulama Usul ve Esasları (VAP UE)'), 'mev', '2025 metni. Başvuru koşulları, kapsam dışı projeler, formül, erken ödeme, geri alma.'],
+    [L('https://enerji.gov.tr/duyuru-detay?id=30609','ETKB duyurusu: VAP usul ve esaslarında değişiklik'), 'duy', 'Bakan Oluru 12.03.2026/389072. 5 mn TL alt sınırı (01.07.2026), geri ödeme 7/10 yıl, 2027 oranları, 15 mn TL mühendis limiti, izleme sistemi.'],
+    [L('https://www.aa.com.tr/tr/ekonomi/enerji-verimliligi-ve-karbon-azaltimina-yeni-hibe-destegi-geliyor/3979586','ETKB açıklaması (Anadolu Ajansı, 27.06.2026)'), 'duy', '2026 VAP üst limiti 27.092.663 TL; EKA 18.061.775 TL; 20 işletme; COP31 önceliği.'],
+    [L('https://enerji.gov.tr/Media/Dizin/BHIM/tr/Duyurular//2026_Yili_VAP_Denetim_Bedelleri_202512311640.docx','2026 VAP denetim bedelleri'), 'duy', 'Uygulama öncesi 60.000 TL, sonrası 95.000 TL (+KDV).'],
+    [L('https://enerji.gov.tr/duyuru-detay?id=30623','ETKB duyurusu: EKA Destek Programı başvuruları'), 'duy', 'Başvuru 1 Temmuz – 30 Eylül 2026; sektörler; ilk 10; %70 eşiği; referans ve ödeme dönemleri.'],
+    [L('https://enerji.gov.tr/Media/Dizin/BHIM/tr/Duyurular//Enerji_ve_Karbon_Azaltim_(EKA)_Destek_Programi_hakkinda_Uygulama_Usul_ve_Esaslari_202606291644.pdf','EKA Uygulama Usul ve Esasları (EKA UE)'), 'mev', 'ETKB-EYS-USLE-016 Rev.00 (2026). Başvuru koşulları, değerlendirme, izleme dosyası.'],
+    [L('https://enerji.gov.tr/Media/Dizin/HIGM/tr/Mevzuat/Enerji_Verimliligi/ENERJI_PERFORMANS_SOZLESMELERI_ILE_UYGULANACAK_PROJELERIN_DESTEKLENMESINE_ILISKIN_USUL_VE_ESASLAR.pdf','EPS Projelerinin Desteklenmesine İlişkin Usul ve Esaslar (EPS UE)'), 'mev', 'ETKB-EYS-USLE-013 Rev.00 (2026). %30 hibe, erken ödeme, %70 doğrulama, kapsam dışı projeler.'],
+    [L('https://enerji.gov.tr/duyuru-detay?id=30601','ETKB duyurusu: EPS Destek Programı başvuruları'), 'duy', 'Özel sektörde geri ödeme ≥ 1 yıl ve yatırım ≥ 5 mn TL; yalnız ekipman desteği.'],
+    [L('https://www.lexpera.com.tr/mevzuat/yonetmelikler/elektrik-piyasasinda-lisanssiz-elektrik-uretim-yonetmeligi','Lisanssız Elektrik Üretim Yönetmeliği (LÜY)'), 'mev', 'RG 12.05.2019/30772; son değişiklik RG 02.04.2026/33212 (m.26: 01.05.2026). Kurulu güç sınırları, mahsuplaşma, ihtiyaç fazlası, depolama.'],
+    [L('https://www.kosgeb.gov.tr/site/tr/genel/destekdetay/9022/yesil-sanayi-destek-programi','KOSGEB Yeşil Sanayi Destek Programı'), 'duy', 'Bileşenler, üst limitler, oranlar, proje süresi. Çağrı durumu teyit edilmeli.']
+  ];
+  $('#tp-kay').innerHTML = `<p class="muted" style="max-width:74ch">Aracın kullandığı her bilgi aşağıdaki kaynaklardan alındı. Resmî Gazete ve mevzuat.gov.tr bu taramada erişilemediği için konsolide metinler Lexpera’dan okundu; Bakanlık duyuruları doğrudan enerji.gov.tr’den alındı.</p>
+    <div class="tbl-wrap"><table class="t src"><thead><tr><th>Kaynak</th><th>Etiket</th><th>Bu araçta ne için kullanıldı</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${tag(r[1])}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table></div>
+    <div class="pending"><b>Teyit bekleyen bilgiler</b><ul>
+      <li>9903 kapsamındaki 2026 TL tutarları (15,1 / 7,5 mn; 62,7 mn; 30,1 / 226 mn; 2,5 mn): Bakanlığın güncelleme metni birincil kaynaktan okunamadı.</li>
+      <li>EPS desteğinde 2026 azami tutarı: usul ve esaslar “başvuru yılında belirlenen azami tutar” diyor; araç VAP üst limitini kullanıyor.</li>
+      <li>KOSGEB Yeşil Sanayi Destek Programı çağrılarının 2026’da açık olup olmadığı.</li>
+      <li>VAP asgari anlık tasarruf kriteri (150 kW / 50 kW) 2022 ilanından; 2026 duyurusunda tekrar edilmedi.</li>
+      <li>EKA ile yatırım teşviklerinin aynı yıl birlikte kullanımı: açık hüküm bulunamadı.</li>
+    </ul></div>`;
+}
+
+renderStatic();
+renderPresets();
+writeForm();
+update();
+})();
+</script>
