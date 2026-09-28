@@ -556,7 +556,7 @@ function layerOf(x){
 function renderMap(){
   if (typeof MAP === 'undefined') return;
   const IST = {Avrupa:'M136.3,39.5L134.1,43.3L136.0,47.0L126.1,64.5L124.9,69.7L126.0,73.3L130.7,71.9L137.4,71.0L147.4,74.4L152.5,77.8L152.5,77.3L154.8,77.2L158.5,55.9L144.1,46.8L139.6,43.4Z', Anadolu:'M154.8,77.2L156.1,77.1L156.7,80.2L165.7,80.4L166.6,81.2L168.1,80.4L171.3,80.1L173.5,79.0L172.6,78.5L172.9,75.5L175.3,75.5L176.3,77.1L178.1,75.8L179.3,72.2L178.4,69.6L180.0,68.6L182.1,65.2L178.1,65.2L173.7,63.7L158.9,56.2L158.5,55.9Z'};  // Boğaz hattı: İstanbul poligonunun kıyı noktalarından interpolasyon
-  const paths = D.iller.map(x => x.il === 'İstanbul' ? Object.entries(IST).map(([y,dd]) => `<path d="${dd}" data-il="İstanbul" data-yaka="${y}"><title>İstanbul · ${y} yakası</title></path>`).join('') : MAP.p[x.pl] ? `<path d="${MAP.p[x.pl]}" data-il="${esc(x.il)}"><title>${esc(x.il)}</title></path>` : '').join('');
+  const paths = D.iller.map(x => x.il === 'İstanbul' ? `<path d="${MAP.p[x.pl]}" data-il="İstanbul" data-whole="1"><title>İstanbul</title></path>` + Object.entries(IST).map(([y,dd]) => `<path d="${dd}" data-il="İstanbul" data-yaka="${y}"><title>İstanbul · ${y} yakası</title></path>`).join('') : MAP.p[x.pl] ? `<path d="${MAP.p[x.pl]}" data-il="${esc(x.il)}"><title>${esc(x.il)}</title></path>` : '').join('');
   $('#map').innerHTML = `<svg viewBox="${MAP.vb}" aria-hidden="true" focusable="false">${paths}</svg>`;
   $('#mapLayers').innerHTML = MAPL.map(([k,l]) => `<button type="button" data-layer="${k}" aria-pressed="${k===mapLayer}">${l}</button>`).join('');
 }
@@ -565,6 +565,8 @@ function paintMap(K){
   const cmpOn = $('#cmpbox').open && S.il2 && S.il2 !== S.il;
   let sel = null, cmp = null;
   svg.querySelectorAll('path').forEach(pth => {
+    const split = mapLayer === 'ejs';
+    if (pth.dataset.whole || pth.dataset.yaka){ const show = pth.dataset.whole ? !split : split; pth.style.display = show ? '' : 'none'; if (!show) return; }
     const x = IL[pth.dataset.il], yk = pth.dataset.yaka; let c = 'f-' + (yk && mapLayer === 'ejs' ? (yk === 'Anadolu' ? 'c3' : 'n') : layerOf(x));
     const yakaSec = yk && S.il === 'İstanbul' && K.yaka ? K.yaka === yk : true;
     if (x.il === S.il && yakaSec){ c += ' sel'; sel = pth; } else if (cmpOn && x.il === S.il2){ c += ' cmp'; cmp = pth; }
