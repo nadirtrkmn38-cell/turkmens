@@ -1,0 +1,561 @@
+<title>Enerji Yatırımı Destek Aracı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600;700;800&family=Red+Hat+Mono:wght@500;600&family=Red+Hat+Text:wght@400;500;600;700&display=swap">
+<style>/*__CSS__*/
+/*V2-CSS*/
+@media (max-width:760px){.ilcard{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ilcard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ilcard > div{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.ilcard .k{font-size:12.5px;color:var(--ink2)}
+.ilcard .v{font:600 16px var(--mono);font-variant-numeric:tabular-nums}
+.ilcard .v.txt{font:600 14px var(--text);line-height:1.35}
+.ilcard .x{font-size:12px;color:var(--ink3)}
+.ilwide{grid-column:1 / -1}
+.konu{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none;font-size:13.5px}
+.konu li{display:flex;gap:8px;align-items:flex-start}
+.konu li .n{font:600 12px var(--mono);color:var(--ink3);min-width:16px}
+.konu li.en{color:var(--ink);font-weight:600}
+.konu li.en .n{color:var(--t-hes)}
+.flag{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:8px;font-size:13.5px}
+.flag.warn{background:var(--warn-soft);color:var(--ink)}
+.flag.warn b{color:var(--warn)}
+.flag.ok{background:var(--ok-soft)}
+.flag.ok b{color:var(--ok)}
+.flag.no{background:var(--no-soft)}
+.flag.no b{color:var(--no)}
+.flags{display:flex;flex-direction:column;gap:8px}
+.tgroup{display:flex;flex-direction:column;gap:8px}
+.tgroup .gh{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.opts.sm{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.opts.sm .opt{padding:10px 12px}
+.opts.sm .opt b{font-size:14px}
+.cmp2{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.cmp2 table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px}
+.cmp2 th,.cmp2 td{padding:9px 12px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.cmp2 thead th{background:var(--sunk);border-top:0;font:600 12.5px var(--text);color:var(--ink2)}
+.cmp2 td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.cmp2 td.diff{background:var(--accent-soft)}
+.klass{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:18px 0 10px;display:flex;gap:10px;align-items:center}
+.klass:first-child{margin-top:4px}
+.klass span{font:500 12.5px var(--text);letter-spacing:0;text-transform:none;color:var(--ink3)}
+.datastrip{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--hero-ink2);margin-top:14px}
+.datastrip b{color:var(--hero-ink);font-family:var(--mono);font-weight:600}
+.callrow{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:6px 16px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
+.callrow:first-child{border-top:0}
+.callrow .d{font:600 13px var(--mono)}
+.callrow .w{font-weight:600}
+.callrow .x{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;align-items:center}
+@media (max-width:600px){.callrow{grid-template-columns:minmax(0,1fr)}}
+.sumcalls{padding:0 18px 14px;display:flex;flex-direction:column;gap:6px}
+.sumcalls div{display:flex;justify-content:space-between;gap:10px;font-size:12.5px}
+.sumcalls span:last-child{font-weight:600;white-space:nowrap}
+</style>
+
+<header class="appbar">
+  <div class="in">
+    <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>Enerji Yatırımı · Destek Analizi</div>
+    <div class="meta" id="meta"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <div class="kicker">9903 · Yeşil Dönüşüm · VAP · EPS · EKA · KOSGEB · TÜBİTAK · HIT-30 · YEKDEM · Lisanssız · YEKA</div>
+    <h1>Bu yatırım bu ilde hangi desteğe, ne kadar erişir?</h1>
+    <p class="lead">İl, yatırım türü ve tutarı girin. Araç, veri envanterindeki kurallarla her programı madde numarasıyla kontrol eder, tutarı 2026 eşikleriyle hesaplar, yatırım desteğini gelir ve piyasa desteğinden ayrı gösterir.</p>
+    <div class="strip" id="strip"></div>
+    <div class="datastrip" id="datastrip"></div>
+    <ol class="stepper" id="stepper"></ol>
+  </div>
+</section>
+
+<main class="in layout">
+  <div class="col">
+    <div class="panel">
+      <div class="legend-h">Etiketler: her bilginin nereden geldiği</div>
+      <div class="legend" id="legend"></div>
+    </div>
+
+    <div class="notice" id="notice">
+      <p><b>Örnek senaryo yüklü.</b> Değerler gösterim içindir; kendi projenizin bilgilerini girin ya da başka bir örnek seçin.</p>
+      <div class="presets" id="presets"></div>
+    </div>
+
+    <section class="panel sec" id="s1">
+      <div class="sec-h"><span class="sec-no">01</span><div><h2>Konum</h2><p>İl bölgeyi, ilçe ve OSB alt bölge desteğini ve geçici 6. bölge hükümlerini belirler.</p></div></div>
+      <div class="sec-b">
+        <div class="grid3">
+          <div class="field"><label class="lbl" for="il">İl</label><select id="il" data-k="il"></select></div>
+          <div class="field"><label class="lbl" for="ilce">İlçe</label><select id="ilce" data-k="ilce"></select><span class="hint">Yalnız desteği etkileyen ilçeler listelenir.</span></div>
+          <div class="field"><span class="lbl">Yer</span>
+            <label class="chk"><input type="checkbox" id="osb" data-k="osb" data-t="bool"><div><b>OSB veya endüstri bölgesinde</b><span>SGK alt bölge; Cazibe illerinde geçici m.4</span></div></label>
+          </div>
+        </div>
+        <div id="ilcard"></div>
+        <div class="flags" id="ilflags"></div>
+        <details class="more" id="cmpbox"><summary><svg class="i" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>Başka bir ille karşılaştır</summary>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+            <div class="field" style="max-width:280px"><label class="lbl" for="il2">Karşılaştırılacak il</label><select id="il2" data-k="il2"></select></div>
+            <div class="cmp2" id="cmp2"></div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="panel sec" id="s2">
+      <div class="sec-h"><span class="sec-no">02</span><div><h2>İşletme</h2><p>Sektör, ölçek ve enerji yönetimi ön koşulları.</p></div></div>
+      <div class="sec-b">
+        <div class="opts" role="radiogroup" aria-label="Faaliyet alanı">
+          <label class="opt"><input type="radio" name="sektor" value="imalat" data-k="sektor"><div><b>İmalat sanayii</b><span>Üretim tesisi, fabrika</span></div></label>
+          <label class="opt"><input type="radio" name="sektor" value="bina" data-k="sektor"><div><b>Ticari ve hizmet binası</b><span>Otel, AVM, hastane, ofis</span></div></label>
+          <label class="opt"><input type="radio" name="sektor" value="enerji" data-k="sektor"><div><b>Enerji şirketi / yatırımcı</b><span>Lisanslı üretim, depolama, YEKA</span></div></label>
+          <label class="opt"><input type="radio" name="sektor" value="diger" data-k="sektor"><div><b>Diğer</b><span>Tarım, lojistik vb.</span></div></label>
+        </div>
+        <div class="grid3">
+          <div class="field"><label class="lbl" for="olcek">Ölçek</label><select id="olcek" data-k="olcek"><option value="kobi">KOBİ</option><option value="buyuk">Büyük işletme</option></select></div>
+          <div class="field"><label class="lbl" for="tep">Yıllık enerji tüketimi</label><div class="inwrap"><input id="tep" class="tl" type="text" inputmode="numeric" data-k="tep" data-t="tl"><span class="u">TEP</span></div><span class="calc-note" id="tepNote"></span></div>
+          <div class="field"><label class="lbl" for="model">Uygulama modeli</label><select id="model" data-k="model"><option value="kendi">İşletme kendisi yapar</option><option value="eps">ESCO ile EPS</option></select></div>
+        </div>
+        <div class="checks-in">
+          <label class="chk" id="alanWrap"><input type="checkbox" id="alan20" data-k="alan20" data-t="bool"><div><b>İnşaat alanı ≥ 20.000 m²</b><span>Ticari/hizmet binasında yükümlülük eşiği</span></div></label>
+          <label class="chk"><input type="checkbox" id="iso" data-k="iso" data-t="bool"><div><b>TS EN ISO 50001 belgesi var</b><span>VAP ve EKA şartı</span></div></label>
+          <label class="chk"><input type="checkbox" id="evdes" data-k="evdes" data-t="bool"><div><b>EVDES'e üye</b><span>evdes.enerji.gov.tr</span></div></label>
+          <label class="chk" id="eyWrap"><input type="checkbox" id="eyDone" data-k="eyDone" data-t="bool"><div><b>Enerji yöneticisi atandı, tüketim bildirildi</b><span>EVY m.9, m.32/1</span></div></label>
+          <label class="chk"><input type="checkbox" id="dagOrtak" data-k="dagOrtak" data-t="bool"><div><b>Başvuran bir dağıtım/görevli tedarik grubunun şirketi</b><span>Lisanssız üretimde LÜY m.37/10 kontrolü</span></div></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel sec" id="s3">
+      <div class="sec-h"><span class="sec-no">03</span><div><h2>Yatırım türü</h2><p>Envanterdeki 22 tür; her türün programlarla ilişkisi matristen gelir.</p></div></div>
+      <div class="sec-b">
+        <div id="turler" class="flags" style="gap:16px"></div>
+        <div class="grid2">
+          <label class="chk"><input type="checkbox" id="yeni" data-k="yeni" data-t="bool"><div><b>Yeni tesis kurulumu</b><span>Mevcut tesiste değil</span></div></label>
+          <label class="chk"><input type="checkbox" id="basladi" data-k="basladi" data-t="bool"><div><b>Yatırıma başlandı / harcama yapıldı</b><span>Sipariş, fatura veya montaj</span></div></label>
+        </div>
+        <div class="grid3" id="gucBox">
+          <div class="field"><label class="lbl" for="kw" id="kwLbl">Kurulu güç</label><div class="inwrap"><input id="kw" class="tl" type="text" inputmode="numeric" data-k="kw" data-t="tl"><span class="u" id="kwU">kWe</span></div></div>
+          <div class="field"><label class="lbl" for="sozKw">Bağlantı anlaşmasındaki sözleşme gücü</label><div class="inwrap"><input id="sozKw" class="tl" type="text" inputmode="numeric" data-k="sozKw" data-t="tl"><span class="u">kW</span></div></div>
+          <div class="field"><label class="lbl" for="tuketim">Yıllık elektrik tüketimi</label><div class="inwrap"><input id="tuketim" class="tl" type="text" inputmode="numeric" data-k="tuketim" data-t="tl"><span class="u">MWh</span></div><span class="calc-note" id="gucNote"></span></div>
+        </div>
+        <label class="chk" id="kojenBox"><input type="checkbox" id="kojenBelge" data-k="kojenBelge" data-t="bool"><div><b>Kojenerasyon Tesisi Verim Belgesi var</b><span>VAP başvurusunda aranır</span></div></label>
+      </div>
+    </section>
+
+    <section class="panel sec" id="s4">
+      <div class="sec-h"><span class="sec-no">04</span><div><h2>Tutarlar ve varsayımlar</h2><p>Tüm tutarlar KDV hariç.</p></div></div>
+      <div class="sec-b">
+        <div class="grid3">
+          <div class="field"><label class="lbl" for="syt">Sabit yatırım / proje bedeli</label><div class="inwrap"><input id="syt" class="tl" type="text" inputmode="numeric" data-k="syt" data-t="tl"><span class="u">TL</span></div><span class="calc-note" id="sytNote"></span></div>
+          <div class="field"><label class="lbl" for="mak">Makine-teçhizat payı</label><div class="inwrap"><input id="mak" type="number" min="0" max="100" data-k="mak" data-t="num"><span class="u">%</span></div></div>
+          <div class="field"><label class="lbl" for="bigMak">Birim fiyatı ≥ 2,5 mn TL makineler</label><div class="inwrap"><input id="bigMak" class="tl" type="text" inputmode="numeric" data-k="bigMak" data-t="tl"><span class="u">TL</span></div></div>
+          <div class="field"><label class="lbl" for="kredi">TL yatırım kredisi</label><div class="inwrap"><input id="kredi" class="tl" type="text" inputmode="numeric" data-k="kredi" data-t="tl"><span class="u">TL</span></div></div>
+          <div class="field"><label class="lbl" for="tasarruf">Yıllık tasarruf / gelir</label><div class="inwrap"><input id="tasarruf" class="tl" type="text" inputmode="numeric" data-k="tasarruf" data-t="tl"><span class="u">TL/yıl</span></div><span class="calc-note" id="pbNote"></span></div>
+          <div class="field"><label class="lbl" for="gider">2026 yıllık enerji gideri</label><div class="inwrap"><input id="gider" class="tl" type="text" inputmode="numeric" data-k="gider" data-t="tl"><span class="u">TL</span></div></div>
+        </div>
+        <div class="sub-h">Varsayımlar</div>
+        <div class="grid3">
+          <div class="field"><div class="lbl-row"><label class="lbl" for="repo">TCMB bir hafta vadeli repo</label><span data-tag="VAR"></span></div><div class="inwrap"><input id="repo" type="number" step="0.25" data-k="repo" data-t="num"><span class="u">%</span></div></div>
+          <div class="field"><div class="lbl-row"><label class="lbl" for="kv">Kurumlar vergisi</label><span data-tag="VAR"></span></div><div class="inwrap"><input id="kv" type="number" data-k="kv" data-t="num"><span class="u">%</span></div></div>
+          <div class="field"><div class="lbl-row"><label class="lbl" for="kdv">KDV oranı (makine)</label><span data-tag="VAR"></span></div><div class="inwrap"><input id="kdv" type="number" data-k="kdv" data-t="num"><span class="u">%</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="sonuc" aria-live="polite">
+      <div class="res-top" id="resTop"></div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="tabpanel" role="tabpanel" id="tp-prog"></div>
+      <div class="tabpanel" role="tabpanel" id="tp-kars" hidden></div>
+      <div class="tabpanel" role="tabpanel" id="tp-cagri" hidden></div>
+      <div class="tabpanel" role="tabpanel" id="tp-kum" hidden></div>
+      <div class="tabpanel" role="tabpanel" id="tp-kay" hidden></div>
+    </section>
+  </div>
+  <aside><div class="panel" id="summary"></div></aside>
+</main>
+
+<footer><div class="in">
+  <p>Ön değerlendirme aracıdır; destek kararı ilgili kurumun incelemesiyle verilir. Veriler "Enerji Yatırım Destekleri Veri Envanteri 2026" dosyasından üretilir; envanter güncellendiğinde araç yeniden üretilir.</p>
+  <p id="foot"></p>
+</div></footer>
+
+<script>
+(function(){
+'use strict';
+const D = /*__DATA__*/;
+const E = D.esik;
+const TODAY = new Date();
+const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
+const nf0 = new Intl.NumberFormat('tr-TR',{maximumFractionDigits:0}), nf1 = new Intl.NumberFormat('tr-TR',{minimumFractionDigits:1,maximumFractionDigits:1}), nf2 = new Intl.NumberFormat('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt = n => nf0.format(Math.round(n||0)), TL = n => fmt(n)+' TL', mn = n => nf1.format((n||0)/1e6)+' mn TL';
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const parseNum = v => { const x = parseFloat(String(v).replace(/\./g,'').replace(/\s/g,'').replace(',','.').replace(/[^\d.]/g,'')); return isFinite(x)?x:0; };
+const TAGCLS = {MEV:'mev',DUY:'duy',HES:'hes',TEY:'tey',VAR:'var',YOR:'yor',ORN:'orn'};
+const TAGLAB = Object.assign({ORN:['Örnek','Örnek senaryo verisi']}, D.etiket);
+const tag = k => `<span class="tag t-${TAGCLS[k]}" title="${esc(TAGLAB[k][1])}">${TAGLAB[k][0]}</span>`;
+const tags = s => String(s||'').split(',').map(x=>x.trim()).filter(x=>TAGLAB[x]).map(tag).join('');
+const ref = t => t ? `<span class="ref">${esc(t)}</span>` : '';
+const ICON = {ok:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',warn:'<svg viewBox="0 0 24 24"><path d="M12 6v8M12 18.5v.01"/></svg>',no:'<svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg>',info:'<svg viewBox="0 0 24 24"><path d="M12 11v7M12 6.5v.01"/></svg>',dot:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg>',chev:'<svg class="i" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>',check:'<svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',alert:'<svg class="i" viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>',clock:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'};
+const IL = Object.fromEntries(D.iller.map(x=>[x.il,x]));
+const BOL = Object.fromEntries(D.bolge.map(x=>[x.b,x]));
+const MX = {}; D.m.forEach(x => { (MX[x.t] = MX[x.t] || {})[x.p] = x; });
+const days = d => Math.ceil((new Date(d+'T23:59:59') - TODAY)/864e5);
+const GECICI_SON = '2026-12-31';
+
+/* ---------- tür grupları ---------- */
+const GRUP = [['Yenilenebilir elektrik',['T01','T02','T03','T04','T05','T06','T10','T11','T12']],['Depolama',['T07','T08','T09']],['Verimlilik ve ısı',['T13','T14','T15','T16','T17','T18','T19']],['Teknoloji ve hidrojen',['T20','T21']],['Yatırımsız',['T22']]];
+const TUR = Object.fromEntries(D.tur.map(t=>[t.id,t.ad]));
+const OZ = ['T01','T02','T05'];                  // öz tüketim üretim
+const LISANSLI = ['T03','T04','T06','T10','T11','T12'];
+const BESS = ['T07','T08','T09'];
+const VERIM = ['T13','T14','T15','T16','T17','T18','T19'];
+
+/* ---------- örnekler ---------- */
+const BASE = {il:'Kocaeli',ilce:'',osb:false,il2:'Niğde',sektor:'imalat',olcek:'buyuk',tep:3000,model:'kendi',alan20:false,iso:true,evdes:true,eyDone:true,dagOrtak:false,
+  tur:'T01',yeni:false,basladi:false,kw:0,sozKw:0,tuketim:0,kojenBelge:false,syt:0,mak:80,bigMak:0,kredi:0,tasarruf:0,gider:0,repo:40,kv:25,kdv:20};
+const PRESETS = [
+ {id:'ges',name:'Kocaeli · 1 MW çatı GES',v:{il:'Kocaeli',il2:'Niğde',tur:'T01',kw:1000,sozKw:800,tuketim:2600,syt:25000000,mak:85,kredi:10000000,tasarruf:5200000,gider:60000000}},
+ {id:'atik',name:'Niğde · atık ısı',v:{il:'Niğde',il2:'Kocaeli',osb:true,tur:'T15',tep:4500,syt:24000000,bigMak:6000000,kredi:12000000,tasarruf:5500000,gider:120000000}},
+ {id:'kojen',name:'Hatay İskenderun · kojenerasyon',v:{il:'Hatay',ilce:'İskenderun',il2:'Adana',osb:true,tur:'T14',kojenBelge:true,tep:12000,syt:80000000,bigMak:45000000,kredi:40000000,tasarruf:14000000,gider:400000000}},
+ {id:'bess',name:'Konya · tesis içi BESS',v:{il:'Konya',il2:'Ankara',tur:'T07',kw:2000,sozKw:3000,tuketim:9000,syt:30000000,mak:90,kredi:15000000,tasarruf:3500000,gider:90000000}},
+ {id:'res',name:'İzmir · YEKA RES',v:{il:'İzmir',il2:'Balıkesir',sektor:'enerji',tur:'T06',kw:100000,syt:4000000000,mak:85,kredi:1500000000,tasarruf:650000000,gider:0,iso:false,evdes:false}},
+ {id:'h2',name:'Çanakkale · yeşil hidrojen',v:{il:'Çanakkale',il2:'İzmir',tur:'T20',syt:900000000,mak:80,kredi:300000000,gider:0}},
+ {id:'otel',name:'İstanbul · otel, yatırımsız',v:{il:'İstanbul',il2:'Antalya',sektor:'bina',tur:'T22',tep:900,syt:0,gider:45000000}}
+];
+let S = Object.assign({}, BASE, PRESETS[0].v), preset = 'ges', tab = 'prog';
+
+/* ---------- form ---------- */
+function fillSelects(){
+  const byB = {}; D.iller.forEach(x => (byB[x.b] = byB[x.b]||[]).push(x));
+  const opts = Object.keys(byB).map(b => `<optgroup label="${b}. bölge">${byB[b].map(x=>`<option value="${esc(x.il)}">${esc(x.il)}</option>`).join('')}</optgroup>`).join('');
+  $('#il').innerHTML = opts; $('#il2').innerHTML = opts;
+  $('#turler').innerHTML = GRUP.map(([g,ids]) => `<div class="tgroup"><span class="gh">${g}</span><div class="opts sm">${ids.map(id=>`<label class="opt"><input type="radio" name="tur" value="${id}" data-k="tur"><div><b>${esc(TUR[id])}</b></div></label>`).join('')}</div></div>`).join('');
+}
+function fillIlce(){
+  const x = IL[S.il]; const set = new Set([...x.dp, ...x.ek5]);
+  const list = [...set].sort((a,b)=>a.localeCompare(b,'tr'));
+  const lab = n => n + (x.dp.includes(n)?' · deprem (geçici m.3)':'') + (x.ek5.includes(n)?' · alt bölge (EK-5)':'');
+  $('#ilce').innerHTML = `<option value="">Merkez / diğer ilçe</option>` + list.map(n=>`<option value="${esc(n)}">${esc(lab(n))}</option>`).join('');
+  if (!set.has(S.ilce)) S.ilce = '';
+  $('#ilce').value = S.ilce;
+}
+function writeForm(){
+  fillIlce();
+  $$('[data-k]').forEach(el => { const k = el.dataset.k, t = el.dataset.t;
+    if (el.type === 'radio') el.checked = String(S[k]) === el.value;
+    else if (t === 'bool') el.checked = !!S[k];
+    else if (t === 'tl') el.value = S[k] ? fmt(S[k]) : '0';
+    else el.value = S[k]; });
+}
+function readEl(el){ const k = el.dataset.k, t = el.dataset.t;
+  if (el.type === 'radio'){ if (el.checked) S[k] = el.value; }
+  else if (t === 'bool') S[k] = el.checked;
+  else if (t === 'tl' || t === 'num') S[k] = parseNum(el.value);
+  else S[k] = el.value;
+  if (k === 'il') fillIlce();
+}
+['input','change'].forEach(ev => document.addEventListener(ev, e => { if (e.target.dataset && e.target.dataset.k){ readEl(e.target); markCustom(); update(); } }));
+document.addEventListener('focusout', e => { if (e.target.dataset && e.target.dataset.t === 'tl') e.target.value = fmt(parseNum(e.target.value)); });
+function markCustom(){ if (!preset) return; preset = null; $('#notice p').innerHTML = '<b>Kendi değerleriniz.</b> Örneğe dönmek için bir seçeneğe tıklayın.'; renderPresets(); }
+const BLANK = Object.assign({}, BASE, {tep:0,iso:false,evdes:false,eyDone:false,tur:'',mak:0});
+function renderPresets(){ $('#presets').innerHTML = `<button type="button" class="btn" data-preset="bos" aria-pressed="${preset==='bos'}">Boş sayfa</button>` + PRESETS.map(p=>`<button type="button" class="btn" data-preset="${p.id}" aria-pressed="${p.id===preset}">${esc(p.name)}</button>`).join(''); }
+$('#presets').addEventListener('click', e => { const b = e.target.closest('[data-preset]'); if (!b) return;
+  if (b.dataset.preset === 'bos'){ S = Object.assign({}, BLANK); preset = 'bos'; $('#notice p').innerHTML = '<b>Boş sayfa.</b> İl, işletme, yatırım türü ve tutarları girin.'; writeForm(); renderPresets(); update(); return; }
+  const p = PRESETS.find(x=>x.id===b.dataset.preset);
+  S = Object.assign({}, BASE, p.v); preset = p.id; $('#notice p').innerHTML = `<b>Örnek senaryo: ${esc(p.name)}.</b> Değerler gösterim içindir.`; writeForm(); renderPresets(); update(); });
+
+/* ---------- konum türevleri ---------- */
+function konum(il, ilce, osb){
+  const x = IL[il]; const b = x.b;
+  const deprem = ilce && x.dp.includes(ilce), ek5 = ilce && x.ek5.includes(ilce);
+  const cazibeOsb = x.cz && osb && S.sektor === 'imalat';
+  const gecici = (deprem || cazibeOsb) && days(GECICI_SON) >= 0;
+  const eff = gecici ? 6 : b;                          // destek oranları için
+  let alt = (osb?1:0) + (ek5?1:0);
+  let sgkB = Math.min(6, eff + alt), sgk = BOL[sgkB].sgk + (eff === 6 && alt ? 2 : 0);
+  return {x, b, eff, deprem, ek5, cazibeOsb, gecici, sgk, sgkB, alt, asg: b <= 2 ? E.asg12 : E.asg36, ist: il === 'İstanbul'};
+}
+const obliged = () => S.sektor === 'imalat' ? S.tep >= 1000 : S.sektor === 'bina' ? (S.tep >= 500 || S.alan20) : false;
+const payback = () => S.tasarruf > 0 && S.syt > 0 ? S.syt / S.tasarruf : Infinity;
+function tesvik(kind, base){
+  const oranV = {onc:.30,str:.40,hedef:.20,thp:.50}[kind], pay = {onc:.25,str:.30,hedef:.25,thp:.40}[kind], cap = {onc:12.5,str:15,hedef:12.5,thp:20}[kind];
+  const puan = Math.min(S.repo*pay, cap), kr = Math.min(S.kredi, base*.7), ham = kr*puan/100*5;
+  const lim = {onc:Math.min(base*.10,E.faizOnc), str:Math.min(base*.15,E.faizStr), hedef:Math.min(base*.10,E.faizHedef), thp:Math.min(base*.20,E.faizThp)}[kind];
+  return {oranV, puan, faiz:Math.min(ham, lim), lim, vergi: base*oranV};
+}
+const kdvNakit = b => b*S.mak/100*S.kdv/100;
+const R = (t, text, et, rf) => ({t, text, et, rf});
+
+/* ---------- program değerlendirme ---------- */
+function evaluate(){
+  const K = konum(S.il, S.ilce, S.osb), T = S.tur, row = MX[T] || {}, pb = payback(), ob = obliged();
+  const out = [];
+  const ongoing = rs => { if (S.basladi) rs.push(R('warn','Müracaattan önceki harcamalar belgeye alınmaz.','MEV','9903 m.5/6')); };
+  const asgari = rs => { if (S.syt < K.asg) rs.push(R('no',`Asgari sabit yatırım ${K.b}. bölgede ${TL(K.asg)}; girilen ${mn(S.syt)}.`,'MEV,TEY','9903 m.5/2 · 2026')); else rs.push(R('ok',`Asgari sabit yatırım sağlanıyor (${K.b}. bölge ${mn(K.asg)}).`,'MEV,TEY','9903 m.5/2 · 2026')); };
+  const on = (rs, pre) => { if (!S.evdes) rs.push(R('warn','EVDES üyeliği gerekli.','MEV',pre+' m.5/1-a')); if (ob && !S.eyDone) rs.push(R('warn','Enerji yöneticisi ve bilgi verme yükümlülükleri yerine getirilmeli.','MEV',pre+' m.5/1-b,c')); if (!S.iso) rs.push(R('warn','TS EN ISO 50001 belgesi gerekli.','MEV',pre+' m.5/1-ç')); };
+  const sgkTxt = () => K.sgk ? `${K.sgk} yıl, asgari ücret işveren hissesinin ${K.eff===6?'tamamı':'%50’si'}${K.alt?` (alt bölge: ${K.sgkB}. bölge süresi)`:''}` : '1. bölgede yok';
+  for (const pid of D.mprog){
+    const m = row[pid]; if (!m || m.d === '—') continue;
+    const P = D.prog[pid]; const rs = []; let c = {};
+    const base = m.d === '✖' ? 'no' : 'ok';
+    if (m.d === '✖'){ rs.push(R('no', m.g, m.et, m.day)); }
+    else {
+      switch(pid){
+      case 'P04': { // Öncelikli
+        if (OZ.includes(T)){
+          if (S.sektor !== 'imalat') rs.push(R('no','Öz tüketim GES/RES Öncelikli yalnız imalat sanayii için.','MEV','9903 m.9/1-e'));
+          if (T !== 'T05' && S.kw > 0 && S.kw < 240) rs.push(R('no',`GES kurulu gücü ${fmt(S.kw)} kW; 240 kW altı desteklenmez.`,'MEV','9903 EK-3 (35.12)'));
+          let share = 1;
+          if (S.kw > 0 && S.sozKw > 0 && S.kw > S.sozKw){ share = S.sozKw/S.kw; rs.push(R('warn',`Teşvik sözleşme gücüyle sınırlı: yatırımın yaklaşık %${Math.round(share*100)}’i kapsamda.`,'MEV,HES','9903 m.9/1-e')); }
+          else if (S.kw > 0 && S.sozKw > 0) rs.push(R('ok','Kurulu güç sözleşme gücünü aşmıyor.','MEV','9903 m.9/1-e'));
+          asgari(rs); ongoing(rs);
+          const t = tesvik('onc', S.syt*share); c = {amt:t.vergi, amtL:'Vergi indirimi · katkı tutarı (%30)', brk:[['Kapsamdaki yatırım',S.syt*share],['Yatırıma katkı (%30)',t.vergi],['KDV istisnası · nakit etkisi',kdvNakit(S.syt*share)]], note:'Faiz desteği yok (m.9/2); yatırım yeri yok (m.21/3).'};
+        } else if (T === 'T21'){
+          const lim = E.oncYt; if (S.syt < lim) rs.push(R('warn',`Öncelikli için yüksek teknolojide ≥ ${mn(E.oncYt)}, orta-yüksekte ≥ ${mn(E.oncOyt)} (ya da öncelikli ürün listesi).`,'MEV,TEY','9903 m.9/1-b,c')); else rs.push(R('ok',`${mn(E.oncYt)} eşiği aşılıyor.`,'MEV,TEY','9903 m.9/1-b'));
+          const t = tesvik('onc', S.syt); c = {amt:t.vergi+t.faiz, amtL:'Vergi katkısı + faiz desteği', brk:[['Katkı (%30)',t.vergi],[`Faiz · ${nf1.format(t.puan)} puan × 5 yıl`,t.faiz]]};
+        } else { rs.push(R('warn', m.g, m.et, m.day)); }
+        break; }
+      case 'P05': { // Hedef
+        const enerji = LISANSLI.includes(T) || BESS.includes(T) || T === 'T02';
+        rs.push(R('info', m.g, m.et, m.day));
+        rs.push(R('warn','Yatırım konusu EK-3 listesinde, oradaki şartlarla yer almalı.','MEV','9903 m.5/1, m.10/1'));
+        if (['T02','T03'].includes(T) && S.kw > 0 && S.kw < 240) rs.push(R('no','240 kW altı GES desteklenmez.','MEV','9903 EK-3 (35.12)'));
+        if (BESS.includes(T)) rs.push(R('info','Li-ion aküler (8507.60) gümrük muafiyeti dışında.','MEV','9903 EK-4'));
+        if (T === 'T06') rs.push(R('info','Çelik kuleler (7308.20) gümrük muafiyeti dışında.','MEV','9903 EK-4'));
+        asgari(rs); ongoing(rs);
+        if (enerji){ c = {amt:null, amtL:'KDV istisnası + gümrük (vergi indirimi ve faiz yok)', brk:[['KDV istisnası · nakit etkisi',kdvNakit(S.syt)]]}; }
+        else { const t = tesvik('hedef', S.syt), faiz = K.eff >= 4 ? t.faiz : 0, vergi = K.ist ? 0 : t.vergi;
+          if (K.ist) rs.push(R('info','İstanbul’da Hedef yatırıma vergi indirimi yok.','MEV','9903 m.10/2'));
+          c = {amt:vergi+faiz, amtL:'Vergi katkısı + faiz', brk:[['Katkı (%20)',vergi],[K.eff>=4?`Faiz · ${nf1.format(t.puan)} puan × 5 yıl`:'Faiz (yalnız 4-6. bölge)',faiz],['KDV istisnası · nakit etkisi',kdvNakit(S.syt)]]}; }
+        break; }
+      case 'P03': case 'P01': case 'P02': {
+        if (pid === 'P02'){
+          const kw = {T13:['jeotermal','sera'],T17:['ısı pompası','HVAC'],T20:['hidrojen'],T21:['kablo','elektrik','batarya']}[T] || [];
+          const hit = K.x.ykh.filter(k => kw.some(w => k.toLowerCase().includes(w.toLowerCase())));
+          if (!hit.length) rs.push(R('no',`${S.il}’in yerel yatırım konularında bu türe karşılık gelen konu yok.`,'MEV','Yerel Yatırım Konuları Listesi'));
+          else rs.push(R('ok',`İlin yerel konusu: ${hit.join(' · ')}.`,'MEV','Yerel Yatırım Konuları Listesi (RG 31.01.2026)'));
+          rs.push(R('warn','2026 başvuru dönemi 15.05.2026’da kapandı; liste her ocakta güncellenebilir.','TEY','K31'));
+        } else rs.push(R('warn', m.g, m.et, m.day));
+        if (pid === 'P03' && S.syt < E.strYt) rs.push(R('no',`Stratejik Hamle asgari: yüksek teknoloji ${mn(E.strYt)}, diğer ≈ ${mn(E.strDiger)}.`,'MEV,TEY','9903 m.8/2'));
+        ongoing(rs);
+        const t = tesvik(pid==='P03'?'str':'thp', S.syt); c = {amt:t.vergi+t.faiz, amtL:'Vergi katkısı + faiz (üst sınır)', brk:[[`Katkı (%${t.oranV*100})`,t.vergi],[`Faiz · ${nf1.format(t.puan)} puan × 5 yıl`,t.faiz]]};
+        break; }
+      case 'P07': { // Yeşil Dönüşüm
+        if (S.sektor !== 'imalat') rs.push(R('no','Yalnız imalat sanayinde faaliyet gösteren sermaye şirketleri.','MEV','YDDP Tebliği'));
+        if (S.yeni) rs.push(R('no','Komple yeni yatırım desteklenmez.','MEV','YDDP Tebliği'));
+        rs.push(R(m.d==='◐'?'warn':'info', m.g, m.et, m.day));
+        rs.push(R('info','Şablonlu yol haritası raporu ve birim üretim başına ölçülebilir hedef zorunlu.','MEV','YDDP Tebliği'));
+        asgari(rs); ongoing(rs);
+        const o = tesvik('onc', S.syt), s2 = tesvik('str', S.syt), str = S.syt >= E.strYesil, mak = Math.min(S.bigMak*.25, S.syt*.15, E.makStr);
+        if (str) rs.push(R('ok',`${mn(E.strYesil)} üzeri: değerlendirme süreci olmadan Stratejik Hamle.`,'MEV,TEY','9903 m.8/8'));
+        const brk = [['Öncelikli · katkı (%30)',o.vergi],[`Öncelikli · faiz ${nf1.format(o.puan)} puan`,o.faiz],['KDV istisnası · nakit etkisi',kdvNakit(S.syt)]];
+        if (str) brk.push(['Stratejik · katkı (%40)',s2.vergi],[`Stratejik · faiz ${nf1.format(s2.puan)} puan`,s2.faiz],['ya da makine desteği (%25)',mak]);
+        c = {amt: str ? Math.max(o.vergi+o.faiz, s2.vergi+Math.max(s2.faiz,mak)) : o.vergi+o.faiz, amtL: str?'Vergi + faiz/makine (en iyi seçenek)':'Vergi katkısı + faiz desteği', brk};
+        break; }
+      case 'P08': { // VAP
+        if (S.yeni) rs.push(R('no','Yeni tesis kurulumu kapsam dışı.','MEV','VAP UE m.6/7-d'));
+        if (S.basladi) rs.push(R('no','Başlanmış projeler kapsam dışı.','MEV','VAP UE m.6/7-a'));
+        if (S.syt <= E.vapMin) rs.push(R('no',`Proje bedeli ${mn(E.vapMin)} üzerinde olmalı (01.07.2026).`,'DUY','ETKB · Oluru 12.03.2026'));
+        const lim = ['T13','T14','T16'].includes(T) ? 10 : 7;
+        if (!isFinite(pb)) rs.push(R('warn','Geri ödeme için yıllık tasarrufu girin.','HES',''));
+        else rs.push(R(pb > lim ? 'no' : 'ok', `Geri ödeme ${nf1.format(pb)} yıl; azami ${lim} yıl.`, 'DUY,HES', 'ETKB · Oluru 12.03.2026'));
+        if (T === 'T17') rs.push(R('info','Toprak/jeotermal kaynaklı ısı pompasında 10 yıl sınırının uygulanıp uygulanmadığı teyit edilecek.','TEY','Teyit Listesi T-06'));
+        if (T === 'T14' && !S.kojenBelge) rs.push(R('warn','Kojenerasyon Tesisi Verim Belgesi gerekli.','MEV','VAP UE m.5/1-d'));
+        on(rs,'VAP UE');
+        const a = Math.min(S.syt*.3, E.vapCap); c = {amt:a, amtL:'Tahmini hibe', brk:[['Proje bedeli × %30',S.syt*.3],['2026 üst limiti',E.vapCap],['Tahmini hibe',a]], note:'01.01.2027’den itibaren etüt dışı projede oran %25.'};
+        break; }
+      case 'P09': { // EPS
+        if (S.model !== 'eps') rs.push(R('warn','Başvuruyu EPS imzalayan ESCO yapar; modeli EPS seçerseniz bu yol açılır.','MEV','EPS UE m.4, m.5/1'));
+        if (!ob) rs.push(R('no','Sözleşme makamı enerji yöneticisi görevlendirmekle yükümlü olmalı.','MEV','EPS UE m.2 · EVY m.9'));
+        if (S.yeni) rs.push(R('no','Yeni tesis kapsam dışı.','MEV','EPS UE m.6/3-ç'));
+        if (S.basladi) rs.push(R('no','Başlanmış proje kapsam dışı.','MEV','EPS UE m.6/3-a'));
+        if (S.syt < E.epsMin) rs.push(R('no',`Yatırım bedeli ${mn(E.epsMin)} altında olmamalı.`,'DUY','ETKB EPS duyurusu'));
+        if (isFinite(pb)) rs.push(R(pb < 1 ? 'no' : 'ok', `Basit geri ödeme ${nf1.format(pb)} yıl; alt sınır 1 yıl.`, 'DUY,HES', 'ETKB EPS duyurusu'));
+        const a = Math.min(S.syt*.3, E.vapCap); c = {amt:a, amtL:'Tahmini hibe', brk:[['Yatırım bedeli × %30',S.syt*.3],['Azami (VAP limiti varsayıldı)',E.vapCap]]};
+        break; }
+      case 'P10': { // EKA
+        if (!['imalat','bina'].includes(S.sektor)) rs.push(R('no','2026 çağrısı imalat ile otel, AVM, hastane, ofis binalarına açık.','DUY','ETKB EKA duyurusu'));
+        on(rs,'EKA UE');
+        const d = days('2026-09-30');
+        rs.push(d < 0 ? R('warn','2026 başvuru dönemi kapandı.','DUY','ETKB EKA duyurusu') : R('info',`Son başvuru 30.09.2026 · ${d} gün kaldı.`,'DUY','ETKB EKA duyurusu'));
+        if (S.gider <= 0) rs.push(R('warn','2026 enerji giderini girin.','HES',''));
+        rs.push(R('info', m.g, m.et, m.day));
+        const a = Math.min(S.gider*.3, E.ekaCap); c = {amt: S.gider>0?a:null, amtL:'Azami hibe (üst sınır)', brk:[['Enerji gideri × %30',S.gider*.3],['2026 üst limiti',E.ekaCap]]};
+        break; }
+      case 'P11': { // KOSGEB
+        if (S.olcek !== 'kobi') rs.push(R('no','Yalnız KOBİ’ler.','DUY','KOSGEB YSDP'));
+        if (S.sektor !== 'imalat') rs.push(R('no','Sanayi (imalat) KOBİ’lerine yönelik.','DUY','KOSGEB YSDP'));
+        rs.push(R('warn','2026’da açık çağrı olup olmadığı teyit edilecek.','TEY','Teyit Listesi T-04'));
+        const g = OZ.includes(T), rate = g?.6:.7, cap = g?E.kosGes:E.kosTemiz, a = Math.min(S.syt*rate, cap);
+        c = {amt:a, amtL:(g?'GES':'Temiz ve döngüsel')+' bileşeni · geri ödemeli', brk:[[`Uygun gider × %${rate*100}`,S.syt*rate],['Üst limit',cap]]};
+        break; }
+      case 'P13': rs.push(R('warn', m.g, m.et, m.day)); rs.push(R('info',`2026-2 çağrısı kapanış 12.10.2026 · ${days('2026-10-12')} gün.`,'DUY','TÜBİTAK 1832')); break;
+      case 'P14': rs.push(R('ok', m.g, m.et, m.day)); rs.push(R('info','Küresel ölçek, teknik ve finansal yeterlilik aranır; paket proje bazında belirlenir.','DUY','HIT-30'));
+        if (T === 'T21' && S.syt < 1e9) rs.push(R('warn','HIT-30 çağrıları milyar dolar ölçeğinde (ör. HIT-Battery ≥ 5 GWh/yıl).','DUY','HIT-30 çağrılar'));
+        c = {amt:null, amtL:'Proje bazlı: toplam destek SYT’nin %100’üne kadar; enerji faturasının %50’sine kadar enerji desteği'}; break;
+      case 'P15': { // YEKDEM
+        if (S.sektor !== 'enerji') rs.push(R('warn','YEK belgeli lisanslı üretim gerekir.','MEV','5346 m.6; 7189 CBK'));
+        rs.push(R('ok', m.g, m.et, m.day));
+        const pick = {T03:['Güneş'],T06:['Rüzgâr – karasal','Rüzgâr – deniz üstü'],T10:['Hidroelektrik'],T11:['Biyokütle'],T12:['Jeotermal'],T08:['bütünleşik depolama']}[T] || [];
+        const rows = D.yekdem.filter(y => pick.some(p => y.ad.includes(p)));
+        c = {yek: rows, amt:null, amtL:'Gelir desteği · 10 yıl (jeotermal 15)'}; break; }
+      case 'P16': { // Lisanssız
+        if (T === 'T09'){ rs.push(R('no', m.g, m.et, m.day)); break; }
+        const kat = S.sektor === 'imalat' ? 2 : 1;
+        if (OZ.includes(T)){
+          const lim = S.sozKw*kat;
+          if (S.sozKw > 0) rs.push(R(S.kw > lim ? 'no':'ok', `Kurulu güç ${fmt(S.kw)} kWe; sınır ${fmt(lim)} kW (${kat===2?'sanayide sözleşme gücünün 2 katı':'sözleşme gücü'}).`,'MEV,HES','LÜY m.5/1-h'));
+          else rs.push(R('warn','Sözleşme gücünü girin.','HES',''));
+          if (S.tuketim > 0) rs.push(R('info',`Yıllık üretim ${fmt(S.tuketim*2)} MWh’yi (tüketimin 2 katı) aşamaz; aşan kısım YEKDEM’e bedelsiz.`,'MEV,HES','LÜY m.26/17'));
+          c = {custom: S.sozKw>0 ? fmt(lim)+' kW' : null, amtL:'İzin verilen azami kurulu güç'};
+        } else if (T === 'T07'){
+          if (S.sozKw > 0) rs.push(R(S.kw > S.sozKw ? 'no':'ok', `Depolama gücü ${fmt(S.kw)} kW; sözleşme gücü ${fmt(S.sozKw)} kW sınırı.`,'MEV,TEY','Depolama Yön. m.6'));
+          rs.push(R('info','Aynı ölçüm noktası; yalnız tesis ihtiyacı için; şebekeye verilen enerji tedarikçi verişine sayılmaz.','MEV,TEY','Depolama Yön. m.6'));
+        } else rs.push(R('ok', m.g, m.et, m.day));
+        if (S.dagOrtak && IL[S.il].ejs) rs.push(R('no',`${S.il} Enerjisa dağıtım bölgesinde (${IL[S.il].ejs}); dağıtım grubu şirketi burada lisanssız RES/GES başvurusu yapamaz. Başvuru sahibi müşteri olmalı.`,'MEV,TEY','LÜY m.37/10'));
+        else if (S.dagOrtak) rs.push(R('info','Bu il Enerjisa dağıtım bölgesinde değil; diğer grup bölgelerini ayrıca kontrol edin.','MEV,TEY','LÜY m.37/10'));
+        rs.push(R('info','Saatlik mahsuplaşma; ihtiyaç fazlası 10 yıl alınır, sonrasında YEKDEM fiyatının %90’ı (PTF ile sınırlı).','MEV','LÜY m.26; 11415 CBK'));
+        break; }
+      case 'P17': rs.push(R('ok', m.g, m.et, m.day));
+        rs.push(R('info',`Başvuru 13.10.2026 · ${days('2026-10-13')} gün. Tavan 5,50 €c/kWh; serbest piyasa ${T==='T06'?'72':'60'} ay, sonra 20 yıl alım.`,'MEV,DUY','YEKA-2026 şartnamesi'));
+        c = {custom: T==='T06'?'3,50–5,50 €c':'3,25–5,50 €c', amtL:'Teklif aralığı (taban–tavan) · kWh başına'}; break;
+      default: rs.push(R(m.d==='◐'?'warn':'ok', m.g, m.et, m.day));
+      }
+    }
+    const st = rs.some(r=>r.t==='no') ? 'no' : (rs.some(r=>r.t==='warn') ? 'warn' : 'ok');
+    out.push(Object.assign({pid, P, st, rs, m}, c));
+  }
+  // bölgesel SGK kartı
+  const t9903 = out.filter(p => ['P01','P02','P03','P04','P05','P07'].includes(p.pid) && p.st !== 'no');
+  if (t9903.length){
+    const rs = [R(K.sgk?'ok':'info', `SGK işveren hissesi: ${sgkTxt()}.`,'MEV','9903 m.18, m.22')];
+    if (K.gecici) rs.push(R('ok', K.deprem ? `${S.ilce} deprem ilçesi: 31.12.2026’ya kadar müracaatta 6. bölge destekleri (${days(GECICI_SON)} gün).` : `Cazibe Merkezleri ili + OSB + imalat: 31.12.2026’ya kadar 6. bölge destekleri (${days(GECICI_SON)} gün).`,'MEV', K.deprem?'9903 geçici m.3':'9903 geçici m.4'));
+    if (K.eff === 6) rs.push(R('info','6. bölgede işçi hissesi de 10 yıl karşılanır.','MEV','9903 m.19'));
+    rs.push(R('info','Destek, teşvik belgesindeki ilave istihdam için uygulanır.','MEV','9903 m.18/1'));
+    if (!K.sgk) rs.unshift(R('no','1. bölgede SGK işveren hissesi desteği yok (TYKH programlarında 8 yıl).','MEV','9903 m.18/2-3'));
+    out.push({pid:'P06', P:D.prog.P06, st:K.sgk?'ok':'no', rs, amt:null, custom: K.sgk ? K.sgk+' yıl' : 'Yok', amtL:'SGK işveren desteği süresi'});
+  }
+  return {K, out};
+}
+
+/* ---------- çizim ---------- */
+const chipFor = st => st==='ok'?'<span class="chip ok dot">Uygun</span>':st==='warn'?'<span class="chip warn dot">Koşullu</span>':'<span class="chip no dot">Uygun değil</span>';
+const clist = rs => `<ul class="clist">${rs.map(r=>`<li><span class="ci ${r.t}">${ICON[r.t]}</span><div>${esc(r.text)}${(r.et||r.rf)?`<div class="meta">${tags(r.et)}${ref(r.rf)}</div>`:''}</div></li>`).join('')}</ul>`;
+function slist(pid){
+  const it = D.destek.filter(d=>d.p===pid); if (!it.length) return '<p class="muted small">Envanterde ayrıca destek unsuru tanımlı değil.</p>';
+  const li = d => `<li><span class="ci dot">${ICON.dot}</span><div><b>${esc(d.u)}</b> · ${esc(d.o)}${d.l&&d.l!=='—'?` · üst sınır: ${esc(d.l)}`:''}<div class="meta">${tags(d.et)}${ref(d.day)}</div></div></li>`;
+  const h = it.slice(0,4), r = it.slice(4);
+  return `<ul class="clist">${h.map(li).join('')}</ul>` + (r.length?`<details class="more"><summary>${ICON.chev}${r.length} unsur daha</summary><ul class="clist">${r.map(li).join('')}</ul></details>`:'');
+}
+function card(p){
+  let amt = '';
+  if (p.custom) amt = `<div class="amt"><div class="v">${esc(p.custom)}</div><div class="l">${esc(p.amtL||'')} ${tag('HES')}</div></div>`;
+  else if (p.amt != null && p.st !== 'no') amt = `<div class="amt"><div class="v">${mn(p.amt)}</div><div class="l">${esc(p.amtL)} ${tag('HES')}</div></div>`;
+  else if (p.amtL && p.st !== 'no') amt = `<div class="amt"><div class="l" style="max-width:280px">${esc(p.amtL)}</div></div>`;
+  const brk = p.brk && p.st !== 'no' ? `<dl class="brk">${p.brk.map(b=>`<div><dt>${esc(b[0])}</dt><dd>${TL(b[1])}</dd></div>`).join('')}</dl>` : '';
+  const yek = p.yek && p.yek.length ? `<div class="cmp2" style="margin-top:10px"><table><thead><tr><th>Kaynak</th><th>Fiyat (kuruş/kWh)</th><th>Taban–tavan (USD cent)</th><th>Süre</th><th>Yerli katkı</th></tr></thead><tbody>${p.yek.map(y=>`<tr><td>${esc(y.ad)}</td><td class="n">${nf2.format(y.f)}</td><td class="n">${nf2.format(y.tb)}–${nf2.format(y.tv)}</td><td class="n">${y.s} yıl</td><td class="n">${nf2.format(y.yk)} · ${y.yks} yıl</td></tr>`).join('')}</tbody></table></div><p class="small muted" style="margin-top:6px">${esc(D.yekNot)} ${tag('MEV')}</p>` : '';
+  return `<article class="pcard st-${p.st}"><div class="ph"><div><h3>${esc(p.P.ad)}</h3><div class="own">${esc(p.P.kurum)} · ${esc(p.P.kanal)}</div><div class="chips">${chipFor(p.st)}<span class="chip">${esc(p.P.nit)}</span><span class="chip">${esc(p.P.durum)}</span></div></div>${amt}</div>
+    <div class="pb"><div><h4>Şart kontrolü</h4>${clist(p.rs)}${brk}${yek}${p.note?`<p class="small muted" style="margin-top:8px">${esc(p.note)}</p>`:''}</div><div><h4>Destek unsurları (envanter)</h4>${slist(p.pid)}</div></div></article>`;
+}
+
+function ilCard(K){
+  const x = K.x, b = BOL[K.b];
+  const en = x.ykh.map((k,i)=>({k,i,en:D.ykhEnerji.some(w=>k.toLowerCase().includes(w.toLowerCase()))}));
+  $('#ilcard').innerHTML = `<div class="ilcard">
+    <div><span class="k">Teşvik bölgesi (EK-2)</span><span class="v">${K.b}. bölge${K.gecici?' → 6':''}</span><span class="x">${tags('MEV')} 9903 EK-2</span></div>
+    <div><span class="k">Asgari sabit yatırım 2026</span><span class="v">${mn(K.asg)}</span><span class="x">${tags('MEV,TEY')}</span></div>
+    <div><span class="k">SGK işveren desteği</span><span class="v">${K.sgk?K.sgk+' yıl':'Yok'}</span><span class="x">${K.alt?'Alt bölge etkisi dahil':'m.18'} ${tags('MEV')}</span></div>
+    <div><span class="k">Hedef yatırımda faiz</span><span class="v">${K.eff>=4?'Var':'Yok'}</span><span class="x">4-6. bölge · m.10/3</span></div>
+    <div class="ilwide"><span class="k">Yerel yatırım konuları (YKH 2026)</span><ul class="konu">${en.map(e=>`<li class="${e.en?'en':''}"><span class="n">${e.i+1}</span><span>${esc(e.k)}${e.en?' · enerji bağlantılı':''}</span></li>`).join('')}</ul><span class="x">${tags('MEV')} RG 31.01.2026 · enerji bağlantısı ${tags('YOR')}</span></div>
+    <div class="ilwide"><span class="k">Kalkınma ajansı</span><span class="v txt">${esc(x.ajans)} · ${esc(x.ofis)}</span><span class="x">${[x.tel,x.ep].filter(Boolean).map(esc).join(' · ')} ${x.web?`· <a href="${esc(x.web)}" target="_blank" rel="noopener">${esc(x.web.replace(/^https?:\/\//,'').replace(/\/$/,''))}</a>`:''} ${tags('DUY')}</span></div>
+  </div>`;
+  const f = [];
+  if (K.ist) f.push(['warn','İstanbul istisnası','Hedef yatırımda vergi indirimi yok; Öncelikli (c) orta-yüksek teknoloji ve (j) Ar-Ge bağlantılı yatırımlar İstanbul hariç (9903 m.9, m.10/2).']);
+  if (x.cz) f.push([K.cazibeOsb?'ok':'warn','Cazibe Merkezleri ili', K.cazibeOsb ? 'OSB’deki imalat yatırımı 31.12.2026’ya kadar müracaatta 6. bölge desteklerinden yararlanır (geçici m.4).' : 'Yatırım OSB/endüstri bölgesinde ve imalat ise 31.12.2026’ya kadar 6. bölge desteği (geçici m.4).']);
+  if (x.dp.length) f.push([K.deprem?'ok':'warn','Deprem ilçeleri', K.deprem ? `${S.ilce}: 31.12.2026’ya kadar müracaatta 6. bölge destekleri; imalatta EK-3 şartı aranmaz (geçici m.3).` : `${x.dp.length} ilçe 6. bölge desteği alıyor (geçici m.3): ${x.dp.join(', ')}. İlçeyi seçin.`]);
+  if (x.ek5.length && !K.ek5) f.push(['warn','Alt bölge ilçeleri (EK-5)', `SGK desteği bir alt bölgeden: ${x.ek5.join(', ')}.`]);
+  if (x.ejs) f.push(['no','Enerjisa dağıtım bölgesi', `${x.ejs}. Dağıtım grubu şirketleri burada lisanssız RES/GES başvurusu yapamaz (LÜY m.37/10) · teyit edilecek.`]);
+  $('#ilflags').innerHTML = f.map(([t,h,b])=>`<div class="flag ${t}"><div><b>${esc(h)}.</b> ${esc(b)}</div></div>`).join('');
+}
+function cmpIl(){
+  const A = konum(S.il, S.ilce, S.osb), B = konum(S.il2, '', S.osb);
+  const rows = [['Bölge (EK-2)', A.b+'. bölge', B.b+'. bölge'],['Asgari sabit yatırım', mn(A.asg), mn(B.asg)],['SGK işveren desteği (merkez)', BOL[A.b].sgk?BOL[A.b].sgk+' yıl':'Yok', BOL[B.b].sgk?BOL[B.b].sgk+' yıl':'Yok'],
+    ['Hedef yatırımda faiz', A.b>=4?'Var':'Yok', B.b>=4?'Var':'Yok'],['6. bölge işçi hissesi', A.b===6?'10 yıl':'Yok', B.b===6?'10 yıl':'Yok'],
+    ['Cazibe ili (OSB imalat → 6. bölge)', A.x.cz?'Evet':'—', B.x.cz?'Evet':'—'],['Deprem ilçesi sayısı', A.x.dp.length||'—', B.x.dp.length||'—'],['EK-5 alt bölge ilçesi', A.x.ek5.length||'—', B.x.ek5.length||'—'],
+    ['İstanbul istisnası', A.ist?'Var':'—', B.ist?'Var':'—'],['Enerjisa dağıtım bölgesi', A.x.ejs||'—', B.x.ejs||'—'],
+    ['Enerji bağlantılı yerel konu', A.x.ykh.filter(k=>D.ykhEnerji.some(w=>k.toLowerCase().includes(w.toLowerCase()))).join(' · ')||'—', B.x.ykh.filter(k=>D.ykhEnerji.some(w=>k.toLowerCase().includes(w.toLowerCase()))).join(' · ')||'—'],
+    ['Vergi indirimi ve faiz oranları','Programa bağlı, il fark etmez','Programa bağlı, il fark etmez']];
+  $('#cmp2').innerHTML = `<table><thead><tr><th>Kural</th><th>${esc(S.il)}</th><th>${esc(S.il2)}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="n${String(r[1])!==String(r[2])?' diff':''}">${esc(r[1])}</td><td class="n${String(r[1])!==String(r[2])?' diff':''}">${esc(r[2])}</td></tr>`).join('')}</tbody></table>`;
+}
+
+function renderStatic(){
+  $('#meta').textContent = `Veri envanteri: son kontrol ${D.kontrol}`;
+  $('#legend').innerHTML = Object.keys(TAGLAB).map(k=>`<div class="it">${tag(k)}<span>${esc(TAGLAB[k][1])}</span></div>`).join('');
+  $$('[data-tag]').forEach(el => el.outerHTML = tag(el.dataset.tag));
+  $('#strip').innerHTML = [['VAP hibe üst limiti',fmt(E.vapCap),'TL','DUY','EVY m.16/2'],['EKA hibe üst limiti',fmt(E.ekaCap),'TL','DUY','EVY m.16/3'],['9903 asgari (1-2 / 3-6. bölge)',nf1.format(E.asg12/1e6)+' / '+nf1.format(E.asg36/1e6),'mn TL','TEY','m.5/2'],['Yeşil dönüşüm → Stratejik',nf1.format(E.strYesil/1e6),'mn TL','TEY','m.8/8']]
+    .map(r=>`<div><span class="k">${r[0]}</span><span class="v">${r[1]}<small>${r[2]}</small></span><span class="s">${tag(r[3])}${r[4]} · 2026</span></div>`).join('');
+  $('#datastrip').innerHTML = `<span>Envanterden: <b>${Object.keys(D.prog).length}</b> program</span><span><b>${D.tur.length}</b> yatırım türü</span><span><b>${D.m.length}</b> matris kaydı</span><span><b>${D.iller.length}</b> il</span><span><b>${D.iller.reduce((a,x)=>a+x.ykh.length,0)}</b> yerel konu</span><span><b>${D.kaynak.length}</b> kaynak</span><span>Yeniden değerleme <b>%${nf2.format(E.oran*100)}</b></span>`;
+  const T = [['prog','Programlar'],['kars','Karşılaştırma'],['cagri','Açık çağrılar'],['kum','Birlikte kullanım'],['kay','Kaynaklar']];
+  $('#tabs').innerHTML = T.map(([k,l])=>`<button type="button" role="tab" id="tab-${k}" aria-controls="tp-${k}" aria-selected="${k===tab}" data-tab="${k}">${l}</button>`).join('');
+  $('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; $$('#tabs [data-tab]').forEach(x=>x.setAttribute('aria-selected', x.dataset.tab===tab)); T.forEach(([k])=>$('#tp-'+k).hidden = k!==tab); });
+  $('#tp-kum').innerHTML = `<p class="muted" style="max-width:74ch">Aynı yatırım veya ekipman için. 'Belirsiz' satırlar teyit listesindedir.</p><div class="tbl-wrap"><table class="t"><thead><tr><th>Destek A</th><th>Destek B</th><th>Birlikte?</th><th>Açıklama</th><th>Dayanak</th></tr></thead><tbody>${D.kum.map(k=>`<tr><td>${esc(k.a)}</td><td>${esc(k.b)}</td><td>${k.c==='Hayır'?'<span class="chip no">Hayır</span>':k.c==='Evet'?'<span class="chip ok">Evet</span>':k.c==='Koşullu'?'<span class="chip warn">Koşullu</span>':'<span class="chip">Belirsiz</span>'}</td><td>${esc(k.d)}</td><td>${ref(k.day)} ${tags(k.et)}</td></tr>`).join('')}</tbody></table></div>`;
+  $('#tp-kay').innerHTML = `<p class="muted" style="max-width:74ch">Araçtaki her veri "Enerji Yatırım Destekleri Veri Envanteri 2026" dosyasından gelir (${D.kural} uygunluk kuralı, ${D.m.length} matris kaydı). Taranmış Resmî Gazete ekleri sayfa sayfa okundu.</p>
+    <div class="tbl-wrap"><table class="t src"><thead><tr><th>ID</th><th>Kaynak</th><th>Tür</th><th>Tarih / sayı</th></tr></thead><tbody>${D.kaynak.map(k=>`<tr><td>${k.id}</td><td>${k.url?`<a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.ad)}</a>`:esc(k.ad)}${k.notu?`<div class="small muted">${esc(k.notu)}</div>`:''}</td><td>${esc(k.tur)}</td><td>${esc(k.tarih)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="pending"><b>Teyit bekleyen bilgiler</b><ul>${D.teyit.map(t=>`<li><b>${esc(t.konu)}:</b> ${esc(t.neden)}</li>`).join('')}</ul></div>`;
+  $('#foot').textContent = `Kaynak taraması: ${D.kontrol}`;
+}
+function callStatus(t){ const a = days(t.a), b = days(t.b);
+  if (b < 0) return ['Geçti','']; if (a > 0) return [a<=30?`${a} gün sonra`:'İleri tarih', a<=30?'warn':'']; return [t.a===t.b?'Bugün':`Açık · ${b} gün kaldı`,'ok']; }
+function renderCalls(){
+  const fd = s => s.split('-').reverse().join('.');
+  const items = D.takvim.map(t=>({t, s:callStatus(t)}));
+  $('#tp-cagri').innerHTML = `<p class="muted" style="max-width:74ch">Durum bugünün tarihine göre hesaplanır.</p>` + items.map(({t,s})=>`<div class="callrow"><span class="d">${fd(t.a)}${t.b!==t.a?'<br>'+fd(t.b):''}</span><div><div class="w">${esc(t.o)}</div><div class="x">${esc((D.prog[t.p]||{}).ad||'')} ${tags(t.et)}</div></div><span class="chip ${s[1]}">${esc(s[0])}</span></div>`).join('');
+  return items.filter(i=>i.s[1]).slice(0,4);
+}
+
+function update(){
+  const K = konum(S.il, S.ilce, S.osb);
+  ilCard(K); cmpIl();
+  const T = S.tur;
+  if (!T){ $('#gucBox').hidden = true; $('#kojenBox').hidden = true; $('#stepper').innerHTML=''; $('#resTop').innerHTML = '<div><div class="k">'+esc(S.il)+'</div><h2>Yatırım türünü seçin</h2><p>Sonuçlar 03 · Yatırım türü seçildiğinde hesaplanır.</p></div>'; ['prog','kars'].forEach(k=>$('#tp-'+k).innerHTML='<p class="muted">Yatırım türü seçilmedi.</p>'); renderCalls(); $('#summary').innerHTML='<div class="sum-h"><span>Özet</span></div><div class="status"><div><div class="t">Yatırım türü seçilmedi</div><p>'+esc(S.il)+' · '+K.b+'. bölge</p></div></div>'; return; }
+  $('#gucBox').hidden = !(OZ.includes(T) || BESS.includes(T) || LISANSLI.includes(T));
+  $('#kwLbl').textContent = BESS.includes(T) ? 'Depolama gücü' : 'Kurulu güç';
+  $('#kojenBox').hidden = T !== 'T14';
+  $('#alanWrap').hidden = S.sektor !== 'bina';
+  const ob = obliged(); $('#eyWrap').style.opacity = ob ? '' : '.55';
+  $('#tepNote').innerHTML = ob ? `<span class="chip warn">Enerji yöneticisi yükümlüsü</span>${ref('EVY m.9')}` : `<span class="chip">Yükümlülük yok</span>`;
+  $('#sytNote').innerHTML = S.syt ? `${mn(S.syt)} · asgari ${mn(K.asg)} ${tag('TEY')}` : '';
+  const pb = payback(); $('#pbNote').innerHTML = isFinite(pb) ? `Basit geri ödeme ${nf1.format(pb)} yıl ${tag('HES')}` : '';
+  $('#gucNote').innerHTML = S.tuketim ? `2× sınır: ${fmt(S.tuketim*2)} MWh/yıl ${tag('HES')}` : '';
+
+  const {out} = evaluate();
+  const act = out.filter(p=>p.st!=='no'), no = out.filter(p=>p.st==='no');
+  const ok = out.filter(p=>p.st==='ok').length, wa = out.filter(p=>p.st==='warn').length;
+  const SEK = {imalat:'İmalat',bina:'Ticari/hizmet',enerji:'Enerji yatırımcısı',diger:'Diğer'};
+  $('#stepper').innerHTML = [['#s1','Konum',`${S.il}${S.ilce?' · '+S.ilce:''} · ${K.b}. bölge`],['#s2','İşletme',`${SEK[S.sektor]} · ${S.olcek==='kobi'?'KOBİ':'Büyük'}`],['#s3','Yatırım',TUR[T]],['#sonuc','Sonuç',`${ok} uygun · ${wa} koşullu`]]
+    .map((r,i)=>`<li><a href="${r[0]}"><span class="n">${i+1}</span><span><span class="l">${r[1]}</span><span class="v">${esc(r[2])}</span></span></a></li>`).join('');
+  const KL = [['Yatırım desteği','hibe, vergi, faiz, KDV, gümrük, SGK'],['Performans desteği','enerji giderine bağlı'],['Gelir / piyasa desteği','üretilen elektriğin fiyatı ve mahsuplaşma'],['Kapasite tahsisi','yarışma, alım garantisi'],['Ar-Ge desteği','ürün ve süreç geliştirme']];
+  const order = p => p.st==='ok'?0:1;
+  $('#tp-prog').innerHTML = (act.length ? KL.map(([k,d]) => { const ps = act.filter(p=>p.P.sinif===k).sort((a,b)=>order(a)-order(b)); return ps.length ? `<div class="klass">${k} <span>${d}</span></div><div class="plist">${ps.map(card).join('')}</div>` : ''; }).join('') : '<p class="muted">Açık destek yolu yok.</p>')
+    + (no.length ? `<details class="nope"><summary>${ICON.chev}Uygun olmayan programlar ve nedeni (${no.length})</summary><div class="nope-list">${no.map(p=>`<div class="row"><b>${esc(p.P.ad)}</b><ul>${p.rs.filter(r=>r.t==='no').map(r=>`<li>${esc(r.text)} ${ref(r.rf)}</li>`).join('')}</ul></div>`).join('')}</div></details>` : '');
+  const money = act.filter(p=>p.amt>0);
+  const max = Math.max(1,...money.map(p=>p.amt));
+  const cls = p => ['P08','P09','P10'].includes(p.pid)?'':p.pid==='P11'?'soft':'alt';
+  $('#tp-kars').innerHTML = money.length ? `<p class="muted" style="max-width:74ch">Hibe nakit ödenir; vergi indirimi kâr oluştukça yıllara yayılır; KOSGEB geri ödenir. Aynı ekipman için VAP, EPS, 9903 ve KOSGEB’den yalnız biri seçilir (9903 m.33, EVY m.17/A-6).</p><div class="bars">${money.sort((a,b)=>b.amt-a.amt).map(p=>`<div class="brow"><div class="n">${esc(p.P.ad)}<small>${esc(p.P.sinif)}</small></div><div class="track"><i class="${cls(p)}" style="width:${(p.amt/max*100).toFixed(1)}%"></i></div><div class="v">${mn(p.amt)}</div></div>`).join('')}</div><div class="key"><span><i></i>Hibe</span><span><i class="alt"></i>Vergi ve finansman</span><span><i class="soft"></i>Geri ödemeli</span></div>` : '<p class="muted">Tutar hesaplanan destek yok.</p>';
+  const soon = renderCalls();
+  const best = money.filter(p=>p.pid!=='P10').sort((a,b)=>b.amt-a.amt)[0];
+  $('#resTop').innerHTML = `<div><div class="k">${esc(S.il)} · ${esc(TUR[T])}</div><h2>${act.length} destek yolu açık</h2><p>${best?`En yüksek tahmini yatırım desteği: ${esc(best.P.ad)}, ${mn(best.amt)}. `:''}${K.gecici?'Geçici 6. bölge hükmü uygulanıyor. ':''}Yatırım desteği ile gelir/piyasa desteği ayrı gruplarda.</p></div><div class="counts"><span class="chip ok dot">${ok} uygun</span><span class="chip warn dot">${wa} koşullu</span><span class="chip no dot">${no.length} uygun değil</span></div>`;
+  const s = ok ? 's-ok' : wa ? 's-warn' : 's-no';
+  $('#summary').innerHTML = `<div class="sum-h"><span>Özet</span>${preset&&preset!=='bos'?tag('ORN'):''}</div>
+    <div class="status ${s}"><span class="ic">${ok?ICON.check:ICON.alert}</span><div><div class="t">${ok} uygun · ${wa} koşullu</div><p>${esc(S.il)} · ${K.b}. bölge${K.gecici?' (→ 6)':''} · SGK ${K.sgk?K.sgk+' yıl':'yok'}</p></div></div>
+    <dl class="dl">${out.map(p=>`<div><dt>${esc(p.P.ad.split(' (')[0].split(' → ')[0])}</dt>${p.st==='no'?'<dd class="st"><span class="chip no">Uygun değil</span></dd>':p.amt>0?`<dd>${mn(p.amt)}</dd>`:p.custom?`<dd>${esc(p.custom)}</dd>`:`<dd class="st">${chipFor(p.st)}</dd>`}</div>`).join('')}</dl>
+    ${soon.length?`<div class="sum-h" style="border-top:1px solid var(--line)"><span>Yaklaşan ve açık çağrılar</span></div><div class="sumcalls">${soon.map(i=>`<div><span>${esc(i.t.o)}</span><span>${esc(i.s[0])}</span></div>`).join('')}</div>`:''}
+    <div class="sum-f"><a class="btn primary" href="#sonuc">Ayrıntılı sonuca git</a></div>`;
+}
+
+fillSelects(); renderStatic(); renderPresets(); writeForm(); update();
+})();
+</script>

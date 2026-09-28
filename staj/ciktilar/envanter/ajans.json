@@ -1,0 +1,893 @@
+{
+"Aksaray": [
+{
+"ajans": "Ahiler Kalkınma Ajansı",
+"kod": "ahika",
+"web": "https://www.ahika.gov.tr/",
+"ofis": "Aksaray Merkez Ofis",
+"tel": "+90 382 215 00 18",
+"eposta": "aksaray@ahika.gov.tr",
+"adres": "Hacılar Harmanı Mahallesi 5.Bulvar Terminal Yolu Üzeri No:53/1 Aksaray TSO Binası 68100 Merkez/AKSARAY"
+}
+],
+"Kırıkkale": [
+{
+"ajans": "Ahiler Kalkınma Ajansı",
+"kod": "ahika",
+"web": "https://www.ahika.gov.tr/",
+"ofis": "Kırıkkale Yatırım Destek Ofisi",
+"tel": "+90 318 222 09 36",
+"eposta": "kirikkale@ahika.gov.tr",
+"adres": "Kırıkkale Valiliği 1. Kat Fabrikalar Mah. Ulubatlı Hasan Cad. No:39 Merkez/KIRIKKALE"
+}
+],
+"Kırşehir": [
+{
+"ajans": "Ahiler Kalkınma Ajansı",
+"kod": "ahika",
+"web": "https://www.ahika.gov.tr/",
+"ofis": "Kırşehir Yatırım Destek Ofisi",
+"tel": "+90 386 212 70 90",
+"eposta": "kirsehir@ahika.gov.tr",
+"adres": "Medrese Mahallesi 57. Sokak Eroğlu-Berk İş Merkezi No:3/6 Merkez/KIRŞEHİR"
+}
+],
+"Nevşehir": [
+{
+"ajans": "Ahiler Kalkınma Ajansı",
+"kod": "ahika",
+"web": "https://www.ahika.gov.tr/",
+"ofis": "Nevşehir Yatırım Destek Ofisi",
+"tel": "+90 384 214 36 66",
+"eposta": "nevsehir@ahika.gov.tr",
+"adres": "Cevher Dudayev Mah. Vatan Cad. No : 42/1 Merkez / NEVŞEHİR"
+}
+],
+"Niğde": [
+{
+"ajans": "Ahiler Kalkınma Ajansı",
+"kod": "ahika",
+"web": "https://www.ahika.gov.tr/",
+"ofis": "Niğde Yatırım Destek Ofisi",
+"tel": "+90 388 233 51 59",
+"eposta": "nigde@ahika.gov.tr",
+"adres": "Dr. Sami Yağız Caddesi Cici Baba Sokak Yavuz İş Merkezi K:3 No:3/20 Merkez/Niğde"
+}
+],
+"Ankara": [
+{
+"ajans": "Ankara Kalkınma Ajansı",
+"kod": "ankaraka",
+"web": "https://www.ankaraka.org.tr//",
+"ofis": "Ankara Merkez Ofis",
+"tel": "+90 312 310 03 00",
+"eposta": "bilgi@ankaraka.org.tr",
+"adres": "Aşağı Öveçler Mah. 1322. Cad. No: 11 06460 Çankaya / ANKARA"
+}
+],
+"Isparta": [
+{
+"ajans": "Batı Akdeniz Kalkınma Ajansı",
+"kod": "baka",
+"web": "https://www.baka.gov.tr/",
+"ofis": "Isparta Central Office",
+"tel": "+90 246 224 37 37",
+"eposta": "info@baka.gov.tr",
+"adres": "Çünür Mahallesi 102. Cadde Ekonomi Kampüsü A2 Blok No: 185-B Isparta/Konya"
+}
+],
+"Antalya": [
+{
+"ajans": "Batı Akdeniz Kalkınma Ajansı",
+"kod": "baka",
+"web": "https://www.baka.gov.tr/",
+"ofis": "Antalya Investment Support Office",
+"tel": "+90 242 332 37 37",
+"eposta": "antalyaydo@baka.gov.tr",
+"adres": "Ulus Mahallesi Namık Kemal Bulvarı No: 4/2 Kepez/Antalya"
+}
+],
+"Burdur": [
+{
+"ajans": "Batı Akdeniz Kalkınma Ajansı",
+"kod": "baka",
+"web": "https://www.baka.gov.tr/",
+"ofis": "Burdur Investment Support Office",
+"tel": "+90 248 234 05 50",
+"eposta": "burdurydo@baka.gov.tr",
+"adres": "Burç Mahallesi İstasyon Caddesi No: 27 Burdur"
+}
+],
+"Zonguldak": [
+{
+"ajans": "Batı Karadeniz Kalkınma Ajansı",
+"kod": "bakka",
+"web": "https://www.bakka.gov.tr/",
+"ofis": "Zonguldak Merkez Ofis",
+"tel": "+90 372 257 74 70",
+"eposta": "",
+"adres": "Güney Mah Zonguldak Yolu Cad No 36 67600 Kozlu/ZONGULDAK"
+}
+],
+"Karabük": [
+{
+"ajans": "Batı Karadeniz Kalkınma Ajansı",
+"kod": "bakka",
+"web": "https://www.bakka.gov.tr/",
+"ofis": "Karabük Yatırım Destek Ofisi",
+"tel": "+90 370 412 00 36",
+"eposta": "",
+"adres": "Ömer Lütfi Özaytaç Cad,Özçelik İş Merkezi,No:5, Kat:1 Daire:3, 78100 Merkez/KARABÜK"
+}
+],
+"Bartın": [
+{
+"ajans": "Batı Karadeniz Kalkınma Ajansı",
+"kod": "bakka",
+"web": "https://www.bakka.gov.tr/",
+"ofis": "Bartın Yatırım Destek Ofisi",
+"tel": "+90 378 227 67 02",
+"eposta": "",
+"adres": "Bülent Ecevit Bulvarı Dağlıoğlu Sitesi D Blok No:70 D:3 Merkez/BARTIN"
+}
+],
+"Bursa": [
+{
+"ajans": "Bursa Eskişehir Bilecik Kalkınma Ajansı",
+"kod": "bebka",
+"web": "https://www.bebka.org.tr/",
+"ofis": "Bursa Merkez Ofis",
+"tel": "",
+"eposta": "bebka@bebka.org.tr",
+"adres": "Altınova Mah. İstanbul Cad. 424/4 Buttim İş Merkezi Buttim Plaza Kat 6 16250 Osmangazi/Bursa"
+}
+],
+"Eskişehir": [
+{
+"ajans": "Bursa Eskişehir Bilecik Kalkınma Ajansı",
+"kod": "bebka",
+"web": "https://www.bebka.org.tr/",
+"ofis": "Eskişehir Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Hoşnudiye Mh. 732. Sk. No: 44/4 Efe Plaza B Blok 2. Kat Tepebaşı / Eskişehir"
+}
+],
+"Bilecik": [
+{
+"ajans": "Bursa Eskişehir Bilecik Kalkınma Ajansı",
+"kod": "bebka",
+"web": "https://www.bebka.org.tr/",
+"ofis": "Bilecik Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Bilecik 1. Organize Sanayi Bölgesi Gazi Bulvarı No:2 Bilecik Ticaret ve Sanayi Odası Binası Bilecik/Merkez"
+}
+],
+"Adana": [
+{
+"ajans": "Çukurova Kalkınma Ajansı",
+"kod": "cka",
+"web": "https://www.cka.gov.tr/",
+"ofis": "Adana Merkez Ofis",
+"tel": "+90 322 363 00 39",
+"eposta": "",
+"adres": "Döşeme Mahallesi Turhan Cemal Beriker Bulvarı No:138/2 01060 Seyhan/ ADANA"
+}
+],
+"Mersin": [
+{
+"ajans": "Çukurova Kalkınma Ajansı",
+"kod": "cka",
+"web": "https://www.cka.gov.tr/",
+"ofis": "Mersin Yatırım Destek Ofisi",
+"tel": "+90 324 237 80 86",
+"eposta": "",
+"adres": "Üç Ocak Mahallesi Turgut Özal Bulvarı Mersin Ticaret Borsası Kompleksi (Liman D Kapısı Yanı) Kat:2 3/21 Akdeniz / MERSİN"
+}
+],
+"Mardin": [
+{
+"ajans": "Dicle Kalkınma Ajansı",
+"kod": "dika",
+"web": "https://www.dika.gov.tr/",
+"ofis": "Mardin Merkez Ofis",
+"tel": "+90 482 212 17 25",
+"eposta": "",
+"adres": "Yenişehir Mahallesi Kızıltepe Caddesi No: 6/1 Artuklu / MARDİN"
+}
+],
+"Batman": [
+{
+"ajans": "Dicle Kalkınma Ajansı",
+"kod": "dika",
+"web": "https://www.dika.gov.tr/",
+"ofis": "Batman Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "GAP Mah. 2509. Sok. Bina No:2 Safir Plaza Kat:5 Daire:505 BATMAN"
+}
+],
+"Siirt": [
+{
+"ajans": "Dicle Kalkınma Ajansı",
+"kod": "dika",
+"web": "https://www.dika.gov.tr/",
+"ofis": "Siirt Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Bahçelievler Mah. Hükümet Bulvarı Muhsin Özel Apartmanı No:29 SİİRT"
+}
+],
+"Şırnak": [
+{
+"ajans": "Dicle Kalkınma Ajansı",
+"kod": "dika",
+"web": "https://www.dika.gov.tr/",
+"ofis": "Şırnak Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Vakıfkent Mah. Uludere Cad. No:16 ŞIRNAK"
+}
+],
+"Hatay": [
+{
+"ajans": "Doğu Akdeniz Kalkınma Ajansı",
+"kod": "dogaka",
+"web": "https://www.dogaka.gov.tr/",
+"ofis": "Hatay Merkez Ofis",
+"tel": "+90 326 212 25 76",
+"eposta": "hydo@dogaka.gov.tr",
+"adres": "Haraparası Mah. Yavuz Sultan Selim Cad. 1. Tabakhane Sk. No:20 Antakya / HATAY"
+}
+],
+"Kahramanmaraş": [
+{
+"ajans": "Doğu Akdeniz Kalkınma Ajansı",
+"kod": "dogaka",
+"web": "https://www.dogaka.gov.tr/",
+"ofis": "Kahramanmaraş Yatırım Destek Ofisi",
+"tel": "+90 344 231 14 17",
+"eposta": "kydo@dogaka.gov.tr",
+"adres": "Yenişehir Mahallesi 74.002 Sokak No:3 Dulkadiroğlu / KAHRAMANMARAŞ"
+}
+],
+"Osmaniye": [
+{
+"ajans": "Doğu Akdeniz Kalkınma Ajansı",
+"kod": "dogaka",
+"web": "https://www.dogaka.gov.tr/",
+"ofis": "Osmaniye Yatırım Destek Ofisi",
+"tel": "+90 328 888 00 00",
+"eposta": "oydo@dogaka.gov.tr",
+"adres": "Rauf Bey Mh. Adnan Menderes Bulv. 9546 Sk. No:70 Osmaniye Ticaret ve Sanayi Odası Binası Kat:3 Merkez/Osmaniye"
+}
+],
+"Van": [
+{
+"ajans": "Doğu Anadolu Kalkınma Ajansı",
+"kod": "daka",
+"web": "https://daka.gov.tr//",
+"ofis": "Van Merkez Ofis",
+"tel": "+90 432 485 10 15",
+"eposta": "bilgi@daka.org.tr",
+"adres": "Şerefiye Mah. Cumhuriyet Cad. 943. Sok. No:1 65140 İpekyolu / Van"
+}
+],
+"Bitlis": [
+{
+"ajans": "Doğu Anadolu Kalkınma Ajansı",
+"kod": "daka",
+"web": "https://daka.gov.tr//",
+"ofis": "Bitlis Yatırım Destek Ofisi",
+"tel": "+90 434 226 66 48",
+"eposta": "",
+"adres": "Beş Minare Mah. Bitlis OSB Alanı OSB İdare Binası Kat:1 Merkez / Bitlis"
+}
+],
+"Hakkâri": [
+{
+"ajans": "Doğu Anadolu Kalkınma Ajansı",
+"kod": "daka",
+"web": "https://daka.gov.tr//",
+"ofis": "Hakkari Yatırım Destek Ofisi",
+"tel": "+90 438 211 00 44",
+"eposta": "",
+"adres": "Kayacan Cad. Hakkari Ticaret ve Sanayi Odası Binası Kat 3 Merkez / Hakkari"
+}
+],
+"Muş": [
+{
+"ajans": "Doğu Anadolu Kalkınma Ajansı",
+"kod": "daka",
+"web": "https://daka.gov.tr//",
+"ofis": "Muş Yatırım Destek Ofisi",
+"tel": "+90 436 212 95 13",
+"eposta": "",
+"adres": "Yeni Mah. Hürriyet Cad. No: 312 (Eski Tekel İdari Binası) Merkez / Muş"
+}
+],
+"Trabzon": [
+{
+"ajans": "Doğu Karadeniz Kalkınma Ajansı",
+"kod": "doka",
+"web": "https://www.doka.org.tr/",
+"ofis": "Trabzon Merkez Ofis",
+"tel": "+90 462 455 40 89 ",
+"eposta": "doka@doka.org.tr",
+"adres": "Gazipaşa Mahallesi, Nemlioğlu Sokak No:3 DOKA Hizmet Binası, Ortahisar Trabzon"
+}
+],
+"Artvin": [
+{
+"ajans": "Doğu Karadeniz Kalkınma Ajansı",
+"kod": "doka",
+"web": "https://www.doka.org.tr/",
+"ofis": "Artvin Yatırım Destek Ofisi",
+"tel": "+90 462 455 40 74",
+"eposta": "",
+"adres": "Çarşı Mah. Cumhuriyet Cad. Arslan Apt. No:6-6 ARTVİN"
+}
+],
+"Giresun": [
+{
+"ajans": "Doğu Karadeniz Kalkınma Ajansı",
+"kod": "doka",
+"web": "https://www.doka.org.tr/",
+"ofis": "Giresun Yatırım Destek Ofisi",
+"tel": "+90 462 455 40 73",
+"eposta": "",
+"adres": "Sultan Selim Mah. GMK Bulvarı No:1 (TSO Yanı) GİRESUN"
+}
+],
+"Gümüşhane": [
+{
+"ajans": "Doğu Karadeniz Kalkınma Ajansı",
+"kod": "doka",
+"web": "https://www.doka.org.tr/",
+"ofis": "Gümüşhane Yatırım Destek Ofisi",
+"tel": "+90 462 455 40 72",
+"eposta": "",
+"adres": "İl Kültür Turizm Müdürlüğü Kat:3 GÜMÜŞHANE"
+}
+],
+"Ordu": [
+{
+"ajans": "Doğu Karadeniz Kalkınma Ajansı",
+"kod": "doka",
+"web": "https://www.doka.org.tr/",
+"ofis": "Ordu Yatırım Destek Ofisi",
+"tel": "+90 462 455 40 75",
+"eposta": "",
+"adres": "Bahçelievler mah. 295.sokak No:8 kat:3 Altınordu/ORDU"
+}
+],
+"Rize": [
+{
+"ajans": "Doğu Karadeniz Kalkınma Ajansı",
+"kod": "doka",
+"web": "https://www.doka.org.tr/",
+"ofis": "Rize Yatırım Destek Ofisi",
+"tel": "+90 462 455 40 76",
+"eposta": "",
+"adres": "Menderes Bulvarı No:522 RİZE"
+}
+],
+"Kocaeli": [
+{
+"ajans": "Doğu Marmara Kalkınma Ajansı",
+"kod": "marka",
+"web": "http://www.marka.org.tr/",
+"ofis": "Kocaeli Merkez Ofis",
+"tel": "",
+"eposta": "info@marka.org.tr",
+"adres": "Yenişehir Mah. Demokrasi Bulvarı No: 72/A 41050 İzmit - KOCAELİ"
+}
+],
+"Sakarya": [
+{
+"ajans": "Doğu Marmara Kalkınma Ajansı",
+"kod": "marka",
+"web": "http://www.marka.org.tr/",
+"ofis": "Sakarya Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Sakarya Ticaret ve Sanayi Odası Sakarya Mah. No: 19 Arifiye - SAKARYA"
+}
+],
+"Düzce": [
+{
+"ajans": "Doğu Marmara Kalkınma Ajansı",
+"kod": "marka",
+"web": "http://www.marka.org.tr/",
+"ofis": "Düzce Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Kültür Mah. Süleyman Kuyumcu Cad. No: 15/201 DÜZCE"
+}
+],
+"Yalova": [
+{
+"ajans": "Doğu Marmara Kalkınma Ajansı",
+"kod": "marka",
+"web": "http://www.marka.org.tr/",
+"ofis": "Yalova Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Fatih Cad. Hürriyet Sok. 22/3 Merkez - YALOVA"
+}
+],
+"Bolu": [
+{
+"ajans": "Doğu Marmara Kalkınma Ajansı",
+"kod": "marka",
+"web": "http://www.marka.org.tr/",
+"ofis": "Bolu Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Borazanlar Mah. D-100 Karayolu Üzeri caddesi No: 42 14200 Merkez - BOLU"
+}
+],
+"Malatya": [
+{
+"ajans": "Fırat Kalkınma Ajansı",
+"kod": "fka",
+"web": "https://fka.gov.tr//",
+"ofis": "Malatya Merkez Ofis",
+"tel": "+90 422) 322 15 55",
+"eposta": "malatyaydo@fka.gov.tr",
+"adres": "Malatya Ticaret ve Sanayi Odası 2. Kat Battalgazi / MALATYA"
+}
+],
+"Bingöl": [
+{
+"ajans": "Fırat Kalkınma Ajansı",
+"kod": "fka",
+"web": "https://fka.gov.tr//",
+"ofis": "Bingöl Yatırım Destek Ofisi",
+"tel": "+90 426 213 57 55",
+"eposta": "bingolydo@fka.gov.tr",
+"adres": "İnönü Mahallesi Kültür Caddesi No : 72 Kahraman Tatar İş merkezi Kat : 1 Merkez / BİNGÖL"
+}
+],
+"Elazığ": [
+{
+"ajans": "Fırat Kalkınma Ajansı",
+"kod": "fka",
+"web": "https://fka.gov.tr//",
+"ofis": "Elazığ Yatırım Destek Ofisi",
+"tel": "+90 424 237 22 01",
+"eposta": "elazigydo@fka.gov.tr",
+"adres": "Cumhuriyet Mahallesi General Hulusi Sayın Cad. No : 117 Blok : 2 Kat : 2 Merkez / ELAZIĞ"
+}
+],
+"Tunceli": [
+{
+"ajans": "Fırat Kalkınma Ajansı",
+"kod": "fka",
+"web": "https://fka.gov.tr//",
+"ofis": "Tunceli Yatırım Destek Ofisi",
+"tel": "+90 428 213 34 84",
+"eposta": "igdiryatirimdestekofisi@fka.gov.tr",
+"adres": "Moğultay Mahallesi Cumhuriyet Caddesi No:30/2 Merkez / TUNCELİ"
+}
+],
+"Denizli": [
+{
+"ajans": "Güney Ege Kalkınma Ajansı",
+"kod": "geka",
+"web": "https://geka.gov.tr/",
+"ofis": "Denizli Merkez Ofis",
+"tel": "+90 258 371 88 44",
+"eposta": "info@geka.gov.tr",
+"adres": "Pamukkale Teknokent Kınıklı Mh. Hüseyin Yılmaz Cd. No:67 B Blok Kat:2 Pamukkale/Denizli"
+}
+],
+"Aydın": [
+{
+"ajans": "Güney Ege Kalkınma Ajansı",
+"kod": "geka",
+"web": "https://geka.gov.tr/",
+"ofis": "Aydın Yatırım Destek Ofisi",
+"tel": "+90 256 211 0 216",
+"eposta": "aydin@geka.gov.tr",
+"adres": "Ata Mh. Denizli Blv. No:18 Aydın Ticaret Borsası Hizmet Binası Kat: 6 AYDIN"
+}
+],
+"Muğla": [
+{
+"ajans": "Güney Ege Kalkınma Ajansı",
+"kod": "geka",
+"web": "https://geka.gov.tr/",
+"ofis": "Muğla Yatırım Destek Ofisi",
+"tel": "+90 252 213 17 92",
+"eposta": "mugla@geka.gov.tr",
+"adres": "Muslihittin Mh. Mehmet Polatoğlu Cd. No:22/1 Kat:2 Menteşe/MUĞLA"
+}
+],
+"Balıkesir": [
+{
+"ajans": "Güney Marmara Kalkınma Ajansı",
+"kod": "gmka",
+"web": "https://www.gmka.gov.tr/",
+"ofis": "Balıkesir Merkez Ofis",
+"tel": "+90 266 246 10 00",
+"eposta": "",
+"adres": "Paşaalanı Mh. A. Gaffar Okkan Cd. No:28/1 Karesi/Balıkesir"
+}
+],
+"Çanakkale": [
+{
+"ajans": "Güney Marmara Kalkınma Ajansı",
+"kod": "gmka",
+"web": "https://www.gmka.gov.tr/",
+"ofis": "Çanakkale Yatırım Destek Ofisi",
+"tel": "+90 286 211 00 81",
+"eposta": "",
+"adres": "Cevatpaşa Mh. Kayserili Ahmet Paşa Cd. 3. Kat No:26 (Valilik Yanı) Merkez/Çanakkale"
+}
+],
+"Gaziantep": [
+{
+"ajans": "İpek Yolu Kalkınma Ajansı",
+"kod": "ika",
+"web": "https://www.ika.org.tr/",
+"ofis": "Gaziantep Merkez Ofis",
+"tel": "+90 342 231 07 01",
+"eposta": "",
+"adres": "İncilipınar Mahallesi Muammer Aksoy Bulvarı Vakıflar Güven İş Merkezi Kat : 2 Şehitkamil Gaziantep"
+}
+],
+"Adıyaman": [
+{
+"ajans": "İpek Yolu Kalkınma Ajansı",
+"kod": "ika",
+"web": "https://www.ika.org.tr/",
+"ofis": "Adıyaman Yatırım Destek Ofisi",
+"tel": "+90 416 213 14 44",
+"eposta": "",
+"adres": "Alitaşı Mah. Gölbaşı Cad. No:137/5-6 Kat:4 ADIYAMAN"
+}
+],
+"Kilis": [
+{
+"ajans": "İpek Yolu Kalkınma Ajansı",
+"kod": "ika",
+"web": "https://www.ika.org.tr/",
+"ofis": "Kilis Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Şehitler Mah. Cambazlar Sok. No: 9 KİLİS"
+}
+],
+"İstanbul": [
+{
+"ajans": "İstanbul Kalkınma Ajansı",
+"kod": "istka",
+"web": "https://www.istka.org.tr/",
+"ofis": "İstanbul Merkez Ofis",
+"tel": "+90 212 468 34 00",
+"eposta": "iletisim@istka.org.tr",
+"adres": "Asmalı Mescit Mah. İstiklal Caddesi No:142, Odakule Kat:6-7-8 Beyoğlu 34430 İstanbul"
+}
+],
+"İzmir": [
+{
+"ajans": "İzmir Kalkınma Ajansı",
+"kod": "izka",
+"web": "https://izka.org.tr/",
+"ofis": "İzmir Merkez Ofis",
+"tel": "+90 232 489 81 81",
+"eposta": "",
+"adres": "Şehit Fethi Bey Caddesi No:49/1 Birlik Plaza Kat:3 35210 Gümrük İZMİR"
+}
+],
+"Diyarbakır": [
+{
+"ajans": "Karacadağ Kalkınma Ajansı",
+"kod": "karacadag",
+"web": "https://www.karacadag.gov.tr/",
+"ofis": "Diyarbakır Merkez Ofis",
+"tel": "+90 412 237 12 16",
+"eposta": "dbakirydo@karacadag.gov.tr",
+"adres": "Fırat Mahallesi Urfa Bulvarı No:142 Kayapınar / DİYARBAKIR"
+}
+],
+"Şanlıurfa": [
+{
+"ajans": "Karacadağ Kalkınma Ajansı",
+"kod": "karacadag",
+"web": "https://www.karacadag.gov.tr/",
+"ofis": "Şanlıurfa Yatırım Destek Ofisi",
+"tel": "+90 414 314 98 03",
+"eposta": "urfaydo@karacadag.gov.tr",
+"adres": "Şanlıurfa TSO Yeni Hizmet Binası (A Blok Kat 4) Paşabağı Mah. Adalet Cad. No:9 Haliliye/ŞANLIURFA"
+}
+],
+"Çankırı": [
+{
+"ajans": "Kuzey Anadolu Kalkınma Ajansı",
+"kod": "kuzka",
+"web": "https://www.kuzka.gov.tr/",
+"ofis": "Çankırı Merkez Ofis",
+"tel": "+90 376 213 79 88",
+"eposta": "cankiriydo@kuzka.gov.tr",
+"adres": "Çankırı Valiliği Yeni Hizmet Binası, Hükûmet Konağı 3. Kat No: 322-323 Abdulhalik Renda Mah., Ankara Caddesi, No: 38 18100 Merkez/Çankırı"
+}
+],
+"Kastamonu": [
+{
+"ajans": "Kuzey Anadolu Kalkınma Ajansı",
+"kod": "kuzka",
+"web": "https://www.kuzka.gov.tr/",
+"ofis": "Kastamonu Yatırım Destek Ofisi",
+"tel": "+90 366 212 58 52",
+"eposta": "kastamonuydo@kuzka.gov.tr",
+"adres": "Kuzeykent Mahallesi Kayın Sokak No:9 | 37150 Kastamonu"
+}
+],
+"Sinop": [
+{
+"ajans": "Kuzey Anadolu Kalkınma Ajansı",
+"kod": "kuzka",
+"web": "https://www.kuzka.gov.tr/",
+"ofis": "Sinop Yatırım Destek Ofisi",
+"tel": "+90 368 260 37 01",
+"eposta": "sinopydo@kuzka.gov.tr",
+"adres": "Kaleyazısı Mah. Tuzcular Cad. No:13 | 57000 Sinop"
+}
+],
+"Erzurum": [
+{
+"ajans": "Kuzey Doğu Anadolu Kalkınma Ajansı",
+"kod": "kudaka",
+"web": "https://www.kudaka.org.tr/",
+"ofis": "Erzurum Merkez Ofis",
+"tel": "+90 442 235 61 11",
+"eposta": "info@kudaka.gov.tr",
+"adres": "Cumhuriyet Caddesi No:3 Yakutiye/ERZURUM"
+}
+],
+"Erzincan": [
+{
+"ajans": "Kuzey Doğu Anadolu Kalkınma Ajansı",
+"kod": "kudaka",
+"web": "https://www.kudaka.org.tr/",
+"ofis": "Erzincan Yatırım Destek Ofisi",
+"tel": "+90 446 223 50 05",
+"eposta": "erzincanydo@kudaka.gov.tr",
+"adres": "Muhsin Yazıcıoğlu Cad. Veysel Akkaya İş Merkezi No:10 Kat:1 ERZİNCAN"
+}
+],
+"Bayburt": [
+{
+"ajans": "Kuzey Doğu Anadolu Kalkınma Ajansı",
+"kod": "kudaka",
+"web": "https://www.kudaka.org.tr/",
+"ofis": "Bayburt Yatırım Destek Ofisi",
+"tel": "+90 458 210 10 00",
+"eposta": "bayburtydo@kudaka.gov.tr",
+"adres": "Bayburt Valiliği Hükumet Konağı Kat:2, Recep Tayyip Erdoğan Bulvarı No:113 BAYBURT"
+}
+],
+"Konya": [
+{
+"ajans": "Mevlana Kalkınma Ajansı",
+"kod": "mevka",
+"web": "https://www.mevka.org.tr/",
+"ofis": "Konya Merkez Ofis",
+"tel": "+90 332 236 32 90",
+"eposta": "konyaydo@mevka.org.tr",
+"adres": "Konevi Mahallesi Feritpaşa Caddesi No:18 Meram/Konya"
+}
+],
+"Karaman": [
+{
+"ajans": "Mevlana Kalkınma Ajansı",
+"kod": "mevka",
+"web": "https://www.mevka.org.tr/",
+"ofis": "Karaman Yatırım Destek Ofisi",
+"tel": "+90 338 213 0020",
+"eposta": "karamanydo@mevka.org.tr",
+"adres": "Ahi Osman Mahallesi İsmet Paşa Caddesi No: 2 Daire: 3 Merkez/Karaman"
+}
+],
+"Kayseri": [
+{
+"ajans": "Orta Anadolu Kalkınma Ajansı",
+"kod": "oran",
+"web": "https://www.oran.gov.tr/",
+"ofis": "Kayseri Merkez Ofis",
+"tel": "+90 352 352 67 26",
+"eposta": "",
+"adres": "Mevlana Mahallesi, M.K.P Bulvari, No:79, Kat: 5-6 P.K: 38080 Kocasinan/KAYSERI"
+}
+],
+"Yozgat": [
+{
+"ajans": "Orta Anadolu Kalkınma Ajansı",
+"kod": "oran",
+"web": "https://www.oran.gov.tr/",
+"ofis": "Yozgat Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Asaginohutlu Mah. Sakarya Cad. No:9 Kat:2 YOZGAT"
+}
+],
+"Sivas": [
+{
+"ajans": "Orta Anadolu Kalkınma Ajansı",
+"kod": "oran",
+"web": "https://www.oran.gov.tr/",
+"ofis": "Sivas Yatırım Destek Ofisi",
+"tel": "+90 346 222 08 00",
+"eposta": "",
+"adres": "Akdegirmen Mah. Höllüklük Cad. No:39, 58040, SIVAS"
+}
+],
+"Samsun": [
+{
+"ajans": "Orta Karadeniz Kalkınma Ajansı",
+"kod": "oka",
+"web": "https://www.oka.gov.tr/",
+"ofis": "Samsun Merkez Ofis",
+"tel": "+90 362 431 24 00",
+"eposta": "info@investsamsun.com",
+"adres": "Samsun Merkez Organize San. Böl. Yasar Dogu Cad. No: 62 Tekkeköy/SAMSUN"
+}
+],
+"Amasya": [
+{
+"ajans": "Orta Karadeniz Kalkınma Ajansı",
+"kod": "oka",
+"web": "https://www.oka.gov.tr/",
+"ofis": "Amasya Yatırım Destek Ofisi",
+"tel": "+90 358 212 69 66",
+"eposta": "info@investamasya.com",
+"adres": "Dere Mahallesi. Igneci Baba Sokak. No:30 Amasya"
+}
+],
+"Çorum": [
+{
+"ajans": "Orta Karadeniz Kalkınma Ajansı",
+"kod": "oka",
+"web": "https://www.oka.gov.tr/",
+"ofis": "Çorum Yatırım Destek Ofisi",
+"tel": "+90 364 225 74 70",
+"eposta": "info@investcorum.com",
+"adres": "Çorum TSO Binasi Karakeçili Mah. Fuar Cad. No: 2 Kat: 1 Çorum"
+}
+],
+"Tokat": [
+{
+"ajans": "Orta Karadeniz Kalkınma Ajansı",
+"kod": "oka",
+"web": "https://www.oka.gov.tr/",
+"ofis": "Tokat Yatırım Destek Ofisi",
+"tel": "+90 356 228 93 60",
+"eposta": "info@investtokat.com",
+"adres": "Kabe-i Mescit Mahallesi Bekir Paşa Sokak No: 11 Tokat"
+}
+],
+"Kars": [
+{
+"ajans": "Serhat Kalkınma Ajansı",
+"kod": "serka",
+"web": "https://www.serka.gov.tr/",
+"ofis": "Kars Merkez Ofis",
+"tel": "+90 474 212 52 00",
+"eposta": "info@serka.gov.tr",
+"adres": "Atatürk Cad No:117 Ortakapı Mah Merkez-Kars"
+}
+],
+"Ağrı": [
+{
+"ajans": "Serhat Kalkınma Ajansı",
+"kod": "serka",
+"web": "https://www.serka.gov.tr/",
+"ofis": "Ağrı Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "agriyatirimdestekofisi@serka.gov.tr",
+"adres": "Erzurum Cad. Ağrı Ticaret ve Sanayi Odası (ATSO) Binası Kat:3 Ağrı"
+}
+],
+"Ardahan": [
+{
+"ajans": "Serhat Kalkınma Ajansı",
+"kod": "serka",
+"web": "https://www.serka.gov.tr/",
+"ofis": "Ardahan Yatırım Destek Ofisi",
+"tel": "+90 478 211 38 33",
+"eposta": "ardahanyatirimdestekofisi@serka.gov.tr",
+"adres": "Karagöl Mahallesi Kongre Caddesi No:64 Kat:2 No:1 Ardahan"
+}
+],
+"Iğdır": [
+{
+"ajans": "Serhat Kalkınma Ajansı",
+"kod": "serka",
+"web": "https://www.serka.gov.tr/",
+"ofis": "Iğdır Yatırım Destek Ofisi",
+"tel": "+90 476 227 70 10",
+"eposta": "igdiryatirimdestekofisi@serka.gov.tr",
+"adres": "Cumhuriyet Mahallesi 503. Sokak Ağgül İş Merkezi No: 11 Kat:3/17 Iğdır"
+}
+],
+"Tekirdağ": [
+{
+"ajans": "Trakya Kalkınma Ajansı",
+"kod": "trakyaka",
+"web": "https://www.trakyaka.org.tr/",
+"ofis": "Tekirdağ Merkez Ofis",
+"tel": "",
+"eposta": "",
+"adres": "Hürriyet Mah. Elif Hanım Sok. Dinçgül Özçakı İş Merkezi No:9 Süleymanpaşa TEKİRDAĞ"
+}
+],
+"Edirne": [
+{
+"ajans": "Trakya Kalkınma Ajansı",
+"kod": "trakyaka",
+"web": "https://www.trakyaka.org.tr/",
+"ofis": "Edirne Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "",
+"adres": "Çavuş Bey Mahallesi Hükümet Caddesi Paşakapısı Kuzey Köşkü No:19/1 Merkez/Edirne"
+}
+],
+"Kırklareli": [
+{
+"ajans": "Trakya Kalkınma Ajansı",
+"kod": "trakyaka",
+"web": "https://www.trakyaka.org.tr/",
+"ofis": "Kırklareli Yatırım Destek Ofisi",
+"tel": "+90 288 214 25 25",
+"eposta": "",
+"adres": "Yayla Mahallesi Yayla Meydanı No:6 DODOĞLU KONAĞI KIRKLARELİ"
+}
+],
+"Kütahya": [
+{
+"ajans": "Zafer Kalkınma Ajansı",
+"kod": "zafer",
+"web": "https://zafer.gov.tr/",
+"ofis": "Kütahya Merkez Ofis",
+"tel": "+90 274 271 77 61",
+"eposta": "info@zafer.gov.tr",
+"adres": "Cumhuriyet Mah. Öncü Sokak No:39 Merkez Kütahya"
+}
+],
+"Afyonkarahisar": [
+{
+"ajans": "Zafer Kalkınma Ajansı",
+"kod": "zafer",
+"web": "https://zafer.gov.tr/",
+"ofis": "Afyonkarahisar Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "afyonkarahisarydo@zafer.gov.tr",
+"adres": "Dörtyol Mah. 2078. Sokak No:11 ATSO Hizmet Binası Kat:2 Merkez/Afyonkarahisar"
+}
+],
+"Manisa": [
+{
+"ajans": "Zafer Kalkınma Ajansı",
+"kod": "zafer",
+"web": "https://zafer.gov.tr/",
+"ofis": "Manisa Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "manisaydo@zafer.gov.tr",
+"adres": "M. Efendi Mah. M.Sinan Bul. No:127 Manisa TSO Kat:1 Yunusemre/Manisa"
+}
+],
+"Uşak": [
+{
+"ajans": "Zafer Kalkınma Ajansı",
+"kod": "zafer",
+"web": "https://zafer.gov.tr/",
+"ofis": "Uşak Yatırım Destek Ofisi",
+"tel": "",
+"eposta": "usakydo@zafer.gov.tr",
+"adres": ""
+}
+]
+}
