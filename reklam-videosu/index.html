@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Enerji Tedariği Reklam Filmi</title>
+<style>
+@font-face{font-family:"Jakarta";font-weight:200 800;src:url(fonts/jakarta-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Jakarta";font-weight:200 800;src:url(fonts/jakarta-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Geist";font-weight:100 900;src:url(fonts/geist-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Geist";font-weight:100 900;src:url(fonts/geist-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
+:root{
+  --ink:#0e1b2c; --ink-2:#1b2b40; --ink-3:#2c3d55;
+  --accent:#2356c7; --accent-strong:#1a44a3; --accent-soft:#eaf1fd;
+  --sky:#4fa9e8; --sky-2:#7fc4f2; --sky-3:#cfe7fb; --glow:#a6d3f5;
+  --surface:#fff; --canvas:#f6f8fb; --line:#e2e7ef; --line-soft:#eef2f7;
+  --muted:#8490a3; --steel:#56627a;
+  --positive:#12745a; --positive-soft:#e6f5ef;
+  --warning:#9a5a06; --warning-soft:#fdf3e1; --amber:#e8a33a;
+  --on-dark:#ffffff; --on-dark-2:#a9b6c8; --on-dark-3:#6b7a90;
+  --W:1920px; --H:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--ink);width:var(--W);height:var(--H);overflow:hidden}
+body{font-family:"Geist",sans-serif;color:var(--on-dark);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:var(--W);height:var(--H);overflow:hidden;background:var(--ink)}
+.abs{position:absolute}
+.will{will-change:transform,opacity}
+
+/* ---------- background ---------- */
+.glow{position:absolute;border-radius:50%;pointer-events:none}
+#glow1{width:1400px;height:1400px;background:radial-gradient(closest-side,rgba(35,86,199,.55),rgba(35,86,199,.18) 55%,rgba(35,86,199,0))}
+#glow2{width:1100px;height:1100px;background:radial-gradient(closest-side,rgba(79,169,232,.28),rgba(79,169,232,0))}
+#grid{position:absolute;inset:-60px;background-image:radial-gradient(rgba(166,211,245,.16) 1.4px,transparent 1.6px);background-size:44px 44px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 65% at 50% 50%,#000 20%,transparent 80%);mask-image:radial-gradient(ellipse 70% 65% at 50% 50%,#000 20%,transparent 80%)}
+#waves{position:absolute;left:0;top:0;width:var(--W);height:var(--H);overflow:visible}
+#vignette{position:absolute;inset:0;background:radial-gradient(ellipse 85% 80% at 50% 50%,transparent 55%,rgba(5,11,20,.55));pointer-events:none}
+
+/* ---------- word reveal ---------- */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .14em;margin:0 -.02em -.14em}
+.wi{display:inline-block;will-change:transform}
+.pd{margin-left:-.075em}
+.grad{background:linear-gradient(90deg,#6fb8ee 0%,#a6d3f5 55%,#dcefff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- HUD ---------- */
+#hud-logo{left:120px;top:70px;display:flex;align-items:center;gap:16px;font-family:"Jakarta";font-weight:600;font-size:28px;letter-spacing:-.01em}
+#hud-logo svg{width:40px;height:40px}
+#hud-url{right:120px;top:78px;font-size:22px;color:var(--on-dark-2);letter-spacing:.01em}
+#stepper{left:120px;bottom:90px;display:flex;gap:18px}
+.step{width:236px}
+.step-l{font-size:17px;font-weight:600;letter-spacing:.12em;white-space:nowrap;color:var(--on-dark-3);margin-bottom:12px;display:flex;gap:10px}
+.step-l b{color:var(--glow);font-weight:600}
+.step-b{height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+.step-f{height:100%;width:0;background:linear-gradient(90deg,var(--sky),var(--glow));border-radius:4px}
+
+/* ---------- scene 1 ---------- */
+#s1{left:140px;top:0;height:var(--H);display:flex;flex-direction:column;justify-content:center}
+#s1 .kick{font-size:22px;font-weight:600;letter-spacing:.22em;color:var(--glow);margin-bottom:34px;display:flex;align-items:center;gap:16px}
+#s1 .kick i{display:block;width:44px;height:2px;background:var(--sky)}
+#s1 h1{font-family:"Jakarta";font-weight:700;font-size:118px;line-height:1.04;letter-spacing:-.035em}
+
+/* ---------- captions ---------- */
+#caps{left:120px;top:0;width:800px;height:var(--H);display:grid;align-items:start}
+.cap{grid-area:1/1;margin-top:340px}
+.kicker{display:inline-flex;align-items:center;gap:14px;height:46px;padding:0 20px 0 8px;border-radius:999px;background:rgba(166,211,245,.08);border:1px solid rgba(166,211,245,.18);font-size:20px;font-weight:600;letter-spacing:.06em;color:var(--on-dark-2);margin-bottom:32px}
+.kicker span{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:15px;letter-spacing:0}
+.cap h2{font-family:"Jakarta";font-weight:700;font-size:80px;line-height:1.06;letter-spacing:-.03em;margin-bottom:30px}
+.cap p{font-size:31px;line-height:1.45;color:var(--on-dark-2);max-width:700px}
+
+/* ---------- visuals ---------- */
+.vis{left:1000px;top:220px;width:820px;height:640px}
+.card{position:absolute;background:var(--surface);color:var(--ink);border-radius:26px;border:1px solid var(--line);
+  box-shadow:0 40px 80px -24px rgba(2,8,20,.65),0 12px 28px -10px rgba(2,8,20,.45)}
+.muted{color:var(--muted)}
+.lbl{font-size:19px;color:var(--muted);margin-bottom:8px}
+.val{font-size:25px;font-weight:600;color:var(--ink);white-space:nowrap}
+.ico{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* s2 */
+#drop{left:90px;top:120px;width:640px;height:400px;border-radius:30px;border:2px dashed rgba(166,211,245,.45);background:rgba(166,211,245,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+#drop .up{width:84px;height:84px;border-radius:50%;background:rgba(79,169,232,.16);display:grid;place-items:center;color:var(--glow);font-size:40px;margin-bottom:8px}
+#drop .t1{font-family:"Jakarta";font-size:30px;font-weight:600}
+#drop .t2{font-size:21px;color:var(--on-dark-2)}
+#file{left:190px;top:258px;width:440px;height:124px;border-radius:20px;padding:20px 24px;display:flex;gap:18px;align-items:center}
+#file .fi{width:56px;height:68px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:30px;position:relative}
+#file .fi b{position:absolute;bottom:8px;font-size:11px;font-weight:700;letter-spacing:.06em}
+#file .fn{font-size:22px;font-weight:600;margin-bottom:6px}
+#file .fs{font-size:17px;color:var(--muted);margin-bottom:12px;display:flex;justify-content:space-between;width:280px}
+#file .pb{width:280px;height:7px;border-radius:7px;background:var(--line-soft);overflow:hidden}
+#file .pf{height:100%;width:0;background:var(--accent);border-radius:7px}
+#bill{left:0;top:40px;width:820px;padding:34px 38px 30px}
+#bill .hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px}
+#bill .hd b{font-family:"Jakarta";font-size:28px;font-weight:700}
+#bill .hd span{font-size:21px;color:var(--muted)}
+#bill .flds{display:grid;grid-template-columns:200px 220px 1fr;gap:18px;padding-bottom:28px;border-bottom:1px solid var(--line-soft);margin-bottom:26px}
+.fld{position:relative}
+.fld .val{position:relative}
+.sk{position:absolute;left:0;top:4px;height:24px;border-radius:6px;background:linear-gradient(90deg,#eef2f7,#e2e7ef,#eef2f7);background-size:200% 100%}
+#bill .prof{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+#bill .prof b{font-size:22px;font-weight:600}
+#bill .prof span{font-size:22px;font-weight:600;color:var(--accent)}
+#bars{display:flex;align-items:flex-end;gap:14px;height:150px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
+.bar i{display:block;width:100%;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,#7fc4f2,#2356c7);transform-origin:bottom}
+.bar.hl i{background:linear-gradient(180deg,#2356c7,#1a44a3)}
+.bar em{font-style:normal;font-size:15px;color:var(--muted)}
+#okchip{left:560px;top:-26px;height:52px;padding:0 22px 0 14px;border-radius:999px;background:var(--positive-soft);color:var(--positive);font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px;border:1px solid rgba(18,116,90,.18);box-shadow:0 10px 24px -8px rgba(2,8,20,.35)}
+#okchip .c{width:30px;height:30px;border-radius:50%;background:var(--positive);color:#fff;display:grid;place-items:center;font-size:18px}
+
+/* s3 */
+#req{left:0;top:140px;width:480px;padding:30px 32px 28px}
+#req .lbl{font-size:18px;letter-spacing:.02em}
+#req .co{position:relative;height:40px;margin:6px 0 16px;display:flex;align-items:center}
+#req .co .nm{font-family:"Jakarta";font-size:28px;font-weight:700;white-space:nowrap}
+#req .co .red{position:absolute;left:-6px;top:0;height:40px;border-radius:9px;background:var(--ink);width:0;overflow:hidden;display:flex;align-items:center;gap:10px;padding-left:14px;color:var(--glow);font-size:18px;font-weight:600;letter-spacing:.08em;white-space:nowrap}
+#req .sec{font-size:25px;font-weight:600;margin-bottom:6px}
+#req .loc{font-size:21px;color:var(--steel);margin-bottom:18px}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{height:38px;padding:0 16px;border-radius:999px;background:var(--canvas);border:1px solid var(--line);font-size:18px;font-weight:500;color:var(--ink-3);display:flex;align-items:center}
+#req .hid{margin-top:22px;padding-top:18px;border-top:1px solid var(--line-soft);display:flex;align-items:center;gap:10px;font-size:19px;color:var(--steel)}
+#req .hid .ico{font-size:22px}
+#links{position:absolute;left:0;top:0;width:820px;height:640px;overflow:visible}
+.sup{position:absolute;left:560px;width:260px;height:104px;border-radius:20px;padding:0 18px;display:flex;align-items:center;gap:14px}
+.sup .av{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-family:"Jakarta";font-weight:700;font-size:22px;color:#fff;flex:none}
+.sup .nm{font-size:21px;font-weight:600;margin-bottom:6px;white-space:nowrap}
+.sup .lic{display:flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:var(--positive);white-space:nowrap}
+.sup .lic .ico{font-size:15px;stroke-width:3}
+
+/* s4 */
+#offers{left:0;top:30px;width:820px;padding:30px 0 16px}
+#offers .hd{display:flex;justify-content:space-between;align-items:baseline;padding:0 32px;margin-bottom:22px}
+#offers .hd b{font-family:"Jakarta";font-size:26px;font-weight:700}
+#offers .hd span{font-size:19px;color:var(--muted)}
+.row{position:absolute;left:0;width:818px;height:88px;background:#fff;display:grid;grid-template-columns:200px 1fr 170px;align-items:center;padding:0 32px}
+.rows{position:relative;height:270px}
+.th{display:grid;grid-template-columns:200px 1fr 170px;padding:0 32px 12px;font-size:16px;font-weight:600;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--line-soft)}
+.th :last-child,.row .yr{text-align:right}
+.row .rn{font-size:22px;font-weight:600;display:flex;flex-direction:column;gap:6px}
+.row .badge{display:inline-flex;align-self:flex-start;height:26px;padding:0 10px;border-radius:999px;background:var(--accent);color:#fff;font-size:14px;font-weight:600;align-items:center;letter-spacing:.02em}
+.row .pm{position:relative;height:60px}
+.row .pm > div{position:absolute;left:0;top:0;height:60px;display:flex;flex-direction:column;justify-content:center;gap:4px;white-space:nowrap}
+.row .pm .m{font-size:16px;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.row .pm .raw{font-size:22px;font-weight:500;color:var(--steel)}
+.row .pm .nrm{font-size:24px;font-weight:600;color:var(--ink)}
+.row .yr{font-family:"Jakarta";font-size:28px;font-weight:700;color:var(--ink);white-space:nowrap}
+.row .yr.q{color:var(--line)}
+.row .rbg{position:absolute;inset:4px 14px;border-radius:14px;background:var(--accent-soft);opacity:0;z-index:-1}
+.row.sep{border-top:1px solid var(--line-soft)}
+#sweep{position:absolute;top:118px;width:4px;height:300px;border-radius:4px;background:var(--accent);box-shadow:0 0 24px 6px rgba(35,86,199,.45);opacity:0}
+#norm{left:450px;top:-26px;height:48px;padding:0 20px;border-radius:999px;background:var(--ink);color:#fff;border:1px solid rgba(166,211,245,.35);font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px;white-space:nowrap;box-shadow:0 12px 26px -10px rgba(2,8,20,.6)}
+#norm i{width:10px;height:10px;border-radius:50%;background:var(--glow);box-shadow:0 0 12px var(--glow)}
+#terms{left:0;top:510px;width:820px;display:flex;gap:12px;flex-wrap:wrap}
+#terms .chip{background:rgba(166,211,245,.08);border-color:rgba(166,211,245,.22);color:var(--on-dark-2);height:44px;font-size:19px}
+#terms .chip .ico{font-size:17px;margin-right:8px;color:var(--glow);stroke-width:2.6}
+#note4{left:0;top:580px;font-size:17px;color:var(--on-dark-3)}
+
+/* s5 */
+#cmp{left:0;top:270px;width:720px;padding:32px 36px 34px}
+#cmp .hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px}
+#cmp .hd b{font-family:"Jakarta";font-size:26px;font-weight:700}
+#cmp .hd span{font-size:19px;color:var(--muted)}
+.cr{margin-bottom:22px}
+.cr .cl{display:flex;justify-content:space-between;font-size:20px;color:var(--steel);margin-bottom:10px}
+.cr .cl b{color:var(--ink);font-weight:600}
+.track{position:relative;height:30px;border-radius:9px;background:var(--line-soft);overflow:hidden}
+.track i{position:absolute;left:0;top:0;height:100%;border-radius:9px}
+#cmp .foot{font-size:16px;color:var(--muted);margin-top:4px}
+.cr .cl #diff{display:inline-block;padding:2px 12px;border-radius:9px;background:var(--warning-soft);color:var(--warning);font-family:"Jakarta";font-weight:700;font-size:22px;border:1px solid rgba(154,90,6,.2);transform-origin:100% 50%}
+.cr .cl{align-items:flex-end}
+#notif{left:170px;top:30px;width:650px;padding:26px 28px;display:flex;gap:20px;border-radius:24px}
+#notif .bell{width:60px;height:60px;border-radius:18px;background:var(--warning-soft);color:var(--warning);display:grid;place-items:center;font-size:30px;flex:none}
+#notif .top{display:flex;justify-content:space-between;font-size:16px;color:var(--muted);margin-bottom:6px;letter-spacing:.02em}
+#notif .tt{font-family:"Jakarta";font-size:25px;font-weight:700;margin-bottom:8px}
+#notif .bd{font-size:20px;line-height:1.45;color:var(--steel)}
+#notif .bd b{color:var(--warning);font-weight:700}
+#notif .ac{margin-top:14px;display:flex;align-items:center;gap:8px;font-size:19px;font-weight:600;color:var(--accent)}
+
+/* s6 */
+#s6{left:0;top:0;width:var(--W);height:var(--H)}
+#s6 h2{position:absolute;left:0;right:0;top:230px;text-align:center;font-family:"Jakarta";font-weight:700;font-size:72px;letter-spacing:-.03em;line-height:1.1}
+#pillars{position:absolute;left:0;right:0;top:470px;display:flex;justify-content:center;gap:36px}
+.pil{width:500px;height:300px;border-radius:28px;background:linear-gradient(180deg,rgba(166,211,245,.09),rgba(166,211,245,.03));border:1px solid rgba(166,211,245,.16);padding:40px 40px;backdrop-filter:blur(2px)}
+.pil .pi{width:72px;height:72px;border-radius:20px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:36px;margin-bottom:30px;box-shadow:0 14px 30px -10px rgba(35,86,199,.8)}
+.pil b{display:block;font-family:"Jakarta";font-size:32px;font-weight:700;margin-bottom:12px;letter-spacing:-.01em}
+.pil p{font-size:23px;line-height:1.45;color:var(--on-dark-2)}
+
+/* s7 */
+#s7{left:0;top:0;width:var(--W);height:var(--H);display:flex;flex-direction:column;align-items:center;justify-content:center}
+#lockup{display:flex;align-items:center;gap:40px;margin-bottom:40px}
+#mark{width:150px;height:150px;overflow:visible}
+#mark polygon{transform-box:fill-box;transform-origin:50% 100%}
+#word{font-family:"Jakarta";font-weight:600;font-size:118px;letter-spacing:-.03em}
+#tag{font-size:40px;color:var(--on-dark-2);margin-bottom:64px;letter-spacing:-.005em}
+#cta{position:relative;height:96px;padding:0 44px 0 48px;border-radius:999px;background:var(--accent);display:flex;align-items:center;gap:18px;font-family:"Jakarta";font-weight:700;font-size:36px;overflow:hidden;box-shadow:0 22px 50px -16px rgba(35,86,199,.9),inset 0 1px 0 rgba(255,255,255,.2)}
+#cta .ico{font-size:36px;stroke-width:2.4}
+#cta .sh{position:absolute;top:0;left:0;width:160px;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-200px)}
+#url{margin-top:30px;font-size:36px;font-weight:600;letter-spacing:.01em;color:var(--glow)}
+#legal{position:absolute;left:0;right:0;bottom:56px;text-align:center;font-size:19px;line-height:1.5;color:var(--on-dark-3);padding:0 260px;text-wrap:balance}
+
+/* ================= vertical 9:16 ================= */
+body.v{--W:1080px;--H:1920px}
+body.v #hud-logo{left:80px;top:90px}
+body.v #hud-url{display:none}
+body.v #stepper{left:80px;bottom:110px;gap:14px}
+body.v .step{width:218px}
+body.v .step-l{letter-spacing:.06em}
+body.v .step-l{font-size:15px;letter-spacing:.1em}
+body.v #s1{left:80px;right:80px}
+body.v #s1 h1{font-size:104px}
+body.v #caps{left:80px;top:250px;width:920px;height:600px}
+body.v .cap{margin-top:0}
+body.v .cap h2{font-size:74px;margin-bottom:24px}
+body.v .cap p{font-size:32px;max-width:900px}
+body.v .vis{left:130px;top:860px}
+body.v #s6 h2{top:300px;padding:0 90px;font-size:76px}
+body.v #pillars{top:620px;flex-direction:column;align-items:center;gap:30px}
+body.v .pil{width:880px;height:auto;padding:36px 40px;display:grid;grid-template-columns:72px 1fr;column-gap:30px}
+body.v .pil .pi{margin-bottom:0;grid-row:1/3}
+body.v .pil p{font-size:25px}
+body.v #lockup{flex-direction:column;gap:34px;margin-bottom:44px}
+body.v #word{font-size:112px}
+body.v #tag{font-size:40px;text-align:center;padding:0 80px;line-height:1.4;margin-bottom:72px}
+body.v #cta{font-size:34px}
+body.v #legal{padding:0 80px;bottom:90px;font-size:21px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- background -->
+  <div id="bg" class="abs" style="inset:0">
+    <div id="glow1" class="glow"></div>
+    <div id="glow2" class="glow"></div>
+    <div id="grid"></div>
+    <svg id="waves">
+      <defs>
+        <linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#4fa9e8" stop-opacity="0"/>
+          <stop offset=".35" stop-color="#4fa9e8" stop-opacity=".9"/>
+          <stop offset=".7" stop-color="#a6d3f5" stop-opacity=".9"/>
+          <stop offset="1" stop-color="#a6d3f5" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="pg"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#cfe7fb"/><stop offset="1" stop-color="#4fa9e8" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g id="wlines" fill="none" stroke="url(#wg)"></g>
+      <g id="wpulses"></g>
+    </svg>
+    <div id="vignette"></div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud-logo" class="abs will">
+    <svg viewBox="5.5 4.3 21 23.4"><polygon points="6,13 10.5,10.8 10.5,21.2 6,23.4" fill="#4fa9e8"/><polygon points="13.5,7 18.5,4.8 18.5,27.2 13.5,25" fill="#7fc4f2"/><polygon points="21.5,12 26,9.8 26,21.2 21.5,23.4" fill="#cfe7fb"/></svg>
+    <span>Enerji Tedariği</span>
+  </div>
+  <div id="hud-url" class="abs will">enerjitedarigi.com</div>
+  <div id="stepper" class="abs will">
+    <div class="step"><div class="step-l"><b>01</b>FATURA</div><div class="step-b"><div class="step-f"></div></div></div>
+    <div class="step"><div class="step-l"><b>02</b>TALEP</div><div class="step-b"><div class="step-f"></div></div></div>
+    <div class="step"><div class="step-l"><b>03</b>KARŞILAŞTIRMA</div><div class="step-b"><div class="step-f"></div></div></div>
+    <div class="step"><div class="step-l"><b>04</b>TAKİP</div><div class="step-b"><div class="step-f"></div></div></div>
+  </div>
+
+  <!-- S1 hook -->
+  <div id="s1" class="abs">
+    <div class="kick will"><i></i>İŞLETMELER İÇİN</div>
+    <h1>
+      <div data-split>Elektrik tedarikçinizi</div>
+      <div data-split>en son ne zaman</div>
+      <div data-split data-grad>karşılaştırdınız?</div>
+    </h1>
+  </div>
+
+  <!-- captions S2-S5 -->
+  <div id="caps" class="abs">
+    <div class="cap" id="c2">
+      <div class="kicker will"><span>01</span>FATURANIZI YÜKLEYİN</div>
+      <h2 data-split>Faturanız profiliniz olsun.</h2>
+      <p class="will">Tüketim ve abone bilgileriniz faturadan otomatik okunur; siz onaylamadan hiçbir şey işlenmez.</p>
+    </div>
+    <div class="cap" id="c3">
+      <div class="kicker will"><span>02</span>ANONİM TALEP</div>
+      <h2 data-split>Lisanslı tedarikçiler teklif versin.</h2>
+      <p class="will">Tedarikçiler talebinizi sektör, il ve yıllık tüketim olarak görür; unvanınızı görmez.</p>
+    </div>
+    <div class="cap" id="c4">
+      <div class="kicker will"><span>03</span>ŞEFFAF KARŞILAŞTIRMA</div>
+      <h2 data-split>Teklifler aynı ölçekte.</h2>
+      <p class="will">Sabit, PTF endeksli ya da hibrit; her teklif sizin tüketiminizle tahmini yıllık bedele çevrilir.</p>
+    </div>
+    <div class="cap" id="c5">
+      <div class="kicker will"><span>04</span>FATURA TAKİBİ</div>
+      <h2 data-split>Sözleşmeden sonra da yanınızda.</h2>
+      <p class="will">Faturanızı her ay sözleşmenizle karşılaştırır, fark varsa size haber veririz.</p>
+    </div>
+  </div>
+
+  <!-- S2 visual -->
+  <div class="vis abs will" id="v2">
+    <div id="drop" class="abs will">
+      <div class="up"><svg class="ico" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></div>
+      <div class="t1">Faturanızı buraya bırakın</div>
+      <div class="t2">PDF veya fotoğraf</div>
+    </div>
+    <div id="file" class="card will">
+      <div class="fi"><svg class="ico" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><b>PDF</b></div>
+      <div>
+        <div class="fn">Fatura_Agustos.pdf</div>
+        <div class="fs"><span id="fstat">Yükleniyor…</span><span id="fpct">0%</span></div>
+        <div class="pb"><div class="pf"></div></div>
+      </div>
+    </div>
+    <div id="bill" class="card will">
+      <div class="hd"><b>Elektrik faturası</b><span>Ağustos dönemi</span></div>
+      <div class="flds">
+        <div class="fld"><div class="lbl">Abone grubu</div><div class="val"><span class="tv">Sanayi, OG</span><i class="sk" style="width:150px"></i></div></div>
+        <div class="fld"><div class="lbl">Dönem tüketimi</div><div class="val"><span class="tv" id="kwh">203.460 kWh</span><i class="sk" style="width:170px"></i></div></div>
+        <div class="fld"><div class="lbl">Mevcut tedarikçi</div><div class="val"><span class="tv">Görevli tedarik şirketi</span><i class="sk" style="width:250px"></i></div></div>
+      </div>
+      <div class="prof"><b>Enerji profiliniz · son 12 ay</b><span id="gwh">2,4 GWh/yıl</span></div>
+      <div id="bars"></div>
+      <div id="okchip" class="abs will"><div class="c"><svg class="ico" viewBox="0 0 24 24" style="stroke-width:3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>Siz onayladınız</div>
+    </div>
+  </div>
+
+  <!-- S3 visual -->
+  <div class="vis abs will" id="v3">
+    <svg id="links"><g id="lk" fill="none" stroke="#7fc4f2" stroke-width="2.5" stroke-linecap="round"></g><g id="lkp"></g></svg>
+    <div id="req" class="card will">
+      <div class="lbl">Tedarikçinin gördüğü talep</div>
+      <div class="co"><span class="nm">Yıldız Plastik San. A.Ş.</span><div class="red"><svg class="ico" viewBox="0 0 24 24" style="font-size:18px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>UNVAN GİZLİ</div></div>
+      <div class="sec">Plastik üretim tesisi</div>
+      <div class="loc">Kocaeli · 2,4 GWh/yıl</div>
+      <div class="chips"><div class="chip">12 ay</div><div class="chip">Sabit fiyat</div><div class="chip">YEK-G tercih</div></div>
+      <div class="hid"><svg class="ico" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.4 10.4 0 0 1 12 5c5 0 9 4.5 10 7-.4 1-1.2 2.3-2.4 3.6M6.6 6.6C4.4 8 2.8 10.2 2 12c1 2.5 5 7 10 7 1.9 0 3.6-.6 5.1-1.5"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>Unvan, adres ve iletişim bilgisi gizli</div>
+    </div>
+    <div class="sup card will" style="top:50px"><div class="av" style="background:#2356c7">A</div><div><div class="nm">Tedarikçi A</div><div class="lic"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Lisans doğrulandı</div></div></div>
+    <div class="sup card will" style="top:190px"><div class="av" style="background:#1a44a3">B</div><div><div class="nm">Tedarikçi B</div><div class="lic"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Lisans doğrulandı</div></div></div>
+    <div class="sup card will" style="top:330px"><div class="av" style="background:#4fa9e8">C</div><div><div class="nm">Tedarikçi C</div><div class="lic"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Lisans doğrulandı</div></div></div>
+    <div class="sup card will" style="top:470px"><div class="av" style="background:#2c3d55">D</div><div><div class="nm">Tedarikçi D</div><div class="lic"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Lisans doğrulandı</div></div></div>
+  </div>
+
+  <!-- S4 visual -->
+  <div class="vis abs will" id="v4">
+    <div id="offers" class="card">
+      <div class="hd"><b>Tahmini yıllık bedele göre teklifler</b><span>3 teklif</span></div>
+      <div class="th"><span>TEDARİKÇİ</span><span>FİYAT MODELİ</span><span>YILLIK BEDEL</span></div>
+      <div class="rows">
+        <div class="row" data-k="B"><div class="rbg"></div><div class="rn">Tedarikçi B</div><div class="pm"><div class="a"><span class="m">PTF ENDEKSLİ</span><span class="raw">PTF × 1,03 + ek bedel</span></div><div class="b"><span class="m">ETKİN BİRİM FİYAT · 24 AY</span><span class="nrm">4,16 TL/kWh</span></div></div><div class="yr q" data-v="8.11">—</div></div>
+        <div class="row" data-k="C"><div class="rbg"></div><div class="rn">Tedarikçi C</div><div class="pm"><div class="a"><span class="m">TARİFE İNDİRİMLİ</span><span class="raw">Tarifeden %6 indirim</span></div><div class="b"><span class="m">ETKİN BİRİM FİYAT · 12 AY</span><span class="nrm">4,21 TL/kWh</span></div></div><div class="yr q" data-v="8.26">—</div></div>
+        <div class="row" data-k="A"><div class="rbg"></div><div class="rn">Tedarikçi A<span class="badge">en dengeli</span></div><div class="pm"><div class="a"><span class="m">SABİT FİYAT</span><span class="raw">4,12 TL/kWh</span></div><div class="b"><span class="m">ETKİN BİRİM FİYAT · 12 AY</span><span class="nrm">4,12 TL/kWh</span></div></div><div class="yr q" data-v="8.02">—</div></div>
+      </div>
+      <div id="sweep"></div>
+      <div id="norm" class="abs will"><i></i>Aynı tüketim · aynı referans</div>
+    </div>
+    <div id="terms" class="abs">
+      <div class="chip will"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Teminat</div>
+      <div class="chip will"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Ödeme vadesi</div>
+      <div class="chip will"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Fesih esnekliği</div>
+      <div class="chip will"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Yeşil enerji oranı</div>
+    </div>
+    <div id="note4" class="abs will">Temsilî örnek. Tutarlar tahmini yıllık enerji bedelidir.</div>
+  </div>
+
+  <!-- S5 visual -->
+  <div class="vis abs will" id="v5">
+    <div id="cmp" class="card will">
+      <div class="hd"><b>Ağustos faturası · enerji bedeli</b><span>Sözleşme kontrolü</span></div>
+      <div class="cr"><div class="cl"><span>Sözleşmenize göre beklenen</span><b>Endeks 100</b></div><div class="track"><i id="tb1" style="background:#7fc4f2"></i></div></div>
+      <div class="cr"><div class="cl"><span>Faturanızdaki</span><b id="diff" class="will">+%7,4</b></div><div class="track"><i id="tb2" style="background:#7fc4f2"></i><i id="tb3" style="background:var(--amber)"></i></div></div>
+      <div class="foot">Karşılaştırma yalnızca enerji bedeli üzerinden yapılır.</div>
+    </div>
+    <div id="notif" class="card will">
+      <div class="bell"><svg class="ico" viewBox="0 0 24 24" id="bellico"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></div>
+      <div>
+        <div class="top"><span>ENERJİ TEDARİĞİ · BİLDİRİM</span><span>şimdi</span></div>
+        <div class="tt">Faturanız sözleşmenizden farklı</div>
+        <div class="bd">Ağustos faturanızdaki enerji bedeli, sözleşmenizden beklenen tutarın <b>%7,4 üzerinde.</b></div>
+        <div class="ac">Tedarikçinizden açıklama isteyin<svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6 trust -->
+  <div id="s6" class="abs">
+    <h2 data-split>Bilgileriniz, siz karar verene kadar sizde kalır.</h2>
+    <div id="pillars">
+      <div class="pil will"><div class="pi"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></div><b>Ücretsiz</b><p>Elektrik kullanıcıları için platform kullanımı ücretsizdir.</p></div>
+      <div class="pil will"><div class="pi"><svg class="ico" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.4 10.4 0 0 1 12 5c5 0 9 4.5 10 7-.4 1-1.2 2.3-2.4 3.6M6.6 6.6C4.4 8 2.8 10.2 2 12c1 2.5 5 7 10 7 1.9 0 3.6-.6 5.1-1.5"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></div><b>Anonim talep</b><p>Kimliğiniz, siz onaylayana kadar tedarikçilerden gizli kalır.</p></div>
+      <div class="pil will"><div class="pi"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div><b>Lisanslı tedarikçiler</b><p>Yalnızca EPDK lisansı incelenmiş tedarikçiler teklif verebilir.</p></div>
+    </div>
+  </div>
+
+  <!-- S7 end card -->
+  <div id="s7" class="abs">
+    <div id="lockup">
+      <svg id="mark" viewBox="5.5 4.3 21 23.4"><polygon points="6,13 10.5,10.8 10.5,21.2 6,23.4" fill="#4fa9e8"/><polygon points="13.5,7 18.5,4.8 18.5,27.2 13.5,25" fill="#7fc4f2"/><polygon points="21.5,12 26,9.8 26,21.2 21.5,23.4" fill="#cfe7fb"/></svg>
+      <div id="word" data-split>Enerji Tedariği</div>
+    </div>
+    <div id="tag" class="will">Elektriğiniz için tedarikçiler teklif versin.</div>
+    <div id="cta" class="will"><span>Ücretsiz teklif almaya başlayın</span><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg><div class="sh"></div></div>
+    <div id="url" class="will">enerjitedarigi.com</div>
+    <div id="legal" class="will">Enerji Tedariği, Capex Enerji ve Sanayi A.Ş. tarafından işletilen bir teklif toplama platformudur; elektrik satmaz, enerji bedeli tahsil etmez. Gösterilen tutarlar temsilî ve tahminidir.</div>
+  </div>
+</div>
+
+<script>
+'use strict';
+const VERT = new URLSearchParams(location.search).get('format') === '9x16';
+if (VERT) document.body.classList.add('v');
+const W = VERT ? 1080 : 1920, H = VERT ? 1920 : 1080;
+const DURATION = 33;
+const VS = VERT ? 1.14 : 1; // dikey formatta arayüz kartlarını büyüt
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+/* ---------- easing & helpers ---------- */
+const E = {
+  lin: t => t,
+  out3: t => 1 - Math.pow(1 - t, 3),
+  out4: t => 1 - Math.pow(1 - t, 4),
+  outExpo: t => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t),
+  in3: t => t * t * t,
+  inOut3: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+  inOutSine: t => -(Math.cos(Math.PI * t) - 1) / 2,
+  outBack: t => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+};
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const P = (t, start, dur, ease = E.out3) => ease(clamp((t - start) / dur));
+function tf(el, { x = 0, y = 0, s = 1, sx, sy, r = 0, o, blur = 0 } = {}) {
+  const sc = (sx !== undefined || sy !== undefined) ? `scale(${sx ?? s},${sy ?? s})` : `scale(${s})`;
+  el.style.transform = `translate3d(${x}px,${y}px,0) ${sc} rotate(${r}deg)`;
+  if (o !== undefined) el.style.opacity = o;
+  el.style.filter = blur > 0.05 ? `blur(${blur}px)` : 'none';
+}
+const trNum = (v, d) => v.toFixed(d).replace('.', ',');
+const trInt = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+/* ---------- word splitting ---------- */
+for (const el of $$('[data-split]')) {
+  const grad = el.hasAttribute('data-grad');
+  // Jakarta'nın noktası geniş boşluklu; büyük punto başlıklarda sıkılaştır
+  const tight = w => w.replace(/\.$/, '<span class="pd">.</span>');
+  el.innerHTML = el.textContent.trim().split(/\s+/).map(w => `<span class="w"><span class="wi${grad ? ' grad' : ''}">${tight(w)}</span></span>`).join(' ');
+}
+// words(el, t, inStart, outStart): staggered mask reveal & exit
+function words(el, t, a, b, { st = .055, d = .75, ost = .025, od = .42, yin = 110 } = {}) {
+  const ws = $$('.wi', el);
+  ws.forEach((w, i) => {
+    const pin = P(t, a + i * st, d, E.outExpo);
+    const pout = b == null ? 0 : P(t, b + i * ost, od, E.in3);
+    const y = (1 - pin) * yin - pout * 110;
+    w.style.transform = `translate3d(0,${y}%,0)`;
+    w.style.opacity = pin * (1 - pout * .6);
+  });
+}
+// generic in/out for a block
+function blk(el, t, a, b, { dy = 36, d = .7, od = .4, s0 = 1, blurOut = 6 } = {}) {
+  const pin = P(t, a, d, E.out4), pout = b == null ? 0 : P(t, b, od, E.in3);
+  tf(el, { y: (1 - pin) * dy - pout * dy * .6, s: lerp(s0, 1, pin) - pout * .02, o: pin * (1 - pout), blur: pout * blurOut });
+  return pin * (1 - pout);
+}
+const show = (el, v) => { el.style.visibility = v ? 'visible' : 'hidden'; };
+
+/* ---------- scene timing ---------- */
+const S = { s1: [0, 4], s2: [4, 9], s3: [9, 14], s4: [14, 20], s5: [20, 24.5], s6: [24.5, 28], s7: [28, DURATION] };
+const OUT = .45; // exit lead time
+
+/* ---------- background waves ---------- */
+const WN = 7, wl = [], wp = [];
+const svgNS = 'http://www.w3.org/2000/svg';
+for (let i = 0; i < WN; i++) {
+  const p = document.createElementNS(svgNS, 'path');
+  p.setAttribute('stroke-width', i === 3 ? 2.6 : 1.4);
+  $('#wlines').appendChild(p); wl.push(p);
+}
+for (let i = 0; i < 4; i++) {
+  const c = document.createElementNS(svgNS, 'circle');
+  c.setAttribute('r', 16); c.setAttribute('fill', 'url(#pg)');
+  $('#wpulses').appendChild(c); wp.push(c);
+}
+function waveY(i, x, t, base, amp) {
+  const k = 0.0021 + i * 0.00023, w = 0.55 + i * 0.07, ph = i * 0.9;
+  return base + (i - 3) * 16 + amp * (Math.sin(x * k + t * w + ph) * .75 + Math.sin(x * k * 2.3 - t * w * .6 + ph * 1.7) * .25) * (0.6 + 0.4 * Math.sin(i + x / W * 3.1));
+}
+function drawWaves(t, base, amp, op) {
+  $('#waves').style.opacity = op;
+  for (let i = 0; i < WN; i++) {
+    let d = '';
+    for (let x = -40; x <= W + 40; x += 24) d += (x < -39 ? 'M' : 'L') + x.toFixed(1) + ' ' + waveY(i, x, t, base, amp).toFixed(1);
+    wl[i].setAttribute('d', d);
+    wl[i].setAttribute('stroke-opacity', i === 3 ? .95 : .28 + (i % 3) * .12);
+  }
+  wp.forEach((c, j) => {
+    const li = [3, 1, 5, 3][j];
+    const u = ((t * (0.16 + j * .025) + j * .31) % 1.25) - .1;
+    const x = u * W, y = waveY(li, x, t, base, amp);
+    c.setAttribute('cx', x); c.setAttribute('cy', y);
+    c.setAttribute('opacity', clamp(Math.sin(clamp(u + .1, 0, 1.2) / 1.2 * Math.PI) * 1.2));
+  });
+}
+
+/* ---------- S2 bars ---------- */
+const MONTHS = ['O', 'Ş', 'M', 'N', 'M', 'H', 'T', 'A', 'E', 'E', 'K', 'A'];
+const HGT = [.80, .76, .84, .82, .88, .95, 1, .97, .90, .85, .79, .83];
+$('#bars').innerHTML = MONTHS.map((m, i) => `<div class="bar${i === 7 ? ' hl' : ''}"><i style="height:${HGT[i] * 118}px"></i><em>${m}</em></div>`).join('');
+
+/* ---------- S3 link geometry ---------- */
+const SUP_Y = [102, 242, 382, 522], REQ = { x: 480, y: 310 };
+const links = SUP_Y.map(yc => {
+  const p = document.createElementNS(svgNS, 'path');
+  const x0 = REQ.x, y0 = REQ.y, x1 = 560, y1 = yc;
+  p.setAttribute('d', `M${x0} ${y0} C ${x0 + 60} ${y0}, ${x1 - 60} ${y1}, ${x1} ${y1}`);
+  $('#lk').appendChild(p);
+  const c = document.createElementNS(svgNS, 'circle');
+  c.setAttribute('r', 6); c.setAttribute('fill', '#cfe7fb');
+  c.style.filter = 'drop-shadow(0 0 6px #4fa9e8)';
+  $('#lkp').appendChild(c);
+  return { p, c };
+});
+links.forEach(l => { const L = l.p.getTotalLength(); l.L = L; l.p.style.strokeDasharray = L; });
+
+/* ---------- S4 rows ---------- */
+const ROW_H = 88;
+const rows = $$('#offers .row');
+const orderRaw = { B: 0, C: 1, A: 2 }, orderSorted = { A: 0, B: 1, C: 2 };
+
+/* ======================= render ======================= */
+function renderFrame(t) {
+  /* ---- background ---- */
+  const inEnd = P(t, 27.7, 1.2, E.inOut3);
+  const g1 = $('#glow1'), g2 = $('#glow2');
+  const g1x = lerp(W * .78, W * .5, inEnd) + Math.sin(t * .23) * 70, g1y = lerp(H * .2, H * .45, inEnd) + Math.cos(t * .19) * 50;
+  tf(g1, { x: g1x - 700, y: g1y - 700, s: 1 + .08 * Math.sin(t * .3) + inEnd * .15 });
+  tf(g2, { x: W * .12 + Math.cos(t * .21) * 60 - 550, y: H * .88 + Math.sin(t * .17) * 40 - 550 });
+  $('#grid').style.transform = `translate3d(${(-t * 6) % 44}px,${(-t * 3) % 44}px,0)`;
+  const hook = 1 - P(t, 3.4, .8, E.inOut3);
+  const waveOp = Math.max(hook * .75, .22 + inEnd * .5);
+  drawWaves(t, VERT ? lerp(1420, 1500, inEnd) : lerp(760, 840, inEnd), VERT ? 70 : 90, waveOp * (1 - P(t, 32.4, .6)));
+
+  /* ---- S1 hook ---- */
+  const s1 = $('#s1'); show(s1, t < S.s1[1] + .1);
+  if (t < S.s1[1] + .1) {
+    tf($('#s1 .kick'), { x: (1 - P(t, .15, .8, E.out4)) * -30, o: P(t, .15, .6) * (1 - P(t, 3.4, .35)) });
+    const lines = $$('#s1 [data-split]');
+    lines.forEach((l, i) => words(l, t, .3 + i * .38, 3.45 + i * .06, { st: .07, d: .9 }));
+    tf($('#s1 h1'), { s: 1 + t * .006 });
+  }
+
+  /* ---- HUD ---- */
+  const hudOn = P(t, 4.0, .6) * (1 - P(t, 27.6, .4));
+  tf($('#hud-logo'), { y: (1 - P(t, 4.0, .7, E.out4)) * -20, o: hudOn });
+  tf($('#hud-url'), { y: (1 - P(t, 4.1, .7, E.out4)) * -20, o: hudOn });
+  const stOn = P(t, 4.2, .6) * (1 - P(t, 24.1, .4));
+  tf($('#stepper'), { y: (1 - P(t, 4.2, .7, E.out4)) * 20, o: stOn });
+  const scs = [S.s2, S.s3, S.s4, S.s5];
+  $$('#stepper .step').forEach((st, i) => {
+    const [a, b] = scs[i];
+    $('.step-f', st).style.width = (clamp((t - a) / (b - a)) * 100) + '%';
+    const act = t >= a && t < b;
+    $('.step-l', st).style.color = act ? '#ffffff' : (t >= b ? '#a9b6c8' : '#6b7a90');
+  });
+
+  /* ---- captions ---- */
+  const caps = [['#c2', S.s2], ['#c3', S.s3], ['#c4', S.s4], ['#c5', S.s5]];
+  for (const [id, [a, b]] of caps) {
+    const el = $(id), on = t > a - .05 && t < b + .1;
+    show(el, on);
+    if (!on) continue;
+    blk($('.kicker', el), t, a + .05, b - OUT, { dy: 20, d: .6 });
+    words($('h2', el), t, a + .12, b - OUT, { st: .06 });
+    blk($('p', el), t, a + .45, b - OUT + .05, { dy: 24, d: .8, blurOut: 4 });
+  }
+
+  /* ---- S2 visual ---- */
+  {
+    const [a, b] = S.s2, v = $('#v2'), on = t > a - .05 && t < b + .1; show(v, on);
+    if (on) {
+      const pin = P(t, a + .1, .8, E.out4), pout = P(t, b - OUT, .42, E.in3);
+      tf(v, { y: (1 - pin) * 40 - pout * 30 - (t - a) * 4, s: (lerp(.96, 1, pin) - pout * .03) * VS, o: pin * (1 - pout), blur: pout * 6 });
+      // dropzone & file chip
+      const dz = P(t, 6.0, .45, E.in3);
+      tf($('#drop'), { s: 1 - dz * .06, o: 1 - dz });
+      const land = P(t, a + .85, .3);
+      for (const c of $$('#drop > *')) c.style.opacity = 1 - land;
+      $('#drop').style.borderColor = `rgba(166,211,245,${.45 + land * .4})`;
+      $('#drop').style.background = `rgba(79,169,232,${.05 + land * .07})`;
+      const fd = P(t, a + .45, .75, E.outBack);
+      tf($('#file'), { y: (1 - fd) * -340 - dz * 30, r: (1 - fd) * -8, s: 1 - dz * .1, o: P(t, a + .45, .25) * (1 - dz) });
+      const prog = P(t, 5.25, .75, E.inOut3);
+      $('#file .pf').style.width = prog * 100 + '%';
+      $('#fpct').textContent = Math.round(prog * 100) + '%';
+      $('#fstat').textContent = prog >= 1 ? 'Fatura okundu' : 'Okunuyor…';
+      $('#fstat').style.color = prog >= 1 ? '#12745a' : '';
+      // bill card
+      const bc = P(t, 6.15, .7, E.out4);
+      tf($('#bill'), { y: (1 - bc) * 60, s: lerp(.94, 1, bc), o: bc });
+      $$('#bill .fld').forEach((f, i) => {
+        const r = P(t, 6.65 + i * .22, .4);
+        $('.sk', f).style.opacity = 1 - r;
+        $('.sk', f).style.backgroundPosition = `${(-t * 160) % 200}% 0`;
+        const tv = $('.tv', f); tv.style.opacity = r; tv.style.transform = `translate3d(0,${(1 - r) * 10}px,0)`;
+      });
+      $('#kwh').textContent = trInt(203460 * P(t, 6.87, .8, E.out3)) + ' kWh';
+      $$('#bars .bar i').forEach((bi, i) => { bi.style.transform = `scaleY(${P(t, 7.0 + i * .045, .55, E.out4)})`; });
+      $('#gwh').style.opacity = P(t, 7.2, .4);
+      $('#gwh').textContent = trNum(2.4 * P(t, 7.2, .7), 1) + ' GWh/yıl';
+      const ok = P(t, 7.85, .5, E.outBack);
+      tf($('#okchip'), { s: lerp(.6, 1, ok), y: (1 - ok) * 14, o: P(t, 7.85, .2) });
+    }
+  }
+
+  /* ---- S3 visual ---- */
+  {
+    const [a, b] = S.s3, v = $('#v3'), on = t > a - .05 && t < b + .1; show(v, on);
+    if (on) {
+      const pin = P(t, a + .1, .8, E.out4), pout = P(t, b - OUT, .42, E.in3);
+      tf(v, { y: (1 - pin) * 40 - pout * 30 - (t - a) * 4, s: (lerp(.96, 1, pin) - pout * .03) * VS, o: pin * (1 - pout), blur: pout * 6 });
+      // redaction
+      const rd = P(t, 10.15, .6, E.inOut3);
+      const red = $('#req .red'); red.style.width = (rd * 350) + 'px';
+      $('#req .nm').style.opacity = 1 - P(t, 10.55, .2);
+      // links draw
+      links.forEach((l, i) => {
+        const dr = P(t, 10.9 + i * .12, .55, E.inOut3);
+        l.p.style.strokeDashoffset = l.L * (1 - dr);
+        l.p.style.opacity = .85;
+        const u = ((t - 11.5 - i * .17) / 1.05);
+        const uu = ((u % 1) + 1) % 1;
+        const vis = t > 11.5 + i * .17 && t < b - OUT;
+        const pt = l.p.getPointAtLength(l.L * E.inOut3(uu));
+        l.c.setAttribute('cx', pt.x); l.c.setAttribute('cy', pt.y);
+        l.c.setAttribute('opacity', vis ? Math.sin(uu * Math.PI) : 0);
+      });
+      $$('#v3 .sup').forEach((s, i) => {
+        const sp = P(t, 11.25 + i * .12, .6, E.outBack);
+        tf(s, { x: (1 - sp) * 40, s: lerp(.85, 1, sp), o: P(t, 11.25 + i * .12, .25) });
+        const lic = $('.lic', s); const lp = P(t, 12.0 + i * .14, .4);
+        lic.style.opacity = lp; lic.style.transform = `translate3d(${(1 - lp) * -8}px,0,0)`;
+      });
+    }
+  }
+
+  /* ---- S4 visual ---- */
+  {
+    const [a, b] = S.s4, v = $('#v4'), on = t > a - .05 && t < b + .1; show(v, on);
+    if (on) {
+      const pin = P(t, a + .1, .8, E.out4), pout = P(t, b - OUT, .42, E.in3);
+      tf(v, { y: (1 - pin) * 40 - pout * 30 - (t - a) * 3, s: (lerp(.96, 1, pin) - pout * .03) * VS, o: pin * (1 - pout), blur: pout * 6 });
+      const sw = P(t, 16.1, .85, E.inOut3);
+      const sweepX = lerp(200, 800, sw);
+      const swp = $('#sweep'); swp.style.left = sweepX + 'px'; swp.style.opacity = sw > 0 && sw < 1 ? 1 : 0;
+      tf($('#norm'), { y: (1 - P(t, 15.75, .5, E.outBack)) * 16, s: lerp(.8, 1, P(t, 15.75, .5, E.outBack)), o: P(t, 15.75, .25) * (1 - P(t, 17.4, .4)) });
+      const srt = P(t, 17.35, .75, E.inOut3);
+      rows.forEach((r, i) => {
+        const k = r.dataset.k;
+        const ap = P(t, 14.55 + orderRaw[k] * .17, .55, E.out4);
+        const y = lerp(orderRaw[k], orderSorted[k], srt) * ROW_H + (1 - ap) * 30;
+        r.style.transform = `translate3d(0,${y}px,0)`;
+        r.style.opacity = ap;
+        r.style.zIndex = k === 'A' ? 3 : 1;
+        const lift = k === 'A' ? Math.sin(Math.PI * srt) : 0;
+        r.style.boxShadow = lift > .01 ? `0 ${18 * lift}px ${40 * lift}px -12px rgba(16,32,64,${.35 * lift})` : 'none';
+        r.classList.toggle('sep', lerp(orderRaw[k], orderSorted[k], srt) > .5);
+        // normalize when sweep passes the price column (x≈232..)
+        const nk = clamp((sweepX - 250) / 120) * (sw > 0 ? 1 : 0);
+        const na = $('.pm .a', r), nb = $('.pm .b', r);
+        na.style.opacity = 1 - nk; na.style.transform = `translate3d(0,${-nk * 14}px,0)`;
+        nb.style.opacity = nk; nb.style.transform = `translate3d(0,${(1 - nk) * 14}px,0)`;
+        const yk = P(t, 16.35 + orderRaw[k] * .05, .75, E.out3);
+        const yr = $('.yr', r);
+        const passed = sweepX > 640;
+        yr.classList.toggle('q', !passed);
+        yr.textContent = passed ? trNum(parseFloat(yr.dataset.v) * yk, 2) + ' M TL' : '—';
+        if (passed) { yr.style.opacity = 1; }
+        const hl = k === 'A' ? P(t, 17.9, .5) : 0;
+        $('.rbg', r).style.opacity = hl;
+        const bd = $('.badge', r); if (bd) { const bp = P(t, 18.05, .45, E.outBack); bd.style.opacity = P(t, 18.05, .2); bd.style.transform = `scale(${lerp(.6, 1, bp)})`; }
+      });
+      $$('#terms .chip').forEach((c, i) => { const cp = P(t, 18.25 + i * .09, .5, E.outBack); tf(c, { y: (1 - cp) * 18, s: lerp(.85, 1, cp), o: P(t, 18.25 + i * .09, .2) }); });
+      tf($('#note4'), { o: P(t, 18.6, .5) * .95 });
+    }
+  }
+
+  /* ---- S5 visual ---- */
+  {
+    const [a, b] = S.s5, v = $('#v5'), on = t > a - .05 && t < b + .1; show(v, on);
+    if (on) {
+      const pin = P(t, a + .1, .8, E.out4), pout = P(t, b - OUT, .42, E.in3);
+      tf(v, { y: (1 - pin) * 40 - pout * 30 - (t - a) * 4, s: (lerp(.96, 1, pin) - pout * .03) * VS, o: pin * (1 - pout), blur: pout * 6 });
+      const full = 648; // track px width
+      const W100 = full * (100 / 112);
+      const b1 = P(t, 20.7, .8, E.out4), b2 = P(t, 20.95, .8, E.out4), b3 = P(t, 21.55, .55, E.out3);
+      $('#tb1').style.width = (W100 * b1) + 'px';
+      $('#tb2').style.width = (W100 * b2) + 'px';
+      $('#tb3').style.left = (W100 - 2) + 'px'; $('#tb3').style.width = (W100 * .074 * b3 + 2 * (b3 > 0)) + 'px';
+      $('#tb3').style.borderRadius = '0 9px 9px 0';
+      const df = P(t, 21.95, .5, E.outBack);
+      tf($('#diff'), { s: lerp(.6, 1, df), o: P(t, 21.95, .2) });
+      const nt = P(t, 22.25, .7, E.outBack);
+      tf($('#notif'), { y: (1 - nt) * -60, s: lerp(.92, 1, nt), o: P(t, 22.25, .25) });
+      const wig = t > 22.6 && t < 23.6 ? Math.sin((t - 22.6) * 38) * 16 * (1 - (t - 22.6)) : 0;
+      $('#bellico').style.transform = `rotate(${wig}deg)`; $('#bellico').style.transformOrigin = '50% 10%';
+    }
+  }
+
+  /* ---- S6 trust ---- */
+  {
+    const [a, b] = S.s6, el = $('#s6'), on = t > a - .05 && t < b + .1; show(el, on);
+    if (on) {
+      words($('#s6 h2'), t, a + .1, b - .45, { st: .045 });
+      $$('#pillars .pil').forEach((p, i) => {
+        const pp = P(t, a + .55 + i * .14, .8, E.out4), po = P(t, b - .4 + i * .03, .4, E.in3);
+        tf(p, { y: (1 - pp) * 60 - po * 30, s: lerp(.94, 1, pp) - po * .03, o: pp * (1 - po), blur: po * 6 });
+        const ic = $('.pi', p), ip = P(t, a + .85 + i * .14, .5, E.outBack);
+        ic.style.transform = `scale(${lerp(.4, 1, ip)})`;
+      });
+    }
+  }
+
+  /* ---- S7 end card ---- */
+  {
+    const [a] = S.s7, el = $('#s7'), on = t > a - .05; show(el, on);
+    if (on) {
+      $$('#mark polygon').forEach((pg, i) => {
+        const mp = P(t, a + .15 + i * .1, .7, E.outBack);
+        pg.style.transform = `scaleY(${Math.max(0.001, mp)})`;
+        pg.style.opacity = P(t, a + .15 + i * .1, .15);
+      });
+      words($('#word'), t, a + .45, null, { st: .09, d: .9 });
+      blk($('#tag'), t, a + .9, null, { dy: 24, d: .8 });
+      const cp = P(t, a + 1.35, .7, E.outBack);
+      tf($('#cta'), { y: (1 - cp) * 30, s: lerp(.85, 1, cp), o: P(t, a + 1.35, .25) });
+      const shp = P(t, a + 2.4, .9, E.inOut3);
+      $('.sh', $('#cta')).style.transform = `translateX(${lerp(-200, 760, shp)}px)`;
+      blk($('#url'), t, a + 1.75, null, { dy: 18, d: .7 });
+      $('#legal').style.opacity = P(t, a + 2.1, .8) * .95;
+      tf($('#lockup'), { s: 1 + (t - a) * .006 });
+    }
+  }
+  // final fade
+  $('#stage').style.opacity = 1 - P(t, DURATION - .35, .35) * 0; // keep end card (no fade to black)
+}
+window.renderFrame = renderFrame;
+window.DURATION = DURATION;
+window.ready = document.fonts.ready.then(() => { renderFrame(0); return true; });
+</script>
+</body>
+</html>
