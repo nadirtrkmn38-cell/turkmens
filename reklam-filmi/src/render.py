@@ -76,10 +76,11 @@ class Cam:
     """Anahtar kareler: (t, f, cx, cy[, ease]); f = görseli kadraja sığdıran ölçeğe göre zoom,
     (cx, cy) = kadraj merkezinin kaynak görseldeki konumu."""
 
-    def __init__(self, img_w, img_h, keys):
+    def __init__(self, img_w, img_h, keys, clamp=True):
         self.s0 = max(W / img_w, H / img_h)
         self.iw, self.ih = img_w, img_h
         self.keys = keys
+        self.clamp = clamp  # yazı kameralarında kapalı: yazı katmanı kadrajdan bağımsız ölçeklenebilir
 
     def at(self, t):
         k = self.keys
@@ -96,9 +97,10 @@ class Cam:
         f, cx, cy = self.at(t)
         s = self.s0 * f
         # kadraj dışına taşmayı engelle
-        hx, hy = W / (2 * s), H / (2 * s)
-        cx = min(max(cx, hx), self.iw - hx)
-        cy = min(max(cy, hy), self.ih - hy)
+        if self.clamp:
+            hx, hy = W / (2 * s), H / (2 * s)
+            cx = min(max(cx, hx), self.iw - hx)
+            cy = min(max(cy, hy), self.ih - hy)
         A = np.array([[s, 0, W / 2 - s * cx], [0, s, H / 2 - s * cy]], np.float64)
         if zoom != 1.0:
             px, py = focus if focus is not None else (W / 2, H / 2)
@@ -330,8 +332,8 @@ def build_scenes():
                         track('s2', 6.1875, dur=1.05, spread=0.3)],
                     glints=[(6.5625, 542, 1098, 80)]))
     # 3) Cilt - üç fayda
-    sc.append(Scene(1, 7.1, 13.9, Cam(1092, 1440, [(7.1, 1.30, 780, 820), (9.2, 1.03, 428, 722, 'out'),
-                                                   (13.9, 1.05, 426, 712)]),
+    sc.append(Scene(1, 7.1, 13.9, Cam(1092, 1440, [(7.1, 1.30, 780, 820), (9.2, 1.03, 428, 700, 'out'),
+                                                   (13.9, 1.05, 426, 688)]),
                     [track('bc', 8.25, dur=1.1, spread=0.35), draw('rule', 8.625, dur=0.5),
                      rise('h1', 8.625, dur=0.9, dy=28, blur=7, lines=False),
                      rise('h2', 8.8125, dur=0.9, dy=28, blur=7, lines=False),
@@ -343,7 +345,7 @@ def build_scenes():
                         rise(f'c{k}b', t + 0.3, dur=0.7, dy=12, blur=3, stagger=0.07))],
                     ))
     # 4) Aktif içerikler
-    sc.append(Scene(2, 13.1, 19.9, Cam(941, 1672, [(13.1, 1.0, 470.5, 836), (19.9, 1.07, 462, 836)]),
+    sc.append(Scene(2, 13.1, 19.9, Cam(941, 1672, [(13.1, 1.0, 470.5, 836), (19.9, 1.04, 462, 815)]),
                     [x for p, t in (('n', 13.875), ('a', 15.375), ('t', 16.875)) for x in (
                         track(f'{p}_t', t, dur=1.0, spread=0.22, blur=3),
                         draw(f'{p}_r', t + 0.25, dur=0.5),
@@ -354,7 +356,7 @@ def build_scenes():
                     [x for i in range(6) for x in (
                         pop(f'i{i + 1}', 20.25 + 0.375 * i, dur=0.7, **{'from': 0.82}),
                         rise(f'l{i + 1}', 20.37 + 0.375 * i, dur=0.7, dy=10, blur=3, stagger=0.06))],
-                    tcam=Cam(941, 1672, [(19.1, 1.0, 470.5, 836)]),
+                    tcam=Cam(941, 1672, [(19.1, 0.96, 470.5, 836)], clamp=False),
                     glints=[(22.5, 336, 512, 60)]))
     # 6) Kişiselleştirme
     sc.append(Scene(5, 23.6, 29.6, Cam(1024, 1536, [(23.6, 1.10, 560, 760), (25.0, 1.0, 490, 768, 'out'),
@@ -366,7 +368,7 @@ def build_scenes():
                         pop(f'i{k}', t, dur=0.7, **{'from': 0.8}),
                         draw(f'b{k}', t + 0.1, dir='tb', dur=0.45),
                         rise(f'l{k}', t + 0.15, dur=0.7, dy=12, blur=3, stagger=0.07))],
-                    tcam=Cam(1024, 1536, [(23.6, 1.0, 490, 768)])))
+                    tcam=Cam(1024, 1536, [(23.6, 0.94, 490, 768)], clamp=False)))
     # 7) Kapanış - ürün
     sc.append(Scene(4, 28.5, DUR, Cam(941, 1672, [(28.5, 1.12, 470.5, 900), (31.5, 1.0, 470.5, 836, 'out'),
                                                   (DUR, 1.035, 470.5, 850)]),
