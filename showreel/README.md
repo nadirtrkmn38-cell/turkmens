@@ -7,8 +7,9 @@ yazı tipleri (Plus Jakarta Sans, Geist, Geist Mono), logosu ve sitedeki metinle
 
 | Dosya | Format |
 | --- | --- |
-| `cikti/enerjitedarigi_motion_reel.mp4` | 1920×1080, 60 fps, H.264 + AAC 256 kbps, −14 LUFS, 45 sn |
-| `cikti/kapak.jpg` | 1920×1080 kapak görseli |
+| `cikti/enerjitedarigi_motion_reel.mp4` | 16:9 — 1920×1080, 60 fps, H.264 + AAC 256 kbps, −14 LUFS, 45 sn |
+| `cikti/enerjitedarigi_motion_reel_9x16.mp4` | 9:16 dikey (Reels / Shorts / TikTok / hikâye) — 1080×1920, 60 fps, aynı müzik, 45 sn |
+| `cikti/kapak.jpg`, `cikti/kapak_9x16.jpg` | Kapak görselleri |
 
 ## Konsept: "Akım"
 
@@ -31,17 +32,26 @@ sözleşme kontrol kapısına, final öncesinde ekolayzer şehrine dönüşür.
 Kamera sarsıntısı, kromatik sapma, yönlü hareket bulanıklığı ve alt kare örneklemeli
 hareket bulanıklığı (240 fps render → 60 fps, 4 örnek) kullanılır. Tutarlar ve teklifler temsilî örnektir; videoda da belirtilir.
 
+### 9:16 dikey sürüm
+
+Aynı animasyon ve aynı zamanlama; yerleşim dikey kadraja göre yeniden kuruldu. Başlıklar iki satıra bölünür,
+fatura/profil, talep ve tedarikçi kartları, aylık fatura bandı ve bildirim telefonda okunabilsin diye büyütülür
+(`zoom` ile, metin gerçek boyutunda çizilir). Final kartında logo üstte, kelime markası altta durur;
+"Sözleşme sonrası fatura takibi" etiketi kendi satırında öne çıkar.
+
 ## Düzenleme ve yeniden üretme
 
 Tüm animasyon `index.html` içindedir; her kare `renderFrame(t)` ile saf bir zaman fonksiyonu olarak çizilir.
-Tarayıcıda `index.html?t=12.5` açılarak herhangi bir an görüntülenebilir. Sahne sınırları `SC`,
-fatura takibi zamanları `T6` nesnesindedir; müzikteki karşılıkları `music.py` içinde aynı saniyelerdir.
+Tarayıcıda `index.html?t=12.5` (dikey için `index.html?format=9x16&t=12.5`) açılarak herhangi bir an görüntülenebilir.
+Sahne sınırları `SC`, fatura takibi zamanları `T6`, biçime göre değişen konum ve ölçüler `G` nesnesindedir;
+müzikteki karşılıkları `music.py` içinde aynı saniyelerdir.
 
 ```bash
 pip install numpy scipy pyloudnorm imageio-ffmpeg   # müzik + ffmpeg
 python3 music.py                                    # music.wav üretir
-node render.mjs --sub 4                             # 60 fps video, 4 alt kare hareket bulanıklığı (~16 dk)
-node render.mjs --stills 3,10,44.9                  # sadece kontrol kareleri (PNG)
+node render.mjs --sub 4                             # 16:9, 60 fps, 4 alt kare hareket bulanıklığı (~16 dk)
+node render.mjs --format 9x16 --sub 4               # 9:16 dikey sürüm (~13 dk)
+node render.mjs --stills 3,10,44.9                  # sadece kontrol kareleri (PNG); --format 9x16 ile dikey
 node render.mjs --sheet 0:45:0.5                    # kontrol paftası
 ```
 

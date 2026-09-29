@@ -2,9 +2,10 @@
 //
 // Kullanım:
 //   node render.mjs                              -> cikti/enerjitedarigi_motion_reel.mp4 (1920x1080, 60 fps)
-//   node render.mjs --sub 2                      -> alt kare örneklemeli hareket bulanıklığı (2x render)
+//   node render.mjs --sub 4                      -> alt kare örneklemeli hareket bulanıklığı (4x render)
 //   node render.mjs --stills 2,6.5,12            -> yalnızca seçilen saniyelerin PNG kareleri
-//   node render.mjs --sheet 0:30:0.5             -> kontrol paftası (küçük karelerden ızgara)
+//   node render.mjs --sheet 0:45:0.5             -> kontrol paftası (küçük karelerden ızgara)
+//   node render.mjs --format 9x16 --sub 4        -> dikey sürüm: cikti/enerjitedarigi_motion_reel_9x16.mp4 (1080x1920)
 //
 // Gerekenler: playwright (Chromium), ffmpeg (FFMPEG env / PATH / imageio-ffmpeg), music.wav (python3 music.py)
 import { spawn, execSync } from 'node:child_process';
@@ -24,8 +25,13 @@ const sub = Number(arg('--sub', 1));
 const workers = Number(arg('--workers', Math.max(1, Math.min(4, os.cpus().length))));
 const stills = arg('--stills', null);
 const sheet = arg('--sheet', null);
+const fmt = arg('--format', '16x9');
+if (!['16x9', '9x16'].includes(fmt)) throw new Error('--format 16x9 ya da 9x16 olmalı');
+const VERT = fmt === '9x16';
+const [VW, VH] = VERT ? [1080, 1920] : [1920, 1080];
+const sfx = VERT ? '_9x16' : '';
 const outDir = path.join(dir, 'cikti');
-const tmpDir = arg('--tmp', path.join(dir, '.tmp'));
+const tmpDir = arg('--tmp', path.join(dir, '.tmp' + sfx));
 mkdirSync(outDir, { recursive: true });
 
 const ffmpeg = process.env.FFMPEG || (() => {
@@ -33,11 +39,11 @@ const ffmpeg = process.env.FFMPEG || (() => {
   try { return execSync('python3 -c "import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())"').toString().trim(); } catch {}
   return 'ffmpeg';
 })();
-const url = pathToFileURL(path.join(dir, 'index.html')).href;
+const url = pathToFileURL(path.join(dir, 'index.html')).href + (VERT ? '?format=9x16' : '');
 
 async function openPage() {
   const browser = await chromium.launch({ args: ['--force-color-profile=srgb', '--disable-lcd-text'] });
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
+  const page = await browser.newPage({ viewport: { width: VW, height: VH }, deviceScaleFactor: 1 });
   await page.goto(url);
   await page.evaluate(() => window.ready);
   const cdp = await page.context().newCDPSession(page);
@@ -67,7 +73,7 @@ if (stills || sheet) {
   await Promise.all(chunks.map(async ch => {
     const { browser, shot } = await openPage();
     for (const [i, t] of ch) {
-      const f = path.join(kdir, stills ? `kare_${String(t).replace('.', '_')}.png` : `s_${String(i).padStart(4, '0')}.png`);
+      const f = path.join(kdir, stills ? `kare${sfx}_${String(t).replace('.', '_')}.png` : `s${sfx}_${String(i).padStart(4, '0')}.png`);
       writeFileSync(f, await shot(t)); files[i] = f;
     }
     await browser.close();
@@ -75,8 +81,8 @@ if (stills || sheet) {
   if (stills) { files.forEach(f => console.log('kare:', f)); process.exit(0); }
   const cols = Number(arg('--cols', 6)), tw = Number(arg('--tw', 320));
   const rows = Math.ceil(files.length / cols);
-  const out = path.join(kdir, arg('--name', 'pafta') + '.jpg');
-  await run(['-y', '-hide_banner', '-loglevel', 'error', '-framerate', '1', '-i', path.join(kdir, 's_%04d.png'),
+  const out = path.join(kdir, arg('--name', 'pafta' + sfx) + '.jpg');
+  await run(['-y', '-hide_banner', '-loglevel', 'error', '-framerate', '1', '-i', path.join(kdir, `s${sfx}_%04d.png`),
     '-vf', `scale=${tw}:-1,tile=${cols}x${rows}:padding=4:color=black`, '-frames:v', '1', '-q:v', '3', out]);
   files.forEach(f => rmSync(f));
   console.log('pafta:', out);
@@ -115,7 +121,7 @@ console.log(`\nrender bitti: ${((Date.now() - t0) / 1000).toFixed(0)} sn`);
 const list = path.join(tmpDir, 'list.txt');
 writeFileSync(list, segs.filter(Boolean).map(s => `file '${s}'`).join('\n'));
 const music = path.join(dir, 'music.wav');
-const out = path.join(outDir, arg('--out', 'enerjitedarigi_motion_reel.mp4'));
+const out = path.join(outDir, arg('--out', `enerjitedarigi_motion_reel${sfx}.mp4`));
 // alt kare -> hareket bulanıklığı (tmix), hafif film greni
 let vf = '';
 if (sub > 1) vf += `tmix=frames=${sub}:weights='${Array(sub).fill(1).join(' ')}',select='not(mod(n+1\\,${sub}))',setpts=N/(${fps}*TB),`;

@@ -19,11 +19,13 @@
   --pos:#12745a; --poss:#e6f5ef; --amber:#e8a33a; --warn:#9a5a06; --warns:#fdf3e1;
   --od2:#a9b6c8; --od3:#6b7a90;
   --hud:rgba(255,255,255,.62);
+  --W:1920px; --H:1080px;
 }
+:root.v{--W:1080px; --H:1920px}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+html,body{width:var(--W);height:var(--H);overflow:hidden;background:#000}
 body{font-family:"Geist",sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
-#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--deep)}
+#stage{position:relative;width:var(--W);height:var(--H);overflow:hidden;background:var(--deep)}
 #world{position:absolute;inset:0}
 canvas{position:absolute;left:0;top:0}
 .sc{position:absolute;inset:0;visibility:hidden;overflow:hidden}
@@ -49,7 +51,7 @@ canvas{position:absolute;left:0;top:0}
 .bigw{position:relative;white-space:nowrap;font-family:"Jakarta";font-weight:800;letter-spacing:-.045em;line-height:1}
 .echo{position:absolute;left:0;top:0;color:transparent;-webkit-text-stroke:2px rgba(127,196,242,.7)}
 #w3b{position:absolute;left:0;top:0}
-#w3l{position:absolute;left:0;top:50%;width:1920px;height:5px;margin-top:-2px;background:var(--acc);transform-origin:0 50%}
+#w3l{position:absolute;left:0;top:50%;width:var(--W);height:5px;margin-top:-2px;background:var(--acc);transform-origin:0 50%}
 #wall{position:absolute;left:960px;top:540px;width:0;height:0}
 .row{position:absolute;left:0;top:0;white-space:nowrap;font-family:"Jakarta";font-weight:800;font-size:150px;line-height:170px;height:170px;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.6px rgba(166,211,245,.34);transform-origin:50% 50%}
 .row.hot{-webkit-text-stroke:1.6px rgba(166,211,245,.6)}
@@ -214,7 +216,7 @@ canvas{position:absolute;left:0;top:0}
 #gatep{fill:rgba(79,169,232,.05);stroke-width:3;stroke-linejoin:round}
 #gate .gl{position:absolute;left:-400px;width:800px;top:-262px;text-align:center;font-size:15px;letter-spacing:.24em;white-space:nowrap}
 #gate .gs{position:absolute;left:-150px;width:300px;height:3px;border-radius:3px;top:0;opacity:0}
-#rail{position:absolute;left:0;width:1920px;height:2px;top:904px;background:linear-gradient(90deg,rgba(207,231,251,0),rgba(207,231,251,.9) 20%,#fff 50%,rgba(207,231,251,.9) 80%,rgba(207,231,251,0));box-shadow:0 0 12px 2px rgba(127,196,242,.7)}
+#rail{position:absolute;left:0;width:var(--W);height:2px;top:904px;background:linear-gradient(90deg,rgba(207,231,251,0),rgba(207,231,251,.9) 20%,#fff 50%,rgba(207,231,251,.9) 80%,rgba(207,231,251,0));box-shadow:0 0 12px 2px rgba(127,196,242,.7)}
 #notif{left:1170px;top:112px;width:620px;padding:24px 26px;display:flex;gap:18px;border-radius:24px}
 #notif .bell{width:58px;height:58px;border-radius:16px;background:var(--warns);color:var(--warn);display:grid;place-items:center;font-size:29px;flex:none}
 #notif .top{display:flex;justify-content:space-between;font-size:13px;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
@@ -246,6 +248,38 @@ canvas{position:absolute;left:0;top:0}
 #eurl .ico{font-size:30px;color:var(--sky2);stroke-width:2.4}
 #eurl .sh{position:absolute;top:0;left:0;width:140px;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent)}
 #elegal{left:0;right:0;bottom:62px;text-align:center;font-size:17px;line-height:1.5;color:var(--od3);padding:0 300px}
+
+/* ---------------- 9:16 dikey yerleşim ---------------- */
+.v #s1a{top:470px} .v #s1b{top:1420px}
+.v #s1hz{left:60px;top:1150px}
+.v .row{font-size:100px;line-height:118px;height:118px}
+.v #qrow{height:118px}
+.v #qrow>span{font-size:100px;line-height:118px}
+.v .head{left:80px}
+.v .sub{max-width:920px}
+.v #h3,.v #h4,.v #h5,.v #h6a{top:150px!important}
+.v #h6b{top:140px!important}
+.v #req{zoom:1.3;left:calc(90px/1.3);top:calc(450px/1.3);width:calc(900px/1.3)}
+.v .nd{zoom:1.15;width:calc(560px/1.15)}
+.v #cmpc{left:60px;top:490px;width:960px;height:1010px}
+.v .cmh{right:44px}
+.v #chart{left:40px;top:92px;width:880px;height:400px}
+.v #norm{left:300px;top:96px}
+.v #rank{left:44px;top:548px;width:872px}
+.v .rw{width:872px}
+.v #fn5{left:60px;top:1520px;font-size:20px}
+.v #ctri{transform:scale(1.2941);transform-origin:0 0}
+.v #notif{zoom:1.3;left:calc(90px/1.3);top:calc(1330px/1.3);width:calc(900px/1.3)}
+.v .tw{font-size:150px;text-align:center;line-height:1}
+.v #twsub{top:950px;font-size:32px}
+.v #ewm{font-size:112px}
+.v #etag{top:950px;font-size:36px}
+.v #echips{top:1034px;flex-wrap:wrap;padding:0 80px;row-gap:14px}
+.v .ech{height:60px;font-size:27px;padding:0 26px 0 22px;gap:12px}
+.v .ech i{width:10px;height:10px}
+.v #eurl{top:1236px}
+.v #elegal{top:1378px;bottom:auto;padding:0 100px;font-size:20px}
+.v .strip{height:2600px;top:-340px;width:2100px}
 
 /* ---------------- katmanlar ---------------- */
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
@@ -303,17 +337,17 @@ canvas{position:absolute;left:0;top:0}
   <!-- ============ S2 · SORU ============ -->
   <div id="s2" class="sc">
     <div class="pn" id="p1" style="background:var(--ink)">
-      <div class="ctr"><div class="bigw" id="w1" data-fit="1640">ELEKTRİK</div></div>
+      <div class="ctr"><div class="bigw" id="w1" data-fit="1640" data-fitv="960">ELEKTRİK</div></div>
     </div>
     <div class="pn" id="p2" style="background:var(--acc)">
-      <div class="ctr"><div class="bigw" id="w2" data-fit="1720">TEDARİKÇİNİZİ</div></div>
+      <div class="ctr"><div class="bigw" id="w2" data-fit="1720" data-fitv="980">TEDARİKÇİNİZİ</div></div>
     </div>
     <div class="pn" id="p3" style="background:var(--canvas)">
-      <div class="ctr"><div class="bigw" id="w3a" data-fit="1560" style="color:var(--ink);clip-path:inset(0 0 50% 0)">EN SON</div><div class="bigw" id="w3b" style="color:var(--ink);clip-path:inset(50% 0 0 0)">EN SON</div></div>
+      <div class="ctr"><div class="bigw" id="w3a" data-fit="1560" data-fitv="900" style="color:var(--ink);clip-path:inset(0 0 50% 0)">EN SON</div><div class="bigw" id="w3b" style="color:var(--ink);clip-path:inset(50% 0 0 0)">EN SON</div></div>
       <div id="w3l"></div>
     </div>
     <div class="pn" id="p4" style="background:var(--ink)">
-      <div class="ctr" style="perspective:900px"><div class="bigw" id="w4" data-fit="1600" style="color:var(--sky3)">NE ZAMAN</div></div>
+      <div class="ctr" style="perspective:900px"><div class="bigw" id="w4" data-fit="1600" data-fitv="960" style="color:var(--sky3)">NE ZAMAN</div></div>
     </div>
     <div class="pn" id="p5" style="background:var(--deep)">
       <div id="wall"></div>
@@ -517,7 +551,31 @@ canvas{position:absolute;left:0;top:0}
    16–22  Talep         | 22–28  Karşılaştırma | 28–36  Sözleşme + Fatura takibi
    36–40  Değerler      | 40–45  Marka
    ===================================================================== */
-const W = 1920, H = 1080, BPM = 120, B = 60 / BPM, DURATION = 45, FPS = 60;
+const VERT = new URLSearchParams(location.search).get('format') === '9x16';
+if (VERT) document.documentElement.classList.add('v');
+const W = VERT ? 1080 : 1920, H = VERT ? 1920 : 1080, CX = W / 2, CY = H / 2;
+const BPM = 120, B = 60 / BPM, DURATION = 45, FPS = 60;
+// biçime göre yerleşim: 16:9 (yatay) ve 9:16 (dikey)
+const G = VERT ? {
+  s1Scale: 30, phX: W - 130, wallY: 1000, rowH: 118, nRows: 17, beamW: 880,
+  docT: 560, docZ: 1.3, tiltRY: -16, tiltX: 0, whip: 1400,
+  reqZ: 1.3, ndZ: 1.15, nodes: [0, 1, 2, 3, 4].map(i => [300, 985 + i * 138]),
+  chartL: 40, chartT: 92, chartK: 880 / 990,
+  ctr: { x: 100, y: 640, w: 880, h: 802 },
+  gateX: 540, gateY: 930, spc: 370, cs: 1.3, hor: 1120, twY: -200,
+  wipe0: -700, wipeStep: 250, wipeExit: -3980, waveY: 1600, markY: 540, wmY: 800,
+  iris: 340,   // S4→S5 maskesi ekranı ~21,95 sn'de tamamen kaplar
+} : {
+  s1Scale: 24, phX: 1790, wallY: 540, rowH: 170, nRows: 11, beamW: 700,
+  docT: 140, docZ: 1, tiltRY: -24, tiltX: 330, whip: 2300,
+  reqZ: 1, ndZ: 1, nodes: [[1290, 196], [1420, 356], [1470, 516], [1420, 676], [1290, 836]],
+  chartL: 34, chartT: 96, chartK: 1,
+  ctr: { x: 1040, y: 230, w: 680, h: 620 },
+  gateX: 960, gateY: 700, spc: 300, cs: 1, hor: 590, twY: -100,
+  wipe0: -150, wipeStep: 540, wipeExit: -2700, waveY: 948,
+  iris: 500,
+};
+G.mid = (G.nRows - 1) / 2; G.rowStag = .04 * 5 / G.mid;
 const b = n => n * B;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -636,6 +694,7 @@ function fit(el, target) {
 /* ---------- tuvaller ---------- */
 const cbg = $('#cbg'), cx = cbg.getContext('2d');
 const cfx = $('#cfx'), fx = cfx.getContext('2d');
+cbg.width = cfx.width = W; cbg.height = cfx.height = H;
 
 /* ---------- logo geometrisi (32 birimlik orijinal logo koordinatları) ---------- */
 const LOGO = [
@@ -664,7 +723,7 @@ const CAH = [[4.0, 7], [8.0, 4], [T_ANOM, 5], [40.0, 12]];
    ===================================================================== */
 const S = {};
 function init() {
-  for (const el of $$('[data-fit]')) fit(el, parseFloat(el.dataset.fit));
+  for (const el of $$('[data-fit]')) fit(el, parseFloat(VERT && el.dataset.fitv ? el.dataset.fitv : el.dataset.fit));
   $('#w3b').style.fontSize = $('#w3a').style.fontSize;
 
   // S2 kelimeleri
@@ -680,11 +739,12 @@ function init() {
 
   // S2 tipografi duvarı
   const wall = $('#wall');
+  wall.style.left = CX + 'px'; wall.style.top = G.wallY + 'px';
   const PH = 'KARŞILAŞTIRDINIZ?';
   S.rows = [];
-  for (let i = 0; i < 11; i++) {
-    if (i === 5) continue;
-    const r = document.createElement('div'); r.className = 'row' + (Math.abs(i - 5) === 1 ? ' hot' : '');
+  for (let i = 0; i < G.nRows; i++) {
+    if (i === G.mid) continue;
+    const r = document.createElement('div'); r.className = 'row' + (Math.abs(i - G.mid) === 1 ? ' hot' : '');
     r.textContent = (PH + ' ').repeat(5);
     wall.appendChild(r);
     S.rows.push({ el: r, i, w: 0 });
@@ -696,6 +756,14 @@ function init() {
   for (const r of S.rows) r.w = r.el.getBoundingClientRect().width;
   const qo = q.querySelector('.o').getBoundingClientRect().width, qm = $('#qm').getBoundingClientRect().width;
   S.qoff = -(qo + qm / 2);
+  $('#beam').style.top = (G.wallY - 2) + 'px'; $('#beam').style.width = W + 'px';
+  for (const id of ['#bmA', '#bmB']) { const e = $(id); e.style.top = (G.wallY - 2) + 'px'; e.style.left = (CX - G.beamW / 2) + 'px'; e.style.width = G.beamW + 'px'; }
+  if (VERT) {
+    $('#h5 .hA').innerHTML = '<div>Teklifler</div><div>aynı ölçekte.</div>';
+    // dikeyde fatura/profil kartı büyür (zoom: metin gerçek boyutunda çizilir)
+    const d = $('#doc'); d.style.zoom = G.docZ;
+    d.style.left = ((CX - 310 * G.docZ) / G.docZ).toFixed(2) + 'px'; d.style.top = (G.docT / G.docZ).toFixed(2) + 'px';
+  }
 
   // S3 fatura mini grafiği + profil çubukları
   const ivc = $('.ivc'); [.55, .62, .5, .7, .66, .8, .92, 1, .84, .7, .6, .64].forEach(h => { const i = document.createElement('i'); i.style.height = (h * 100) + '%'; ivc.appendChild(i); });
@@ -712,19 +780,22 @@ function init() {
   }
 
   // S4 düğümler + bağlantılar
-  S.NODES = [[1290, 196], [1420, 356], [1470, 516], [1420, 676], [1290, 836]];
+  $('#net').setAttribute('width', W); $('#net').setAttribute('height', H);
+  const rq = $('#req').getBoundingClientRect();
+  S.anchor = VERT ? [180, rq.bottom + 4] : [720, 648];
+  S.NODES = G.nodes;
   const NC = ['#2356c7', '#1a44a3', '#4fa9e8', '#2c3d55', '#7fc4f2'];
   const nodes = $('#nodes'), ofps = $('#ofps'), nlk = $('#nlk'), npk = $('#npk');
   S.nodes = []; S.links = []; S.ofp = []; S.pk = [];
   const svgNS = 'http://www.w3.org/2000/svg';
   S.NODES.forEach(([x, y], i) => {
     const n = document.createElement('div'); n.className = 'nd card abs';
-    n.style.left = x + 'px'; n.style.top = y + 'px';
+    n.style.left = (x / G.ndZ) + 'px'; n.style.top = (y / G.ndZ) + 'px';
     n.innerHTML = `<div class="av" style="background:${NC[i]}">${'ABCDE'[i]}</div><div><div class="nm">Tedarikçi ${'ABCDE'[i]}</div><div class="lic"><svg class="ico" viewBox="0 0 24 24"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5" style="stroke-dasharray:1;stroke-dashoffset:1"/></svg><span>EPDK lisansı doğrulandı</span></div></div>`;
     nodes.appendChild(n); S.nodes.push(n);
     const p = document.createElementNS(svgNS, 'path');
-    const x0 = 720, y0 = 648, x1 = x, y1 = y + 50;
-    p.setAttribute('d', `M${x0} ${y0} C ${x0 + 250} ${y0}, ${x1 - 260} ${y1}, ${x1} ${y1}`);
+    const [x0, y0] = S.anchor, x1 = x, y1 = y + 50 * G.ndZ;
+    p.setAttribute('d', VERT ? `M${x0} ${y0} C ${x0} ${y0 + (y1 - y0) * .75}, ${x1 - 110} ${y1}, ${x1} ${y1}` : `M${x0} ${y0} C ${x0 + 250} ${y0}, ${x1 - 260} ${y1}, ${x1} ${y1}`);
     nlk.appendChild(p);
     const L = p.getTotalLength(); p.style.strokeDasharray = L;
     S.links.push({ p, L });
@@ -736,16 +807,19 @@ function init() {
     ofps.appendChild(o); S.ofp.push(o);
   });
   S.ofpW = S.ofp[0].getBoundingClientRect().width;
-  S.nmW = $('#rqn').getBoundingClientRect().width;
+  S.nmW = $('#rqn').getBoundingClientRect().width / G.reqZ;
+  const oc = $('#ofc').getBoundingClientRect();
+  S.irisO = [oc.left + oc.width / 2, oc.top + oc.height / 2];
 
   // S5 grafik
   buildChart();
   // S5'teki "Tedarikçi A" satırının sıralama sonrası yeri (S6 sözleşme kartı buradan büyür)
   const rr = $('#rows').getBoundingClientRect();
-  S.rowA = { x: rr.left, y: rr.top, w: 520, h: 118 };
+  S.rowA = { x: rr.left, y: rr.top, w: rr.width, h: 118 };
 
   // S6 sözleşme + aylık fatura kartları
   S.ctRows = $$('#ctri .ctrow');
+  $('#gate').style.left = G.gateX + 'px'; $('#gate').style.top = G.gateY + 'px';
   const MONTHS = [['Mart', 196880], ['Nisan', 188410], ['Mayıs', 201350], ['Haziran', 214920], ['Temmuz', 226130], ['Ağustos', 219760], ['Eylül', 205300], ['Ekim', 197640], ['Kasım', 192080]];
   const conv = $('#conv');
   const CHK = '<svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -763,15 +837,19 @@ function init() {
   // S7 değer kelimeleri
   S.TW = [['ÜCRETSİZ', TW_T[0]], ['ANONİM', TW_T[1]], ['LİSANSLI', TW_T[2]], ['FATURA TAKİBİ', TW_T[3]]];
   const tws = $('#tws');
-  S.tw = S.TW.map(([w]) => { const c = document.createElement('div'); c.className = 'ctr'; const d = document.createElement('div'); d.className = 'tw'; d.textContent = w; c.appendChild(d); tws.appendChild(c); return d; });
+  S.tw = S.TW.map(([w]) => { const c = document.createElement('div'); c.className = 'ctr'; const d = document.createElement('div'); d.className = 'tw'; if (VERT) d.innerHTML = w.replace(' ', '<br>'); else d.textContent = w; c.appendChild(d); tws.appendChild(c); return d; });
 
   // S8 logo kilidi
   S.ewc = splitChars($('#ewm'));
   const ew = $('#ewm').getBoundingClientRect().width;
   const MW = 188, GAP = 46, tot = MW + GAP + ew;
-  S.LY = 420;
-  S.markFinalX = 960 - tot / 2; S.markY = S.LY - 105;
-  S.wmX = S.markFinalX + MW + GAP;
+  if (VERT) {        // dikey: işaret üstte, kelime markası altta
+    S.shockY = CY; S.markX0 = S.markX1 = CX - MW / 2; S.markY0 = CY - 105; S.markY1 = G.markY;
+    S.wmX = CX - ew / 2; S.wmY = G.wmY;
+  } else {           // yatay: işaret sola kayar, kelime markası arkasından çıkar
+    S.shockY = 420; S.markX0 = CX - MW / 2; S.markX1 = CX - tot / 2; S.markY0 = S.markY1 = 420 - 105;
+    S.wmX = S.markX1 + MW + GAP; S.wmY = 420 - 70;
+  }
   S.etag = splitWords($('#etag'));
   S.echips = $$('#echips .ech');
   S.euW = $('#eurl').getBoundingClientRect().width;
@@ -820,7 +898,7 @@ function buildChart() {
    ===================================================================== */
 function darkBG(t, a = 1, gx = .7, gy = .3) {
   cx.globalAlpha = a;
-  const g = cx.createRadialGradient(960, 540, 60, 960, 540, 1250);
+  const g = cx.createRadialGradient(CX, CY, 60, CX, CY, 1250);
   g.addColorStop(0, '#0e1d31'); g.addColorStop(.55, '#08121f'); g.addColorStop(1, '#040910');
   cx.fillStyle = g; cx.fillRect(0, 0, W, H);
   const x = W * gx + Math.sin(t * .31) * 120, y = H * gy + Math.cos(t * .23) * 80;
@@ -838,7 +916,7 @@ function dotGrid(t, a, ox = 0) {
   cx.fillStyle = `rgba(166,211,245,${.13 * a})`;
   const off = (((t * 8 - ox) % 48) + 48) % 48;
   for (let y = 12; y < H; y += 48) for (let x = 12 - off; x < W; x += 48) {
-    const dx = (x - 960) / 960, dy = (y - 540) / 540, m = clamp(1.25 - Math.sqrt(dx * dx + dy * dy));
+    const dx = (x - CX) / CX, dy = (y - CY) / CY, m = clamp(1.25 - Math.sqrt(dx * dx + dy * dy));
     if (m <= 0) continue;
     cx.globalAlpha = m; cx.fillRect(x, y, 2, 2);
   }
@@ -892,7 +970,7 @@ function headSwap(h, t, a, sw, out, { d = .7, st = .05 } = {}) {
    S1 · AKIM  (0 – 4)
    ===================================================================== */
 const LAM = 600, OMG = 2 * Math.PI * .85;
-const waveY = (k, x, t, A) => 540 + A * Math.sin(2 * Math.PI * (x - 960) / LAM - OMG * t + k * 2 * Math.PI / 3);
+const waveY = (k, x, t, A) => CY + A * Math.sin(2 * Math.PI * (x - CX) / LAM - OMG * t + k * 2 * Math.PI / 3);
 function S1(t) {
   const on = t < SC.s1[1]; vis($('#s1'), on); if (!on) return;
   darkBG(t, 1, .5, .5);
@@ -900,11 +978,11 @@ function S1(t) {
   const gOn = P(t, .8, .6) * (1 - P(t, 2.25, .4));
   if (gOn > 0) {
     cx.strokeStyle = `rgba(166,211,245,${.055 * gOn})`; cx.lineWidth = 1; cx.beginPath();
-    for (let x = 0; x <= W; x += 80) { cx.moveTo(x + .5, 0); cx.lineTo(x + .5, H); }
-    for (let y = 60; y <= H; y += 80) { cx.moveTo(0, y + .5); cx.lineTo(W, y + .5); }
+    for (let x = CX % 80; x <= W; x += 80) { cx.moveTo(x + .5, 0); cx.lineTo(x + .5, H); }
+    for (let y = CY % 80; y <= H; y += 80) { cx.moveTo(0, y + .5); cx.lineTo(W, y + .5); }
     cx.stroke();
     cx.strokeStyle = `rgba(166,211,245,${.16 * gOn})`; cx.beginPath();
-    for (let x = 0; x <= W; x += 16) { const l = x % 80 === 0 ? 10 : 5; cx.moveTo(x + .5, 540 - l); cx.lineTo(x + .5, 540 + l); }
+    for (let x = CX % 16; x <= W; x += 16) { const l = (x - CX) % 80 === 0 ? 10 : 5; cx.moveTo(x + .5, CY - l); cx.lineTo(x + .5, CY + l); }
     cx.stroke();
   }
   dust(cx, t, .6 * (1 - P(t, 3.4, .3)));
@@ -912,33 +990,33 @@ function S1(t) {
   // orta çubuğun içine kamera dalışı
   const zk = E.inExpo(P(t, 3.42, .58, E.lin));
   const Z = Math.exp(zk * Math.log(90)) * (1 + .09 * E.io3(P(t, 2.7, 1.0, E.lin)));
-  cx.save(); cx.translate(960, 540); cx.scale(Z, Z); cx.translate(-960, -540);
+  cx.save(); cx.translate(CX, CY); cx.scale(Z, Z); cx.translate(-CX, -CY);
 
   // kıvılcım
   if (t < 1.3) {
     const sp = P(t, .03, .12) * (1 - P(t, .6, .6));
     const fl = .75 + .25 * noise1(t * 40, 3);
     const R = 150 * sp * fl;
-    const g = cx.createRadialGradient(960, 540, 0, 960, 540, Math.max(1, R));
+    const g = cx.createRadialGradient(CX, CY, 0, CX, CY, Math.max(1, R));
     g.addColorStop(0, `rgba(255,255,255,${.95 * sp})`); g.addColorStop(.12, `rgba(166,211,245,${.6 * sp})`); g.addColorStop(1, 'rgba(35,86,199,0)');
-    cx.fillStyle = g; cx.fillRect(960 - R, 540 - R, 2 * R, 2 * R);
-    const g2 = cx.createLinearGradient(960 - 600, 0, 960 + 600, 0);
+    cx.fillStyle = g; cx.fillRect(CX - R, CY - R, 2 * R, 2 * R);
+    const g2 = cx.createLinearGradient(CX - 600, 0, CX + 600, 0);
     g2.addColorStop(0, 'rgba(127,196,242,0)'); g2.addColorStop(.5, `rgba(207,231,251,${.55 * sp * fl})`); g2.addColorStop(1, 'rgba(127,196,242,0)');
-    cx.fillStyle = g2; cx.fillRect(360, 538, 1200, 4);
+    cx.fillStyle = g2; cx.fillRect(CX - 600, CY - 2, 1200, 4);
   }
 
   // çizgi -> üç fazlı dalgalar -> logo çubukları
   const hl = 1080 * E.outExpo(P(t, .2, .95, E.lin));
   const A = 150 * E.io3(P(t, .95, 1.1, E.lin));
-  const N = 170, S0 = 24;
+  const N = 170, S0 = G.s1Scale;
   const flashB = t >= 3.0 ? 1 - P(t, 3.0, .35, E.out2) : 0;
   for (let k = 0; k < 3; k++) {
-    const bar = LOGO[k].map(([lx, ly]) => [960 + (lx - 16) * S0, 540 + (ly - 16) * S0]);
+    const bar = LOGO[k].map(([lx, ly]) => [CX + (lx - 16) * S0, CY + (ly - 16) * S0]);
     const up = [], lo = [], mid = [];
     let mSum = 0;
     for (let i = 0; i < N; i++) {
       const u = i / (N - 1);
-      const x = clamp(lerp(-40, 1960, u), 960 - hl, 960 + hl);
+      const x = clamp(lerp(-40, W + 40, u), CX - hl, CX + hl);
       const y = waveY(k, x, t, A);
       const m = E.io4(clamp((t - 2.15 - k * .05 - Math.abs(u - .5) * 2 * .25) / .5));
       mSum += m;
@@ -952,7 +1030,7 @@ function S1(t) {
     if (hl <= 0) continue;
     cx.save();
     if (mAvg > .02) { cx.shadowColor = LC[k]; cx.shadowBlur = 40 * mAvg; }
-    const gr = cx.createLinearGradient(0, 540 - 300, 0, 540 + 300);
+    const gr = cx.createLinearGradient(0, CY - 12.5 * S0, 0, CY + 12.5 * S0);
     const c = LRGB[k];
     gr.addColorStop(0, `rgb(${Math.min(255, c[0] + 40)},${Math.min(255, c[1] + 30)},${Math.min(255, c[2] + 10)})`); gr.addColorStop(1, LC[k]);
     cx.fillStyle = mAvg > .5 ? gr : LC[k];
@@ -963,8 +1041,8 @@ function S1(t) {
     const swp = P(t, 3.05, .45, E.io3);
     if (swp > 0 && swp < 1) {
       cx.shadowBlur = 0; cx.clip();
-      const sx0 = lerp(560, 1400, swp);
-      const sg = cx.createLinearGradient(sx0 - 120, 300, sx0 + 120, 780);
+      const sx0 = lerp(CX - 16.7 * S0, CX + 18.3 * S0, swp);
+      const sg = cx.createLinearGradient(sx0 - 120, CY - 10 * S0, sx0 + 120, CY + 10 * S0);
       sg.addColorStop(0, 'rgba(255,255,255,0)'); sg.addColorStop(.5, 'rgba(255,255,255,.75)'); sg.addColorStop(1, 'rgba(255,255,255,0)');
       cx.fillStyle = sg; cx.fillRect(0, 0, W, H);
     }
@@ -973,7 +1051,7 @@ function S1(t) {
     if (t < 1.35) {
       const ha = 1 - P(t, .9, .35);
       for (const sx of [-1, 1]) {
-        const hx = 960 + sx * Math.min(hl, 1000), hy = waveY(k, hx, t, A);
+        const hx = CX + sx * Math.min(hl, CX + 40), hy = waveY(k, hx, t, A);
         const g = cx.createRadialGradient(hx, hy, 0, hx, hy, 40);
         g.addColorStop(0, `rgba(255,255,255,${.9 * ha / 3})`); g.addColorStop(1, 'rgba(79,169,232,0)');
         cx.fillStyle = g; cx.fillRect(hx - 40, hy - 40, 80, 80);
@@ -982,7 +1060,7 @@ function S1(t) {
   }
   if (t > 2.6) {
     const ga = P(t, 2.6, .5) * (1 - zk);
-    const g = cx.createRadialGradient(960, 540, 0, 960, 540, 520);
+    const g = cx.createRadialGradient(CX, CY, 0, CX, CY, 520 * S0 / 24);
     g.addColorStop(0, `rgba(35,86,199,${.45 * ga})`); g.addColorStop(1, 'rgba(35,86,199,0)');
     cx.globalCompositeOperation = 'destination-over'; cx.fillStyle = g; cx.fillRect(0, 0, W, H); cx.globalCompositeOperation = 'source-over';
   }
@@ -995,7 +1073,7 @@ function S1(t) {
       const r0 = (60 + s.r * 900) * (1 + zk * 3), len = s.l * 900 * zk;
       const ca = Math.cos(s.a), sa = Math.sin(s.a);
       fx.strokeStyle = `rgba(230,243,255,${.5 * zk * s.l})`; fx.lineWidth = 1 + s.c * 2;
-      fx.beginPath(); fx.moveTo(960 + ca * r0, 540 + sa * r0); fx.lineTo(960 + ca * (r0 + len), 540 + sa * (r0 + len)); fx.stroke();
+      fx.beginPath(); fx.moveTo(CX + ca * r0, CY + sa * r0); fx.lineTo(CX + ca * (r0 + len), CY + sa * (r0 + len)); fx.stroke();
     }
     fx.globalCompositeOperation = 'source-over';
   }
@@ -1009,8 +1087,8 @@ function S1(t) {
   T(a1, { y: -pout * 16 }); T(a2, { y: pout * 16 });
   const pl = P(t, 1.3, .3) * (1 - P(t, 2.05, .25));
   for (let k = 0; k < 3; k++) {
-    const e = $('#ph' + k); e.style.opacity = pl; e.style.top = '0px';
-    T(e, { y: waveY(k, 1790, t, A) - 30 });
+    const e = $('#ph' + k); e.style.opacity = pl; e.style.top = '0px'; e.style.left = (G.phX + 10) + 'px';
+    T(e, { y: waveY(k, G.phX, t, A) - 30 });
   }
   const hz = $('#s1hz'); hz.style.opacity = pl * .9; hz.textContent = scram('3~ · 50 Hz', P(t, 1.3, .4, E.lin), t, 4);
 }
@@ -1058,18 +1136,18 @@ function S2(t) {
     const col = P(t, cA, .62, E.io3);
     T($('#wall'), { rz: lerp(lerp(-8, -4, zp), 0, col), s: lerp(lerp(1.28, .94, zp), 1, col) });
     for (const r of S.rows) {
-      const di = Math.abs(r.i - 5);
-      const rev = P(t, a + di * .04, .5, E.outExpo);
+      const di = Math.abs(r.i - G.mid);
+      const rev = P(t, a + di * G.rowStag, .5, E.outExpo);
       const dir = r.i % 2 ? 1 : -1;
       const x = dir * (t - a) * 260 + ((r.i * 397) % 700) - 350 - r.w / 2;
-      const c = P(t, cA + (5 - di) * .04, .34, E.io4);
-      const y = lerp((r.i - 5) * 170, 0, c) + (1 - rev) * (r.i < 5 ? -60 : 60);
-      r.el.style.transform = `translate3d(${x.toFixed(1)}px,${(y - 85).toFixed(1)}px,0) scale(1,${Math.max(.012, 1 - c).toFixed(4)})`;
-      r.el.style.opacity = (rev * (1 - P(t, cA + (5 - di) * .04 + .3, .08, E.lin))).toFixed(3);
+      const c = P(t, cA + (G.mid - di) * G.rowStag, .34, E.io4);
+      const y = lerp((r.i - G.mid) * G.rowH, 0, c) + (1 - rev) * (r.i < G.mid ? -60 : 60);
+      r.el.style.transform = `translate3d(${x.toFixed(1)}px,${(y - G.rowH / 2).toFixed(1)}px,0) scale(1,${Math.max(.012, 1 - c).toFixed(4)})`;
+      r.el.style.opacity = (rev * (1 - P(t, cA + (G.mid - di) * G.rowStag + .3, .08, E.lin))).toFixed(3);
     }
     S.qmc.forEach((c, i) => { const p = P(t, a + i * .02, .42, E.outExpo); c.style.transform = `translate3d(0,${((1 - p) * 140).toFixed(2)}%,0)`; });
     const cq = P(t, cA + .26, .3, E.in3);
-    S.qrow.style.transform = `translate3d(${S.qoff}px,-85px,0) scale(1,${Math.max(.012, 1 - cq).toFixed(4)})`;
+    S.qrow.style.transform = `translate3d(${S.qoff}px,${-G.rowH / 2}px,0) scale(1,${Math.max(.012, 1 - cq).toFixed(4)})`;
     S.qrow.style.opacity = (1 - P(t, cA + .54, .06, E.lin)).toFixed(3);
   }
 }
@@ -1081,7 +1159,7 @@ function beams(t) {
   if (on) {
     const p = P(t, 9.65, .12, E.lin);
     const sh = P(t, 9.7, .3, E.io4);
-    T(bm, { sx: lerp(1, 700 / 1920, sh), sy: (1 + .15 * noise1(t * 30, 9)) * lerp(1.6, 1, p), o: p });
+    T(bm, { sx: lerp(1, G.beamW / W, sh), sy: (1 + .15 * noise1(t * 30, 9)) * lerp(1.6, 1, p), o: p });
   }
 }
 
@@ -1094,25 +1172,26 @@ function S3(t) {
   const on = t >= a - .05 && t < WHIP_C + .33; vis($('#s3'), on); if (!on) return;
   if (t < WHIP_C) {
     darkBG(t, 1, .72, .28);
-    dotGrid(t, P(t, a, .6), -WHIP(t) * 2300);
+    dotGrid(t, P(t, a, .6), -WHIP(t) * G.whip);
     dust(cx, t, .8);
   }
   // çizgiler ayrılır -> fatura açılır
   const op = P(t, a, .6, E.io4);
-  const yA = lerp(540, 140, op), yB = lerp(540, 940, op);
+  const dT = G.docT, dB = G.docT + 800 * G.docZ;
+  const yA = lerp(G.wallY, dT, op), yB = lerp(G.wallY, dB, op);
   const bmOn = t < a + .72;
   vis($('#bmA'), bmOn); vis($('#bmB'), bmOn);
   if (bmOn) {
     const fo = 1 - P(t, a + .55, .17, E.lin);
-    T($('#bmA'), { y: yA - 540, o: fo }); T($('#bmB'), { y: yB - 540, o: fo });
+    T($('#bmA'), { y: yA - G.wallY, o: fo }); T($('#bmB'), { y: yB - G.wallY, o: fo });
   }
-  $('#inv').style.clipPath = op < 1 ? `inset(${(yA - 140).toFixed(1)}px 0 ${(940 - yB).toFixed(1)}px 0 round 24px)` : 'none';
+  $('#inv').style.clipPath = op < 1 ? `inset(${((yA - dT) / G.docZ).toFixed(1)}px 0 ${((dB - yB) / G.docZ).toFixed(1)}px 0 round 24px)` : 'none';
   // belge üzerinde 3D kamera
   const tilt = P(t, a + .6, .7, E.io4);
   const fl = P(t, a + 2.75, .8, E.io4);
-  const ry = lerp(0, -24, tilt) + lerp(0, -180, fl) + (t - a) * -1.1;
+  const ry = lerp(0, G.tiltRY, tilt) + lerp(0, -180, fl) + (t - a) * -1.1;
   const rx = lerp(0, 9, tilt) - Math.sin(Math.PI * fl) * 6;
-  const x = lerp(0, 330, tilt) - Math.sin(Math.PI * fl) * 30;
+  const x = lerp(0, G.tiltX, tilt) - Math.sin(Math.PI * fl) * 30;
   const z = lerp(0, -40, tilt) - Math.sin(Math.PI * fl) * 320;
   T($('#doc'), { x, y: Math.sin((t - a) * 1.3) * 6, z, rx, ry });
   // tarama bandı + alan vurguları
@@ -1144,7 +1223,7 @@ function S3(t) {
   $('#k3n').textContent = t < sw ? '01' : '02';
   $('#k3t').textContent = t < sw ? 'FATURA' : scram('PROFİL', P(t, sw, .35, E.lin), t, 31);
   // whip pan -> S4
-  const gx = -WHIP(t) * 2300, v = gx + WHIP(t - 1 / 60) * 2300;
+  const gx = -WHIP(t) * G.whip, v = gx + WHIP(t - 1 / 60) * G.whip;
   T($('#s3g'), { x: gx });
   mblur($('#s3'), 4, Math.abs(v) * .45);
 }
@@ -1155,7 +1234,7 @@ function S3(t) {
 function S4(t) {
   const a = SC.s4[0];
   const on = t >= WHIP_C - .32 && t < SC.s4[1] + .02; vis($('#s4'), on); if (!on) return;
-  const gx = (1 - WHIP(t)) * 2300, v = gx - (1 - WHIP(t - 1 / 60)) * 2300;
+  const gx = (1 - WHIP(t)) * G.whip, v = gx - (1 - WHIP(t - 1 / 60)) * G.whip;
   if (t >= WHIP_C) {
     darkBG(t, 1, .78, .5);
     dotGrid(t, .7, gx);
@@ -1186,7 +1265,7 @@ function S4(t) {
   const cj = gl ? (hash(Math.floor(t * 30), 3) - .5) * 6 : 0;
   T($('#req'), { x: cj, y: (1 - P(t, a + .05, .5, E.out4)) * 30 });
   // radar halkaları
-  rings(720 + gx, 648, t, [18.95, 19.09, 19.23], [127, 196, 242]);
+  rings(S.anchor[0] + gx, S.anchor[1], t, [18.95, 19.09, 19.23], [127, 196, 242]);
   // bağlantılar + tedarikçiler
   S.links.forEach((l, i) => { l.p.style.strokeDashoffset = (l.L * (1 - P(t, 19.0 + i * .07, .5, E.io3))).toFixed(1); l.p.style.opacity = .75; });
   S.nodes.forEach((n, i) => {
@@ -1230,7 +1309,7 @@ function S5(t) {
   const on = t >= 21.4 && t < 30.05; vis($('#s5'), on); if (!on) return;
   // iris
   const ip = P(t, 21.4, .6, E.in3);
-  $('#s5').style.clipPath = ip < 1 ? ironPoly(lerp(661, 960, ip), lerp(740, 540, ip), lerp(0, 190, ip), lerp(.35, -.12, ip)) : 'none';
+  $('#s5').style.clipPath = ip < 1 ? ironPoly(lerp(S.irisO[0], CX, ip), lerp(S.irisO[1], CY, ip), lerp(0, G.iris, ip), lerp(.35, -.12, ip)) : 'none';
   // kamera kayması; sözleşme kartı büyürken içerik söner
   T($('#s5g'), { s: 1.04 - P(t, 21.5, 5.5, E.out2) * .04, o: 1 - P(t, 27.2, .35, E.lin) });
   headSwap(S.heads['#h5'], t, 21.75, 99, null);
@@ -1264,7 +1343,7 @@ function S5(t) {
     const txt = norm ? { A: '4,12 TL/kWh', B: '4,16 TL/kWh', C: '4,21 TL/kWh' }[k] : { A: 'Sabit fiyat', B: 'PTF endeksli', C: 'Tarife indirimli' }[k];
     const spn = $('span', lab); if (spn.textContent !== txt) spn.textContent = txt;
     const bump = norm ? 1 - P(t, 24.05 + (lx + 100) / 1070 * .95, .3, E.out2) : 0;
-    lab.style.left = (34 + lx - 6) + 'px'; lab.style.top = (96 + ly - 32) + 'px';
+    lab.style.left = (G.chartL + lx * G.chartK - 6) + 'px'; lab.style.top = (G.chartT + ly * G.chartK - 32) + 'px';
     T(lab, { y: (1 - lp) * 14 - 17, s: lerp(.7, 1, lp) + bump * .1, o: P(t, 22.75 + di, .15) });
   }
   const scn = $('#scn');
@@ -1304,7 +1383,7 @@ function wipe(t) {
   $$('#wipe .strip').forEach((s, i) => {
     const pin = P(t, WIPE_C - .45 + i * .07, .43, E.in3);
     const pout = P(t, WIPE_C - .02 + i * .04, .42, E.out4);
-    const x = lerp(2000, -150 + i * 540, pin) + lerp(0, -2700, pout);
+    const x = lerp(W + 80, G.wipe0 + i * G.wipeStep, pin) + lerp(0, G.wipeExit, pout);
     s.style.transform = `translate3d(${x.toFixed(1)}px,0,0) skewX(-16deg)`;
   });
 }
@@ -1325,7 +1404,7 @@ function S6(t) {
   /* --- A: seçilen teklif satırı büyüyüp sözleşmeye dönüşür --- */
   if (onA) {
     const mp = P(t, 27.2, .8, E.io4);
-    const R0 = S.rowA, R1 = { x: 1040, y: 230, w: 680, h: 620 };
+    const R0 = S.rowA, R1 = G.ctr;
     const ctr = $('#ctr');
     const push = 1 + P(t, 28.0, 2.2, E.lin) * .02;
     ctr.style.left = lerp(R0.x, R1.x, mp).toFixed(1) + 'px'; ctr.style.top = lerp(R0.y, R1.y, mp).toFixed(1) + 'px';
@@ -1358,7 +1437,7 @@ function S6(t) {
     gp.style.fill = amber > 0 ? `rgba(232,163,58,${(.05 + .07 * amber).toFixed(3)})` : 'rgba(79,169,232,.05)';
     gp.style.filter = `drop-shadow(0 0 ${(10 + 8 * amber).toFixed(1)}px ${gcol})`;
     const gate = $('#gate');
-    T(gate, { o: P(t, 30.05, .35) * (1 - outP), s: lerp(.92, 1, P(t, 30.05, .5, E.out4)) });
+    T(gate, { o: P(t, 30.05, .35) * (1 - outP), s: lerp(.92, 1, P(t, 30.05, .5, E.out4)) * G.cs });
     $('#gate .gl').style.color = amber > .5 ? '#f2c27a' : 'var(--glow)';
     $('#gate .gl').textContent = amber > .5 ? 'SÖZLEŞME KONTROLÜ · FARK BULUNDU' : 'SÖZLEŞME KONTROLÜ · SABİT · 4,12 TL/kWh';
     // her varışta kapıda tarama çizgisi
@@ -1375,10 +1454,10 @@ function S6(t) {
     S.ivm.forEach((c, i) => {
       const d = i - k;
       const lift = i === ANOM ? P(t, T_ANOM + .05, .4, E.outBack) : 0;
-      const x = 960 + d * 300 - 120;
-      const y = 550 - lift * 18 + Math.sin(t * 2 + i) * 3 + outP * (90 + i * 10);
+      const x = G.gateX + d * G.spc - 120;
+      const y = G.gateY - 150 - lift * 18 + Math.sin(t * 2 + i) * 3 + outP * (90 + i * 10);
       const dim = d < -.55 ? .5 : 1;
-      T(c.el, { x, y, s: 1 + lift * .1, o: dim * (1 - outP) });
+      T(c.el, { x, y, s: G.cs * (1 + lift * .1), o: dim * (1 - outP) });
       c.el.style.zIndex = i === ANOM ? 5 : 1;
       c.el.style.boxShadow = lift > .01 ? `0 0 0 3px rgba(232,163,58,${(.9 * lift).toFixed(2)}), 0 0 60px rgba(232,163,58,${(.45 * lift).toFixed(2)}), 0 30px 60px -24px rgba(0,0,0,.8)` : '';
       const tc = i < T6.length ? T6[i] + .08 : Infinity;
@@ -1391,7 +1470,7 @@ function S6(t) {
       if (c.x) T(c.x, { sx: P(t, T_ANOM + .15, .4, E.outBack), sy: 1 });
     });
     // fark halkaları
-    rings(960, 700, t, [T_ANOM, T_ANOM + .18], [232, 163, 58], 900, 1.0);
+    rings(G.gateX, G.gateY, t, [T_ANOM, T_ANOM + .18], [232, 163, 58], 900 * G.cs, 1.0);
     // bildirim
     const nsp = spring(t - 33.45, 2.0, .45);
     T($('#notif'), { y: (1 - nsp) * -90, s: lerp(.94, 1, clamp(nsp)), o: P(t, 33.45, .12, E.lin) * (1 - outP) });
@@ -1401,7 +1480,7 @@ function S6(t) {
     // alt hat: tünelin ufuk çizgisine dönüşür
     const rp = P(t, 35.4, .45, E.io4);
     const rail = $('#rail');
-    rail.style.top = (lerp(904, 589, rp)).toFixed(1) + 'px';
+    rail.style.top = (lerp(G.gateY + 204 * G.cs, G.hor - 1, rp)).toFixed(1) + 'px';
     rail.style.opacity = (P(t, 30.2, .4) * (1 - P(t, 35.85, .15, E.lin))).toFixed(3);
     T($('#h6b'), { o: 1 - outP, y: -outP * 30 });
   }
@@ -1416,18 +1495,18 @@ function S7(t) {
   const u = t - t0;
   const zc = 1900 * u + 420 * u * u * u;          // kamera z
   const vcam = 1900 + 1260 * u * u;
-  const f = 900, HOR = 590, CAMH = 330, SPZ = 560;
+  const f = 900, HOR = G.hor, CAMH = 330, SPZ = 560;
   const fadeIn = P(t, t0, .55, E.lin);
   const rise = P(t, t0, 1.0, E.out3);             // şehir yerden yükselir
   const imp = P(t, IMP, .55, E.in3);              // implozyon
   darkBG(t, 1, .5, .5);
   cx.save();
   const shrink = 1 - imp, roll = .035 * Math.sin(u * 1.4) * (1 - imp);
-  cx.translate(960, 540); cx.rotate(roll); cx.scale(shrink, shrink); cx.translate(-960, -540);
-  const hg = cx.createRadialGradient(960, HOR, 0, 960, HOR, 900);
+  cx.translate(CX, CY); cx.rotate(roll); cx.scale(shrink, shrink); cx.translate(-CX, -CY);
+  const hg = cx.createRadialGradient(CX, HOR, 0, CX, HOR, 900);
   hg.addColorStop(0, `rgba(79,169,232,${.42 * fadeIn})`); hg.addColorStop(.4, `rgba(35,86,199,${.18 * fadeIn})`); hg.addColorStop(1, 'rgba(35,86,199,0)');
   cx.fillStyle = hg; cx.fillRect(0, 0, W, H);
-  const proj = (X, Y, dz) => [960 + X * f / dz, HOR + (CAMH - Y) * f / dz];
+  const proj = (X, Y, dz) => [CX + X * f / dz, HOR + (CAMH - Y) * f / dz];
   cx.globalCompositeOperation = 'lighter';
   // zemin ızgarası
   cx.lineWidth = 1.2;
@@ -1491,14 +1570,14 @@ function S7(t) {
   }
   cx.globalCompositeOperation = 'source-over';
   cx.restore();
-  const scr = cx.createRadialGradient(960, 460, 0, 960, 460, 760);
+  const scr = cx.createRadialGradient(CX, CY + G.twY + 20, 0, CX, CY + G.twY + 20, 760);
   scr.addColorStop(0, `rgba(4,9,16,${.58 * fadeIn * (1 - imp)})`); scr.addColorStop(.6, `rgba(4,9,16,${.26 * fadeIn * (1 - imp)})`); scr.addColorStop(1, 'rgba(4,9,16,0)');
   cx.fillStyle = scr; cx.fillRect(0, 0, W, H);
   if (imp > 0) {
     const r = 5 + 40 * (1 - Math.abs(imp - .5) * 2);
-    const g = cx.createRadialGradient(960, 540, 0, 960, 540, r * 6);
+    const g = cx.createRadialGradient(CX, CY, 0, CX, CY, r * 6);
     g.addColorStop(0, `rgba(255,255,255,${Math.min(1, imp * 2)})`); g.addColorStop(.2, `rgba(166,211,245,${.7 * imp})`); g.addColorStop(1, 'rgba(35,86,199,0)');
-    cx.fillStyle = g; cx.fillRect(960 - r * 6, 540 - r * 6, r * 12, r * 12);
+    cx.fillStyle = g; cx.fillRect(CX - r * 6, CY - r * 6, r * 12, r * 12);
   }
   // kelimeler: kameraya doğru uçar; sonuncusu (FATURA TAKİBİ) bekler, sonra çöker
   S.tw.forEach((w, i) => {
@@ -1510,10 +1589,10 @@ function S7(t) {
     const pin = P(t, ti, last ? .3 : .18, E.out4);
     if (last) {
       const pout = P(t, IMP, .45, E.in3);
-      T(w, { y: -100, s: lerp(.5, 1, pin) * (1 + (t - ti) * .03) * (1 - pout), o: pin * (1 - pout), blur: (1 - pin) * 6 });
+      T(w, { y: G.twY, s: lerp(.5, 1, pin) * (1 + (t - ti) * .03) * (1 - pout), o: pin * (1 - pout), blur: (1 - pin) * 6 });
     } else {
       const pout = P(t, tn, .15, E.in2);
-      T(w, { y: -100, s: lerp(.45, 1, pin) * (1 + (t - ti) * .1) + pout * 2.4, o: pin * Math.pow(1 - pout, 1.6), blur: pout * 18 + (1 - pin) * 6 });
+      T(w, { y: G.twY, s: lerp(.45, 1, pin) * (1 + (t - ti) * .1) + pout * 2.4, o: pin * Math.pow(1 - pout, 1.6), blur: pout * 18 + (1 - pin) * 6 });
     }
   });
   T($('#twsub'), { y: (1 - P(t, TW_T[3] + .2, .5, E.out4)) * 20, o: P(t, TW_T[3] + .2, .35) * (1 - P(t, IMP, .25, E.lin)) });
@@ -1525,7 +1604,7 @@ function S7(t) {
 function S8(t) {
   const a = SC.s8[0];
   const on = t >= a; vis($('#s8'), on); if (!on) return;
-  const u = t - a, LY = S.LY;
+  const u = t - a, LY = S.shockY;
   darkBG(t, 1, .5, .42);
   dust(cx, t, P(t, a + .3, 1));
   // alttaki soluk üç fazlı dalgalar (açılışa gönderme)
@@ -1533,7 +1612,7 @@ function S8(t) {
   if (wa > 0) {
     for (let k = 0; k < 3; k++) {
       const pts = [];
-      for (let x = -20; x <= W + 20; x += 16) pts.push([x, 948 + 26 * Math.sin(2 * Math.PI * (x - 960) / 700 - t * 2.2 + k * 2.094) * (.6 + .4 * Math.sin(x / W * 3.1))]);
+      for (let x = -20; x <= W + 20; x += 16) pts.push([x, G.waveY + 26 * Math.sin(2 * Math.PI * (x - CX) / 700 - t * 2.2 + k * 2.094) * (.6 + .4 * Math.sin(x / W * 3.1))]);
       glowLine(cx, pts, LRGB[k], 1.6, wa * .6);
     }
   }
@@ -1543,7 +1622,7 @@ function S8(t) {
     const rp = P(t, a + i * .09, 1.0, E.outExpo);
     if (rp > 0 && rp < 1) {
       fx.strokeStyle = `rgba(166,211,245,${.7 * (1 - rp) * (i ? .5 : 1)})`; fx.lineWidth = 26 * (1 - rp) + 1;
-      fx.beginPath(); fx.arc(960, LY, rp * 1500, 0, 6.283); fx.stroke();
+      fx.beginPath(); fx.arc(CX, LY, rp * 1500, 0, 6.283); fx.stroke();
     }
   }
   for (const s of S.sparks) {
@@ -1553,16 +1632,22 @@ function S8(t) {
     const ca = Math.cos(s.a), sa = Math.sin(s.a), al = 1 - u / s.life;
     fx.strokeStyle = s.c > .6 ? `rgba(255,255,255,${al})` : `rgba(127,196,242,${al})`;
     fx.lineWidth = s.w;
-    fx.beginPath(); fx.moveTo(960 + ca * r0, LY + sa * r0 + gy * .9); fx.lineTo(960 + ca * r1, LY + sa * r1 + gy); fx.stroke();
+    fx.beginPath(); fx.moveTo(CX + ca * r0, LY + sa * r0 + gy * .9); fx.lineTo(CX + ca * r1, LY + sa * r1 + gy); fx.stroke();
   }
   fx.globalCompositeOperation = 'source-over';
   // logo çubukları yayla yükselir, sonra kelime markasına yer açar
   $$('#emark polygon').forEach((pg, i) => { pg.style.transform = `scaleY(${Math.max(.001, spring(u - i * .045, 2.1, .4)).toFixed(4)})`; });
-  T($('#emark'), { x: lerp(960 - 94, S.markFinalX, P(t, a + .55, .75, E.io4)), y: S.markY });
+  const mv = P(t, a + .55, .75, E.io4);
+  T($('#emark'), { x: lerp(S.markX0, S.markX1, mv), y: lerp(S.markY0, S.markY1, mv) });
   const wm = $('#ewm');
-  wm.style.left = S.wmX + 'px'; wm.style.top = (LY - 70) + 'px';
-  wm.style.clipPath = `inset(-30% ${((1 - P(t, a + .72, .7, E.out4)) * 100).toFixed(2)}% -30% 0)`;
-  S.ewc.forEach((c, i) => { const p = P(t, a + .72 + i * .03, .6, E.outExpo); c.style.transform = `translate3d(${((1 - p) * -60).toFixed(1)}px,0,0)`; c.style.opacity = p.toFixed(3); });
+  wm.style.left = S.wmX + 'px'; wm.style.top = S.wmY + 'px';
+  if (VERT) {        // dikey: harfler aşağıdan yükselir
+    wm.style.clipPath = 'none';
+    S.ewc.forEach((c, i) => { const p = P(t, a + .72 + i * .03, .6, E.outExpo); c.style.transform = `translate3d(0,${((1 - p) * 70).toFixed(1)}px,0)`; c.style.opacity = p.toFixed(3); });
+  } else {           // yatay: işaretin arkasından soldan sağa açılır
+    wm.style.clipPath = `inset(-30% ${((1 - P(t, a + .72, .7, E.out4)) * 100).toFixed(2)}% -30% 0)`;
+    S.ewc.forEach((c, i) => { const p = P(t, a + .72 + i * .03, .6, E.outExpo); c.style.transform = `translate3d(${((1 - p) * -60).toFixed(1)}px,0,0)`; c.style.opacity = p.toFixed(3); });
+  }
   S.etag.forEach((w, i) => { const p = P(t, a + 1.25 + i * .06, .7, E.outExpo); w.style.transform = `translate3d(0,${((1 - p) * 120).toFixed(2)}%,0)`; });
   S.echips.forEach((c, i) => { const p = P(t, a + 1.6 + i * .12, .55, E.outBack); T(c, { y: (1 - p) * 18, s: lerp(.85, 1, p), o: P(t, a + 1.6 + i * .12, .2) }); });
   const hot = S.echips[2];
