@@ -250,6 +250,19 @@ Format: `### Gün N — GG.AA.YYYY (Gün adı)` altında **Yapılan iş**, **Tek
 - **Açık sorular:** Şemanın müşteri sunumlarında basılı mı dijital mi kullanılacağı; kurumsal şablon
   (logo, renk) uygulanıp uygulanmayacağı.
 
+### Hafta 6 — 26.10.2026 / 30.10.2026
+
+#### Gün 26 — 26.10.2026 (Pazartesi) · Saha Ziyareti: Biyogaz Tesisi Görüşmesi
+- **Yapılan iş:** Enerjisa Enerji Verimliliği ekibiyle Şenpiliç'e biyogaz tesisi görüşmesine
+  gidildi. Görüşmeye TSE ekibi de katıldı; devlet yatırım destekleri konuşuldu.
+  *(Raporda gizlilik kuralı gereği "bir beyaz et üretim tesisi" olarak anonimleştirilecek.)*
+- **Teknik içerik:** Biyogaz yatırımı ve yararlanılabilecek devlet destekleri (bkz. Enerji Yatırım
+  Destek Aracı: 9903 Teşvik Kararı, YEKDEM, LÜY, VAP vb.). *Ayrıntılar eklenecek.*
+- **Kazanım:** İlk saha ziyareti; müşteri, TSE ve verimlilik ekibinin bir arada olduğu bir yatırım
+  görüşmesine katılım. *Eklenecek.*
+- **Açık sorular:** Tesisin kapasitesi ve hammaddesi (tavuk gübresi vb.); TSE'nin görüşmedeki rolü;
+  hangi destek programının öne çıktığı; sonraki adım.
+
 ---
 
 ## 5. Rapor Malzemesi Havuzu
@@ -275,6 +288,7 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 - [ ] Güç kalitesi ve harmonikler
 - [x] Türkiye Emisyon Ticaret Sistemi (TR ETS) — kapsam, kategoriler, tahsisat, İRD süreci
 - [ ] Karbon fiyatlandırmasının verimlilik yatırım fizibilitesine etkisi
+- [ ] Biyogaz tesisleri ve enerji yatırımlarında devlet destekleri (saha ziyareti 26.10.2026)
 
 ---
 
