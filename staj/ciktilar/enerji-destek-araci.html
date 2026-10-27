@@ -1,0 +1,903 @@
+<title>Enerji Yatırımı Destek Aracı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600;700;800&family=Red+Hat+Mono:wght@500;600&family=Red+Hat+Text:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#f3f5f8; --panel:#ffffff; --sunk:#eef2f6; --hover:#f6f8fb;
+  --ink:#0f1b2a; --ink2:#475467; --ink3:#7a8699; --line:#e0e6ec; --line2:#cbd4de;
+  --hero:#0b1f33; --hero2:#10304c; --hero-ink:#ffffff; --hero-ink2:#a9bccd; --hero-line:rgba(255,255,255,.14);
+  --accent:#2f5bd3; --accent-ink:#ffffff; --accent-soft:#ebf0fd; --accent-line:#bfcdf4;
+  --ok:#067647; --ok-soft:#ecf7f0; --ok-line:#b4e2c7;
+  --warn:#b54708; --warn-soft:#fff5e8; --warn-line:#f7d4a6;
+  --no:#b42318; --no-soft:#fdf0ef; --no-line:#f5c6c1;
+  --info:#475467; --info-soft:#eff2f5;
+  --t-mev-fg:#ffffff; --t-mev-bg:#1d3048;
+  --t-duy:#0a6d9c;
+  --t-hes:#0b7a6e; --t-hes-bg:#e5f3f0;
+  --t-tey:#8f5200; --t-tey-bg:#fff3dc;
+  --t-var:#6941c6; --t-var-bg:#f3effe;
+  --t-yor:#5a6475; --t-yor-bg:#eef1f4;
+  --t-orn:#a1407a; --t-orn-bg:#fbeef5;
+  --bar:#2f5bd3; --bar2:#0b7a6e;
+  --shadow:0 1px 2px rgba(16,28,42,.05),0 1px 1px rgba(16,28,42,.03);
+  --display:"Red Hat Display","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --text:"Red Hat Text","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:"Red Hat Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0b1219; --panel:#111b25; --sunk:#16222e; --hover:#15212c;
+    --ink:#e6edf3; --ink2:#a4b2c1; --ink3:#7d8b9c; --line:#1f2d3a; --line2:#2c3c4c;
+    --hero:#081725; --hero2:#0e2539; --hero-ink:#ffffff; --hero-ink2:#93a8bb; --hero-line:rgba(255,255,255,.1);
+    --accent:#86a5ff; --accent-ink:#0a1433; --accent-soft:#17213d; --accent-line:#2b3a66;
+    --ok:#62d29b; --ok-soft:#0f281c; --ok-line:#1f5037;
+    --warn:#f0ae55; --warn-soft:#2a200f; --warn-line:#5a4118;
+    --no:#f48c82; --no-soft:#2a1514; --no-line:#5a2622;
+    --info:#aab5c3; --info-soft:#1a2531;
+    --t-mev-fg:#0b1520; --t-mev-bg:#c6d4e6;
+    --t-duy:#6cc3ee;
+    --t-hes:#56cfbe; --t-hes-bg:#0e2c29;
+    --t-tey:#f0b660; --t-tey-bg:#2b2111;
+    --t-var:#b9a2f5; --t-var-bg:#231b3b;
+    --t-yor:#a4b0bf; --t-yor-bg:#1b2632;
+    --t-orn:#ee9cc8; --t-orn-bg:#2d1624;
+    --bar:#86a5ff; --bar2:#56cfbe;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0b1219; --panel:#111b25; --sunk:#16222e; --hover:#15212c;
+  --ink:#e6edf3; --ink2:#a4b2c1; --ink3:#7d8b9c; --line:#1f2d3a; --line2:#2c3c4c;
+  --hero:#081725; --hero2:#0e2539; --hero-ink:#ffffff; --hero-ink2:#93a8bb; --hero-line:rgba(255,255,255,.1);
+  --accent:#86a5ff; --accent-ink:#0a1433; --accent-soft:#17213d; --accent-line:#2b3a66;
+  --ok:#62d29b; --ok-soft:#0f281c; --ok-line:#1f5037;
+  --warn:#f0ae55; --warn-soft:#2a200f; --warn-line:#5a4118;
+  --no:#f48c82; --no-soft:#2a1514; --no-line:#5a2622;
+  --info:#aab5c3; --info-soft:#1a2531;
+  --t-mev-fg:#0b1520; --t-mev-bg:#c6d4e6;
+  --t-duy:#6cc3ee;
+  --t-hes:#56cfbe; --t-hes-bg:#0e2c29;
+  --t-tey:#f0b660; --t-tey-bg:#2b2111;
+  --t-var:#b9a2f5; --t-var-bg:#231b3b;
+  --t-yor:#a4b0bf; --t-yor-bg:#1b2632;
+  --t-orn:#ee9cc8; --t-orn-bg:#2d1624;
+  --bar:#86a5ff; --bar2:#56cfbe;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--ground);color:var(--ink);font:15px/1.55 var(--text);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.ref{font:500 12px var(--mono);color:var(--ink3)}
+.muted{color:var(--ink2)}
+svg.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.in{max-width:1220px;margin:0 auto;padding-inline:24px}
+@media (max-width:560px){.in{padding-inline:16px}}
+
+/* üst bant */
+.appbar{background:var(--hero);color:var(--hero-ink);border-bottom:1px solid var(--hero-line)}
+.appbar .in{display:flex;flex-wrap:wrap;gap:6px 24px;align-items:center;justify-content:space-between;padding-block:14px}
+.brand{display:flex;gap:10px;align-items:center;font:700 15px var(--display)}
+.brand-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink)}
+.brand-mark svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.appbar .meta{font-size:13px;color:var(--hero-ink2)}
+.hero{background:linear-gradient(180deg,var(--hero) 0%,var(--hero2) 100%);color:var(--hero-ink)}
+.hero .in{padding-block:38px 30px}
+.kicker{font:600 13px var(--text);color:var(--hero-ink2);letter-spacing:.02em}
+.hero h1{font-size:clamp(29px,4.2vw,44px);font-weight:800;line-height:1.08;margin-top:10px;letter-spacing:-.02em;max-width:22ch}
+.hero .lead{max-width:66ch;margin-top:12px;font-size:16.5px;color:var(--hero-ink2)}
+
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin-top:28px;border:1px solid var(--hero-line);border-radius:10px;overflow:hidden;background:var(--hero-line)}
+.strip > div{background:var(--hero);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.strip .k{font-size:12.5px;color:var(--hero-ink2);line-height:1.35}
+.strip .v{font:600 20px var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.strip .v small{font:500 12px var(--text);color:var(--hero-ink2);margin-left:4px}
+.strip .s{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font:500 11.5px var(--mono);color:var(--hero-ink2)}
+@media (max-width:860px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:440px){.strip{grid-template-columns:minmax(0,1fr)}}
+
+.stepper{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 0;list-style:none;padding:0}
+.stepper a{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:8px;border:1px solid var(--hero-line);
+  color:var(--hero-ink);text-decoration:none;background:rgba(255,255,255,.03);height:100%}
+.stepper a:hover{background:rgba(255,255,255,.07)}
+.stepper .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:600 13px var(--mono);border:1.5px solid var(--hero-ink2);color:var(--hero-ink2);flex:none}
+.stepper .l{display:block;font-weight:600;font-size:14px;line-height:1.3}
+.stepper .v{display:block;font-size:12.5px;color:var(--hero-ink2);margin-top:2px;line-height:1.35}
+@media (max-width:760px){.stepper{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* düzen */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:start;padding-block:28px 40px}
+.col{display:flex;flex-direction:column;gap:20px;min-width:0}
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:flex;flex-direction:column;gap:14px}
+@media (max-width:1000px){.layout{grid-template-columns:minmax(0,1fr)} aside{position:static}}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+.sec{padding:24px}
+@media (max-width:560px){.sec{padding:18px}}
+.sec-h{display:flex;gap:14px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.sec-no{font:600 12.5px var(--mono);color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:3px 8px;flex:none;margin-top:3px}
+.sec-h h2{font-size:21px;font-weight:700;line-height:1.25}
+.sec-h p{font-size:14px;color:var(--ink2);margin-top:4px;max-width:70ch}
+.sec-b{display:flex;flex-direction:column;gap:20px;padding-top:18px}
+.lbl{font:600 14px var(--text);color:var(--ink);display:block}
+.lbl-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.hint{font-size:13px;color:var(--ink2);max-width:78ch}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px 18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px 18px}
+.sub-h{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);padding-top:4px}
+
+/* etiketler */
+.tag{flex:none;display:inline-flex;align-items:center;font:600 10.5px/1 var(--text);letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 6px;border-radius:4px;white-space:nowrap;vertical-align:1px;border:1px solid transparent;cursor:help}
+.t-mev{color:var(--t-mev-fg);background:var(--t-mev-bg)}
+.t-duy{color:var(--t-duy);background:transparent;border-color:var(--t-duy)}
+.t-hes{color:var(--t-hes);background:var(--t-hes-bg)}
+.t-tey{color:var(--t-tey);background:var(--t-tey-bg);border:1px dashed var(--t-tey)}
+.t-var{color:var(--t-var);background:var(--t-var-bg)}
+.t-yor{color:var(--t-yor);background:var(--t-yor-bg)}
+.t-orn{color:var(--t-orn);background:var(--t-orn-bg)}
+.strip .tag{border-color:rgba(255,255,255,.35)}
+.strip .t-duy{color:#8fd3f5;border-color:#8fd3f5}
+.strip .t-tey{color:#f5c77e;background:rgba(245,199,126,.1);border-color:#f5c77e}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 22px;padding:16px 18px;font-size:13px;color:var(--ink2)}
+.legend .it{display:flex;gap:9px;align-items:flex-start}
+.legend .it .tag{margin-top:1px}
+.legend-h{padding:14px 18px 0;font:600 13px var(--text);color:var(--ink)}
+
+.notice{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;padding:14px 16px;border-radius:10px;background:var(--t-orn-bg);border:1px solid color-mix(in srgb,var(--t-orn) 28%,transparent)}
+.notice p{flex:1 1 300px;font-size:14px}
+.presets{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;gap:6px;align-items:center;font:600 13.5px var(--text);border:1px solid var(--line2);background:var(--panel);
+  color:var(--ink);border-radius:7px;padding:8px 13px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--hover);border-color:var(--ink3)}
+.btn[aria-pressed="true"]{border-color:var(--t-orn);color:var(--t-orn);box-shadow:0 0 0 1px var(--t-orn) inset}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
+input[type=number],input[type=text],select{background:var(--panel);border:1px solid var(--line2);border-radius:7px;padding:9px 11px;width:100%;min-width:0}
+input.tl,input[type=number]{font-family:var(--mono);font-variant-numeric:tabular-nums}
+input:hover,select:hover{border-color:var(--ink3)}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:17px;height:17px;margin:0;flex:none}
+.inwrap{position:relative;display:flex;align-items:center}
+.inwrap input{padding-right:54px}
+.inwrap .u{position:absolute;right:11px;font:500 12.5px var(--text);color:var(--ink3);pointer-events:none}
+.calc-note{font:500 12.5px var(--mono);color:var(--ink2);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border:1px solid var(--line2);border-radius:8px;cursor:pointer;background:var(--panel)}
+.opt:hover{background:var(--hover)}
+.opt:has(input:checked){border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;background:var(--accent-soft)}
+.opt input{margin-top:3px}
+.opt b{display:block;font-weight:600;line-height:1.35}
+.opt span{display:block;font-size:13px;color:var(--ink2);margin-top:3px}
+.checks-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.chk:hover{background:var(--hover)}
+.chk input{margin-top:2px}
+.chk b{display:block;font-weight:600;font-size:14px;line-height:1.35}
+.chk span{display:block;font-size:12.5px;color:var(--ink2);margin-top:2px}
+
+.chip{flex:none;display:inline-flex;align-items:center;gap:6px;font:600 12px/1.2 var(--text);padding:4px 8px;border-radius:6px;white-space:nowrap;background:var(--sunk);color:var(--ink2)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.no{background:var(--no-soft);color:var(--no)}
+.chip.dot::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* sonuç */
+.res-top{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:14px 28px;align-items:flex-end;justify-content:space-between}
+.res-top .k{font:600 13px var(--text);color:var(--ink2)}
+.res-top h2{font-size:25px;font-weight:800;margin-top:2px}
+.res-top p{margin-top:6px;max-width:64ch;font-size:14px;color:var(--ink2)}
+.counts{display:flex;gap:8px;flex-wrap:wrap}
+.tabs{display:flex;gap:4px;padding:0 16px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs button{border:0;background:none;padding:14px 10px 12px;font:600 14px var(--text);color:var(--ink2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabpanel{padding:20px 24px 24px}
+@media (max-width:560px){.tabpanel{padding:16px 16px 18px}.res-top{padding:18px}}
+
+.pgroup{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:6px 0 10px}
+.plist{display:flex;flex-direction:column;gap:14px}
+.pcard{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.pcard.st-ok{border-color:var(--ok-line)}
+.pcard.st-warn{border-color:var(--warn-line)}
+.ph{display:flex;flex-wrap:wrap;gap:12px 20px;justify-content:space-between;align-items:flex-start;padding:16px 18px}
+.st-ok .ph{background:var(--ok-soft)}
+.st-warn .ph{background:var(--warn-soft)}
+.st-no .ph{background:var(--sunk)}
+.ph h3{font-size:18px;font-weight:700;line-height:1.3}
+.ph .own{font-size:13px;color:var(--ink2);margin-top:3px}
+.ph .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.amt{text-align:right;min-width:0}
+.amt .v{font:600 24px var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em;white-space:nowrap}
+.amt .l{font-size:12.5px;color:var(--ink2);display:flex;gap:6px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+@media (max-width:560px){.amt{text-align:left}.amt .l{justify-content:flex-start}}
+.pb{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4px 28px;padding:6px 18px 16px}
+.pb h4{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:12px 0 6px}
+.clist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.clist li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.clist li:first-child{border-top:0}
+.clist .meta{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin-top:4px}
+.ci{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;margin-top:1px}
+.ci svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ci.ok{background:var(--ok-soft);color:var(--ok)}
+.ci.warn{background:var(--warn-soft);color:var(--warn)}
+.ci.no{background:var(--no-soft);color:var(--no)}
+.ci.info{background:var(--info-soft);color:var(--info)}
+.ci.dot{background:transparent;color:var(--ink3)}
+details.more{border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+details.more summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--accent);list-style:none;display:flex;gap:6px;align-items:center;padding:4px 0}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary svg{width:16px;height:16px;transition:transform .2s}
+details.more[open] summary svg{transform:rotate(90deg)}
+.brk{margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.brk div{display:flex;justify-content:space-between;gap:12px;padding:8px 12px;border-top:1px solid var(--line);font-size:13.5px;align-items:center}
+.brk div:first-child{border-top:0}
+.brk dt{color:var(--ink2);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.brk dd{margin:0;font:600 13.5px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.brk .h{background:var(--sunk);font:700 12px var(--text);letter-spacing:.04em;color:var(--ink2)}
+details.nope{border:1px solid var(--line);border-radius:10px;margin-top:16px}
+details.nope summary{cursor:pointer;padding:14px 18px;font-weight:600;list-style:none;display:flex;gap:8px;align-items:center}
+details.nope summary::-webkit-details-marker{display:none}
+details.nope summary svg{transition:transform .2s;color:var(--ink3)}
+details.nope[open] summary svg{transform:rotate(90deg)}
+.nope-list{padding:0 18px 12px}
+.nope-list .row{padding:12px 0;border-top:1px solid var(--line)}
+.nope-list .row b{font-family:var(--display)}
+.nope-list .row ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink2);display:flex;flex-direction:column;gap:4px}
+
+/* karşılaştırma */
+.bars{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.brow{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr) 128px;gap:12px;align-items:center}
+.brow .n{font-weight:600;font-size:14px;line-height:1.3}
+.brow .n small{display:block;font-weight:500;font-size:12px;color:var(--ink3)}
+.track{height:14px;border-radius:4px;background:var(--sunk);overflow:hidden}
+.track i{display:block;height:100%;border-radius:4px;background:var(--bar);transition:width .35s ease}
+.track i.alt{background:var(--bar2)}
+.track i.soft{background:repeating-linear-gradient(135deg,var(--bar2) 0 6px,color-mix(in srgb,var(--bar2) 55%,transparent) 6px 12px)}
+.brow .v{font:600 14px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:640px){.brow{grid-template-columns:minmax(0,1fr) 110px}.brow .track{grid-column:1 / -1;grid-row:2}}
+@media (prefers-reduced-motion:reduce){.track i{transition:none}}
+.key{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-top:14px}
+.key span{display:inline-flex;gap:6px;align-items:center}
+.key i{width:14px;height:10px;border-radius:2px;display:inline-block;background:var(--bar)}
+.key i.alt{background:var(--bar2)}
+.key i.soft{background:repeating-linear-gradient(135deg,var(--bar2) 0 4px,color-mix(in srgb,var(--bar2) 55%,transparent) 4px 8px)}
+.tbl-wrap{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:8px}
+table.t{border-collapse:collapse;width:100%;min-width:680px;font-size:13.5px}
+table.t th{background:var(--sunk);text-align:left;font:600 12.5px var(--text);color:var(--ink2);padding:10px 14px}
+table.t td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+table.t td:first-child{font-weight:600}
+table.t td.n{font-family:var(--mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+.callout{margin-top:16px;padding:14px 16px;border-radius:8px;background:var(--sunk);font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.callout .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+
+/* yol haritası */
+.steps{list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.step:first-child{border-top:0}
+.step .sn{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 13px var(--mono);border:1.5px solid var(--line2);color:var(--ink2);background:var(--panel)}
+.step.done .sn{background:var(--ok);border-color:var(--ok);color:#fff}
+.step h4{font-size:16px;font-weight:700;line-height:1.3;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.step ul{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;font-size:14px;color:var(--ink2)}
+.step ul li{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.step ul li b{color:var(--ink);font-weight:600}
+.tl{list-style:none;margin:10px 0 0;padding:0}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 20px;padding:12px 0;border-top:1px solid var(--line)}
+.tl li:first-child{border-top:0}
+.tl .d{font:600 14px var(--mono);font-variant-numeric:tabular-nums}
+.tl .w{font-weight:600}
+.tl .x{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;align-items:center}
+.tl li.past .d,.tl li.past .w{color:var(--ink3)}
+.tl li.soon .d{color:var(--warn)}
+@media (max-width:600px){.tl li{grid-template-columns:minmax(0,1fr)}}
+.sub{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+.sub h3{font-size:17px;font-weight:700}
+
+/* kaynaklar */
+table.src td:nth-child(2){white-space:nowrap}
+table.src td:last-child{color:var(--ink2)}
+.pending{margin-top:16px;padding:14px 16px;border-radius:8px;border:1px dashed var(--t-tey);font-size:13.5px;color:var(--ink2)}
+.pending b{color:var(--ink)}
+.pending ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+
+/* özet kartı */
+.sum-h{padding:14px 18px;border-bottom:1px solid var(--line);font:600 13px var(--text);color:var(--ink2);display:flex;justify-content:space-between;gap:8px;align-items:center}
+.status{padding:18px;display:flex;gap:12px;align-items:flex-start;background:var(--st-soft,var(--sunk));border-bottom:1px solid var(--line)}
+.status .ic{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:var(--panel);color:var(--st,var(--ink3));flex:none;border:1px solid var(--st-line,var(--line))}
+.status .t{font:800 17px var(--display);color:var(--st,var(--ink));line-height:1.25}
+.status p{font-size:13px;color:var(--ink2);margin-top:3px}
+.s-ok{--st:var(--ok);--st-soft:var(--ok-soft);--st-line:var(--ok-line)}
+.s-warn{--st:var(--warn);--st-soft:var(--warn-soft);--st-line:var(--warn-line)}
+.s-no{--st:var(--no);--st-soft:var(--no-soft);--st-line:var(--no-line)}
+.dl{margin:0;padding:4px 18px 8px}
+.dl div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px;align-items:center}
+.dl div:first-child{border-top:0}
+.dl dt{color:var(--ink2);min-width:0}
+.dl dd{margin:0;font:600 13.5px var(--mono);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dl dd.st{font:600 12px var(--text)}
+.sum-f{padding:4px 18px 16px;display:flex;flex-direction:column;gap:10px}
+.sum-f .btn{justify-content:center}
+.deadline{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-size:13px;font-weight:600}
+.deadline.past{background:var(--sunk);color:var(--ink2)}
+.cum h3{font-size:17px;font-weight:700}
+.cum{padding:20px 24px}
+.cum ul{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 28px;font-size:13.5px;color:var(--ink2)}
+.cum li.res{grid-column:1 / -1}
+@media (max-width:560px){.cum{padding:18px}}
+.cum li{display:flex;flex-direction:column;gap:5px}
+.cum .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.cum li.res{padding-top:10px;border-top:1px solid var(--line);color:var(--ink)}
+
+footer{border-top:1px solid var(--line);background:var(--panel)}
+footer .in{padding-block:18px 28px;display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:space-between;font-size:12.5px;color:var(--ink3)}
+footer p{max-width:110ch}
+
+
+
+
+/*V2-CSS*/
+@media (max-width:760px){.ilcard{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ilcard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ilcard > div{background:var(--panel);padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.ilcard .k{font-size:12.5px;color:var(--ink2)}
+.ilcard .v{font:600 16px var(--mono);font-variant-numeric:tabular-nums}
+.ilcard .v.txt{font:600 14px var(--text);line-height:1.35}
+.ilcard .x{font-size:12px;color:var(--ink3)}
+.ilwide{grid-column:1 / -1}
+.konu{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none;font-size:13.5px}
+.konu li{display:flex;gap:8px;align-items:flex-start}
+.konu li .n{font:600 12px var(--mono);color:var(--ink3);min-width:16px}
+.konu li.en{color:var(--ink);font-weight:600}
+.konu li.en .n{color:var(--t-hes)}
+.flag{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:8px;font-size:13.5px}
+.flag.warn{background:var(--warn-soft);color:var(--ink)}
+.flag.warn b{color:var(--warn)}
+.flag.ok{background:var(--ok-soft)}
+.flag.ok b{color:var(--ok)}
+.flag.no{background:var(--no-soft)}
+.flag.no b{color:var(--no)}
+.flags{display:flex;flex-direction:column;gap:8px}
+.tgroup{display:flex;flex-direction:column;gap:8px}
+.tgroup .gh{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.opts.sm{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.opts.sm .opt{padding:10px 12px}
+.opts.sm .opt b{font-size:14px}
+.cmp2{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.cmp2 table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px}
+.cmp2 th,.cmp2 td{padding:9px 12px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.cmp2 thead th{background:var(--sunk);border-top:0;font:600 12.5px var(--text);color:var(--ink2)}
+.cmp2 td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.cmp2 td.diff{background:var(--accent-soft)}
+.klass{font:700 12px var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:18px 0 10px;display:flex;gap:10px;align-items:center}
+.klass:first-child{margin-top:4px}
+.klass span{font:500 12.5px var(--text);letter-spacing:0;text-transform:none;color:var(--ink3)}
+.datastrip{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--hero-ink2);margin-top:14px}
+.datastrip b{color:var(--hero-ink);font-family:var(--mono);font-weight:600}
+.callrow{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:6px 16px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
+.callrow:first-child{border-top:0}
+.callrow .d{font:600 13px var(--mono)}
+.callrow .w{font-weight:600}
+.callrow .x{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;align-items:center}
+@media (max-width:600px){.callrow{grid-template-columns:minmax(0,1fr)}}
+.sumcalls{padding:0 18px 14px;display:flex;flex-direction:column;gap:6px}
+.sumcalls div{display:flex;justify-content:space-between;gap:10px;font-size:12.5px}
+.sumcalls span:last-child{font-weight:600;white-space:nowrap}
+</style>
+
+<header class="appbar">
+  <div class="in">
+    <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>Enerji Yatırımı · Destek Analizi</div>
+    <div class="meta" id="meta"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <div class="kicker">9903 · Yeşil Dönüşüm · VAP · EPS · EKA · KOSGEB · TÜBİTAK · HIT-30 · YEKDEM · Lisanssız · YEKA</div>
+    <h1>Bu yatırım bu ilde hangi desteğe, ne kadar erişir?</h1>
+    <p class="lead">İl, yatırım türü ve tutarı girin. Araç, veri envanterindeki kurallarla her programı madde numarasıyla kontrol eder, tutarı 2026 eşikleriyle hesaplar, yatırım desteğini gelir ve piyasa desteğinden ayrı gösterir.</p>
+    <div class="strip" id="strip"></div>
+    <div class="datastrip" id="datastrip"></div>
+    <ol class="stepper" id="stepper"></ol>
+  </div>
+</section>
+
+<main class="in layout">
+  <div class="col">
+    <div class="panel">
+      <div class="legend-h">Etiketler: her bilginin nereden geldiği</div>
+      <div class="legend" id="legend"></div>
+    </div>
+
+    <div class="notice" id="notice">
+      <p><b>Örnek senaryo yüklü.</b> Değerler gösterim içindir; kendi projenizin bilgilerini girin ya da başka bir örnek seçin.</p>
+      <div class="presets" id="presets"></div>
+    </div>
+
+    <section class="panel sec" id="s1">
+      <div class="sec-h"><span class="sec-no">01</span><div><h2>Konum</h2><p>İl bölgeyi, ilçe ve OSB alt bölge desteğini ve geçici 6. bölge hükümlerini belirler.</p></div></div>
+      <div class="sec-b">
+        <div class="grid3">
+          <div class="field"><label class="lbl" for="il">İl</label><select id="il" data-k="il"></select></div>
+          <div class="field"><label class="lbl" for="ilce">İlçe</label><select id="ilce" data-k="ilce"></select><span class="hint">Yalnız desteği etkileyen ilçeler listelenir.</span></div>
+          <div class="field"><span class="lbl">Yer</span>
+            <label class="chk"><input type="checkbox" id="osb" data-k="osb" data-t="bool"><div><b>OSB veya endüstri bölgesinde</b><span>SGK alt bölge; Cazibe illerinde geçici m.4</span></div></label>
+          </div>
+        </div>
+        <div id="ilcard"></div>
+        <div class="flags" id="ilflags"></div>
+        <details class="more" id="cmpbox"><summary><svg class="i" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>Başka bir ille karşılaştır</summary>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+            <div class="field" style="max-width:280px"><label class="lbl" for="il2">Karşılaştırılacak il</label><select id="il2" data-k="il2"></select></div>
+            <div class="cmp2" id="cmp2"></div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="panel sec" id="s2">
+      <div class="sec-h"><span class="sec-no">02</span><div><h2>İşletme</h2><p>Sektör, ölçek ve enerji yönetimi ön koşulları.</p></div></div>
+      <div class="sec-b">
+        <div class="opts" role="radiogroup" aria-label="Faaliyet alanı">
+          <label class="opt"><input type="radio" name="sektor" value="imalat" data-k="sektor"><div><b>İmalat sanayii</b><span>Üretim tesisi, fabrika</span></div></label>
+          <label class="opt"><input type="radio" name="sektor" value="bina" data-k="sektor"><div><b>Ticari ve hizmet binası</b><span>Otel, AVM, hastane, ofis</span></div></label>
+          <label class="opt"><input type="radio" name="sektor" value="enerji" data-k="sektor"><div><b>Enerji şirketi / yatırımcı</b><span>Lisanslı üretim, depolama, YEKA</span></div></label>
+          <label class="opt"><input type="radio" name="sektor" value="diger" data-k="sektor"><div><b>Diğer</b><span>Tarım, lojistik vb.</span></div></label>
+        </div>
+        <div class="grid3">
+          <div class="field"><label class="lbl" for="olcek">Ölçek</label><select id="olcek" data-k="olcek"><option value="kobi">KOBİ</option><option value="buyuk">Büyük işletme</option></select></div>
+          <div class="field"><label class="lbl" for="tep">Yıllık enerji tüketimi</label><div class="inwrap"><input id="tep" class="tl" type="text" inputmode="numeric" data-k="tep" data-t="tl"><span class="u">TEP</span></div><span class="calc-note" id="tepNote"></span></div>
+          <div class="field"><label class="lbl" for="model">Uygulama modeli</label><select id="model" data-k="model"><option value="kendi">İşletme kendisi yapar</option><option value="eps">ESCO ile EPS</option></select></div>
+        </div>
+        <div class="checks-in">
+          <label class="chk" id="alanWrap"><input type="checkbox" id="alan20" data-k="alan20" data-t="bool"><div><b>İnşaat alanı ≥ 20.000 m²</b><span>Ticari/hizmet binasında yükümlülük eşiği</span></div></label>
+          <label class="chk"><input type="checkbox" id="iso" data-k="iso" data-t="bool"><div><b>TS EN ISO 50001 belgesi var</b><span>VAP ve EKA şartı</span></div></label>
+          <label class="chk"><input type="checkbox" id="evdes" data-k="evdes" data-t="bool"><div><b>EVDES'e üye</b><span>evdes.enerji.gov.tr</span></div></label>
+          <label class="chk" id="eyWrap"><input type="checkbox" id="eyDone" data-k="eyDone" data-t="bool"><div><b>Enerji yöneticisi atandı, tüketim bildirildi</b><span>EVY m.9, m.32/1</span></div></label>
+          <label class="chk"><input type="checkbox" id="dagOrtak" data-k="dagOrtak" data-t="bool"><div><b>Başvuran bir dağıtım/görevli tedarik grubunun şirketi</b><span>Lisanssız üretimde LÜY m.37/10 kontrolü</span></div></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel sec" id="s3">
+      <div class="sec-h"><span class="sec-no">03</span><div><h2>Yatırım türü</h2><p>Envanterdeki 22 tür; her türün programlarla ilişkisi matristen gelir.</p></div></div>
+      <div class="sec-b">
+        <div id="turler" class="flags" style="gap:16px"></div>
+        <div class="grid2">
+          <label class="chk"><input type="checkbox" id="yeni" data-k="yeni" data-t="bool"><div><b>Yeni tesis kurulumu</b><span>Mevcut tesiste değil</span></div></label>
+          <label class="chk"><input type="checkbox" id="basladi" data-k="basladi" data-t="bool"><div><b>Yatırıma başlandı / harcama yapıldı</b><span>Sipariş, fatura veya montaj</span></div></label>
+        </div>
+        <div class="grid3" id="gucBox">
+          <div class="field"><label class="lbl" for="kw" id="kwLbl">Kurulu güç</label><div class="inwrap"><input id="kw" class="tl" type="text" inputmode="numeric" data-k="kw" data-t="tl"><span class="u" id="kwU">kWe</span></div></div>
+          <div class="field"><label class="lbl" for="sozKw">Bağlantı anlaşmasındaki sözleşme gücü</label><div class="inwrap"><input id="sozKw" class="tl" type="text" inputmode="numeric" data-k="sozKw" data-t="tl"><span class="u">kW</span></div></div>
+          <div class="field"><label class="lbl" for="tuketim">Yıllık elektrik tüketimi</label><div class="inwrap"><input id="tuketim" class="tl" type="text" inputmode="numeric" data-k="tuketim" data-t="tl"><span class="u">MWh</span></div><span class="calc-note" id="gucNote"></span></div>
+        </div>
+        <label class="chk" id="kojenBox"><input type="checkbox" id="kojenBelge" data-k="kojenBelge" data-t="bool"><div><b>Kojenerasyon Tesisi Verim Belgesi var</b><span>VAP başvurusunda aranır</span></div></label>
+      </div>
+    </section>
+
+    <section class="panel sec" id="s4">
+      <div class="sec-h"><span class="sec-no">04</span><div><h2>Tutarlar ve varsayımlar</h2><p>Tüm tutarlar KDV hariç.</p></div></div>
+      <div class="sec-b">
+        <div class="grid3">
+          <div class="field"><label class="lbl" for="syt">Sabit yatırım / proje bedeli</label><div class="inwrap"><input id="syt" class="tl" type="text" inputmode="numeric" data-k="syt" data-t="tl"><span class="u">TL</span></div><span class="calc-note" id="sytNote"></span></div>
+          <div class="field"><label class="lbl" for="mak">Makine-teçhizat payı</label><div class="inwrap"><input id="mak" type="number" min="0" max="100" data-k="mak" data-t="num"><span class="u">%</span></div></div>
+          <div class="field"><label class="lbl" for="bigMak">Birim fiyatı ≥ 2,5 mn TL makineler</label><div class="inwrap"><input id="bigMak" class="tl" type="text" inputmode="numeric" data-k="bigMak" data-t="tl"><span class="u">TL</span></div></div>
+          <div class="field"><label class="lbl" for="kredi">TL yatırım kredisi</label><div class="inwrap"><input id="kredi" class="tl" type="text" inputmode="numeric" data-k="kredi" data-t="tl"><span class="u">TL</span></div></div>
+          <div class="field"><label class="lbl" for="tasarruf">Yıllık tasarruf / gelir</label><div class="inwrap"><input id="tasarruf" class="tl" type="text" inputmode="numeric" data-k="tasarruf" data-t="tl"><span class="u">TL/yıl</span></div><span class="calc-note" id="pbNote"></span></div>
+          <div class="field"><label class="lbl" for="gider">2026 yıllık enerji gideri</label><div class="inwrap"><input id="gider" class="tl" type="text" inputmode="numeric" data-k="gider" data-t="tl"><span class="u">TL</span></div></div>
+        </div>
+        <div class="sub-h">Varsayımlar</div>
+        <div class="grid3">
+          <div class="field"><div class="lbl-row"><label class="lbl" for="repo">TCMB bir hafta vadeli repo</label><span data-tag="VAR"></span></div><div class="inwrap"><input id="repo" type="number" step="0.25" data-k="repo" data-t="num"><span class="u">%</span></div></div>
+          <div class="field"><div class="lbl-row"><label class="lbl" for="kv">Kurumlar vergisi</label><span data-tag="VAR"></span></div><div class="inwrap"><input id="kv" type="number" data-k="kv" data-t="num"><span class="u">%</span></div></div>
+          <div class="field"><div class="lbl-row"><label class="lbl" for="kdv">KDV oranı (makine)</label><span data-tag="VAR"></span></div><div class="inwrap"><input id="kdv" type="number" data-k="kdv" data-t="num"><span class="u">%</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="sonuc" aria-live="polite">
+      <div class="res-top" id="resTop"></div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="tabpanel" role="tabpanel" id="tp-prog"></div>
+      <div class="tabpanel" role="tabpanel" id="tp-kars" hidden></div>
+      <div class="tabpanel" role="tabpanel" id="tp-cagri" hidden></div>
+      <div class="tabpanel" role="tabpanel" id="tp-kum" hidden></div>
+      <div class="tabpanel" role="tabpanel" id="tp-kay" hidden></div>
+    </section>
+  </div>
+  <aside><div class="panel" id="summary"></div></aside>
+</main>
+
+<footer><div class="in">
+  <p>Ön değerlendirme aracıdır; destek kararı ilgili kurumun incelemesiyle verilir. Veriler "Enerji Yatırım Destekleri Veri Envanteri 2026" dosyasından üretilir; envanter güncellendiğinde araç yeniden üretilir.</p>
+  <p id="foot"></p>
+</div></footer>
+
+<script>
+(function(){
+'use strict';
+const D = {"kontrol":"26.09.2026","etiket":{"MEV":["Mevzuat","Resmî Gazete'de yayımlı metin ya da ona dayanan usul ve esaslar; madde numarası yanında."],"DUY":["Duyuru","Bakanlık/kurumun resmî duyurusu veya program sayfası."],"HES":["Hesaplanan","Bu envanterde formülle hesaplanır (ör. yeniden değerleme)."],"TEY":["Teyit edilecek","İkincil kaynaktan alındı veya birincil metinde doğrulanamadı."],"VAR":["Varsayım","Değiştirilebilir kabul."],"YOR":["Yorum","Mevzuatta açık hüküm yok; maddelerden çıkarılan değerlendirme."]},"esik":{"asg12":15100000,"asg36":7500000,"strYt":125000000,"strDiger":250980000,"strYesil":62700000,"oncYt":627000000,"oncOyt":1255000000,"faizThp":301000000,"faizStr":226000000,"faizOnc":30100000,"faizHedef":15058800,"makBirim":2500000,"makStr":225882000,"makThp":301176000,"vapCap":27092663,"ekaCap":18061775,"vapMin":5000000,"vapMuh":15000000,"epsMin":5000000,"kosGes":14000000,"kosTemiz":4000000,"oran":0.2549},"iller":[{"il":"Adana","pl":1,"b":3,"cz":false,"dp":[],"ek5":["Aladağ","Feke","İmamoğlu","Karaisalı","Karataş","Pozantı","Saimbeyli","Tufanbeyli","Yumurtalık"],"ykh":["Nişasta tabanlı kimyasal türevler ve ileri katma değerli ürünler","Su ürünleri üretimi ve/veya katma değerli işleme","Tarımsal ürün/atıklardan katma değerli ürünler (pamuk hasat atığından biyokömür, kompost dahil)","Temizlik kimyasalları ve yüzey aktif maddeler"],"ajans":"Çukurova Kalkınma Ajansı","ofis":"Adana Merkez Ofis","tel":"+90 322 363 00 39","ep":"","web":"https://www.cka.gov.tr/","ejs":"Toroslar EDAŞ"},{"il":"Adıyaman","pl":2,"b":6,"cz":true,"dp":["Besni","Çelikhan","Gerger","Gölbaşı","Kahta","Merkez","Samsat","Sincik","Tut"],"ek5":[],"ykh":["Asgari 300 büyükbaş entegre et/süt hayvancılığı","Badem işleme ve katma değerli badem mamulleri","Dört yıldız ve üzeri konaklama tesisi","Su ürünleri üretimi ve/veya katma değerli işleme"],"ajans":"İpek Yolu Kalkınma Ajansı","ofis":"Adıyaman Yatırım Destek Ofisi","tel":"+90 416 213 14 44","ep":"","web":"https://www.ika.org.tr/","ejs":""},{"il":"Afyonkarahisar","pl":3,"b":4,"cz":false,"dp":[],"ek5":["Bayat","Çobanlar","Evciler","Hocalar","İhsaniye","Kızılören","Sinanpaşa"],"ykh":["Asgari 300 baş manda yetiştiriciliği ve/veya manda ürünleri entegre tesis","Jeotermal kaynaklar ile su ürünleri yetiştiriciliği","Kesimhane artıklarından katma değerli ürün","Mermer atıklarından yüksek katma değerli ürün"],"ajans":"Zafer Kalkınma Ajansı","ofis":"Afyonkarahisar Yatırım Destek Ofisi","tel":"","ep":"afyonkarahisarydo@zafer.gov.tr","web":"https://zafer.gov.tr/","ejs":""},{"il":"Ağrı","pl":4,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Alternatif turizm yatırımları (termal konaklama vb.)","Asgari 1.000 küçükbaş entegre et/süt hayvancılığı","Asgari 15 dekar entegre jeotermal sera tesisi","Asgari 300 büyükbaş entegre et/süt hayvancılığı"],"ajans":"Serhat Kalkınma Ajansı","ofis":"Ağrı Yatırım Destek Ofisi","tel":"","ep":"agriyatirimdestekofisi@serka.gov.tr","web":"https://www.serka.gov.tr/","ejs":""},{"il":"Amasya","pl":5,"b":4,"cz":false,"dp":[],"ek5":["Göynücek","Hamamözü"],"ykh":["Asgari 20 dekar entegre jeotermal sera tesisi","Asgari 500 büyükbaş entegre et/süt hayvancılığı","İşlenmiş ve/veya dondurulmuş katma değerli et ürünleri","Yaşlı bakım merkezi"],"ajans":"Orta Karadeniz Kalkınma Ajansı","ofis":"Amasya Yatırım Destek Ofisi","tel":"+90 358 212 69 66","ep":"info@investamasya.com","web":"https://www.oka.gov.tr/","ejs":""},{"il":"Ankara","pl":6,"b":1,"cz":false,"dp":[],"ek5":["Bala","Çamlıdere","Evren","Güdül","Haymana","Kalecik"],"ykh":["Asgari 1.000 baş entegre tiftik keçisi yetiştiriciliği ve ürünleri","Kırsal ilçelerde alternatif turizm yatırımları","Tıbbi cihaz üretimi","Toz metalurjisi, toz metalden ürün ve makine üretimi"],"ajans":"Ankara Kalkınma Ajansı","ofis":"Ankara Merkez Ofis","tel":"+90 312 310 03 00","ep":"bilgi@ankaraka.org.tr","web":"https://www.ankaraka.org.tr//","ejs":"Başkent EDAŞ"},{"il":"Antalya","pl":7,"b":1,"cz":false,"dp":[],"ek5":["Akseki","Gündoğmuş","İbradı"],"ykh":["Tıbbi ve aromatik bitkilerden katma değerli ürün","Örtüaltı ve dikey tarım yüksek teknolojili ürün ve aksamları (düşük karbonlu ısıtma dahil)","Simgesel mimari ve nitelikli kültür endüstrileri","Spor/sağlık turizmi yatırımları"],"ajans":"Batı Akdeniz Kalkınma Ajansı","ofis":"Antalya Investment Support Office","tel":"+90 242 332 37 37","ep":"antalyaydo@baka.gov.tr","web":"https://www.baka.gov.tr/","ejs":""},{"il":"Artvin","pl":8,"b":4,"cz":false,"dp":[],"ek5":[],"ykh":["Ağaç ve orman ürünlerinden katma değerli ürün","Doğa temelli turizm yatırımları","Su ürünleri üretimi ve/veya katma değerli işleme","Tıbbi ve aromatik bitkilerden katma değerli ürün"],"ajans":"Doğu Karadeniz Kalkınma Ajansı","ofis":"Artvin Yatırım Destek Ofisi","tel":"+90 462 455 40 74","ep":"","web":"https://www.doka.org.tr/","ejs":""},{"il":"Aydın","pl":9,"b":2,"cz":false,"dp":[],"ek5":["Bozdoğan","Buharkent","Germencik","Karacasu","Karpuzlu","Koçarlı","Köşk","Kuyucak","Sultanhisar","Yenipazar"],"ykh":["Akıllı tarım teknolojileri, makine, ekipman ve aksamları","Alternatif turizm yatırımları (termal konaklama vb.)","Tarımsal ürünlerden katma değerli ürün","Yüksek ekonomik değerli endüstriyel süt ürünleri"],"ajans":"Güney Ege Kalkınma Ajansı","ofis":"Aydın Yatırım Destek Ofisi","tel":"+90 256 211 0 216","ep":"aydin@geka.gov.tr","web":"https://geka.gov.tr/","ejs":""},{"il":"Balıkesir","pl":10,"b":2,"cz":false,"dp":[],"ek5":["Balya","Dursunbey","Havran","İvrindi","Kepsut","Manyas","Savaştepe","Sındırgı"],"ykh":["Asgari 20 dekar entegre jeotermal sera tesisi","Entegre kırmızı et işleme ve katma değerli ürün","Termal turizm konseptli konaklama ve kongre merkezi","Zeytinyağı lisanslı depo"],"ajans":"Güney Marmara Kalkınma Ajansı","ofis":"Balıkesir Merkez Ofis","tel":"+90 266 246 10 00","ep":"","web":"https://www.gmka.gov.tr/","ejs":""},{"il":"Bilecik","pl":11,"b":3,"cz":false,"dp":[],"ek5":["Gölpazarı","İnhisar","Pazaryeri","Yenipazar"],"ykh":["Asgari 1.000 küçükbaş entegre et/süt hayvancılığı","Mermer atıklarından yüksek katma değerli ürün","Meyve/sebze ve atıklarından katma değerli ürün","Teknik seramik ürünleri (ileri seramik, alümina, zirkonya, silisyum karbür)"],"ajans":"Bursa Eskişehir Bilecik Kalkınma Ajansı","ofis":"Bilecik Yatırım Destek Ofisi","tel":"","ep":"","web":"https://www.bebka.org.tr/","ejs":""},{"il":"Bingöl","pl":12,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Asgari 300 büyükbaş entegre et/süt hayvancılığı","Dört yıldız ve üzeri termal konaklama tesisi","Entegre bal ve arı ürünleri","Su ürünleri üretimi ve/veya katma değerli işleme"],"ajans":"Fırat Kalkınma Ajansı","ofis":"Bingöl Yatırım Destek Ofisi","tel":"+90 426 213 57 55","ep":"bingolydo@fka.gov.tr","web":"https://fka.gov.tr//","ejs":""},{"il":"Bitlis","pl":13,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Doğal taş işleme ve katma değerli ürün (Ahlat taşı vb.)","Dört yıldız ve üzeri konaklama tesisi","Endüstriyel metal teknolojilerine yönelik katma değerli ürün","Meyve ve sebzeden katma değerli ürün"],"ajans":"Doğu Anadolu Kalkınma Ajansı","ofis":"Bitlis Yatırım Destek Ofisi","tel":"+90 434 226 66 48","ep":"","web":"https://daka.gov.tr//","ejs":""},{"il":"Bolu","pl":14,"b":2,"cz":false,"dp":[],"ek5":["Dörtdivan","Göynük","Kıbrıscık","Mengen","Mudurnu","Seben"],"ykh":["Ağaç ve orman ürünlerinden katma değerli ürün","Deri ve deri atıklarından katma değerli ürün","Doğa temelli turizm yatırımları","Makine ve makine yedek parça üretimi"],"ajans":"Doğu Marmara Kalkınma Ajansı","ofis":"Bolu Yatırım Destek Ofisi","tel":"","ep":"","web":"http://www.marka.org.tr/","ejs":""},{"il":"Burdur","pl":15,"b":3,"cz":false,"dp":[],"ek5":["Ağlasun","Altınyayla","Çavdır","Çeltikçi","Kemer","Tefenni","Yeşilova"],"ykh":["Ağaç ve orman ürünlerinden katma değerli ürün","Asgari 1.000 baş yüksek genetikli entegre damızlık büyükbaş","Mermer atıklarından yüksek katma değerli ürün","Yüksek ekonomik değerli endüstriyel süt ürünleri"],"ajans":"Batı Akdeniz Kalkınma Ajansı","ofis":"Burdur Investment Support Office","tel":"+90 248 234 05 50","ep":"burdurydo@baka.gov.tr","web":"https://www.baka.gov.tr/","ejs":""},{"il":"Bursa","pl":16,"b":1,"cz":false,"dp":[],"ek5":["Büyükorhan","Harmancık","Keles","Orhaneli"],"ykh":["Havacılık ve savunma sanayiine yönelik alt sistem bileşenleri","Kauçuktan yüksek katma değerli ürün","Taşıtlarda soğutma sistemi parçaları (devirdaim pompası, ısı eşanjörü vb.)","Yüksek katma değerli teknik tekstil ve fonksiyonel kumaş"],"ajans":"Bursa Eskişehir Bilecik Kalkınma Ajansı","ofis":"Bursa Merkez Ofis","tel":"","ep":"bebka@bebka.org.tr","web":"https://www.bebka.org.tr/","ejs":""},{"il":"Çanakkale","pl":17,"b":2,"cz":false,"dp":[],"ek5":["Bayramiç","Yenice"],"ykh":["Ağaç ve orman ürünlerinden katma değerli ürün","Asgari 2.000 küçükbaş entegre süt hayvancılığı","Yeşil hidrojen ve türevleri üretimi (sıvı hidrojen, yeşil amonyak, yeşil metanol vb.)","Zeytin ve atıklarından katma değerli ürün"],"ajans":"Güney Marmara Kalkınma Ajansı","ofis":"Çanakkale Yatırım Destek Ofisi","tel":"+90 286 211 00 81","ep":"","web":"https://www.gmka.gov.tr/","ejs":""},{"il":"Çankırı","pl":18,"b":5,"cz":false,"dp":[],"ek5":["Bayramören","Yapraklı"],"ykh":["Dört yıldız ve üzeri konaklama tesisi","Ambalajlı doğal kaynak suyu/içecek üretimi","Leonardit, diyatomit, bazalt, perlit vb. endüstriyel minerallerden katma değerli ürün","Otomotiv endüstrisi için aksam ve yedek parça"],"ajans":"Kuzey Anadolu Kalkınma Ajansı","ofis":"Çankırı Merkez Ofis","tel":"+90 376 213 79 88","ep":"cankiriydo@kuzka.gov.tr","web":"https://www.kuzka.gov.tr/","ejs":"Başkent EDAŞ"},{"il":"Çorum","pl":19,"b":4,"cz":false,"dp":[],"ek5":["Bayat","Boğazkale","Dodurga","Kargı","Laçin","Mecitözü","Oğuzlar","Ortaköy","Uğurludağ"],"ykh":["Alaşımlı döküm ve sıcak dövme parçalar","Mühimmat kimyasalları, gövdeleri ve alt sistem parçaları","Orta-yüksek teknoloji iklimlendirme, havalandırma ve ısı transferi teknolojileri (ısı pompası komponentleri, HVAC bileşenleri)","Orta-yüksek teknoloji makine üretimi"],"ajans":"Orta Karadeniz Kalkınma Ajansı","ofis":"Çorum Yatırım Destek Ofisi","tel":"+90 364 225 74 70","ep":"info@investcorum.com","web":"https://www.oka.gov.tr/","ejs":""},{"il":"Denizli","pl":20,"b":2,"cz":false,"dp":[],"ek5":["Babadağ","Baklan","Bekilli","Beyağaç","Bozkurt","Çal","Çameli","Çardak","Güney","Kale"],"ykh":["Doğa temelli turizm yatırımları","Orta-yüksek teknoloji makine ve otomasyon sistemleri ile yedek parça","Yüksek katma değerli teknik tekstil ve fonksiyonel kumaş","Yüksek katma değerli tel ve kablo (YG/enerji iletim, yenilenebilir enerji, güneş/rüzgâr, EV şarj kabloları dahil)"],"ajans":"Güney Ege Kalkınma Ajansı","ofis":"Denizli Merkez Ofis","tel":"+90 258 371 88 44","ep":"info@geka.gov.tr","web":"https://geka.gov.tr/","ejs":""},{"il":"Diyarbakır","pl":21,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Alüminyumdan katma değerli ürün","Bitkisel girdilerden katma değerli endüstriyel ürün","Paketli hazır gıda","Tekstil yan sanayi ve ileri/geri bağlantılı ürünler"],"ajans":"Karacadağ Kalkınma Ajansı","ofis":"Diyarbakır Merkez Ofis","tel":"+90 412 237 12 16","ep":"dbakirydo@karacadag.gov.tr","web":"https://www.karacadag.gov.tr/","ejs":""},{"il":"Edirne","pl":22,"b":2,"cz":false,"dp":[],"ek5":["Enez","Havsa","İpsala","Lalapaşa","Meriç","Süloğlu"],"ykh":["Asgari 500 büyükbaş entegre et/süt hayvancılığı","Akıllı tarım teknolojileri, makine, ekipman ve aksamları","Ses ve ısı izolasyonu sağlayan katma değerli malzemeler (taş yünü, cüruf yünü vb.)","Tahıl ürünlerinden yüksek katma değerli ürün"],"ajans":"Trakya Kalkınma Ajansı","ofis":"Edirne Yatırım Destek Ofisi","tel":"","ep":"","web":"https://www.trakyaka.org.tr/","ejs":""},{"il":"Elazığ","pl":23,"b":4,"cz":true,"dp":["Alacakaya","Arıcak","Baskil","Karakoçan","Keban","Kovancılar","Maden","Palu","Sivrice"],"ek5":["Ağın"],"ykh":["Asgari 1.000 büyükbaş entegre et/süt hayvancılığı","Entegre su ürünleri üretimi ve/veya işleme","Hazar Gölü dört yıldız ve üzeri konaklama tesisi","Üzüm ve üzüm atık/yan ürünlerinden katma değerli ürün"],"ajans":"Fırat Kalkınma Ajansı","ofis":"Elazığ Yatırım Destek Ofisi","tel":"+90 424 237 22 01","ep":"elazigydo@fka.gov.tr","web":"https://fka.gov.tr//","ejs":""},{"il":"Erzincan","pl":24,"b":4,"cz":true,"dp":[],"ek5":["Çayırlı","Kemah","Otlukbeli","Tercan","Üzümlü"],"ykh":["Alternatif turizm yatırımları","Ambalajlı doğal kaynak suyu/içecek veya içecek yan sanayi","Meyve ve sebzeden katma değerli ürün","Yapı malzemeleri ve yapı kimyasalları (ısı-ses yalıtım ürünleri dahil)"],"ajans":"Kuzey Doğu Anadolu Kalkınma Ajansı","ofis":"Erzincan Yatırım Destek Ofisi","tel":"+90 446 223 50 05","ep":"erzincanydo@kudaka.gov.tr","web":"https://www.kudaka.org.tr/","ejs":""},{"il":"Erzurum","pl":25,"b":5,"cz":true,"dp":[],"ek5":["Çat","Hınıs","Karaçoban","Karayazı","Köprüköy","Şenkaya","Tekman"],"ykh":["Asgari 500 büyükbaş entegre et/süt hayvancılığı","Asgari 100 yataklı özel hastane","Deri ve deri atıklarından katma değerli ürün","Madenlerin zenginleştirilmesi ve katma değerli endüstriyel ürün"],"ajans":"Kuzey Doğu Anadolu Kalkınma Ajansı","ofis":"Erzurum Merkez Ofis","tel":"+90 442 235 61 11","ep":"info@kudaka.gov.tr","web":"https://www.kudaka.org.tr/","ejs":""},{"il":"Eskişehir","pl":26,"b":1,"cz":false,"dp":[],"ek5":["Alpu","Beylikova","Çifteler","Günyüzü","Han","Mahmudiye","Mihalgazi","Mihalıççık","Sarıcakaya","Seyitgazi"],"ykh":["Elektrikli ev aletlerine yönelik endüstriyel metal şekillendirme ve parça","Havacılık sektörüne yönelik parça üretimi ve işlenmesi","Raylı taşımacılık araç parçaları veya test-belgelendirme merkezi","Tarım makineleri aksam ve parçaları"],"ajans":"Bursa Eskişehir Bilecik Kalkınma Ajansı","ofis":"Eskişehir Yatırım Destek Ofisi","tel":"","ep":"","web":"https://www.bebka.org.tr/","ejs":""},{"il":"Gaziantep","pl":27,"b":3,"cz":false,"dp":["Araban","İslahiye","Nurdağı"],"ek5":["Karkamış","Oğuzeli","Yavuzeli"],"ykh":["Çevre dostu ambalaj ürünleri (biyobozunur)","Gıda, kimya vb. sektörlere yönelik yüksek nitelikli girdi","Orta-yüksek teknoloji makine ve mekanik sistemler","Yüksek katma değerli teknik tekstil ve fonksiyonel kumaş"],"ajans":"İpek Yolu Kalkınma Ajansı","ofis":"Gaziantep Merkez Ofis","tel":"+90 342 231 07 01","ep":"","web":"https://www.ika.org.tr/","ejs":"Toroslar EDAŞ"},{"il":"Giresun","pl":28,"b":5,"cz":false,"dp":[],"ek5":["Çamoluk"],"ykh":["Doğa temelli turizm yatırımları","Fındık ve yan ürünlerinden katma değerli ürün","Kaldırma ve taşıma ekipmanları","Su ürünleri üretimi ve/veya katma değerli işleme"],"ajans":"Doğu Karadeniz Kalkınma Ajansı","ofis":"Giresun Yatırım Destek Ofisi","tel":"+90 462 455 40 73","ep":"","web":"https://www.doka.org.tr/","ejs":""},{"il":"Gümüşhane","pl":29,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Doğa temelli turizm yatırımları","Feldspat, bakır, kurşun, çinko vb. maden işleme veya zenginleştirme","Fonksiyonel ve katma değerli gıda","Su ürünleri üretimi ve/veya katma değerli işleme"],"ajans":"Doğu Karadeniz Kalkınma Ajansı","ofis":"Gümüşhane Yatırım Destek Ofisi","tel":"+90 462 455 40 72","ep":"","web":"https://www.doka.org.tr/","ejs":""},{"il":"Hakkâri","pl":30,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Asgari 100.000 adet entegre yumurta tavukçuluğu","Asgari 20.000 m² alışveriş merkezi","Çinko ve kurşun madenlerinin işlenmesi","Ambalajlı doğal kaynak suyu/içecek üretimi"],"ajans":"Doğu Anadolu Kalkınma Ajansı","ofis":"Hakkari Yatırım Destek Ofisi","tel":"+90 438 211 00 44","ep":"","web":"https://daka.gov.tr//","ejs":""},{"il":"Hatay","pl":31,"b":5,"cz":false,"dp":["Altınözü","Antakya","Arsuz","Belen","Defne","Dörtyol","Erzin","Hassa","İskenderun","Kırıkhan","Kumlu","Payas","Reyhanlı","Samandağ","Yayladağı"],"ek5":[],"ykh":["Ayakkabı yan sanayi ve ileri-geri bağlantılı ürünler","Mobilya yan sanayi ve ileri-geri bağlantılı katma değerli ürünler","Sanayide kullanılan ileri metal malzemeler işleme ve üretim","Su ürünleri üretimi ve/veya katma değerli işleme"],"ajans":"Doğu Akdeniz Kalkınma Ajansı","ofis":"Hatay Merkez Ofis","tel":"+90 326 212 25 76","ep":"hydo@dogaka.gov.tr","web":"https://www.dogaka.gov.tr/","ejs":"Toroslar EDAŞ"},{"il":"Isparta","pl":32,"b":3,"cz":false,"dp":[],"ek5":["Aksu","Atabey","Gelendost","Senirkent","Sütçüler","Şarkikaraağaç","Yenişarbademli"],"ykh":["Gül ve tıbbi aromatik bitki özlerinden katma değerli kozmetik ve gıda takviyesi","Mantar kompostu ve/veya entegre mantar işleme","Meyve ve atıklarından katma değerli ürün","Akıllı tarım teknolojileri, makine, ekipman ve aksamları"],"ajans":"Batı Akdeniz Kalkınma Ajansı","ofis":"Isparta Central Office","tel":"+90 246 224 37 37","ep":"info@baka.gov.tr","web":"https://www.baka.gov.tr/","ejs":""},{"il":"Mersin","pl":33,"b":2,"cz":false,"dp":[],"ek5":["Aydıncık","Bozyazı","Çamlıyayla","Gülnar","Mut"],"ykh":["Bakliyattan katma değerli ürün","Savunma sanayii metal yapısal parça, mekanik ve yapısal alt sistem","Tarımsal ürün ve/veya atıklarından katma değerli ürün (biyokömür dahil)","Teknolojik tarım makineleri, modern ve akıllı sera sistemleri ve entegre ekipmanlar"],"ajans":"Çukurova Kalkınma Ajansı","ofis":"Mersin Yatırım Destek Ofisi","tel":"+90 324 237 80 86","ep":"","web":"https://www.cka.gov.tr/","ejs":"Toroslar EDAŞ"},{"il":"İstanbul","pl":34,"b":1,"cz":false,"dp":[],"ek5":[],"ykh":["Asgari 10.000 m² girişimcilik ekosistemi ortak hizmet alanı","Dikey tarım ve akıllı tarım yatırımları","Nitelikli kültür endüstrileri yatırımları","Tasarım, kreatif üretim, döngüsel üretim atölyeleri"],"ajans":"İstanbul Kalkınma Ajansı","ofis":"İstanbul Merkez Ofis","tel":"+90 212 468 34 00","ep":"iletisim@istka.org.tr","web":"https://www.istka.org.tr/","ejs":"AYEDAŞ (yalnız Anadolu yakası)"},{"il":"İzmir","pl":35,"b":1,"cz":false,"dp":[],"ek5":["Bayındır","Beydağ","Kınık","Kiraz"],"ykh":["Aktarma elemanları (rulman, dişli, mil, kaplin vb.)","Deniz ürünleri kaynaklı fonksiyonel gıda","Küçük Menderes Havzası ilçelerinde doğa temelli turizm","Nitelikli kültür endüstrisi yatırımları"],"ajans":"İzmir Kalkınma Ajansı","ofis":"İzmir Merkez Ofis","tel":"+90 232 489 81 81","ep":"","web":"https://izka.org.tr/","ejs":""},{"il":"Kars","pl":36,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Asgari 300 büyükbaş entegre et/süt hayvancılığı","Dört yıldız ve üzeri konaklama tesisi","Entegre kaz yetiştiriciliği ve ürünleri işleme","Kavılca buğdayından dondurulmuş unlu mamul"],"ajans":"Serhat Kalkınma Ajansı","ofis":"Kars Merkez Ofis","tel":"+90 474 212 52 00","ep":"info@serka.gov.tr","web":"https://www.serka.gov.tr/","ejs":""},{"il":"Kastamonu","pl":37,"b":4,"cz":false,"dp":[],"ek5":["Ağlı","Araç","Cide","Doğanyurt","Küre","Pınarbaşı","Şenpazar"],"ykh":["Ağaç ve orman ürünlerinden katma değerli ürün","Doğa temelli turizm yatırımları","Entegre mermer işleme ve mermerden katma değerli ürün","Tarımsal ürünlerden katma değerli ürün"],"ajans":"Kuzey Anadolu Kalkınma Ajansı","ofis":"Kastamonu Yatırım Destek Ofisi","tel":"+90 366 212 58 52","ep":"kastamonuydo@kuzka.gov.tr","web":"https://www.kuzka.gov.tr/","ejs":"Başkent EDAŞ"},{"il":"Kayseri","pl":38,"b":2,"cz":false,"dp":[],"ek5":["Akkışla","Bünyan","Felahiye","İncesu","Özvatan","Pınarbaşı","Sarıoğlan","Sarız","Tomarza","Yahyalı","Yeşilhisar"],"ykh":["Elektrikli ev aletleri veya ölçüm cihazlarında kullanılan yüksek katma değerli ürünler","Mobilya yan sanayi ve ileri-geri bağlantılı ürünler","Sivil havacılık ürünleri veya bakım merkezi","Tıbbi cihaz üretimi"],"ajans":"Orta Anadolu Kalkınma Ajansı","ofis":"Kayseri Merkez Ofis","tel":"+90 352 352 67 26","ep":"","web":"https://www.oran.gov.tr/","ejs":""},{"il":"Kırklareli","pl":39,"b":3,"cz":false,"dp":[],"ek5":["Demirköy","Kofçaz","Pehlivanköy"],"ykh":["Asgari 500 büyükbaş entegre et/süt hayvancılığı","Katma değerli ağaç ve orman ürünleri ile modüler mobilya (pelet dahil)","Üzüm ve üzüm atık/yan ürünlerinden katma değerli ürün","Yüksek ekonomik değerli endüstriyel süt ürünleri"],"ajans":"Trakya Kalkınma Ajansı","ofis":"Kırklareli Yatırım Destek Ofisi","tel":"+90 288 214 25 25","ep":"","web":"https://www.trakyaka.org.tr/","ejs":""},{"il":"Kırşehir","pl":40,"b":4,"cz":false,"dp":[],"ek5":["Akçakent","Akpınar","Boztepe","Çiçekdağı"],"ykh":["Asgari 20 dekar entegre jeotermal sera tesisi","Dört yıldız ve üzeri termal konaklama tesisi","Tahıl veya bakliyattan katma değerli gıda","Yem katkı maddeleri ve fonksiyonel besleme bileşenleri"],"ajans":"Ahiler Kalkınma Ajansı","ofis":"Kırşehir Yatırım Destek Ofisi","tel":"+90 386 212 70 90","ep":"kirsehir@ahika.gov.tr","web":"https://www.ahika.gov.tr/","ejs":""},{"il":"Kocaeli","pl":41,"b":1,"cz":false,"dp":[],"ek5":["Kandıra"],"ykh":["Elektrik ve piroteknik yüksek nitelikli cihaz (akıllı elektrikli aktüatör, servo, hareket kontrol vb.)","Raylı sistemler için elastomer bazlı ürünler","Suyun geri kazanımına yönelik yüksek teknoloji ürünler","Yüksek teknoloji ve entegre deprem dayanım ürünleri ve test altyapıları"],"ajans":"Doğu Marmara Kalkınma Ajansı","ofis":"Kocaeli Merkez Ofis","tel":"","ep":"info@marka.org.tr","web":"http://www.marka.org.tr/","ejs":""},{"il":"Konya","pl":42,"b":2,"cz":false,"dp":[],"ek5":["Ahırlı","Akören","Altınekin","Bozkır","Çeltik","Çumra","Derbent","Derebucak","Doğanhisar","Emirgazi","Güneysınır","Hadim","Halkapınar","Hüyük","Kadınhanı","Sarayönü","Taşkent","Tuzlukçu","Yalıhüyük","Yunak"],"ykh":["Akıllı tarım teknolojileri, makine, ekipman ve aksamları","Askeri savaş araçları, silah ve parçaları ile mühimmat","Motorlu taşıt aksam ve parçaları (elektrik-elektronik aksam, güç aktarım dahil)","Raylı taşımacılık için demiryolu araçları ve parçaları"],"ajans":"Mevlana Kalkınma Ajansı","ofis":"Konya Merkez Ofis","tel":"+90 332 236 32 90","ep":"konyaydo@mevka.org.tr","web":"https://www.mevka.org.tr/","ejs":""},{"il":"Kütahya","pl":43,"b":3,"cz":false,"dp":[],"ek5":["Altıntaş","Aslanapa","Çavdarhisar","Domaniç","Dumlupınar","Emet","Hisarcık","Pazarlar","Şaphane"],"ykh":["Beş yıldızlı konaklama tesisi (termal otel, sağlık kompleksi vb.)","Madenlerin işlenmesi ve katma değerli endüstriyel ürün (manyezit, grafit, krom, bor vb.)","Otomotiv yan sanayi elektrik, mekanik ve akışkan iletim bileşenleri","Teknik seramik ürünleri"],"ajans":"Zafer Kalkınma Ajansı","ofis":"Kütahya Merkez Ofis","tel":"+90 274 271 77 61","ep":"info@zafer.gov.tr","web":"https://zafer.gov.tr/","ejs":""},{"il":"Malatya","pl":44,"b":4,"cz":true,"dp":["Akçadağ","Arapgir","Arguvan","Battalgazi","Darende","Doğanşehir","Doğanyol","Hekimhan","Kale","Kuluncak","Pütürge","Yazıhan","Yeşilyurt"],"ek5":[],"ykh":["Asgari 1.000 büyükbaş entegre et/süt hayvancılığı","Endüstriyel ve ileri teknoloji elektronik sistemlere yönelik kablo ve bağlantı ürünleri","Meyve, sebze ve doğal kaynaklardan katma değerli ürün","Tıbbi cihaz üretimi"],"ajans":"Fırat Kalkınma Ajansı","ofis":"Malatya Merkez Ofis","tel":"+90 422) 322 15 55","ep":"malatyaydo@fka.gov.tr","web":"https://fka.gov.tr//","ejs":""},{"il":"Manisa","pl":45,"b":2,"cz":false,"dp":[],"ek5":["Ahmetli","Demirci","Gölmarmara","Gördes","Kırkağaç","Köprübaşı","Sarıgöl","Saruhanlı","Selendi"],"ykh":["Akıllı tarım teknolojileri, makine, ekipman ve aksamları","Asgari 20 dekar entegre jeotermal sera tesisi","İklimlendirme ve beyaz eşyaya yönelik ekipman ve kritik aksam (kompresör, inverter vb.)","Tarımsal atıklardan katma değerli ürün"],"ajans":"Zafer Kalkınma Ajansı","ofis":"Manisa Yatırım Destek Ofisi","tel":"","ep":"manisaydo@zafer.gov.tr","web":"https://zafer.gov.tr/","ejs":""},{"il":"Kahramanmaraş","pl":46,"b":5,"cz":false,"dp":["Afşin","Andırın","Çağlayancerit","Dulkadiroğlu","Ekinözü","Elbistan","Göksun","Nurhak","Onikişubat","Pazarcık","Türkoğlu"],"ek5":[],"ykh":["Altın rafinerisi","Entegre su ürünleri üretimi ve/veya işleme","Havacılık ve uzay sanayine yönelik ara/nihai ürün","Yüksek katma değerli teknik tekstil ve fonksiyonel kumaş"],"ajans":"Doğu Akdeniz Kalkınma Ajansı","ofis":"Kahramanmaraş Yatırım Destek Ofisi","tel":"+90 344 231 14 17","ep":"kydo@dogaka.gov.tr","web":"https://www.dogaka.gov.tr/","ejs":""},{"il":"Mardin","pl":47,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Endüstriyel unlu mamuller","Nişasta bazlı katma değerli ürünler","Nitelikli kültürel ve yaratıcı endüstri yatırımları","Üzüm ve üzüm atık/yan ürünlerinden katma değerli ürün"],"ajans":"Dicle Kalkınma Ajansı","ofis":"Mardin Merkez Ofis","tel":"+90 482 212 17 25","ep":"","web":"https://www.dika.gov.tr/","ejs":""},{"il":"Muğla","pl":48,"b":1,"cz":false,"dp":[],"ek5":["Kavaklıdere","Seydikemer"],"ykh":["Ekolojik yaşam temelli yaşlı bakım ve sağlık merkezi","Mermer atıklarından yüksek katma değerli ürün","Su ürünleri ve atıklarından katma değerli ürün","Tekne/yat veya yan sanayi ve ileri/geri bağlantılı ürünler"],"ajans":"Güney Ege Kalkınma Ajansı","ofis":"Muğla Yatırım Destek Ofisi","tel":"+90 252 213 17 92","ep":"mugla@geka.gov.tr","web":"https://geka.gov.tr/","ejs":""},{"il":"Muş","pl":49,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Asgari 300 büyükbaş entegre et/süt hayvancılığı","Dört yıldız ve üzeri konaklama tesisi","Entegre kaz yetiştiriciliği ve ürünleri işleme","Su ürünleri yetiştiriciliği ve/veya işleme"],"ajans":"Doğu Anadolu Kalkınma Ajansı","ofis":"Muş Yatırım Destek Ofisi","tel":"+90 436 212 95 13","ep":"","web":"https://daka.gov.tr//","ejs":""},{"il":"Nevşehir","pl":50,"b":3,"cz":false,"dp":[],"ek5":["Acıgöl","Derinkuyu","Gülşehir","Hacıbektaş"],"ykh":["Dondurulmuş patates ve patatesten katma değerli ürün","Görsel/işitsel prodüksiyon ve stüdyo altyapısı","Nitelikli kültür endüstrileri yatırımları","Veri merkezi (kaya oyma)"],"ajans":"Ahiler Kalkınma Ajansı","ofis":"Nevşehir Yatırım Destek Ofisi","tel":"+90 384 214 36 66","ep":"nevsehir@ahika.gov.tr","web":"https://www.ahika.gov.tr/","ejs":""},{"il":"Niğde","pl":51,"b":5,"cz":false,"dp":[],"ek5":["Altunhisar","Çiftlik"],"ykh":["Gıda ve içecek makinaları","Maden işleme ve taş ocağı makineleri","Meyve ve sebzeden katma değerli ürün","Mikronize kalsitten katma değerli ürün"],"ajans":"Ahiler Kalkınma Ajansı","ofis":"Niğde Yatırım Destek Ofisi","tel":"+90 388 233 51 59","ep":"nigde@ahika.gov.tr","web":"https://www.ahika.gov.tr/","ejs":""},{"il":"Ordu","pl":52,"b":5,"cz":false,"dp":[],"ek5":["Akkuş","Çatalpınar","Çaybaşı","Gürgentepe","İkizce","Mesudiye"],"ykh":["Bal ve arı ürünleri","Yaşlı bakım merkezi","Fındık lisanslı depo","Fındık ve yan ürünlerinden katma değerli ürün"],"ajans":"Doğu Karadeniz Kalkınma Ajansı","ofis":"Ordu Yatırım Destek Ofisi","tel":"+90 462 455 40 75","ep":"","web":"https://www.doka.org.tr/","ejs":""},{"il":"Rize","pl":53,"b":3,"cz":false,"dp":[],"ek5":["Çamlıhemşin","Derepazarı","Güneysu","Hemşin","İkizdere","İyidere","Kalkandere"],"ykh":["Çay ve yan ürünlerinden katma değerli ürün (pelet dahil)","Doğa temelli turizm yatırımları","Silah ve mühimmat üretimi","Su ürünleri üretimi ve/veya katma değerli işleme"],"ajans":"Doğu Karadeniz Kalkınma Ajansı","ofis":"Rize Yatırım Destek Ofisi","tel":"+90 462 455 40 76","ep":"","web":"https://www.doka.org.tr/","ejs":""},{"il":"Sakarya","pl":54,"b":2,"cz":false,"dp":[],"ek5":["Karapürçek","Kaynarca","Kocaali","Taraklı"],"ykh":["Akıllı teknolojili ölçüm ve sayaç sistemleri ile ekipmanları","Araçlar için özellikli sanitasyon sistemleri","Tarımsal ürün ve/veya atıklarından katma değerli ürün","Yüksek teknoloji endüstriyel gıda işleme makineleri ve kritik bileşenleri"],"ajans":"Doğu Marmara Kalkınma Ajansı","ofis":"Sakarya Yatırım Destek Ofisi","tel":"","ep":"","web":"http://www.marka.org.tr/","ejs":""},{"il":"Samsun","pl":55,"b":3,"cz":false,"dp":[],"ek5":["Alaçam","Asarcık","Ayvacık","Kavak","Ladik","Salıpazarı","Terme","Vezirköprü","Yakakent"],"ykh":["Motorlu taşıt aksam ve parçaları (elektrik-elektronik aksam dahil)","Silah sistemleri ve mühimmat","Su ürünleri üretimi ve/veya katma değerli işleme","Tıbbi cihaz üretimi"],"ajans":"Orta Karadeniz Kalkınma Ajansı","ofis":"Samsun Merkez Ofis","tel":"+90 362 431 24 00","ep":"info@investsamsun.com","web":"https://www.oka.gov.tr/","ejs":""},{"il":"Siirt","pl":56,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Asgari 1.000 küçükbaş entegre et/süt hayvancılığı","Asgari 2.000 ton sert kabuklu meyve (Siirt fıstığı) lisanslı depo","Dört yıldız ve üzeri konaklama tesisi","Entegre bal ve arı ürünleri"],"ajans":"Dicle Kalkınma Ajansı","ofis":"Siirt Yatırım Destek Ofisi","tel":"","ep":"","web":"https://www.dika.gov.tr/","ejs":""},{"il":"Sinop","pl":57,"b":5,"cz":false,"dp":[],"ek5":["Dikmen"],"ykh":["Ağaç ve orman ürünlerinden katma değerli ürün","Beş yıldızlı konaklama tesisi","Su ürünleri üretimi ve/veya katma değerli işleme","Yaşlı bakım merkezi"],"ajans":"Kuzey Anadolu Kalkınma Ajansı","ofis":"Sinop Yatırım Destek Ofisi","tel":"+90 368 260 37 01","ep":"sinopydo@kuzka.gov.tr","web":"https://www.kuzka.gov.tr/","ejs":""},{"il":"Sivas","pl":58,"b":4,"cz":false,"dp":["Gürün"],"ek5":["Akıncılar","Altınyayla","Doğanşar","Gölova","Hafik","İmranlı","Koyulhisar","Ulaş","Yıldızeli"],"ykh":["Havacılık, raylı sistemler ve otomotiv için mekanik ve elektrik bağlantı elemanları","Optik malzeme içeren ürünler","Ulaşım araçları için döküm parça","Yapı malzemeleri ve yapı kimyasalları (ısı-ses yalıtım ürünleri dahil)"],"ajans":"Orta Anadolu Kalkınma Ajansı","ofis":"Sivas Yatırım Destek Ofisi","tel":"+90 346 222 08 00","ep":"","web":"https://www.oran.gov.tr/","ejs":""},{"il":"Tekirdağ","pl":59,"b":2,"cz":false,"dp":[],"ek5":["Hayrabolu"],"ykh":["Motorlu taşıt aksam ve parçaları (elektrik-elektronik aksam dahil)","Savunma ve sivil havacılık yapısal parça","Tekstil makine ve aksamları","Tıbbi cihaz üretimi"],"ajans":"Trakya Kalkınma Ajansı","ofis":"Tekirdağ Merkez Ofis","tel":"","ep":"","web":"https://www.trakyaka.org.tr/","ejs":""},{"il":"Tokat","pl":60,"b":5,"cz":false,"dp":[],"ek5":["Başçiftlik","Sulusaray"],"ykh":["Ağaç ve orman ürünlerinden katma değerli ürün","Asgari 500 büyükbaş entegre süt hayvancılığı","Meyve ve sebzeden katma değerli ürün","Yüksek ekonomik değerli endüstriyel süt ürünleri"],"ajans":"Orta Karadeniz Kalkınma Ajansı","ofis":"Tokat Yatırım Destek Ofisi","tel":"+90 356 228 93 60","ep":"info@investtokat.com","web":"https://www.oka.gov.tr/","ejs":""},{"il":"Trabzon","pl":61,"b":3,"cz":false,"dp":[],"ek5":["Araklı","Çarşıbaşı","Dernekpazarı","Düzköy","Hayrat","Köprübaşı","Şalpazarı","Tonya"],"ykh":["Ağaç ve orman ürünleri ile modüler mobilya (CLT, lamine ahşap vb.)","Alternatif turizm yatırımları","Su ürünleri işleme ve yan sanayi","Tıbbi ve aromatik bitkilerden katma değerli ürün"],"ajans":"Doğu Karadeniz Kalkınma Ajansı","ofis":"Trabzon Merkez Ofis","tel":"+90 462 455 40 89 ","ep":"doka@doka.org.tr","web":"https://www.doka.org.tr/","ejs":""},{"il":"Tunceli","pl":62,"b":5,"cz":true,"dp":[],"ek5":[],"ykh":["Alternatif turizm yatırımları","Ambalajlı doğal kaynak suyu/içecek üretimi","Asgari 1.000 küçükbaş entegre et/süt hayvancılığı","Su ürünleri yumurta ve yavru üretim tesisi"],"ajans":"Fırat Kalkınma Ajansı","ofis":"Tunceli Yatırım Destek Ofisi","tel":"+90 428 213 34 84","ep":"igdiryatirimdestekofisi@fka.gov.tr","web":"https://fka.gov.tr//","ejs":""},{"il":"Şanlıurfa","pl":63,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Pamuk ve pamuk atık/yan ürünlerinden katma değerli ürün","Tarım makineleri ve parçaları","Tarımsal ürünlerden katma değerli ürün","Taş yünü üretimi"],"ajans":"Karacadağ Kalkınma Ajansı","ofis":"Şanlıurfa Yatırım Destek Ofisi","tel":"+90 414 314 98 03","ep":"urfaydo@karacadag.gov.tr","web":"https://www.karacadag.gov.tr/","ejs":""},{"il":"Uşak","pl":64,"b":3,"cz":false,"dp":[],"ek5":["Banaz","Karahallı","Sivaslı","Ulubey"],"ykh":["Teknik ve endüstriyel keçe ve keçe malzemeleri","Tekstil kimyasalları","Tekstil makinaları ve parçaları","Tekstil ve deri atıklarından katma değerli ürün"],"ajans":"Zafer Kalkınma Ajansı","ofis":"Uşak Yatırım Destek Ofisi","tel":"","ep":"usakydo@zafer.gov.tr","web":"https://zafer.gov.tr/","ejs":""},{"il":"Van","pl":65,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Asgari 100 yataklı özel hastane","Asgari 20 dekar entegre jeotermal sera tesisi","Asgari 500 baş küçükbaş/büyükbaş yetiştiriciliği ve/veya entegre ürün","Van Gölü dört yıldız ve üzeri konaklama kompleksi ve/veya alternatif turizm"],"ajans":"Doğu Anadolu Kalkınma Ajansı","ofis":"Van Merkez Ofis","tel":"+90 432 485 10 15","ep":"bilgi@daka.org.tr","web":"https://daka.gov.tr//","ejs":""},{"il":"Yozgat","pl":66,"b":5,"cz":false,"dp":[],"ek5":["Aydıncık","Kadışehri"],"ykh":["Asgari 20 dekar entegre jeotermal sera tesisi","Asgari 500 büyükbaş entegre besi ve et ürünleri işleme","Bakliyattan katma değerli ürün","Paketlenmiş hazır gıda"],"ajans":"Orta Anadolu Kalkınma Ajansı","ofis":"Yozgat Yatırım Destek Ofisi","tel":"","ep":"","web":"https://www.oran.gov.tr/","ejs":""},{"il":"Zonguldak","pl":67,"b":3,"cz":false,"dp":[],"ek5":["Kilimli"],"ykh":["Doğa temelli turizm yatırımları","Endüstriyel orman ürünleri ile ahşap/kompozit esaslı katma değerli ürün (yalıtım ürünleri dahil)","Su ürünleri üretimi ve/veya katma değerli işleme","Yassı çelik tabanlı katma değerli ürün"],"ajans":"Batı Karadeniz Kalkınma Ajansı","ofis":"Zonguldak Merkez Ofis","tel":"+90 372 257 74 70","ep":"","web":"https://www.bakka.gov.tr/","ejs":"Başkent EDAŞ"},{"il":"Aksaray","pl":68,"b":4,"cz":false,"dp":[],"ek5":["Ağaçören","Eskil","Gülağaç","Güzelyurt","Sultanhanı"],"ykh":["Endüstriyel metal teknolojilerine yönelik katma değerli ürün","Motorlu taşıt aksam ve parçaları (elektrik motorları dahil)","Motosiklet, moped ve motorlu bisiklet ile aksam-parçaları","Savunma sanayii için teknik aksam ve kritik bileşenler"],"ajans":"Ahiler Kalkınma Ajansı","ofis":"Aksaray Merkez Ofis","tel":"+90 382 215 00 18","ep":"aksaray@ahika.gov.tr","web":"https://www.ahika.gov.tr/","ejs":""},{"il":"Bayburt","pl":69,"b":5,"cz":true,"dp":[],"ek5":[],"ykh":["Ambalajlı doğal kaynak suyu/içecek üretimi","Asgari 300 büyükbaş entegre et/süt hayvancılığı","Bayburt Kop Dağı kayak merkezi konaklama tesisi","Doğal taş işleme ve katma değerli ürün"],"ajans":"Kuzey Doğu Anadolu Kalkınma Ajansı","ofis":"Bayburt Yatırım Destek Ofisi","tel":"+90 458 210 10 00","ep":"bayburtydo@kudaka.gov.tr","web":"https://www.kudaka.org.tr/","ejs":""},{"il":"Karaman","pl":70,"b":3,"cz":false,"dp":[],"ek5":["Ayrancı","Başyayla","Ermenek","Sarıveliler"],"ykh":["Beş yıldızlı konaklama tesisi","Fonksiyonel gıdalar ve yüksek katma değerli gıda bileşenleri","Gıdaya yönelik makine ve endüstriyel mutfak ürünleri","Nitelikli ambalaj ve paketleme ürünleri"],"ajans":"Mevlana Kalkınma Ajansı","ofis":"Karaman Yatırım Destek Ofisi","tel":"+90 338 213 0020","ep":"karamanydo@mevka.org.tr","web":"https://www.mevka.org.tr/","ejs":""},{"il":"Kırıkkale","pl":71,"b":3,"cz":false,"dp":[],"ek5":["Balışeyh","Çelebi","Delice","Karakeçili","Keskin","Sulakyurt"],"ykh":["Kritik kimyasallar ve enerjik malzemeler","Petrokimya ara girdilerine dayalı yüksek katma değerli ürünler","Savunma sanayine yönelik metal işleme, mühimmat ve silah parçaları","Tuz ham maddesinden katma değerli kimyasallar"],"ajans":"Ahiler Kalkınma Ajansı","ofis":"Kırıkkale Yatırım Destek Ofisi","tel":"+90 318 222 09 36","ep":"kirikkale@ahika.gov.tr","web":"https://www.ahika.gov.tr/","ejs":"Başkent EDAŞ"},{"il":"Batman","pl":72,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Meyve/sebze işleme, kurutma ve paketlenmiş gıda","Asgari 20 dekar entegre sera tesisi","Doğa temelli turizm yatırımları","Tekstil yan sanayi ve ileri/geri bağlantılı ürünler"],"ajans":"Dicle Kalkınma Ajansı","ofis":"Batman Yatırım Destek Ofisi","tel":"","ep":"","web":"https://www.dika.gov.tr/","ejs":""},{"il":"Şırnak","pl":73,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Asgari 1.000 küçükbaş entegre et/süt hayvancılığı","Kara taşıtlarının diğer aksam ve parçaları","Mobilya üretimi","Yer fıstığı işleme tesisi"],"ajans":"Dicle Kalkınma Ajansı","ofis":"Şırnak Yatırım Destek Ofisi","tel":"","ep":"","web":"https://www.dika.gov.tr/","ejs":""},{"il":"Bartın","pl":74,"b":5,"cz":false,"dp":[],"ek5":[],"ykh":["Asgari 300 baş manda yetiştiriciliği ve/veya manda ürünleri entegre tesis","Doğa temelli turizm yatırımları","Endüstriyel orman ürünleri ile ahşap/kompozit esaslı katma değerli ürün (yalıtım ürünleri dahil)","Plastik, kauçuk ve kompozit tabanlı ürün (enerji sektörüne yönelik, AG/güç kabloları izoleli kablo setleri dahil)"],"ajans":"Batı Karadeniz Kalkınma Ajansı","ofis":"Bartın Yatırım Destek Ofisi","tel":"+90 378 227 67 02","ep":"","web":"https://www.bakka.gov.tr/","ejs":"Başkent EDAŞ"},{"il":"Ardahan","pl":75,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Asgari 300 büyükbaş entegre et/süt hayvancılığı","Dört yıldız ve üzeri konaklama tesisi","Entegre kaz yetiştiriciliği ve ürünleri işleme","Mobilya üretimi"],"ajans":"Serhat Kalkınma Ajansı","ofis":"Ardahan Yatırım Destek Ofisi","tel":"+90 478 211 38 33","ep":"ardahanyatirimdestekofisi@serka.gov.tr","web":"https://www.serka.gov.tr/","ejs":""},{"il":"Iğdır","pl":76,"b":6,"cz":true,"dp":[],"ek5":[],"ykh":["Dört yıldız ve üzeri konaklama tesisi","Asgari 300 büyükbaş entegre et/süt hayvancılığı","Kara taşıtları aksam ve parçaları","Meyve/sebze işleme, kurutma ve paketlenmiş gıda"],"ajans":"Serhat Kalkınma Ajansı","ofis":"Iğdır Yatırım Destek Ofisi","tel":"+90 476 227 70 10","ep":"igdiryatirimdestekofisi@serka.gov.tr","web":"https://www.serka.gov.tr/","ejs":""},{"il":"Yalova","pl":77,"b":2,"cz":false,"dp":[],"ek5":[],"ykh":["Deniz araçları kritik parçaları","Meyve/sebze ve atıklarından katma değerli ürün","Sera malzemeleri ve süs bitkileri için torf toprak üretimi","Termal kaynak kullanımına dayalı konaklama ve sağlık yatırımları"],"ajans":"Doğu Marmara Kalkınma Ajansı","ofis":"Yalova Yatırım Destek Ofisi","tel":"","ep":"","web":"http://www.marka.org.tr/","ejs":""},{"il":"Karabük","pl":78,"b":3,"cz":false,"dp":[],"ek5":["Eflani","Eskipazar","Ovacık","Yenice"],"ykh":["Beş yıldızlı konaklama tesisi","Endüstriyel orman ürünleri ile ahşap/kompozit esaslı katma değerli ürün ve mobilya","Uzun çelik tabanlı katma değerli ürün","Yüksek performanslı titanyum alaşımları ve yeni nesil çelik"],"ajans":"Batı Karadeniz Kalkınma Ajansı","ofis":"Karabük Yatırım Destek Ofisi","tel":"+90 370 412 00 36","ep":"","web":"https://www.bakka.gov.tr/","ejs":"Başkent EDAŞ"},{"il":"Kilis","pl":79,"b":5,"cz":false,"dp":["Musabeyli","Polateli"],"ek5":["Elbeyli"],"ykh":["Asgari 300 büyükbaş entegre et/süt hayvancılığı","Dört yıldız ve üzeri konaklama tesisi","Üzüm işleme ve üzüm atık/yan ürünlerinden katma değerli ürün","Zeytin ve atıklarından katma değerli ürün"],"ajans":"İpek Yolu Kalkınma Ajansı","ofis":"Kilis Yatırım Destek Ofisi","tel":"","ep":"","web":"https://www.ika.org.tr/","ejs":"Toroslar EDAŞ"},{"il":"Osmaniye","pl":80,"b":5,"cz":false,"dp":["Bahçe","Hasanbeyli"],"ek5":["Sumbas"],"ykh":["Asgari 20 dekar entegre sera tesisi","Çelik tabanlı katma değerli ürün","Demir-çelik sektörü geri kazanım tesisi","Tarımsal ürün ve/veya atıklarından katma değerli ürün (yüksek kalorili yakıt, aktif kömür dahil)"],"ajans":"Doğu Akdeniz Kalkınma Ajansı","ofis":"Osmaniye Yatırım Destek Ofisi","tel":"+90 328 888 00 00","ep":"oydo@dogaka.gov.tr","web":"https://www.dogaka.gov.tr/","ejs":"Toroslar EDAŞ"},{"il":"Düzce","pl":81,"b":3,"cz":false,"dp":[],"ek5":["Cumayeri","Çilimli","Gölyaka","Yığılca"],"ykh":["Alternatif turizm yatırımları","Fındık ve fındık atık/yan ürünlerinden katma değerli ürün (aktif karbon dahil)","Otomotiv sektörüne yönelik orta-yüksek ve yüksek teknoloji ürünler (elektrikli araç ürünleri dahil)","Tarımsal ürün ve tıbbi-aromatik bitkilerden katma değerli ürün"],"ajans":"Doğu Marmara Kalkınma Ajansı","ofis":"Düzce Yatırım Destek Ofisi","tel":"","ep":"","web":"http://www.marka.org.tr/","ejs":""}],"bolge":[{"b":1,"sgk":0,"oran":"—","isci":"Hayır","faiz":"Hayır","notu":"SGK işveren hissesi desteği yok (TYKH'de 8 yıl)."},{"b":2,"sgk":1,"oran":"%50","isci":"Hayır","faiz":"Hayır","notu":""},{"b":3,"sgk":2,"oran":"%50","isci":"Hayır","faiz":"Hayır","notu":""},{"b":4,"sgk":4,"oran":"%50","isci":"Hayır","faiz":"Evet","notu":""},{"b":5,"sgk":8,"oran":"%50","isci":"Hayır","faiz":"Evet","notu":""},{"b":6,"sgk":12,"oran":"%100","isci":"Evet (10 yıl)","faiz":"Evet","notu":"Müteharrik hariç 6. bölge yatırımları Öncelikli (m.9/1-ç)."}],"prog":{"P01":{"ad":"9903 · Teknoloji Hamlesi Programı (THP)","kurum":"Sanayi ve Teknoloji Bakanlığı (SAVGM)","nit":"Yatırım desteği","durum":"Açık","kanal":"E-TUYS + THP Değerlendirme Komitesi","donem":"31.12.2030'a kadar","hedef":"Öncelikli ürün listesindeki yüksek teknoloji yatırımcıları","day":"9903 m.4/2, m.6","et":"MEV","kay":"K02","notu":"Proje bazlı; komite kararı.","sinif":"Yatırım desteği"},"P02":{"ad":"9903 · Yerel Kalkınma Hamlesi Programı (YKH)","kurum":"Sanayi ve Teknoloji Bakanlığı (Kalkınma Ajansları GM)","nit":"Yatırım desteği","durum":"2026 dönemi kapandı","kanal":"Kalkınma ajansı + YKH Değerlendirme Komitesi","donem":"2026: 02.03-15.05.2026","hedef":"İlin 4 yerel yatırım konusunda yatırım yapanlar","day":"9903 m.7; Yerel Yatırım Konuları Listesi Tebliği","et":"MEV","kay":"K02, K05, K31","notu":"Liste her yıl ocak ayında güncellenebilir.","sinif":"Yatırım desteği"},"P03":{"ad":"9903 · Stratejik Hamle Programı","kurum":"Sanayi ve Teknoloji Bakanlığı","nit":"Yatırım desteği","durum":"Açık","kanal":"E-TUYS + Stratejik Hamle Değerlendirme Komitesi","donem":"31.12.2030'a kadar","hedef":"Büyük ölçekli, ithalatı azaltan imalat; ≥ 62,7 mn TL yeşil/dijital dönüşüm","day":"9903 m.8","et":"MEV","kay":"K02","notu":"","sinif":"Yatırım desteği"},"P04":{"ad":"9903 · Öncelikli Yatırımlar Teşvik Sistemi","kurum":"Sanayi ve Teknoloji Bakanlığı","nit":"Yatırım desteği","durum":"Açık","kanal":"E-TUYS","donem":"31.12.2030'a kadar","hedef":"m.9/1'de sayılan konular (öz tüketim GES/RES, yeşil/dijital dönüşüm, 6. bölge vb.)","day":"9903 m.9","et":"MEV","kay":"K02","notu":"","sinif":"Yatırım desteği"},"P05":{"ad":"9903 · Hedef Yatırımlar Teşvik Sistemi (EK-3)","kurum":"Sanayi ve Teknoloji Bakanlığı","nit":"Yatırım desteği","durum":"Açık","kanal":"E-TUYS","donem":"31.12.2030'a kadar","hedef":"EK-3'teki konular ve şartlar","day":"9903 m.10, EK-3","et":"MEV","kay":"K01, K02","notu":"Elektrik üretimi, dağıtım, depolama ve gaz dağıtımında yalnız KDV ve gümrük kalır.","sinif":"Yatırım desteği"},"P06":{"ad":"9903 · Bölgesel teşvikler (SGK desteği)","kurum":"Sanayi ve Teknoloji Bakanlığı / SGK","nit":"Yatırım desteği (istihdam)","durum":"Açık","kanal":"Teşvik belgesiyle otomatik","donem":"31.12.2030'a kadar","hedef":"TYKH ve sektörel sistemde belge alan tüm yatırımlar","day":"9903 m.4/4, m.18, m.19, m.22","et":"MEV","kay":"K02","notu":"","sinif":"Yatırım desteği"},"P07":{"ad":"Yeşil Dönüşüm Programı (9903 m.12) → Öncelikli / Stratejik","kurum":"Sanayi ve Teknoloji Bakanlığı (SAVGM)","nit":"Yatırım desteği","durum":"Açık (çağrıya göre)","kanal":"Program portalı → E-TUYS","donem":"Çağrı bazında","hedef":"İmalat sanayiinde sermaye şirketleri","day":"9903 m.9/1-a, m.8/8, m.12; YDDP Tebliği","et":"MEV","kay":"K02, K06","notu":"EK-3 şartı aranmaz (m.5/1).","sinif":"Yatırım desteği"},"P08":{"ad":"Verimlilik Artırıcı Proje (VAP) Desteği","kurum":"Enerji ve Tabii Kaynaklar Bakanlığı","nit":"Yatırım desteği (hibe)","durum":"Açık","kanal":"evdes.enerji.gov.tr","donem":"İlan edilen dönem","hedef":"Kamu dışı tüzel kişiler","day":"EVY m.16/2; VAP UE","et":"MEV","kay":"K09, K10, K11","notu":"2027'den itibaren etüt dışı projede oran %25.","sinif":"Yatırım desteği"},"P09":{"ad":"Enerji Performans Sözleşmesi (EPS) Desteği","kurum":"Enerji ve Tabii Kaynaklar Bakanlığı","nit":"Yatırım desteği (hibe, ESCO üzerinden)","durum":"Açık","kanal":"evdes.enerji.gov.tr (başvuruyu ESCO yapar)","donem":"İlan edilen dönem","hedef":"Enerji yöneticisi görevlendirmekle yükümlü işletme + ESCO","day":"5627 m.8/1-a; EVY m.16; EPS UE","et":"MEV","kay":"K16, K17","notu":"","sinif":"Yatırım desteği"},"P10":{"ad":"Enerji ve Karbon Azaltım (EKA) Desteği","kurum":"Enerji ve Tabii Kaynaklar Bakanlığı","nit":"Performans desteği (hibe)","durum":"Açık · 30.09.2026'da kapanıyor","kanal":"evdes.enerji.gov.tr","donem":"01.07-30.09.2026","hedef":"İmalat; otel, AVM, hastane, ofis binaları","day":"EVY m.16/3; EKA UE","et":"MEV","kay":"K14, K15","notu":"Her sektörde ilk 10 izlemeye alınır.","sinif":"Performans desteği"},"P11":{"ad":"KOSGEB Yeşil Sanayi Destek Programı","kurum":"KOSGEB (Dünya Bankası TYSP Bileşen 1)","nit":"Yatırım desteği (geri ödemeli)","durum":"Çağrı durumu teyit edilecek","kanal":"KOSGEB e-Hizmetler","donem":"Çağrı bazında (2023-01, 2023-02)","hedef":"Sanayi KOBİ'leri","day":"KOSGEB YSDP Yönergesi","et":"DUY","kay":"K26","notu":"","sinif":"Yatırım desteği"},"P12":{"ad":"KOSGEB KOBİ Enerji Verimliliği Destek Programı","kurum":"KOSGEB","nit":"Yatırım desteği","durum":"Yürürlükten kaldırıldı","kanal":"—","donem":"—","hedef":"—","day":"—","et":"DUY","kay":"K27, K28","notu":"KOSGEB sitesinde 'Yürürlükten Kaldırılan Destekler' altında; güncel listede yok.","sinif":"Yatırım desteği"},"P13":{"ad":"TÜBİTAK 1832 Sanayide Yeşil Dönüşüm (Ar-Ge)","kurum":"TÜBİTAK TEYDEB (Dünya Bankası TYSP)","nit":"Ar-Ge desteği (hibe + faizsiz geri ödemeli)","durum":"Açık · 12.10.2026'da kapanıyor","kanal":"PRODİS (eteydeb.tubitak.gov.tr)","donem":"2026-2 çağrısı: kapanış 12.10.2026","hedef":"KOBİ ve büyük ölçekli kuruluşlar","day":"1801/1832 program esasları","et":"DUY","kay":"K29","notu":"Yatırım değil Ar-Ge (THS 3-9).","sinif":"Ar-Ge desteği"},"P14":{"ad":"HIT-30 Yüksek Teknoloji Yatırım Programı","kurum":"Sanayi ve Teknoloji Bakanlığı","nit":"Proje bazlı yatırım desteği","durum":"Açık (HIT-Battery, HIT-Wind); HIT-Solar kapandı","kanal":"hit30@sanayi.gov.tr / çağrı","donem":"Çağrı olmadan da başvurulabilir","hedef":"Küresel ölçekli yüksek teknoloji yatırımcıları","day":"Proje bazlı teşvik; HIT-30 program belgeleri","et":"DUY","kay":"K25","notu":"Yeşil enerji: yeşil hidrojen, elektrolizör, rüzgâr, güneş hücresi/wafer/ingot, depolama bataryası, batarya bileşenleri, kritik mineraller.","sinif":"Yatırım desteği"},"P15":{"ad":"YEKDEM (Yenilenebilir Enerji Kaynakları Destekleme Mekanizması)","kurum":"ETKB / EPDK / EPİAŞ","nit":"Gelir / piyasa desteği","durum":"Açık (31.12.2030'a kadar işletmeye girenler)","kanal":"YEK Belgesi (EPDK) + YEKDEM listesi","donem":"Yıllık kayıt","hedef":"Lisanslı YEK üreticileri","day":"5346 m.6, m.6/B; 7189 sayılı CBK","et":"MEV","kay":"K19","notu":"Yatırım hibesi değildir; üretilen elektriğin fiyatını destekler.","sinif":"Gelir / piyasa desteği"},"P16":{"ad":"Lisanssız üretim (öz tüketim, mahsuplaşma, ihtiyaç fazlası)","kurum":"EPDK / dağıtım şirketleri","nit":"Gelir / piyasa düzenlemesi","durum":"Açık","kanal":"İlgili dağıtım şirketi","donem":"Sürekli","hedef":"Tüketim tesisi sahipleri","day":"LÜY; 11415 sayılı CBK","et":"MEV","kay":"K18, K20","notu":"","sinif":"Gelir / piyasa desteği"},"P17":{"ad":"YEKA 2026 (GES-2026, RES-2026 yarışmaları)","kurum":"Enerji ve Tabii Kaynaklar Bakanlığı","nit":"Kapasite tahsisi + alım garantisi","durum":"Açık · başvuru 13.10.2026","kanal":"Yarışma başvurusu (ETKB)","donem":"Başvuru: 13.10.2026","hedef":"Tüzel kişiler (yerli ve yabancı)","day":"YEKA Yönetmeliği; GES/RES-2026 şartnameleri","et":"MEV","kay":"K21, K22, K23","notu":"21 yarışma: 14 GES (900 MWe), 7 RES (1.500 MWe).","sinif":"Kapasite tahsisi"},"P18":{"ad":"Kalkınma ajansı mali destek programları","kurum":"26 kalkınma ajansı","nit":"Hibe / faizsiz kredi (programa göre)","durum":"Ajans bazında","kanal":"Ajans başvuru sistemi","donem":"Ajans bazında","hedef":"Programa göre","day":"5449 sayılı Kanun","et":"YOR","kay":"K30","notu":"Çağrılar ajanstan ajansa değişir; bu envanterde ayrıntılandırılmadı.","sinif":"Yatırım desteği"}},"destek":[{"p":"P01","u":"Gümrük vergisi muafiyeti","o":"Makine-teçhizat (EK-4 hariç)","l":"—","s":"Belge süresi","day":"9903 m.13","et":"MEV"},{"p":"P01","u":"KDV istisnası","o":"Makine-teçhizat, yazılım","l":"—","s":"Belge süresi","day":"9903 m.14","et":"MEV"},{"p":"P01","u":"Vergi indirimi","o":"Katkı %50, indirim %60","l":"Katkı tutarı","s":"Katkıya ulaşıncaya kadar","day":"9903 m.20/1-a","et":"MEV"},{"p":"P01","u":"Faiz/kâr payı desteği","o":"Repo × %40, ≤ 20 puan; kredinin SYT %70'ine kadarı","l":"SYT %20 ve 301 mn TL","s":"≤ 5 yıl","day":"9903 m.15/1-a, m.15/3-a","et":"MEV,TEY"},{"p":"P01","u":"Makine desteği","o":"Birim ≥ 2,5 mn TL makinelerin %25'i","l":"SYT %15 ve 301 mn TL","s":"Yatırım süresi","day":"9903 m.16","et":"MEV,TEY"},{"p":"P01","u":"SGK işveren hissesi","o":"Asgari ücret kısmı; 6. bölge tamamı, diğer %50","l":"—","s":"8 yıl (6. bölge 12)","day":"9903 m.18/3","et":"MEV"},{"p":"P01","u":"Yatırım yeri tahsisi","o":"—","l":"—","s":"—","day":"9903 m.21/2","et":"MEV"},{"p":"P02","u":"Destek seti THP ile aynı","o":"Vergi %50; faiz %40 (≤ 20 puan); makine %25","l":"SYT %20 / %15 ve 301 mn TL","s":"≤ 5 yıl","day":"9903 m.15/1-a, m.16, m.20/1-a","et":"MEV,TEY"},{"p":"P02","u":"Ekosistem geliştirme planı (yükümlülük)","o":"Tamamlama vizesine kadar SYT'nin ≥ %2'si","l":"—","s":"—","day":"9903 m.5/9","et":"MEV"},{"p":"P03","u":"Vergi indirimi","o":"Katkı %40, indirim %60","l":"Katkı tutarı","s":"—","day":"9903 m.20/1-b","et":"MEV"},{"p":"P03","u":"Faiz/kâr payı desteği","o":"Repo × %30, ≤ 15 puan","l":"SYT %15 ve 226 mn TL","s":"≤ 5 yıl","day":"9903 m.15/1-b, m.15/3-b","et":"MEV,TEY"},{"p":"P03","u":"Makine desteği (faiz ile birlikte olmaz)","o":"%25","l":"SYT %15 ve ≈ 226 mn TL","s":"—","day":"9903 m.16/2-b, m.16/3","et":"MEV,HES"},{"p":"P03","u":"SGK işveren hissesi","o":"6. bölge tamamı, diğer %50","l":"—","s":"8 yıl (6. bölge 12)","day":"9903 m.18/3","et":"MEV"},{"p":"P04","u":"Gümrük muafiyeti + KDV istisnası","o":"—","l":"—","s":"—","day":"9903 m.4/3","et":"MEV"},{"p":"P04","u":"Vergi indirimi","o":"Katkı %30, indirim %60","l":"Katkı tutarı","s":"—","day":"9903 m.20/1-c","et":"MEV"},{"p":"P04","u":"Faiz/kâr payı desteği","o":"Repo × %25, ≤ 12,5 puan","l":"SYT %10 ve 30,1 mn TL","s":"≤ 5 yıl","day":"9903 m.15/1-c, m.15/3-c","et":"MEV,TEY"},{"p":"P04","u":"Öz tüketim GES/RES (m.9/1-e): faiz yok","o":"—","l":"—","s":"—","day":"9903 m.9/2","et":"MEV"},{"p":"P04","u":"Yatırım yeri tahsisi (elektrik üretimi hariç)","o":"—","l":"—","s":"—","day":"9903 m.21","et":"MEV"},{"p":"P05","u":"Gümrük muafiyeti + KDV istisnası","o":"—","l":"—","s":"—","day":"9903 m.4/3","et":"MEV"},{"p":"P05","u":"Vergi indirimi","o":"Katkı %20, indirim %60; İstanbul ve enerji üretim/dağıtım/depolama/gaz dağıtımı hariç","l":"Katkı tutarı","s":"—","day":"9903 m.20/1-ç, m.10/2","et":"MEV"},{"p":"P05","u":"Faiz/kâr payı desteği (yalnız 4-6. bölge; enerji yatırımları hariç)","o":"Repo × %25, ≤ 12,5 puan","l":"SYT %10 ve ≈ 15,1 mn TL","s":"≤ 5 yıl","day":"9903 m.10/3, m.15/1-ç, m.15/3-ç","et":"MEV,HES"},{"p":"P06","u":"SGK işveren hissesi desteği","o":"6. bölge tamamı, diğer bölgeler %50 (asgari ücret kısmı)","l":"Belgedeki ilave istihdam","s":"Bölgeye göre (Bölgesel Kurallar)","day":"9903 m.18/1-2","et":"MEV"},{"p":"P06","u":"Sigorta primi (işçi hissesi) desteği","o":"6. bölgede asgari ücret kısmı","l":"—","s":"10 yıl","day":"9903 m.19","et":"MEV"},{"p":"P06","u":"Alt bölge desteği","o":"OSB/endüstri bölgesi veya EK-5 ilçesi: 1 alt bölge; ikisi: 2 alt bölge; 6. bölgede +2 yıl","l":"—","s":"—","day":"9903 m.22","et":"MEV"},{"p":"P06","u":"Yeni kurulan firma seçeneği","o":"Vergi indirimi yerine faiz oranına +2 puan ve limite +6 mn TL (Öncelikli) / +2,4 mn TL (Hedef) / +5 puan ve +60 mn TL (TYKH)","l":"—","s":"—","day":"9903 m.20/4","et":"MEV"},{"p":"P07","u":"Öncelikli yatırım destekleri (P04)","o":"Vergi %30; faiz %25 (≤ 12,5 puan)","l":"SYT %10 ve 30,1 mn TL","s":"—","day":"9903 m.9/1-a","et":"MEV,TEY"},{"p":"P07","u":"≥ 62,7 mn TL ise Stratejik Hamle destekleri (P03)","o":"Vergi %40; faiz %30 veya makine %25","l":"SYT %15 ve 226 mn TL","s":"—","day":"9903 m.8/8","et":"MEV,TEY"},{"p":"P07","u":"Kapsama giren harcamalar","o":"Arazi-arsa, bina-inşaat, makine, teknoloji, yazılım, ölçüm-doğrulama, belgelendirme, etüt, test, danışmanlık","l":"—","s":"—","day":"YDDP Tebliği","et":"MEV"},{"p":"P08","u":"Hibe","o":"Proje bedelinin (KDV hariç) %30'u; 2027'den etüt dışı %25","l":"27.092.663 TL","s":"Uygulama 2 yıl","day":"EVY m.16/2; VAP UE m.7/4; Oluru 12.03.2026","et":"MEV,DUY"},{"p":"P08","u":"Erken ödeme","o":"Desteğin %50'sine kadar; teminat erken ödemenin %25 fazlası","l":"—","s":"Başlangıçtan 3 ay içinde talep","day":"VAP UE m.13, m.15","et":"MEV"},{"p":"P08","u":"Denetim bedeli (maliyet)","o":"Öncesi 60.000 TL + KDV; sonrası 95.000 TL + KDV","l":"—","s":"—","day":"2026 denetim bedelleri","et":"DUY"},{"p":"P09","u":"Hibe","o":"KDV hariç yatırım bedelinin %30'u","l":"Başvuru yılı azami tutarı","s":"—","day":"EPS UE m.7/5, m.8/1","et":"MEV"},{"p":"P09","u":"Erken ödeme + nihai ödeme","o":"%50 erken (teminat +%25); kalan, garanti tasarrufun ≥ %70'i doğrulanınca","l":"—","s":"—","day":"EPS UE m.8/3-4, m.9","et":"MEV"},{"p":"P10","u":"Hibe (performans)","o":"2026 enerji giderinin %30'una kadar, azaltım puanına göre","l":"18.061.775 TL","s":"Ödeme Temmuz 2027+","day":"EVY m.16/3; EKA duyurusu","et":"MEV,DUY"},{"p":"P11","u":"GES bileşeni (geri ödemeli)","o":"%60 (deprem bölgesi hasarlı işletmede %80/%90)","l":"14.000.000 TL","s":"Proje 8-12 ay","day":"KOSGEB YSDP","et":"DUY"},{"p":"P11","u":"Temiz ve döngüsel ekonomi bileşeni (geri ödemeli)","o":"%70","l":"4.000.000 TL","s":"Proje 8-12 ay","day":"KOSGEB YSDP","et":"DUY"},{"p":"P13","u":"Ar-Ge desteği","o":"Büyük %70, KOBİ %80, deprem bölgesi KOBİ %90; en fazla %50'si faizsiz geri ödemeli","l":"Kuruluş ölçeğine göre program limiti","s":"—","day":"1832 2026-2 çağrısı","et":"DUY"},{"p":"P14","u":"Proje bazlı teşvik paketi","o":"Toplam destek SYT'nin %100'üne kadar","l":"Proje bazında","s":"Yararlanma 2030-2032'de biter","day":"HIT-30 teşvikler sayfası","et":"DUY"},{"p":"P14","u":"Enerji desteği","o":"Enerji faturasının %50'sine kadar, belirli süre ve limitle","l":"—","s":"—","day":"HIT-30 teşvikler sayfası","et":"DUY"},{"p":"P14","u":"Diğer unsurlar","o":"Kurumlar vergisi indirimi, SGK ve nitelikli personel, faiz, hibe, gümrük/KDV, kamu alım garantisi, yatırım yeri, finansman","l":"—","s":"—","day":"HIT-30 teşvikler sayfası","et":"DUY"},{"p":"P14","u":"HIT-Battery çağrısı","o":"Hücreden başlayan, yıllık ≥ 5 GWh batarya ve aktif malzeme","l":"Toplam bütçe 4,5 milyar USD","s":"Açık","day":"HIT-30 çağrılar","et":"DUY"},{"p":"P14","u":"HIT-Wind çağrısı","o":"Entegre OEM, açık deniz türbini, kritik bileşen","l":"Toplam bütçe 1,7 milyar USD","s":"Açık","day":"HIT-30 çağrılar","et":"DUY"},{"p":"P14","u":"HIT-Solar çağrısı","o":"Ingot'tan başlayan, yıllık ≥ 5 GW hücre","l":"Toplam bütçe 2,5 milyar USD","s":"Kapandı","day":"HIT-30 çağrılar","et":"DUY"},{"p":"P15","u":"Uygulama fiyatı + taban/tavan (kaynağa göre)","o":"Bkz. 'YEKDEM Fiyatları' sayfası","l":"USD taban-tavan bandı","s":"10 yıl (jeotermal, pompaj 15)","day":"7189 sayılı CBK EK-1, EK-2","et":"MEV"},{"p":"P15","u":"Yerli katkı fiyatı","o":"28,80-38,45 TL kuruş/kWh","l":"—","s":"5 yıl (bütünleşik depolama, pompaj, dalga 10)","day":"7189 sayılı CBK EK-1","et":"MEV"},{"p":"P16","u":"İhtiyaç fazlası alımı","o":"Saatlik mahsuplaşma sonrası şebekeye verilen fazla, görevli tedarik şirketince alınır","l":"Yıllık üretim ≤ 2 × ilişkili tüketim","s":"10 yıl","day":"LÜY m.26/4, m.26/17","et":"MEV"},{"p":"P16","u":"10 yıl sonrası fiyat","o":"Aynı tip lisanslı tesis YEKDEM fiyatının %90'ı; saatlik PTF'yi aşamaz","l":"—","s":"Süresiz (devam eden tesis)","day":"11415 sayılı CBK m.2","et":"MEV"},{"p":"P17","u":"Alım garantisi","o":"Mali teklif fiyatı (Euro-cent/kWh); tavan 5,50; taban GES 3,25, RES 3,50","l":"—","s":"Serbest piyasa: GES 60 ay, RES 72 ay; sonra 20 yıl alım","day":"GES/RES-2026 şartnameleri m.3.3.3, m.8.1","et":"MEV"},{"p":"P17","u":"Saha ve bağlantı kapasitesi kullanım hakkı","o":"—","l":"—","s":"49 yıl","day":"Şartname m.1","et":"MEV"}],"tur":[{"id":"T01","ad":"GES · öz tüketim (imalat)"},{"id":"T02","ad":"GES · öz tüketim (ticari/hizmet, diğer)"},{"id":"T03","ad":"GES · lisanslı / satış (YEKA dışı)"},{"id":"T04","ad":"GES · YEKA"},{"id":"T05","ad":"RES · öz tüketim"},{"id":"T06","ad":"RES · lisanslı / YEKA"},{"id":"T07","ad":"BESS · tüketim tesisine bütünleşik"},{"id":"T08","ad":"BESS · üretim tesisine bütünleşik"},{"id":"T09","ad":"BESS · müstakil depolama"},{"id":"T10","ad":"HES"},{"id":"T11","ad":"Biyokütle / biyogaz · elektrik"},{"id":"T12","ad":"Jeotermal · elektrik"},{"id":"T13","ad":"Jeotermal / biyokütle · ısı (öz tüketim)"},{"id":"T14","ad":"Kojenerasyon (öz tüketim)"},{"id":"T15","ad":"Atık ısı geri kazanımı (ısı)"},{"id":"T16","ad":"Atık ısıdan elektrik (ORC vb.)"},{"id":"T17","ad":"Isı pompası"},{"id":"T18","ad":"Enerji verimliliği (motor, pompa, fan, kompresör, buhar, yalıtım)"},{"id":"T19","ad":"Yakıt dönüşümü"},{"id":"T20","ad":"Yeşil hidrojen / elektrolizör"},{"id":"T21","ad":"Enerji teknolojisi üretimi (panel/hücre, batarya, türbin)"},{"id":"T22","ad":"Yatırımsız iyileştirme (operasyonel)"}],"mprog":["P04","P05","P03","P01","P02","P07","P08","P09","P10","P11","P13","P14","P15","P16","P17"],"m":[{"t":"T01","p":"P04","d":"◐","g":"Yalnız imalat; sözleşme gücüne kadar; ≥ 240 kW; faiz yok.","day":"9903 m.9/1-e, m.9/2, EK-3 35.12","et":"MEV"},{"t":"T01","p":"P05","d":"✖","g":"Öncelikli (e) kapsamında değerlendirilir.","day":"9903 m.9/1-e","et":"YOR"},{"t":"T01","p":"P07","d":"✖","g":"YEK üretim tesisi ayrı belgeyle desteklenir.","day":"YDDP Tebliği","et":"MEV"},{"t":"T01","p":"P08","d":"✖","g":"YEK elektrik üretimi kapsam dışı.","day":"VAP UE m.6/7-ğ","et":"MEV"},{"t":"T01","p":"P09","d":"✖","g":"YEK elektrik üretimi kapsam dışı.","day":"EPS UE m.6/3-g","et":"MEV"},{"t":"T01","p":"P10","d":"◐","g":"Tamamlayıcı: karbon/enerji yoğunluğunu düşürürse performans desteği.","day":"EKA UE m.1","et":"YOR"},{"t":"T01","p":"P11","d":"◐","g":"KOBİ ise GES bileşeni (14 mn TL, %60, geri ödemeli); çağrı teyit.","day":"KOSGEB YSDP","et":"DUY"},{"t":"T01","p":"P16","d":"✔","g":"(h) bendi: sözleşme gücünün 2 katına kadar; saatlik mahsuplaşma.","day":"LÜY m.5/1-h, m.26","et":"MEV"},{"t":"T02","p":"P04","d":"✖","g":"Öncelikli (e) yalnız imalat sanayii için.","day":"9903 m.9/1-e","et":"MEV"},{"t":"T02","p":"P05","d":"◐","g":"EK-3 35.12 (≥ 240 kW); vergi indirimi ve faiz yok.","day":"9903 EK-3, m.10/2-3","et":"MEV"},{"t":"T02","p":"P08","d":"✖","g":"YEK elektrik üretimi kapsam dışı.","day":"VAP UE m.6/7-ğ","et":"MEV"},{"t":"T02","p":"P10","d":"◐","g":"Otel, AVM, hastane, ofis için tamamlayıcı.","day":"EKA duyurusu","et":"YOR"},{"t":"T02","p":"P16","d":"✔","g":"Sözleşme gücüne kadar (sanayi dışı: 1 kat).","day":"LÜY m.5/1-h","et":"MEV"},{"t":"T03","p":"P05","d":"◐","g":"EK-3 35.12; yalnız KDV, gümrük ve SGK.","day":"9903 m.10/2-3","et":"MEV"},{"t":"T03","p":"P15","d":"✔","g":"YEK belgeli lisanslı tesis: 10 yıl YEKDEM, 5 yıl yerli katkı.","day":"7189 CBK","et":"MEV"},{"t":"T04","p":"P17","d":"✔","g":"14 yarışma, 900 MWe; tavan 5,50 / taban 3,25 €c/kWh.","day":"GES-2026 şartnamesi","et":"MEV"},{"t":"T04","p":"P05","d":"◐","g":"YEKA santrali de EK-3 35.12 kapsamında; teşvik belgesi uygulaması teyit.","day":"9903 EK-3","et":"YOR"},{"t":"T05","p":"P04","d":"◐","g":"İmalat öz tüketim RES; sözleşme gücüne kadar; faiz yok.","day":"9903 m.9/1-e","et":"MEV"},{"t":"T05","p":"P16","d":"✔","g":"(h) bendi kapsamında.","day":"LÜY m.5/1-h","et":"MEV"},{"t":"T06","p":"P05","d":"◐","g":"EK-3 35.12; yalnız KDV, gümrük, SGK. Çelik kuleler gümrük muafiyeti dışı.","day":"9903 m.10, EK-4 (7308.20)","et":"MEV"},{"t":"T06","p":"P15","d":"✔","g":"Karasal 106 / deniz üstü 144 TL kuruş/kWh.","day":"7189 CBK","et":"MEV"},{"t":"T06","p":"P17","d":"✔","g":"7 yarışma, 1.500 MWe; taban 3,50 €c/kWh; yerlilik ≥ 55 puan.","day":"RES-2026 şartnamesi","et":"MEV"},{"t":"T07","p":"P16","d":"◐","g":"Sözleşme gücüne kadar, aynı ölçüm noktası, yalnız tesis ihtiyacı.","day":"Depolama Yön. m.6","et":"MEV"},{"t":"T07","p":"P04","d":"◐","g":"Öz tüketim GES'e entegre ise aynı belgeye alınabilir mi teyit; Li-ion aküde gümrük muafiyeti yok.","day":"9903 m.9/1-e, EK-4 (8507.60)","et":"YOR"},{"t":"T07","p":"P08","d":"✖","g":"Depolama bir verimlilik önlemi olarak VAP kapsamında tanımlı değil.","day":"VAP UE m.6","et":"YOR"},{"t":"T07","p":"P10","d":"◐","g":"Karbon yoğunluğunu düşürürse tamamlayıcı.","day":"EKA UE","et":"YOR"},{"t":"T08","p":"P15","d":"✔","g":"Bütünleşik depolamadan verilen YEK enerjisi: 125 kuruş, 10 yıl yerli katkı.","day":"7189 CBK EK-1 (e)","et":"MEV"},{"t":"T08","p":"P16","d":"✔","g":"Lisanssız tesise elektriksel güce kadar bütünleşik depolama.","day":"LÜY Ek m.3","et":"MEV"},{"t":"T08","p":"P05","d":"◐","g":"EK-3 35.16; vergi indirimi ve faiz yok; Li-ion gümrük muafiyeti yok.","day":"9903 m.10/2-3, EK-4","et":"MEV"},{"t":"T09","p":"P05","d":"◐","g":"EK-3 35.16; yalnız KDV ve SGK (Li-ion gümrük muafiyeti yok).","day":"9903 m.10/2-3, EK-4","et":"MEV"},{"t":"T09","p":"P16","d":"✖","g":"Müstakil depolama tedarik lisansı gerektirir (≥ 2 MW).","day":"Depolama Yön. m.7","et":"MEV"},{"t":"T10","p":"P05","d":"◐","g":"EK-3 35.12; yalnız KDV, gümrük, SGK.","day":"9903 m.10","et":"MEV"},{"t":"T10","p":"P15","d":"✔","g":"Rezervuarlı 144, nehir tipi 135 TL kuruş/kWh; pompaj 202 (15 yıl).","day":"7189 CBK","et":"MEV"},{"t":"T11","p":"P05","d":"◐","g":"EK-3 35.12 elektrik üretimi; biyogaz gaz üretimi (35.21) EK-3'te yok.","day":"9903 EK-3","et":"MEV"},{"t":"T11","p":"P15","d":"✔","g":"Çöp gazı 106, biyometanizasyon 173, termal bertaraf 134,9 (koşullu).","day":"7189 CBK","et":"MEV"},{"t":"T11","p":"P16","d":"✔","g":"YEK tesisi olarak (h) bendi.","day":"LÜY m.5/1-h","et":"MEV"},{"t":"T12","p":"P05","d":"◐","g":"EK-3 35.12; yalnız KDV, gümrük, SGK.","day":"9903 m.10","et":"MEV"},{"t":"T12","p":"P15","d":"✔","g":"202 TL kuruş/kWh, 15 yıl.","day":"7189 CBK","et":"MEV"},{"t":"T13","p":"P08","d":"✔","g":"YEK kaynaklı ısı (öz tüketim) VAP'ta; geri ödeme ≤ 10 yıl. Satış amaçlı ısı hariç.","day":"ETKB duyurusu; VAP UE m.6/7-g","et":"DUY"},{"t":"T13","p":"P07","d":"◐","g":"İmalatta yol haritası hedefiyle.","day":"YDDP Tebliği","et":"YOR"},{"t":"T13","p":"P02","d":"◐","g":"Bazı illerde 'entegre jeotermal sera' yerel yatırım konusu.","day":"Yerel Yatırım Konuları Listesi","et":"MEV"},{"t":"T14","p":"P08","d":"✔","g":"Öz tüketim; verim belgesi şart; geri ödeme ≤ 10 yıl.","day":"VAP UE m.5/1-d; ETKB duyurusu","et":"MEV"},{"t":"T14","p":"P09","d":"✔","g":"Satış amaçlı değilse.","day":"EPS UE m.6/3-e","et":"MEV"},{"t":"T14","p":"P07","d":"◐","g":"İmalatta yol haritası hedefiyle.","day":"YDDP Tebliği","et":"YOR"},{"t":"T14","p":"P05","d":"◐","g":"İmalat NACE'si EK-3'teyse modernizasyon; doğalgazlı elektrik üretimi olarak 35.11'e girerse desteklenmez.","day":"9903 EK-3","et":"YOR"},{"t":"T15","p":"P08","d":"✔","g":"Atık enerji geri kazanımı; geri ödeme ≤ 7 yıl.","day":"VAP UE; ETKB duyurusu","et":"MEV"},{"t":"T15","p":"P09","d":"✔","g":"ESCO/EPS modeliyle.","day":"EPS UE","et":"MEV"},{"t":"T15","p":"P07","d":"✔","g":"Enerji tüketimi/sera gazı hedefiyle.","day":"YDDP Tebliği","et":"MEV"},{"t":"T15","p":"P05","d":"◐","g":"İmalat NACE'si EK-3'teyse Hedef (vergi %20).","day":"9903 m.10","et":"YOR"},{"t":"T15","p":"P10","d":"◐","g":"Tamamlayıcı.","day":"EKA UE","et":"YOR"},{"t":"T15","p":"P11","d":"◐","g":"KOBİ: temiz ve döngüsel ekonomi bileşeni (4 mn TL, %70).","day":"KOSGEB YSDP","et":"DUY"},{"t":"T16","p":"P08","d":"✔","g":"Atık ısıdan elektrik; geri ödeme ≤ 10 yıl.","day":"ETKB duyurusu","et":"DUY"},{"t":"T16","p":"P16","d":"◐","g":"Lisanssız kapsamı teyit (atık ısı YEK sayılmaz).","day":"LÜY m.5","et":"YOR"},{"t":"T16","p":"P07","d":"✔","g":"Enerji/sera gazı hedefiyle.","day":"YDDP Tebliği","et":"MEV"},{"t":"T17","p":"P08","d":"✔","g":"Verimlilik projesi; hava kaynaklıda 7 yıl, toprak kaynaklı (jeotermal) 10 yıl olup olmadığı teyit.","day":"ETKB duyurusu","et":"YOR"},{"t":"T17","p":"P09","d":"✔","g":"ESCO/EPS modeliyle.","day":"EPS UE","et":"MEV"},{"t":"T17","p":"P07","d":"✔","g":"İmalatta proses ısısı elektrifikasyonu.","day":"YDDP Tebliği","et":"YOR"},{"t":"T17","p":"P11","d":"◐","g":"KOBİ: temiz ve döngüsel ekonomi bileşeni.","day":"KOSGEB YSDP","et":"DUY"},{"t":"T17","p":"P02","d":"◐","g":"Çorum: ısı pompası komponentleri üretimi yerel yatırım konusu.","day":"Yerel Yatırım Konuları Listesi","et":"MEV"},{"t":"T18","p":"P08","d":"✔","g":"Proje bedeli > 5 mn TL, geri ödeme ≤ 7 yıl, ISO 50001.","day":"VAP UE; ETKB duyurusu","et":"MEV"},{"t":"T18","p":"P09","d":"✔","g":"Yükümlü işletme + ESCO; ≥ 5 mn TL; geri ödeme ≥ 1 yıl.","day":"EPS UE; duyuru","et":"MEV"},{"t":"T18","p":"P07","d":"✔","g":"İmalat; yol haritası.","day":"YDDP Tebliği","et":"MEV"},{"t":"T18","p":"P05","d":"◐","g":"İmalat NACE'si EK-3'teyse; kompresörler gümrük muafiyeti dışı.","day":"9903 m.10, EK-4","et":"MEV"},{"t":"T18","p":"P10","d":"◐","g":"Tamamlayıcı.","day":"EKA UE","et":"YOR"},{"t":"T18","p":"P11","d":"◐","g":"KOBİ: 4 mn TL, %70.","day":"KOSGEB YSDP","et":"DUY"},{"t":"T19","p":"P08","d":"✖","g":"Yakıt dönüşümü kapsam dışı.","day":"VAP UE m.6/7-ç","et":"MEV"},{"t":"T19","p":"P09","d":"✖","g":"Yakıt dönüşümü kapsam dışı.","day":"EPS UE m.6/3-c","et":"MEV"},{"t":"T19","p":"P07","d":"◐","g":"Birim üretim başına sera gazı hedefiyle olabilir.","day":"YDDP Tebliği","et":"YOR"},{"t":"T19","p":"P10","d":"◐","g":"Karbon yoğunluğu azalırsa tamamlayıcı.","day":"EKA UE","et":"YOR"},{"t":"T20","p":"P14","d":"✔","g":"Yeşil hidrojen ve elektrolizör HIT-30 öncelikli konu.","day":"HIT-30 sektörler","et":"DUY"},{"t":"T20","p":"P02","d":"◐","g":"Çanakkale: yeşil hidrojen ve türevleri yerel yatırım konusu.","day":"Yerel Yatırım Konuları Listesi","et":"MEV"},{"t":"T20","p":"P05","d":"◐","g":"20.11 sanayi gazları EK-3'te (kimyasallar, şartsız).","day":"9903 EK-3 (20)","et":"YOR"},{"t":"T20","p":"P13","d":"◐","g":"Ar-Ge aşaması için.","day":"1832 çağrısı","et":"DUY"},{"t":"T21","p":"P14","d":"✔","g":"HIT-Battery (açık), HIT-Wind (açık), HIT-Solar (kapandı).","day":"HIT-30 çağrılar","et":"DUY"},{"t":"T21","p":"P01","d":"◐","g":"Öncelikli ürün listesindeyse THP.","day":"9903 m.6","et":"MEV"},{"t":"T21","p":"P05","d":"◐","g":"26 (PV: ingot'tan entegre), 27, 28 EK-3'te.","day":"9903 EK-3","et":"MEV"},{"t":"T21","p":"P04","d":"◐","g":"Yüksek teknoloji ≥ 500 mn / orta-yüksek ≥ 1 mlr TL (2026: 627 mn / 1.255 mn).","day":"9903 m.9/1-b,c","et":"MEV,TEY"},{"t":"T22","p":"P10","d":"✔","g":"EKA yatırım şartı aramaz; referans döneme göre azaltım.","day":"EKA UE","et":"MEV"},{"t":"T22","p":"P08","d":"✖","g":"VAP bir yatırım projesi gerektirir.","day":"VAP UE m.6/1","et":"YOR"},{"t":"T22","p":"P04","d":"✖","g":"Teşvik belgesi sabit yatırım gerektirir.","day":"9903 m.5/2","et":"MEV"}],"kum":[{"a":"9903 teşviki","b":"VAP","c":"Hayır","d":"Aynı yatırım/ekipman için birlikte kullanılamaz.","day":"9903 m.33/1; EVY m.17/A-6","et":"MEV"},{"a":"9903 teşviki","b":"EPS desteği","c":"Hayır","d":"Aynı proje için kamu desteği alınmamış olmalı.","day":"9903 m.33/1; EPS UE m.5/4","et":"MEV"},{"a":"9903 teşviki","b":"KOSGEB YSDP","c":"Hayır","d":"Aynı yatırım için birlikte kullanılamaz (THP hariç).","day":"9903 m.33/1-2","et":"MEV"},{"a":"9903 teşviki (THP)","b":"KOSGEB / TÜBİTAK","c":"Evet","d":"THP yatırımları KOSGEB/TÜBİTAK tarafından da doğrudan desteklenebilir.","day":"9903 m.33/2","et":"MEV"},{"a":"9903 teşviki","b":"Başka kurumun sübvansiyonlu kredisi","c":"Koşullu","d":"O krediye 9903 faiz/makine desteği verilmez; diğer unsurlar kullanılabilir.","day":"9903 m.33/1","et":"MEV"},{"a":"9903 teşviki","b":"Kalkınma ajansı desteği","c":"Hayır","d":"Aynı yatırım için başka kamu desteği kullanılamaz.","day":"9903 m.33/1","et":"MEV,YOR"},{"a":"9903 teşviki","b":"YEKDEM","c":"Belirsiz","d":"YEKDEM gelir desteğinin m.33 anlamında 'destek' sayılıp sayılmadığına dair açık hüküm bulunamadı.","day":"9903 m.33/1","et":"YOR"},{"a":"9903 teşviki","b":"EKA","c":"Belirsiz","d":"EKA gider bazlı; aynı yıl birlikte kullanım için açık hüküm bulunamadı.","day":"—","et":"YOR"},{"a":"VAP","b":"EPS desteği","c":"Hayır","d":"Aynı proje/ekipman için ikinci kamu desteği yok.","day":"EVY m.17/A-6; EPS UE m.5/4","et":"MEV"},{"a":"VAP","b":"KOSGEB YSDP","c":"Hayır","d":"Başka kamu desteği alınan ekipmanla VAP'a başvurulamaz.","day":"EVY m.17/A-6; VAP UE m.11/1","et":"MEV"},{"a":"VAP","b":"EKA","c":"Evet","d":"ETKB iki programı tamamlayıcı olarak konumluyor.","day":"ETKB açıklaması (AA 27.06.2026)","et":"DUY"},{"a":"Lisanssız üretim","b":"9903 Öncelikli (e)","c":"Evet","d":"Teşvik sözleşme gücüne kadar; lisanssız kurulu güç sanayide 2 kata kadar olabilir.","day":"9903 m.9/1-e; LÜY m.5/1-h","et":"MEV"},{"a":"Lisanssız üretim","b":"YEKDEM","c":"Evet","d":"Lisanssız ihtiyaç fazlası YEKDEM kapsamında değerlendirilir.","day":"LÜY m.26","et":"MEV"},{"a":"YEKA","b":"YEKDEM","c":"Hayır","d":"YEKA tesisi sözleşmedeki mali teklif fiyatına tabidir; katkı payı YEKDEM'e aktarılır.","day":"GES/RES-2026 şartnameleri m.3.3.7, m.8.1","et":"MEV"},{"a":"KOSGEB YSDP","b":"TÜBİTAK 1832","c":"Belirsiz","d":"İkisi de Dünya Bankası TYSP bileşeni; aynı harcamada birlikte kullanım teyit edilmeli.","day":"—","et":"YOR"},{"a":"HIT-30","b":"Diğer 9903 programları","c":"Belirsiz","d":"HIT-30 proje bazlı paket; aynı yatırımda ayrı belge beklenmez.","day":"HIT-30 teşvikler","et":"YOR"}],"takvim":[{"a":"2026-03-02","b":"2026-05-15","o":"Yerel Kalkınma Hamlesi 2026 başvuru dönemi","p":"P02","et":"TEY","kay":"K31"},{"a":"2026-05-01","b":"2026-05-01","o":"Lisanssız üretimde saatlik mahsuplaşmanın piyasa işletmecisine geçtiği hüküm yürürlükte","p":"P16","et":"MEV","kay":"K18"},{"a":"2026-06-13","b":"2026-06-13","o":"10 yılı dolan lisanssız tesislerde ihtiyaç fazlası fiyatı (11415 sayılı CBK)","p":"P16","et":"MEV","kay":"K20"},{"a":"2026-07-01","b":"2026-07-01","o":"VAP'ta yalnız 5 mn TL üzeri projeler kabul ediliyor","p":"P08","et":"DUY","kay":"K11"},{"a":"2026-07-01","b":"2026-09-30","o":"EKA 2026 başvuru dönemi","p":"P10","et":"DUY","kay":"K14"},{"a":"2026-07-11","b":"2026-07-11","o":"YEKA GES-2026 ve RES-2026 ilanı","p":"P17","et":"MEV","kay":"K21"},{"a":"2026-10-12","b":"2026-10-12","o":"TÜBİTAK 1832 2026-2 çağrısı kapanış","p":"P13","et":"DUY","kay":"K29"},{"a":"2026-10-13","b":"2026-10-13","o":"YEKA 2026 yarışma başvurusu","p":"P17","et":"DUY","kay":"K23"},{"a":"2026-12-31","b":"2026-12-31","o":"Deprem ilçeleri ve Cazibe OSB'lerinde 6. bölge desteği için son müracaat","p":"P06","et":"MEV","kay":"K02"},{"a":"2027-01-01","b":"2027-01-01","o":"VAP oranı: etüt kapsamında %30, etüt dışı %25","p":"P08","et":"DUY","kay":"K11"},{"a":"2027-01-01","b":"2027-01-01","o":"TL tutarların yeniden değerleme ile güncellenmesi","p":"P01","et":"MEV","kay":"K02, K09"},{"a":"2027-07-31","b":"2027-07-31","o":"EKA izleme dosyası son teslim; ödemeler Temmuz 2027'den itibaren","p":"P10","et":"MEV","kay":"K15"},{"a":"2028-12-31","b":"2028-12-31","o":"2012/3305 belgelerinde uzatılan SGK desteklerinin sonu","p":"P06","et":"MEV","kay":"K02"},{"a":"2030-12-31","b":"2030-12-31","o":"9903 teşvik belgesi müracaatlarının son günü","p":"P04","et":"MEV","kay":"K02"},{"a":"2030-12-31","b":"2030-12-31","o":"YEKDEM (7189) kapsamı için işletmeye giriş son günü","p":"P15","et":"MEV","kay":"K19"}],"kaynak":[{"id":"K01","ad":"Yatırımlarda Devlet Yardımları Hakkında Karar (9903) — orijinal metin ve ekler","tur":"Resmî Gazete","tarih":"RG 30.05.2025 / 32915","url":"https://www.resmigazete.gov.tr/eskiler/2025/05/20250530-2.pdf","notu":"EK-2 (s.21), EK-3 (s.22-28), EK-4 (s.29-42), EK-5 (s.43-50) taranmış sayfalardan okundu."},{"id":"K02","ad":"9903 sayılı Karar — konsolide metin","tur":"Mevzuat veri tabanı","tarih":"Lexpera, erişim 26.09.2026","url":"https://www.lexpera.com.tr/mevzuat/cumhurbaskani-kararlari/yatirimlarda-devlet-yardimlari-hakkinda-karar-9903","notu":"Madde metinleri."},{"id":"K03","ad":"Kararın Uygulanmasına İlişkin Tebliğ (2025/1) ve değişikliği (2026/1)","tur":"Resmî Gazete","tarih":"RG 21.06.2025 / 32933; RG 09.04.2026 / 33219","url":"https://www.resmigazete.gov.tr/eskiler/2025/06/20250621-14.htm","notu":"Uygulama esasları; bu envanterde ayrıntısına girilmedi."},{"id":"K04","ad":"2026 yılı 9903 TL tutarları (Sanayi ve Teknoloji Bakanlığı güncellemesi)","tur":"İkincil kaynak","tarih":"Teşvik Akademi, 30.01.2026","url":"https://tesvikakademi.com/haber/2026-yili-yatirim-tesvik-tutarlari-aciklandi/","notu":"Bakanlık metni birincil kaynaktan okunamadı; %25,49 yeniden değerleme ile tutarlı."},{"id":"K05","ad":"Yerel Yatırım Konuları Listesi Tebliği; EK-1 değişikliği","tur":"Resmî Gazete","tarih":"RG 09.07.2025 / 32951; EK-1: RG 31.01.2026 / 33154","url":"https://www.resmigazete.gov.tr/eskiler/2026/01/20260131-13-1.pdf","notu":"81 il × 4 konu; taranmış 20 sayfadan okundu, başlıklar kısaltıldı."},{"id":"K06","ad":"Yeşil Dönüşüm Destek Programı Uygulama Usul ve Esasları Tebliği","tur":"Resmî Gazete","tarih":"RG 26.07.2024 / 32613; değişiklik 09.07.2025","url":"https://www.resmigazete.gov.tr/eskiler/2024/07/20240726-19.htm","notu":"Özet: İSO ve hukuk bülteni; 9903 m.12 ile program sürüyor."},{"id":"K07","ad":"Cazibe Merkezleri Programı Kararı (2018/11201) — EK-1 iller","tur":"Resmî Gazete","tarih":"RG 25.01.2018 / 30312","url":"https://www.resmigazete.gov.tr/eskiler/2018/01/20180125-2.pdf","notu":"23 il; 9903 geçici m.4 bu listeye atıf yapar."},{"id":"K08","ad":"7028 sayılı CBK — Cazibe Merkezleri EK-2 (deprem ilçeleri)","tur":"Resmî Gazete","tarih":"RG 05.04.2023 / 32154","url":"https://www.resmigazete.gov.tr/eskiler/2023/04/20230405-9.pdf","notu":"9 il, 65 ilçe; 9903 geçici m.3 bu listeye atıf yapar."},{"id":"K09","ad":"Enerji Kaynaklarının ve Enerjinin Kullanımında Verimliliğin Artırılmasına Dair Yönetmelik (EVY)","tur":"Resmî Gazete","tarih":"RG 27.10.2011 / 28097; son değ. RG 21.09.2024 / 32669","url":"https://www.lexpera.com.tr/mevzuat/yonetmelikler/enerji-kaynaklarinin-ve-enerjinin-kullaniminda-verimliligin-artirilmasina-dair-yonetmelik-2011-28097-5","notu":"m.9 yükümlülük eşikleri; m.16 oran ve tavanlar; m.17/A kümülasyon."},{"id":"K10","ad":"VAP Destek Programı Uygulama Usul ve Esasları (VAP UE)","tur":"Resmî belge","tarih":"ETKB, 2025","url":"https://enerji.gov.tr/Media/Dizin/EVCED/tr/EnerjiVerimlili%C4%9Fi/Destekler/dokumanlar/VAP_Destekleri/Verimlilik_Artirici_Proje_(VAP)_Destek_Programi_Hakkinda_Uygulama_Usul_Esaslari.pdf","notu":""},{"id":"K11","ad":"ETKB duyurusu — VAP usul ve esaslarında değişiklik","tur":"Resmî duyuru","tarih":"Bakan Oluru 12.03.2026 / 389072","url":"https://enerji.gov.tr/duyuru-detay?id=30609","notu":"5 mn TL alt sınırı, geri ödeme 7/10 yıl, 2027 oranları, 15 mn TL mühendis limiti."},{"id":"K12","ad":"ETKB açıklaması (Anadolu Ajansı)","tur":"Resmî açıklama (basın)","tarih":"27.06.2026","url":"https://www.aa.com.tr/tr/ekonomi/enerji-verimliligi-ve-karbon-azaltimina-yeni-hibe-destegi-geliyor/3979586","notu":"2026 VAP 27.092.663 TL; EKA 18.061.775 TL; 20 işletme."},{"id":"K13","ad":"2026 Yılı VAP Denetim Bedelleri","tur":"Resmî belge","tarih":"ETKB, 31.12.2025","url":"https://enerji.gov.tr/Media/Dizin/BHIM/tr/Duyurular//2026_Yili_VAP_Denetim_Bedelleri_202512311640.docx","notu":""},{"id":"K14","ad":"ETKB duyurusu — EKA Destek Programı başvuruları","tur":"Resmî duyuru","tarih":"2026 (id 30623)","url":"https://enerji.gov.tr/duyuru-detay?id=30623","notu":""},{"id":"K15","ad":"EKA Destek Programı Uygulama Usul ve Esasları (EKA UE)","tur":"Resmî belge","tarih":"ETKB-EYS-USLE-016 Rev.00, 2026","url":"https://enerji.gov.tr/Media/Dizin/BHIM/tr/Duyurular//Enerji_ve_Karbon_Azaltim_(EKA)_Destek_Programi_hakkinda_Uygulama_Usul_ve_Esaslari_202606291644.pdf","notu":""},{"id":"K16","ad":"EPS ile Uygulanacak Projelerin Desteklenmesine İlişkin Usul ve Esaslar (EPS UE)","tur":"Resmî belge","tarih":"ETKB-EYS-USLE-013 Rev.00, 2026","url":"https://enerji.gov.tr/Media/Dizin/HIGM/tr/Mevzuat/Enerji_Verimliligi/ENERJI_PERFORMANS_SOZLESMELERI_ILE_UYGULANACAK_PROJELERIN_DESTEKLENMESINE_ILISKIN_USUL_VE_ESASLAR.pdf","notu":""},{"id":"K17","ad":"ETKB duyurusu — EPS Destek Programı başvuruları","tur":"Resmî duyuru","tarih":"2026 (id 30601)","url":"https://enerji.gov.tr/duyuru-detay?id=30601","notu":""},{"id":"K18","ad":"Elektrik Piyasasında Lisanssız Elektrik Üretim Yönetmeliği (LÜY)","tur":"Resmî Gazete","tarih":"RG 12.05.2019 / 30772; son değ. RG 02.04.2026 / 33212","url":"https://www.lexpera.com.tr/mevzuat/yonetmelikler/elektrik-piyasasinda-lisanssiz-elektrik-uretim-yonetmeligi","notu":""},{"id":"K19","ad":"7189 sayılı CBK — 2021-2030 YEKDEM fiyatları ve süreleri","tur":"Resmî Gazete","tarih":"RG 01.05.2023 / 32177","url":"https://www.resmigazete.gov.tr/eskiler/2023/05/20230501-7.pdf","notu":"EK-1 fiyat tablosu, EK-2 güncelleme formülü."},{"id":"K20","ad":"11415 sayılı CBK — 10 yılı dolan lisanssız tesislerde ihtiyaç fazlası fiyatı","tur":"Resmî Gazete","tarih":"RG 13.06.2026 / 33279","url":"https://www.resmigazete.gov.tr/eskiler/2026/06/20260613-3.pdf","notu":""},{"id":"K21","ad":"YEKA GES-2026 şartnamesi ve duyurusu","tur":"Resmî belge","tarih":"İlan RG 11.07.2026 / 33307; ETKB id 30627","url":"https://enerji.gov.tr/duyuru-detay?id=30627","notu":""},{"id":"K22","ad":"YEKA RES-2026 şartnamesi ve duyurusu","tur":"Resmî belge","tarih":"İlan RG 11.07.2026 / 33307; ETKB id 30626","url":"https://enerji.gov.tr/duyuru-detay?id=30626","notu":""},{"id":"K23","ad":"Bakan açıklaması — YEKA 2026 yarışmaları (AA)","tur":"Resmî açıklama (basın)","tarih":"Temmuz 2026","url":"https://www.aa.com.tr/tr/enerjiterminali/genel/bakan-bayraktar-2026-yeka-yarismalariyla-yenilenebilir-enerjide-yeni-bir-yatirim-donemine-kapi-araliyoruz/58274","notu":"Başvuru tarihi 13 Ekim 2026."},{"id":"K24","ad":"Elektrik Piyasasında Depolama Faaliyetleri Yönetmeliği","tur":"Resmî Gazete","tarih":"RG 09.05.2021 / 31479 (orijinal); son değ. 01.01.2026","url":"https://www.resmigazete.gov.tr/eskiler/2021/05/20210509-3.htm","notu":"Konsolide metne erişilemedi; orijinal metin kullanıldı."},{"id":"K25","ad":"HIT-30 Yüksek Teknoloji Yatırım Programı — resmî site","tur":"Resmî sayfa","tarih":"Sanayi ve Teknoloji Bakanlığı","url":"https://hit30.sanayi.gov.tr/cagrilar","notu":"Çağrılar, teşvikler, sektörler sayfaları."},{"id":"K26","ad":"KOSGEB Yeşil Sanayi Destek Programı","tur":"Resmî sayfa","tarih":"KOSGEB","url":"https://www.kosgeb.gov.tr/site/tr/genel/destekdetay/9022/yesil-sanayi-destek-programi","notu":""},{"id":"K27","ad":"KOSGEB KOBİ Enerji Verimliliği Destek Programı","tur":"Resmî sayfa","tarih":"KOSGEB — 'Yürürlükten Kaldırılan Destekler' altında","url":"https://www.kosgeb.gov.tr/site/tr/genel/destekdetay/8202/kobi-enerji-verimliligi-destek-programi","notu":""},{"id":"K28","ad":"KOSGEB güncel destek programları listesi","tur":"Resmî sayfa","tarih":"KOSGEB","url":"https://www.kosgeb.gov.tr/site/tr/genel/destekler/3/destekler","notu":""},{"id":"K29","ad":"TÜBİTAK 1832 Sanayide Yeşil Dönüşüm 2026-2 çağrısı","tur":"Resmî duyuru","tarih":"TÜBİTAK","url":"https://tubitak.gov.tr/tr/destekler/destek/sanayi/ulusal-destek-programlari/cagri-1832-sanayide-yesil-donusum-2026-2-cagrisi-basvuruya-acildi","notu":""},{"id":"K30","ad":"Kalkınma ajansları ofis ve yatırım destek ofisi bilgileri","tur":"Resmî sayfa","tarih":"ka.gov.tr","url":"https://ka.gov.tr/","notu":""},{"id":"K31","ad":"Yerel Kalkınma Hamlesi 2026 başvuru dönemi (basın)","tur":"İkincil kaynak","tarih":"AA / TRT, 2026","url":"https://www.aa.com.tr/tr/ekonomi/yerelde-kalkinma-destekleri-81-ilin-cevherlerini-ortaya-cikaracak/3910357","notu":"2 Mart – 15 Mayıs 2026."},{"id":"K32","ad":"2025 yılı yeniden değerleme oranı %25,49","tur":"İkincil kaynak + çapraz kontrol","tarih":"VUK mük. 298","url":"","notu":"ETKB'nin 2025→2026 VAP (21.589.500→27.092.663) ve EKA (14.393.000→18.061.775) tutarları ×1,2549 ile birebir tutuyor."}],"teyit":[{"id":"T-01","konu":"9903 kapsamındaki 2026 TL tutarları","neden":"Bakanlığın güncelleme metni birincil kaynaktan okunamadı; ikincil kaynak + %25,49 çapraz kontrol."},{"id":"T-02","konu":"Stratejik 'diğer' asgari, Hedef faiz limiti, makine desteği limitleri, LNG eşiği (2026)","neden":"İlanda görülmedi; baz × 1,2549 ile hesaplandı."},{"id":"T-03","konu":"EPS desteğinde 2026 azami tutar","neden":"UE 'başvuru yılında belirlenen azami tutar' diyor; ilanda rakam yok."},{"id":"T-04","konu":"KOSGEB YSDP çağrılarının 2026 durumu","neden":"Sayfada 2023-01/02 çağrıları 'yürürlükte' görünüyor."},{"id":"T-05","konu":"Depolama Faaliyetleri Yönetmeliğinin güncel metni","neden":"Konsolide metne erişilemedi; 2021 orijinal metni kullanıldı (son değ. 01.01.2026)."},{"id":"T-06","konu":"Isı pompasının VAP geri ödeme sınırı (7 mi 10 yıl mı)","neden":"Toprak/jeotermal kaynaklı ısı pompasının 'YEK kaynaklı ısı' sayılıp sayılmadığına dair hüküm yok."},{"id":"T-07","konu":"9903 ile YEKDEM / EKA / YEKA'nın birlikte kullanımı","neden":"m.33 anlamında 'destek' kapsamına dair açık hüküm yok."},{"id":"T-08","konu":"Enerjisa dağıtım bölgeleri (LÜY m.37/10)","neden":"İl listesi şirket bilgisine dayanıyor."},{"id":"T-09","konu":"Cazibe EK-1 ve deprem EK-2 listelerinde 2023 sonrası değişiklik","neden":"Orijinal RG metinleri kullanıldı."},{"id":"T-10","konu":"YKH 2026 başvuru dönemi","neden":"Basın kaynağı."},{"id":"T-11","konu":"YEKA 2026 başvuru tarihi (13.10.2026)","neden":"Bakan açıklaması (AA); RG ilanı taranmış görüntü."},{"id":"T-12","konu":"5346 m.8 arazi/izin bedeli indirimleri","neden":"Bu envanterde araştırılmadı; süre sınırı olabilir."}],"yekdem":[{"ad":"Hidroelektrik – rezervuarlı (rezervuar alanı 1–15 km²)","f":144.0,"s":10,"tb":6.75,"tv":8.25,"yk":28.8,"yks":5,"n":""},{"ad":"Hidroelektrik – nehir tipi","f":135.0,"s":10,"tb":6.3,"tv":7.7,"yk":28.8,"yks":5,"n":""},{"ad":"Rüzgâr – karasal","f":106.0,"s":10,"tb":4.95,"tv":6.05,"yk":28.8,"yks":5,"n":""},{"ad":"Rüzgâr – deniz üstü","f":144.0,"s":10,"tb":6.75,"tv":8.25,"yk":38.45,"yks":5,"n":""},{"ad":"Jeotermal","f":202.0,"s":15,"tb":9.45,"tv":11.55,"yk":28.8,"yks":5,"n":""},{"ad":"Biyokütle – çöp gazı / atık lastik işleme yan ürünleri","f":106.0,"s":10,"tb":4.95,"tv":6.05,"yk":28.8,"yks":5,"n":""},{"ad":"Biyokütle – biyometanizasyon","f":173.0,"s":10,"tb":8.1,"tv":9.9,"yk":28.8,"yks":5,"n":""},{"ad":"Biyokütle – termal bertaraf","f":134.9,"s":10,"tb":5.75,"tv":8.0,"yk":21.58,"yks":5,"n":"Yalnız Karar yayımına (01.05.2023) kadar önlisans alan tesisler"},{"ad":"Güneş","f":106.0,"s":10,"tb":4.95,"tv":6.05,"yk":28.8,"yks":5,"n":""},{"ad":"Rüzgâr/güneş + bütünleşik depolama (depodan verilen enerji)","f":125.0,"s":10,"tb":5.85,"tv":7.15,"yk":38.45,"yks":10,"n":"Şebekeden çekilip depolanan enerjiye uygulanmaz"},{"ad":"Pompaj depolamalı hidroelektrik","f":202.0,"s":15,"tb":9.45,"tv":11.55,"yk":38.45,"yks":10,"n":"Usul ve esaslar Bakanlıkça"},{"ad":"Dalga / akıntı","f":135.0,"s":10,"tb":6.3,"tv":7.7,"yk":38.45,"yks":10,"n":""}],"yekNot":"Fiyatlar aylık güncellenir: %25 ÜFE + %15 TÜFE + %30 USD + %30 EUR ağırlıklı formül (EK-2); USD karşılığı taban–tavan bandında tutulur. 1/7/2021–yayım arası için geriye dönük fark ödenmez (m.1/2).","ek4":[{"g":"7308.20.00.00.00","t":"Demir veya çelikten kuleler ve pilonlar","d":"Muafiyet yok","en":"RES kuleleri, iletim pilonları"},{"g":"8414.40.90.00.12","t":"Çekilebilir pistonlu hava kompresörleri (> 2 m³/dk)","d":"Muafiyet yok","en":"Basınçlı hava"},{"g":"8414.80.19.90.00","t":"Çok kademeli turbo kompresörler","d":"Muafiyet yok","en":"Basınçlı hava verimliliği"},{"g":"8414.80.22.90.11 / 8414.80.28.90.00 / 8414.80.59.90.00","t":"Pistonlu kompresörler","d":"Muafiyet yok","en":"Basınçlı hava verimliliği"},{"g":"8414.80.73.90.00 / 8414.80.75.90.00","t":"Döner (tek ve çok şaftlı, vidalı) kompresörler","d":"Muafiyet yok","en":"Basınçlı hava verimliliği"},{"g":"8415.82.00.90.00 / 8415.83.00.90.00","t":"Soğutma ünitesi içeren / içermeyen diğer klima cihazları","d":"Muafiyet yok","en":"HVAC (tersinir ısı pompalı 8415.81 listede yok)"},{"g":"8417.10.00.00.12 / 8417.20.10.00.00 / 8417.20.90.00.00","t":"Elektrikli olmayan ısıl işlem ve tünel fırınlar","d":"Muafiyet yok","en":"Fırın yenileme (elektrikli fırınlar listede yok)"},{"g":"8419.35 / 8419.39","t":"Kurutma cihazları (ağaç, kâğıt vb.; diğer)","d":"Muafiyet yok","en":"Proses ısısı"},{"g":"8503.00.98.90.19","t":"85.01-85.02 makineleri için diğer aksam ve parçalar (döküm hariç)","d":"Muafiyet yok","en":"Motor/jeneratör parçaları"},{"g":"8507.60.00.00.01 … .40","t":"Lityum iyon akümülatörler (silindirik, prizmatik LFP, pouch, diğer)","d":"Muafiyet yok","en":"BESS bataryaları"},{"g":"8514.19.80.00.11","t":"Sanayide rezistansla ısıtılan diğer ocak ve fırınlar","d":"Muafiyet yok","en":"Elektrifikasyon"},{"g":"8418.61 / 8415.81","t":"Isı pompaları","d":"Listede yok → muafiyet uygulanabilir","en":"Isı pompası"},{"g":"8501 / 8502","t":"Elektrik motorları, jeneratörler, rüzgâr jeneratörleri","d":"Listede yok → muafiyet uygulanabilir","en":"Motor değişimi, RES"},{"g":"8504","t":"Transformatörler, inverterler, statik konvertörler","d":"Listede yok → muafiyet uygulanabilir","en":"GES, BESS, şebeke"},{"g":"8541.4x","t":"Fotovoltaik hücre ve modüller","d":"Listede yok → muafiyet uygulanabilir","en":"GES"},{"g":"8402 / 8403","t":"Buhar ve sıcak su kazanları","d":"Listede yok → muafiyet uygulanabilir","en":"Kazan yenileme"}],"ykhEnerji":["jeotermal","hidrojen","biyokömür","yüksek kalorili yakıt","pelet","ısı pompası","HVAC","yalıtım","izolasyon","taş yünü","kablo","elektrik motor","elektrikli araç","kompresör","inverter","sayaç","veri merkezi","düşük karbonlu ısıtma","enerji"],"kural":78};
+const E = D.esik;
+const TODAY = new Date();
+const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
+const nf0 = new Intl.NumberFormat('tr-TR',{maximumFractionDigits:0}), nf1 = new Intl.NumberFormat('tr-TR',{minimumFractionDigits:1,maximumFractionDigits:1}), nf2 = new Intl.NumberFormat('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt = n => nf0.format(Math.round(n||0)), TL = n => fmt(n)+' TL', mn = n => nf1.format((n||0)/1e6)+' mn TL';
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const parseNum = v => { const x = parseFloat(String(v).replace(/\./g,'').replace(/\s/g,'').replace(',','.').replace(/[^\d.]/g,'')); return isFinite(x)?x:0; };
+const TAGCLS = {MEV:'mev',DUY:'duy',HES:'hes',TEY:'tey',VAR:'var',YOR:'yor',ORN:'orn'};
+const TAGLAB = Object.assign({ORN:['Örnek','Örnek senaryo verisi']}, D.etiket);
+const tag = k => `<span class="tag t-${TAGCLS[k]}" title="${esc(TAGLAB[k][1])}">${TAGLAB[k][0]}</span>`;
+const tags = s => String(s||'').split(',').map(x=>x.trim()).filter(x=>TAGLAB[x]).map(tag).join('');
+const ref = t => t ? `<span class="ref">${esc(t)}</span>` : '';
+const ICON = {ok:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',warn:'<svg viewBox="0 0 24 24"><path d="M12 6v8M12 18.5v.01"/></svg>',no:'<svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg>',info:'<svg viewBox="0 0 24 24"><path d="M12 11v7M12 6.5v.01"/></svg>',dot:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/></svg>',chev:'<svg class="i" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>',check:'<svg class="i" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',alert:'<svg class="i" viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.01"/><circle cx="12" cy="12" r="9"/></svg>',clock:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'};
+const IL = Object.fromEntries(D.iller.map(x=>[x.il,x]));
+const BOL = Object.fromEntries(D.bolge.map(x=>[x.b,x]));
+const MX = {}; D.m.forEach(x => { (MX[x.t] = MX[x.t] || {})[x.p] = x; });
+const days = d => Math.ceil((new Date(d+'T23:59:59') - TODAY)/864e5);
+const GECICI_SON = '2026-12-31';
+
+/* ---------- tür grupları ---------- */
+const GRUP = [['Yenilenebilir elektrik',['T01','T02','T03','T04','T05','T06','T10','T11','T12']],['Depolama',['T07','T08','T09']],['Verimlilik ve ısı',['T13','T14','T15','T16','T17','T18','T19']],['Teknoloji ve hidrojen',['T20','T21']],['Yatırımsız',['T22']]];
+const TUR = Object.fromEntries(D.tur.map(t=>[t.id,t.ad]));
+const OZ = ['T01','T02','T05'];                  // öz tüketim üretim
+const LISANSLI = ['T03','T04','T06','T10','T11','T12'];
+const BESS = ['T07','T08','T09'];
+const VERIM = ['T13','T14','T15','T16','T17','T18','T19'];
+
+/* ---------- örnekler ---------- */
+const BASE = {il:'Kocaeli',ilce:'',osb:false,il2:'Niğde',sektor:'imalat',olcek:'buyuk',tep:3000,model:'kendi',alan20:false,iso:true,evdes:true,eyDone:true,dagOrtak:false,
+  tur:'T01',yeni:false,basladi:false,kw:0,sozKw:0,tuketim:0,kojenBelge:false,syt:0,mak:80,bigMak:0,kredi:0,tasarruf:0,gider:0,repo:40,kv:25,kdv:20};
+const PRESETS = [
+ {id:'ges',name:'Kocaeli · 1 MW çatı GES',v:{il:'Kocaeli',il2:'Niğde',tur:'T01',kw:1000,sozKw:800,tuketim:2600,syt:25000000,mak:85,kredi:10000000,tasarruf:5200000,gider:60000000}},
+ {id:'atik',name:'Niğde · atık ısı',v:{il:'Niğde',il2:'Kocaeli',osb:true,tur:'T15',tep:4500,syt:24000000,bigMak:6000000,kredi:12000000,tasarruf:5500000,gider:120000000}},
+ {id:'kojen',name:'Hatay İskenderun · kojenerasyon',v:{il:'Hatay',ilce:'İskenderun',il2:'Adana',osb:true,tur:'T14',kojenBelge:true,tep:12000,syt:80000000,bigMak:45000000,kredi:40000000,tasarruf:14000000,gider:400000000}},
+ {id:'bess',name:'Konya · tesis içi BESS',v:{il:'Konya',il2:'Ankara',tur:'T07',kw:2000,sozKw:3000,tuketim:9000,syt:30000000,mak:90,kredi:15000000,tasarruf:3500000,gider:90000000}},
+ {id:'res',name:'İzmir · YEKA RES',v:{il:'İzmir',il2:'Balıkesir',sektor:'enerji',tur:'T06',kw:100000,syt:4000000000,mak:85,kredi:1500000000,tasarruf:650000000,gider:0,iso:false,evdes:false}},
+ {id:'h2',name:'Çanakkale · yeşil hidrojen',v:{il:'Çanakkale',il2:'İzmir',tur:'T20',syt:900000000,mak:80,kredi:300000000,gider:0}},
+ {id:'otel',name:'İstanbul · otel, yatırımsız',v:{il:'İstanbul',il2:'Antalya',sektor:'bina',tur:'T22',tep:900,syt:0,gider:45000000}}
+];
+let S = Object.assign({}, BASE, PRESETS[0].v), preset = 'ges', tab = 'prog';
+
+/* ---------- form ---------- */
+function fillSelects(){
+  const byB = {}; D.iller.forEach(x => (byB[x.b] = byB[x.b]||[]).push(x));
+  const opts = Object.keys(byB).map(b => `<optgroup label="${b}. bölge">${byB[b].map(x=>`<option value="${esc(x.il)}">${esc(x.il)}</option>`).join('')}</optgroup>`).join('');
+  $('#il').innerHTML = opts; $('#il2').innerHTML = opts;
+  $('#turler').innerHTML = GRUP.map(([g,ids]) => `<div class="tgroup"><span class="gh">${g}</span><div class="opts sm">${ids.map(id=>`<label class="opt"><input type="radio" name="tur" value="${id}" data-k="tur"><div><b>${esc(TUR[id])}</b></div></label>`).join('')}</div></div>`).join('');
+}
+function fillIlce(){
+  const x = IL[S.il]; const set = new Set([...x.dp, ...x.ek5]);
+  const list = [...set].sort((a,b)=>a.localeCompare(b,'tr'));
+  const lab = n => n + (x.dp.includes(n)?' · deprem (geçici m.3)':'') + (x.ek5.includes(n)?' · alt bölge (EK-5)':'');
+  $('#ilce').innerHTML = `<option value="">Merkez / diğer ilçe</option>` + list.map(n=>`<option value="${esc(n)}">${esc(lab(n))}</option>`).join('');
+  if (!set.has(S.ilce)) S.ilce = '';
+  $('#ilce').value = S.ilce;
+}
+function writeForm(){
+  fillIlce();
+  $$('[data-k]').forEach(el => { const k = el.dataset.k, t = el.dataset.t;
+    if (el.type === 'radio') el.checked = String(S[k]) === el.value;
+    else if (t === 'bool') el.checked = !!S[k];
+    else if (t === 'tl') el.value = S[k] ? fmt(S[k]) : '0';
+    else el.value = S[k]; });
+}
+function readEl(el){ const k = el.dataset.k, t = el.dataset.t;
+  if (el.type === 'radio'){ if (el.checked) S[k] = el.value; }
+  else if (t === 'bool') S[k] = el.checked;
+  else if (t === 'tl' || t === 'num') S[k] = parseNum(el.value);
+  else S[k] = el.value;
+  if (k === 'il') fillIlce();
+}
+['input','change'].forEach(ev => document.addEventListener(ev, e => { if (e.target.dataset && e.target.dataset.k){ readEl(e.target); markCustom(); update(); } }));
+document.addEventListener('focusout', e => { if (e.target.dataset && e.target.dataset.t === 'tl') e.target.value = fmt(parseNum(e.target.value)); });
+function markCustom(){ if (!preset) return; preset = null; $('#notice p').innerHTML = '<b>Kendi değerleriniz.</b> Örneğe dönmek için bir seçeneğe tıklayın.'; renderPresets(); }
+const BLANK = Object.assign({}, BASE, {tep:0,iso:false,evdes:false,eyDone:false,tur:'',mak:0});
+function renderPresets(){ $('#presets').innerHTML = `<button type="button" class="btn" data-preset="bos" aria-pressed="${preset==='bos'}">Boş sayfa</button>` + PRESETS.map(p=>`<button type="button" class="btn" data-preset="${p.id}" aria-pressed="${p.id===preset}">${esc(p.name)}</button>`).join(''); }
+$('#presets').addEventListener('click', e => { const b = e.target.closest('[data-preset]'); if (!b) return;
+  if (b.dataset.preset === 'bos'){ S = Object.assign({}, BLANK); preset = 'bos'; $('#notice p').innerHTML = '<b>Boş sayfa.</b> İl, işletme, yatırım türü ve tutarları girin.'; writeForm(); renderPresets(); update(); return; }
+  const p = PRESETS.find(x=>x.id===b.dataset.preset);
+  S = Object.assign({}, BASE, p.v); preset = p.id; $('#notice p').innerHTML = `<b>Örnek senaryo: ${esc(p.name)}.</b> Değerler gösterim içindir.`; writeForm(); renderPresets(); update(); });
+
+/* ---------- konum türevleri ---------- */
+function konum(il, ilce, osb){
+  const x = IL[il]; const b = x.b;
+  const deprem = ilce && x.dp.includes(ilce), ek5 = ilce && x.ek5.includes(ilce);
+  const cazibeOsb = x.cz && osb && S.sektor === 'imalat';
+  const gecici = (deprem || cazibeOsb) && days(GECICI_SON) >= 0;
+  const eff = gecici ? 6 : b;                          // destek oranları için
+  let alt = (osb?1:0) + (ek5?1:0);
+  let sgkB = Math.min(6, eff + alt), sgk = BOL[sgkB].sgk + (eff === 6 && alt ? 2 : 0);
+  return {x, b, eff, deprem, ek5, cazibeOsb, gecici, sgk, sgkB, alt, asg: b <= 2 ? E.asg12 : E.asg36, ist: il === 'İstanbul'};
+}
+const obliged = () => S.sektor === 'imalat' ? S.tep >= 1000 : S.sektor === 'bina' ? (S.tep >= 500 || S.alan20) : false;
+const payback = () => S.tasarruf > 0 && S.syt > 0 ? S.syt / S.tasarruf : Infinity;
+function tesvik(kind, base){
+  const oranV = {onc:.30,str:.40,hedef:.20,thp:.50}[kind], pay = {onc:.25,str:.30,hedef:.25,thp:.40}[kind], cap = {onc:12.5,str:15,hedef:12.5,thp:20}[kind];
+  const puan = Math.min(S.repo*pay, cap), kr = Math.min(S.kredi, base*.7), ham = kr*puan/100*5;
+  const lim = {onc:Math.min(base*.10,E.faizOnc), str:Math.min(base*.15,E.faizStr), hedef:Math.min(base*.10,E.faizHedef), thp:Math.min(base*.20,E.faizThp)}[kind];
+  return {oranV, puan, faiz:Math.min(ham, lim), lim, vergi: base*oranV};
+}
+const kdvNakit = b => b*S.mak/100*S.kdv/100;
+const R = (t, text, et, rf) => ({t, text, et, rf});
+
+/* ---------- program değerlendirme ---------- */
+function evaluate(){
+  const K = konum(S.il, S.ilce, S.osb), T = S.tur, row = MX[T] || {}, pb = payback(), ob = obliged();
+  const out = [];
+  const ongoing = rs => { if (S.basladi) rs.push(R('warn','Müracaattan önceki harcamalar belgeye alınmaz.','MEV','9903 m.5/6')); };
+  const asgari = rs => { if (S.syt < K.asg) rs.push(R('no',`Asgari sabit yatırım ${K.b}. bölgede ${TL(K.asg)}; girilen ${mn(S.syt)}.`,'MEV,TEY','9903 m.5/2 · 2026')); else rs.push(R('ok',`Asgari sabit yatırım sağlanıyor (${K.b}. bölge ${mn(K.asg)}).`,'MEV,TEY','9903 m.5/2 · 2026')); };
+  const on = (rs, pre) => { if (!S.evdes) rs.push(R('warn','EVDES üyeliği gerekli.','MEV',pre+' m.5/1-a')); if (ob && !S.eyDone) rs.push(R('warn','Enerji yöneticisi ve bilgi verme yükümlülükleri yerine getirilmeli.','MEV',pre+' m.5/1-b,c')); if (!S.iso) rs.push(R('warn','TS EN ISO 50001 belgesi gerekli.','MEV',pre+' m.5/1-ç')); };
+  const sgkTxt = () => K.sgk ? `${K.sgk} yıl, asgari ücret işveren hissesinin ${K.eff===6?'tamamı':'%50’si'}${K.alt?` (alt bölge: ${K.sgkB}. bölge süresi)`:''}` : '1. bölgede yok';
+  for (const pid of D.mprog){
+    const m = row[pid]; if (!m || m.d === '—') continue;
+    const P = D.prog[pid]; const rs = []; let c = {};
+    const base = m.d === '✖' ? 'no' : 'ok';
+    if (m.d === '✖'){ rs.push(R('no', m.g, m.et, m.day)); }
+    else {
+      switch(pid){
+      case 'P04': { // Öncelikli
+        if (OZ.includes(T)){
+          if (S.sektor !== 'imalat') rs.push(R('no','Öz tüketim GES/RES Öncelikli yalnız imalat sanayii için.','MEV','9903 m.9/1-e'));
+          if (T !== 'T05' && S.kw > 0 && S.kw < 240) rs.push(R('no',`GES kurulu gücü ${fmt(S.kw)} kW; 240 kW altı desteklenmez.`,'MEV','9903 EK-3 (35.12)'));
+          let share = 1;
+          if (S.kw > 0 && S.sozKw > 0 && S.kw > S.sozKw){ share = S.sozKw/S.kw; rs.push(R('warn',`Teşvik sözleşme gücüyle sınırlı: yatırımın yaklaşık %${Math.round(share*100)}’i kapsamda.`,'MEV,HES','9903 m.9/1-e')); }
+          else if (S.kw > 0 && S.sozKw > 0) rs.push(R('ok','Kurulu güç sözleşme gücünü aşmıyor.','MEV','9903 m.9/1-e'));
+          asgari(rs); ongoing(rs);
+          const t = tesvik('onc', S.syt*share); c = {amt:t.vergi, amtL:'Vergi indirimi · katkı tutarı (%30)', brk:[['Kapsamdaki yatırım',S.syt*share],['Yatırıma katkı (%30)',t.vergi],['KDV istisnası · nakit etkisi',kdvNakit(S.syt*share)]], note:'Faiz desteği yok (m.9/2); yatırım yeri yok (m.21/3).'};
+        } else if (T === 'T21'){
+          const lim = E.oncYt; if (S.syt < lim) rs.push(R('warn',`Öncelikli için yüksek teknolojide ≥ ${mn(E.oncYt)}, orta-yüksekte ≥ ${mn(E.oncOyt)} (ya da öncelikli ürün listesi).`,'MEV,TEY','9903 m.9/1-b,c')); else rs.push(R('ok',`${mn(E.oncYt)} eşiği aşılıyor.`,'MEV,TEY','9903 m.9/1-b'));
+          const t = tesvik('onc', S.syt); c = {amt:t.vergi+t.faiz, amtL:'Vergi katkısı + faiz desteği', brk:[['Katkı (%30)',t.vergi],[`Faiz · ${nf1.format(t.puan)} puan × 5 yıl`,t.faiz]]};
+        } else { rs.push(R('warn', m.g, m.et, m.day)); }
+        break; }
+      case 'P05': { // Hedef
+        const enerji = LISANSLI.includes(T) || BESS.includes(T) || T === 'T02';
+        rs.push(R('info', m.g, m.et, m.day));
+        rs.push(R('warn','Yatırım konusu EK-3 listesinde, oradaki şartlarla yer almalı.','MEV','9903 m.5/1, m.10/1'));
+        if (['T02','T03'].includes(T) && S.kw > 0 && S.kw < 240) rs.push(R('no','240 kW altı GES desteklenmez.','MEV','9903 EK-3 (35.12)'));
+        if (BESS.includes(T)) rs.push(R('info','Li-ion aküler (8507.60) gümrük muafiyeti dışında.','MEV','9903 EK-4'));
+        if (T === 'T06') rs.push(R('info','Çelik kuleler (7308.20) gümrük muafiyeti dışında.','MEV','9903 EK-4'));
+        asgari(rs); ongoing(rs);
+        if (enerji){ c = {amt:null, amtL:'KDV istisnası + gümrük (vergi indirimi ve faiz yok)', brk:[['KDV istisnası · nakit etkisi',kdvNakit(S.syt)]]}; }
+        else { const t = tesvik('hedef', S.syt), faiz = K.eff >= 4 ? t.faiz : 0, vergi = K.ist ? 0 : t.vergi;
+          if (K.ist) rs.push(R('info','İstanbul’da Hedef yatırıma vergi indirimi yok.','MEV','9903 m.10/2'));
+          c = {amt:vergi+faiz, amtL:'Vergi katkısı + faiz', brk:[['Katkı (%20)',vergi],[K.eff>=4?`Faiz · ${nf1.format(t.puan)} puan × 5 yıl`:'Faiz (yalnız 4-6. bölge)',faiz],['KDV istisnası · nakit etkisi',kdvNakit(S.syt)]]}; }
+        break; }
+      case 'P03': case 'P01': case 'P02': {
+        if (pid === 'P02'){
+          const kw = {T13:['jeotermal','sera'],T17:['ısı pompası','HVAC'],T20:['hidrojen'],T21:['kablo','elektrik','batarya']}[T] || [];
+          const hit = K.x.ykh.filter(k => kw.some(w => k.toLowerCase().includes(w.toLowerCase())));
+          if (!hit.length) rs.push(R('no',`${S.il}’in yerel yatırım konularında bu türe karşılık gelen konu yok.`,'MEV','Yerel Yatırım Konuları Listesi'));
+          else rs.push(R('ok',`İlin yerel konusu: ${hit.join(' · ')}.`,'MEV','Yerel Yatırım Konuları Listesi (RG 31.01.2026)'));
+          rs.push(R('warn','2026 başvuru dönemi 15.05.2026’da kapandı; liste her ocakta güncellenebilir.','TEY','K31'));
+        } else rs.push(R('warn', m.g, m.et, m.day));
+        if (pid === 'P03' && S.syt < E.strYt) rs.push(R('no',`Stratejik Hamle asgari: yüksek teknoloji ${mn(E.strYt)}, diğer ≈ ${mn(E.strDiger)}.`,'MEV,TEY','9903 m.8/2'));
+        ongoing(rs);
+        const t = tesvik(pid==='P03'?'str':'thp', S.syt); c = {amt:t.vergi+t.faiz, amtL:'Vergi katkısı + faiz (üst sınır)', brk:[[`Katkı (%${t.oranV*100})`,t.vergi],[`Faiz · ${nf1.format(t.puan)} puan × 5 yıl`,t.faiz]]};
+        break; }
+      case 'P07': { // Yeşil Dönüşüm
+        if (S.sektor !== 'imalat') rs.push(R('no','Yalnız imalat sanayinde faaliyet gösteren sermaye şirketleri.','MEV','YDDP Tebliği'));
+        if (S.yeni) rs.push(R('no','Komple yeni yatırım desteklenmez.','MEV','YDDP Tebliği'));
+        rs.push(R(m.d==='◐'?'warn':'info', m.g, m.et, m.day));
+        rs.push(R('info','Şablonlu yol haritası raporu ve birim üretim başına ölçülebilir hedef zorunlu.','MEV','YDDP Tebliği'));
+        asgari(rs); ongoing(rs);
+        const o = tesvik('onc', S.syt), s2 = tesvik('str', S.syt), str = S.syt >= E.strYesil, mak = Math.min(S.bigMak*.25, S.syt*.15, E.makStr);
+        if (str) rs.push(R('ok',`${mn(E.strYesil)} üzeri: değerlendirme süreci olmadan Stratejik Hamle.`,'MEV,TEY','9903 m.8/8'));
+        const brk = [['Öncelikli · katkı (%30)',o.vergi],[`Öncelikli · faiz ${nf1.format(o.puan)} puan`,o.faiz],['KDV istisnası · nakit etkisi',kdvNakit(S.syt)]];
+        if (str) brk.push(['Stratejik · katkı (%40)',s2.vergi],[`Stratejik · faiz ${nf1.format(s2.puan)} puan`,s2.faiz],['ya da makine desteği (%25)',mak]);
+        c = {amt: str ? Math.max(o.vergi+o.faiz, s2.vergi+Math.max(s2.faiz,mak)) : o.vergi+o.faiz, amtL: str?'Vergi + faiz/makine (en iyi seçenek)':'Vergi katkısı + faiz desteği', brk};
+        break; }
+      case 'P08': { // VAP
+        if (S.yeni) rs.push(R('no','Yeni tesis kurulumu kapsam dışı.','MEV','VAP UE m.6/7-d'));
+        if (S.basladi) rs.push(R('no','Başlanmış projeler kapsam dışı.','MEV','VAP UE m.6/7-a'));
+        if (S.syt <= E.vapMin) rs.push(R('no',`Proje bedeli ${mn(E.vapMin)} üzerinde olmalı (01.07.2026).`,'DUY','ETKB · Oluru 12.03.2026'));
+        const lim = ['T13','T14','T16'].includes(T) ? 10 : 7;
+        if (!isFinite(pb)) rs.push(R('warn','Geri ödeme için yıllık tasarrufu girin.','HES',''));
+        else rs.push(R(pb > lim ? 'no' : 'ok', `Geri ödeme ${nf1.format(pb)} yıl; azami ${lim} yıl.`, 'DUY,HES', 'ETKB · Oluru 12.03.2026'));
+        if (T === 'T17') rs.push(R('info','Toprak/jeotermal kaynaklı ısı pompasında 10 yıl sınırının uygulanıp uygulanmadığı teyit edilecek.','TEY','Teyit Listesi T-06'));
+        if (T === 'T14' && !S.kojenBelge) rs.push(R('warn','Kojenerasyon Tesisi Verim Belgesi gerekli.','MEV','VAP UE m.5/1-d'));
+        on(rs,'VAP UE');
+        const a = Math.min(S.syt*.3, E.vapCap); c = {amt:a, amtL:'Tahmini hibe', brk:[['Proje bedeli × %30',S.syt*.3],['2026 üst limiti',E.vapCap],['Tahmini hibe',a]], note:'01.01.2027’den itibaren etüt dışı projede oran %25.'};
+        break; }
+      case 'P09': { // EPS
+        if (S.model !== 'eps') rs.push(R('warn','Başvuruyu EPS imzalayan ESCO yapar; modeli EPS seçerseniz bu yol açılır.','MEV','EPS UE m.4, m.5/1'));
+        if (!ob) rs.push(R('no','Sözleşme makamı enerji yöneticisi görevlendirmekle yükümlü olmalı.','MEV','EPS UE m.2 · EVY m.9'));
+        if (S.yeni) rs.push(R('no','Yeni tesis kapsam dışı.','MEV','EPS UE m.6/3-ç'));
+        if (S.basladi) rs.push(R('no','Başlanmış proje kapsam dışı.','MEV','EPS UE m.6/3-a'));
+        if (S.syt < E.epsMin) rs.push(R('no',`Yatırım bedeli ${mn(E.epsMin)} altında olmamalı.`,'DUY','ETKB EPS duyurusu'));
+        if (isFinite(pb)) rs.push(R(pb < 1 ? 'no' : 'ok', `Basit geri ödeme ${nf1.format(pb)} yıl; alt sınır 1 yıl.`, 'DUY,HES', 'ETKB EPS duyurusu'));
+        const a = Math.min(S.syt*.3, E.vapCap); c = {amt:a, amtL:'Tahmini hibe', brk:[['Yatırım bedeli × %30',S.syt*.3],['Azami (VAP limiti varsayıldı)',E.vapCap]]};
+        break; }
+      case 'P10': { // EKA
+        if (!['imalat','bina'].includes(S.sektor)) rs.push(R('no','2026 çağrısı imalat ile otel, AVM, hastane, ofis binalarına açık.','DUY','ETKB EKA duyurusu'));
+        on(rs,'EKA UE');
+        const d = days('2026-09-30');
+        rs.push(d < 0 ? R('warn','2026 başvuru dönemi kapandı.','DUY','ETKB EKA duyurusu') : R('info',`Son başvuru 30.09.2026 · ${d} gün kaldı.`,'DUY','ETKB EKA duyurusu'));
+        if (S.gider <= 0) rs.push(R('warn','2026 enerji giderini girin.','HES',''));
+        rs.push(R('info', m.g, m.et, m.day));
+        const a = Math.min(S.gider*.3, E.ekaCap); c = {amt: S.gider>0?a:null, amtL:'Azami hibe (üst sınır)', brk:[['Enerji gideri × %30',S.gider*.3],['2026 üst limiti',E.ekaCap]]};
+        break; }
+      case 'P11': { // KOSGEB
+        if (S.olcek !== 'kobi') rs.push(R('no','Yalnız KOBİ’ler.','DUY','KOSGEB YSDP'));
+        if (S.sektor !== 'imalat') rs.push(R('no','Sanayi (imalat) KOBİ’lerine yönelik.','DUY','KOSGEB YSDP'));
+        rs.push(R('warn','2026’da açık çağrı olup olmadığı teyit edilecek.','TEY','Teyit Listesi T-04'));
+        const g = OZ.includes(T), rate = g?.6:.7, cap = g?E.kosGes:E.kosTemiz, a = Math.min(S.syt*rate, cap);
+        c = {amt:a, amtL:(g?'GES':'Temiz ve döngüsel')+' bileşeni · geri ödemeli', brk:[[`Uygun gider × %${rate*100}`,S.syt*rate],['Üst limit',cap]]};
+        break; }
+      case 'P13': rs.push(R('warn', m.g, m.et, m.day)); rs.push(R('info',`2026-2 çağrısı kapanış 12.10.2026 · ${days('2026-10-12')} gün.`,'DUY','TÜBİTAK 1832')); break;
+      case 'P14': rs.push(R('ok', m.g, m.et, m.day)); rs.push(R('info','Küresel ölçek, teknik ve finansal yeterlilik aranır; paket proje bazında belirlenir.','DUY','HIT-30'));
+        if (T === 'T21' && S.syt < 1e9) rs.push(R('warn','HIT-30 çağrıları milyar dolar ölçeğinde (ör. HIT-Battery ≥ 5 GWh/yıl).','DUY','HIT-30 çağrılar'));
+        c = {amt:null, amtL:'Proje bazlı: toplam destek SYT’nin %100’üne kadar; enerji faturasının %50’sine kadar enerji desteği'}; break;
+      case 'P15': { // YEKDEM
+        if (S.sektor !== 'enerji') rs.push(R('warn','YEK belgeli lisanslı üretim gerekir.','MEV','5346 m.6; 7189 CBK'));
+        rs.push(R('ok', m.g, m.et, m.day));
+        const pick = {T03:['Güneş'],T06:['Rüzgâr – karasal','Rüzgâr – deniz üstü'],T10:['Hidroelektrik'],T11:['Biyokütle'],T12:['Jeotermal'],T08:['bütünleşik depolama']}[T] || [];
+        const rows = D.yekdem.filter(y => pick.some(p => y.ad.includes(p)));
+        c = {yek: rows, amt:null, amtL:'Gelir desteği · 10 yıl (jeotermal 15)'}; break; }
+      case 'P16': { // Lisanssız
+        if (T === 'T09'){ rs.push(R('no', m.g, m.et, m.day)); break; }
+        const kat = S.sektor === 'imalat' ? 2 : 1;
+        if (OZ.includes(T)){
+          const lim = S.sozKw*kat;
+          if (S.sozKw > 0) rs.push(R(S.kw > lim ? 'no':'ok', `Kurulu güç ${fmt(S.kw)} kWe; sınır ${fmt(lim)} kW (${kat===2?'sanayide sözleşme gücünün 2 katı':'sözleşme gücü'}).`,'MEV,HES','LÜY m.5/1-h'));
+          else rs.push(R('warn','Sözleşme gücünü girin.','HES',''));
+          if (S.tuketim > 0) rs.push(R('info',`Yıllık üretim ${fmt(S.tuketim*2)} MWh’yi (tüketimin 2 katı) aşamaz; aşan kısım YEKDEM’e bedelsiz.`,'MEV,HES','LÜY m.26/17'));
+          c = {custom: S.sozKw>0 ? fmt(lim)+' kW' : null, amtL:'İzin verilen azami kurulu güç'};
+        } else if (T === 'T07'){
+          if (S.sozKw > 0) rs.push(R(S.kw > S.sozKw ? 'no':'ok', `Depolama gücü ${fmt(S.kw)} kW; sözleşme gücü ${fmt(S.sozKw)} kW sınırı.`,'MEV,TEY','Depolama Yön. m.6'));
+          rs.push(R('info','Aynı ölçüm noktası; yalnız tesis ihtiyacı için; şebekeye verilen enerji tedarikçi verişine sayılmaz.','MEV,TEY','Depolama Yön. m.6'));
+        } else rs.push(R('ok', m.g, m.et, m.day));
+        if (S.dagOrtak && IL[S.il].ejs) rs.push(R('no',`${S.il} Enerjisa dağıtım bölgesinde (${IL[S.il].ejs}); dağıtım grubu şirketi burada lisanssız RES/GES başvurusu yapamaz. Başvuru sahibi müşteri olmalı.`,'MEV,TEY','LÜY m.37/10'));
+        else if (S.dagOrtak) rs.push(R('info','Bu il Enerjisa dağıtım bölgesinde değil; diğer grup bölgelerini ayrıca kontrol edin.','MEV,TEY','LÜY m.37/10'));
+        rs.push(R('info','Saatlik mahsuplaşma; ihtiyaç fazlası 10 yıl alınır, sonrasında YEKDEM fiyatının %90’ı (PTF ile sınırlı).','MEV','LÜY m.26; 11415 CBK'));
+        break; }
+      case 'P17': rs.push(R('ok', m.g, m.et, m.day));
+        rs.push(R('info',`Başvuru 13.10.2026 · ${days('2026-10-13')} gün. Tavan 5,50 €c/kWh; serbest piyasa ${T==='T06'?'72':'60'} ay, sonra 20 yıl alım.`,'MEV,DUY','YEKA-2026 şartnamesi'));
+        c = {custom: T==='T06'?'3,50–5,50 €c':'3,25–5,50 €c', amtL:'Teklif aralığı (taban–tavan) · kWh başına'}; break;
+      default: rs.push(R(m.d==='◐'?'warn':'ok', m.g, m.et, m.day));
+      }
+    }
+    const st = rs.some(r=>r.t==='no') ? 'no' : (rs.some(r=>r.t==='warn') ? 'warn' : 'ok');
+    out.push(Object.assign({pid, P, st, rs, m}, c));
+  }
+  // bölgesel SGK kartı
+  const t9903 = out.filter(p => ['P01','P02','P03','P04','P05','P07'].includes(p.pid) && p.st !== 'no');
+  if (t9903.length){
+    const rs = [R(K.sgk?'ok':'info', `SGK işveren hissesi: ${sgkTxt()}.`,'MEV','9903 m.18, m.22')];
+    if (K.gecici) rs.push(R('ok', K.deprem ? `${S.ilce} deprem ilçesi: 31.12.2026’ya kadar müracaatta 6. bölge destekleri (${days(GECICI_SON)} gün).` : `Cazibe Merkezleri ili + OSB + imalat: 31.12.2026’ya kadar 6. bölge destekleri (${days(GECICI_SON)} gün).`,'MEV', K.deprem?'9903 geçici m.3':'9903 geçici m.4'));
+    if (K.eff === 6) rs.push(R('info','6. bölgede işçi hissesi de 10 yıl karşılanır.','MEV','9903 m.19'));
+    rs.push(R('info','Destek, teşvik belgesindeki ilave istihdam için uygulanır.','MEV','9903 m.18/1'));
+    if (!K.sgk) rs.unshift(R('no','1. bölgede SGK işveren hissesi desteği yok (TYKH programlarında 8 yıl).','MEV','9903 m.18/2-3'));
+    out.push({pid:'P06', P:D.prog.P06, st:K.sgk?'ok':'no', rs, amt:null, custom: K.sgk ? K.sgk+' yıl' : 'Yok', amtL:'SGK işveren desteği süresi'});
+  }
+  return {K, out};
+}
+
+/* ---------- çizim ---------- */
+const chipFor = st => st==='ok'?'<span class="chip ok dot">Uygun</span>':st==='warn'?'<span class="chip warn dot">Koşullu</span>':'<span class="chip no dot">Uygun değil</span>';
+const clist = rs => `<ul class="clist">${rs.map(r=>`<li><span class="ci ${r.t}">${ICON[r.t]}</span><div>${esc(r.text)}${(r.et||r.rf)?`<div class="meta">${tags(r.et)}${ref(r.rf)}</div>`:''}</div></li>`).join('')}</ul>`;
+function slist(pid){
+  const it = D.destek.filter(d=>d.p===pid); if (!it.length) return '<p class="muted small">Envanterde ayrıca destek unsuru tanımlı değil.</p>';
+  const li = d => `<li><span class="ci dot">${ICON.dot}</span><div><b>${esc(d.u)}</b> · ${esc(d.o)}${d.l&&d.l!=='—'?` · üst sınır: ${esc(d.l)}`:''}<div class="meta">${tags(d.et)}${ref(d.day)}</div></div></li>`;
+  const h = it.slice(0,4), r = it.slice(4);
+  return `<ul class="clist">${h.map(li).join('')}</ul>` + (r.length?`<details class="more"><summary>${ICON.chev}${r.length} unsur daha</summary><ul class="clist">${r.map(li).join('')}</ul></details>`:'');
+}
+function card(p){
+  let amt = '';
+  if (p.custom) amt = `<div class="amt"><div class="v">${esc(p.custom)}</div><div class="l">${esc(p.amtL||'')} ${tag('HES')}</div></div>`;
+  else if (p.amt != null && p.st !== 'no') amt = `<div class="amt"><div class="v">${mn(p.amt)}</div><div class="l">${esc(p.amtL)} ${tag('HES')}</div></div>`;
+  else if (p.amtL && p.st !== 'no') amt = `<div class="amt"><div class="l" style="max-width:280px">${esc(p.amtL)}</div></div>`;
+  const brk = p.brk && p.st !== 'no' ? `<dl class="brk">${p.brk.map(b=>`<div><dt>${esc(b[0])}</dt><dd>${TL(b[1])}</dd></div>`).join('')}</dl>` : '';
+  const yek = p.yek && p.yek.length ? `<div class="cmp2" style="margin-top:10px"><table><thead><tr><th>Kaynak</th><th>Fiyat (kuruş/kWh)</th><th>Taban–tavan (USD cent)</th><th>Süre</th><th>Yerli katkı</th></tr></thead><tbody>${p.yek.map(y=>`<tr><td>${esc(y.ad)}</td><td class="n">${nf2.format(y.f)}</td><td class="n">${nf2.format(y.tb)}–${nf2.format(y.tv)}</td><td class="n">${y.s} yıl</td><td class="n">${nf2.format(y.yk)} · ${y.yks} yıl</td></tr>`).join('')}</tbody></table></div><p class="small muted" style="margin-top:6px">${esc(D.yekNot)} ${tag('MEV')}</p>` : '';
+  return `<article class="pcard st-${p.st}"><div class="ph"><div><h3>${esc(p.P.ad)}</h3><div class="own">${esc(p.P.kurum)} · ${esc(p.P.kanal)}</div><div class="chips">${chipFor(p.st)}<span class="chip">${esc(p.P.nit)}</span><span class="chip">${esc(p.P.durum)}</span></div></div>${amt}</div>
+    <div class="pb"><div><h4>Şart kontrolü</h4>${clist(p.rs)}${brk}${yek}${p.note?`<p class="small muted" style="margin-top:8px">${esc(p.note)}</p>`:''}</div><div><h4>Destek unsurları (envanter)</h4>${slist(p.pid)}</div></div></article>`;
+}
+
+function ilCard(K){
+  const x = K.x, b = BOL[K.b];
+  const en = x.ykh.map((k,i)=>({k,i,en:D.ykhEnerji.some(w=>k.toLowerCase().includes(w.toLowerCase()))}));
+  $('#ilcard').innerHTML = `<div class="ilcard">
+    <div><span class="k">Teşvik bölgesi (EK-2)</span><span class="v">${K.b}. bölge${K.gecici?' → 6':''}</span><span class="x">${tags('MEV')} 9903 EK-2</span></div>
+    <div><span class="k">Asgari sabit yatırım 2026</span><span class="v">${mn(K.asg)}</span><span class="x">${tags('MEV,TEY')}</span></div>
+    <div><span class="k">SGK işveren desteği</span><span class="v">${K.sgk?K.sgk+' yıl':'Yok'}</span><span class="x">${K.alt?'Alt bölge etkisi dahil':'m.18'} ${tags('MEV')}</span></div>
+    <div><span class="k">Hedef yatırımda faiz</span><span class="v">${K.eff>=4?'Var':'Yok'}</span><span class="x">4-6. bölge · m.10/3</span></div>
+    <div class="ilwide"><span class="k">Yerel yatırım konuları (YKH 2026)</span><ul class="konu">${en.map(e=>`<li class="${e.en?'en':''}"><span class="n">${e.i+1}</span><span>${esc(e.k)}${e.en?' · enerji bağlantılı':''}</span></li>`).join('')}</ul><span class="x">${tags('MEV')} RG 31.01.2026 · enerji bağlantısı ${tags('YOR')}</span></div>
+    <div class="ilwide"><span class="k">Kalkınma ajansı</span><span class="v txt">${esc(x.ajans)} · ${esc(x.ofis)}</span><span class="x">${[x.tel,x.ep].filter(Boolean).map(esc).join(' · ')} ${x.web?`· <a href="${esc(x.web)}" target="_blank" rel="noopener">${esc(x.web.replace(/^https?:\/\//,'').replace(/\/$/,''))}</a>`:''} ${tags('DUY')}</span></div>
+  </div>`;
+  const f = [];
+  if (K.ist) f.push(['warn','İstanbul istisnası','Hedef yatırımda vergi indirimi yok; Öncelikli (c) orta-yüksek teknoloji ve (j) Ar-Ge bağlantılı yatırımlar İstanbul hariç (9903 m.9, m.10/2).']);
+  if (x.cz) f.push([K.cazibeOsb?'ok':'warn','Cazibe Merkezleri ili', K.cazibeOsb ? 'OSB’deki imalat yatırımı 31.12.2026’ya kadar müracaatta 6. bölge desteklerinden yararlanır (geçici m.4).' : 'Yatırım OSB/endüstri bölgesinde ve imalat ise 31.12.2026’ya kadar 6. bölge desteği (geçici m.4).']);
+  if (x.dp.length) f.push([K.deprem?'ok':'warn','Deprem ilçeleri', K.deprem ? `${S.ilce}: 31.12.2026’ya kadar müracaatta 6. bölge destekleri; imalatta EK-3 şartı aranmaz (geçici m.3).` : `${x.dp.length} ilçe 6. bölge desteği alıyor (geçici m.3): ${x.dp.join(', ')}. İlçeyi seçin.`]);
+  if (x.ek5.length && !K.ek5) f.push(['warn','Alt bölge ilçeleri (EK-5)', `SGK desteği bir alt bölgeden: ${x.ek5.join(', ')}.`]);
+  if (x.ejs) f.push(['no','Enerjisa dağıtım bölgesi', `${x.ejs}. Dağıtım grubu şirketleri burada lisanssız RES/GES başvurusu yapamaz (LÜY m.37/10) · teyit edilecek.`]);
+  $('#ilflags').innerHTML = f.map(([t,h,b])=>`<div class="flag ${t}"><div><b>${esc(h)}.</b> ${esc(b)}</div></div>`).join('');
+}
+function cmpIl(){
+  const A = konum(S.il, S.ilce, S.osb), B = konum(S.il2, '', S.osb);
+  const rows = [['Bölge (EK-2)', A.b+'. bölge', B.b+'. bölge'],['Asgari sabit yatırım', mn(A.asg), mn(B.asg)],['SGK işveren desteği (merkez)', BOL[A.b].sgk?BOL[A.b].sgk+' yıl':'Yok', BOL[B.b].sgk?BOL[B.b].sgk+' yıl':'Yok'],
+    ['Hedef yatırımda faiz', A.b>=4?'Var':'Yok', B.b>=4?'Var':'Yok'],['6. bölge işçi hissesi', A.b===6?'10 yıl':'Yok', B.b===6?'10 yıl':'Yok'],
+    ['Cazibe ili (OSB imalat → 6. bölge)', A.x.cz?'Evet':'—', B.x.cz?'Evet':'—'],['Deprem ilçesi sayısı', A.x.dp.length||'—', B.x.dp.length||'—'],['EK-5 alt bölge ilçesi', A.x.ek5.length||'—', B.x.ek5.length||'—'],
+    ['İstanbul istisnası', A.ist?'Var':'—', B.ist?'Var':'—'],['Enerjisa dağıtım bölgesi', A.x.ejs||'—', B.x.ejs||'—'],
+    ['Enerji bağlantılı yerel konu', A.x.ykh.filter(k=>D.ykhEnerji.some(w=>k.toLowerCase().includes(w.toLowerCase()))).join(' · ')||'—', B.x.ykh.filter(k=>D.ykhEnerji.some(w=>k.toLowerCase().includes(w.toLowerCase()))).join(' · ')||'—'],
+    ['Vergi indirimi ve faiz oranları','Programa bağlı, il fark etmez','Programa bağlı, il fark etmez']];
+  $('#cmp2').innerHTML = `<table><thead><tr><th>Kural</th><th>${esc(S.il)}</th><th>${esc(S.il2)}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="n${String(r[1])!==String(r[2])?' diff':''}">${esc(r[1])}</td><td class="n${String(r[1])!==String(r[2])?' diff':''}">${esc(r[2])}</td></tr>`).join('')}</tbody></table>`;
+}
+
+function renderStatic(){
+  $('#meta').textContent = `Veri envanteri: son kontrol ${D.kontrol}`;
+  $('#legend').innerHTML = Object.keys(TAGLAB).map(k=>`<div class="it">${tag(k)}<span>${esc(TAGLAB[k][1])}</span></div>`).join('');
+  $$('[data-tag]').forEach(el => el.outerHTML = tag(el.dataset.tag));
+  $('#strip').innerHTML = [['VAP hibe üst limiti',fmt(E.vapCap),'TL','DUY','EVY m.16/2'],['EKA hibe üst limiti',fmt(E.ekaCap),'TL','DUY','EVY m.16/3'],['9903 asgari (1-2 / 3-6. bölge)',nf1.format(E.asg12/1e6)+' / '+nf1.format(E.asg36/1e6),'mn TL','TEY','m.5/2'],['Yeşil dönüşüm → Stratejik',nf1.format(E.strYesil/1e6),'mn TL','TEY','m.8/8']]
+    .map(r=>`<div><span class="k">${r[0]}</span><span class="v">${r[1]}<small>${r[2]}</small></span><span class="s">${tag(r[3])}${r[4]} · 2026</span></div>`).join('');
+  $('#datastrip').innerHTML = `<span>Envanterden: <b>${Object.keys(D.prog).length}</b> program</span><span><b>${D.tur.length}</b> yatırım türü</span><span><b>${D.m.length}</b> matris kaydı</span><span><b>${D.iller.length}</b> il</span><span><b>${D.iller.reduce((a,x)=>a+x.ykh.length,0)}</b> yerel konu</span><span><b>${D.kaynak.length}</b> kaynak</span><span>Yeniden değerleme <b>%${nf2.format(E.oran*100)}</b></span>`;
+  const T = [['prog','Programlar'],['kars','Karşılaştırma'],['cagri','Açık çağrılar'],['kum','Birlikte kullanım'],['kay','Kaynaklar']];
+  $('#tabs').innerHTML = T.map(([k,l])=>`<button type="button" role="tab" id="tab-${k}" aria-controls="tp-${k}" aria-selected="${k===tab}" data-tab="${k}">${l}</button>`).join('');
+  $('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; $$('#tabs [data-tab]').forEach(x=>x.setAttribute('aria-selected', x.dataset.tab===tab)); T.forEach(([k])=>$('#tp-'+k).hidden = k!==tab); });
+  $('#tp-kum').innerHTML = `<p class="muted" style="max-width:74ch">Aynı yatırım veya ekipman için. 'Belirsiz' satırlar teyit listesindedir.</p><div class="tbl-wrap"><table class="t"><thead><tr><th>Destek A</th><th>Destek B</th><th>Birlikte?</th><th>Açıklama</th><th>Dayanak</th></tr></thead><tbody>${D.kum.map(k=>`<tr><td>${esc(k.a)}</td><td>${esc(k.b)}</td><td>${k.c==='Hayır'?'<span class="chip no">Hayır</span>':k.c==='Evet'?'<span class="chip ok">Evet</span>':k.c==='Koşullu'?'<span class="chip warn">Koşullu</span>':'<span class="chip">Belirsiz</span>'}</td><td>${esc(k.d)}</td><td>${ref(k.day)} ${tags(k.et)}</td></tr>`).join('')}</tbody></table></div>`;
+  $('#tp-kay').innerHTML = `<p class="muted" style="max-width:74ch">Araçtaki her veri "Enerji Yatırım Destekleri Veri Envanteri 2026" dosyasından gelir (${D.kural} uygunluk kuralı, ${D.m.length} matris kaydı). Taranmış Resmî Gazete ekleri sayfa sayfa okundu.</p>
+    <div class="tbl-wrap"><table class="t src"><thead><tr><th>ID</th><th>Kaynak</th><th>Tür</th><th>Tarih / sayı</th></tr></thead><tbody>${D.kaynak.map(k=>`<tr><td>${k.id}</td><td>${k.url?`<a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.ad)}</a>`:esc(k.ad)}${k.notu?`<div class="small muted">${esc(k.notu)}</div>`:''}</td><td>${esc(k.tur)}</td><td>${esc(k.tarih)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="pending"><b>Teyit bekleyen bilgiler</b><ul>${D.teyit.map(t=>`<li><b>${esc(t.konu)}:</b> ${esc(t.neden)}</li>`).join('')}</ul></div>`;
+  $('#foot').textContent = `Kaynak taraması: ${D.kontrol}`;
+}
+function callStatus(t){ const a = days(t.a), b = days(t.b);
+  if (b < 0) return ['Geçti','']; if (a > 0) return [a<=30?`${a} gün sonra`:'İleri tarih', a<=30?'warn':'']; return [t.a===t.b?'Bugün':`Açık · ${b} gün kaldı`,'ok']; }
+function renderCalls(){
+  const fd = s => s.split('-').reverse().join('.');
+  const items = D.takvim.map(t=>({t, s:callStatus(t)}));
+  $('#tp-cagri').innerHTML = `<p class="muted" style="max-width:74ch">Durum bugünün tarihine göre hesaplanır.</p>` + items.map(({t,s})=>`<div class="callrow"><span class="d">${fd(t.a)}${t.b!==t.a?'<br>'+fd(t.b):''}</span><div><div class="w">${esc(t.o)}</div><div class="x">${esc((D.prog[t.p]||{}).ad||'')} ${tags(t.et)}</div></div><span class="chip ${s[1]}">${esc(s[0])}</span></div>`).join('');
+  return items.filter(i=>i.s[1]).slice(0,4);
+}
+
+function update(){
+  const K = konum(S.il, S.ilce, S.osb);
+  ilCard(K); cmpIl();
+  const T = S.tur;
+  if (!T){ $('#gucBox').hidden = true; $('#kojenBox').hidden = true; $('#stepper').innerHTML=''; $('#resTop').innerHTML = '<div><div class="k">'+esc(S.il)+'</div><h2>Yatırım türünü seçin</h2><p>Sonuçlar 03 · Yatırım türü seçildiğinde hesaplanır.</p></div>'; ['prog','kars'].forEach(k=>$('#tp-'+k).innerHTML='<p class="muted">Yatırım türü seçilmedi.</p>'); renderCalls(); $('#summary').innerHTML='<div class="sum-h"><span>Özet</span></div><div class="status"><div><div class="t">Yatırım türü seçilmedi</div><p>'+esc(S.il)+' · '+K.b+'. bölge</p></div></div>'; return; }
+  $('#gucBox').hidden = !(OZ.includes(T) || BESS.includes(T) || LISANSLI.includes(T));
+  $('#kwLbl').textContent = BESS.includes(T) ? 'Depolama gücü' : 'Kurulu güç';
+  $('#kojenBox').hidden = T !== 'T14';
+  $('#alanWrap').hidden = S.sektor !== 'bina';
+  const ob = obliged(); $('#eyWrap').style.opacity = ob ? '' : '.55';
+  $('#tepNote').innerHTML = ob ? `<span class="chip warn">Enerji yöneticisi yükümlüsü</span>${ref('EVY m.9')}` : `<span class="chip">Yükümlülük yok</span>`;
+  $('#sytNote').innerHTML = S.syt ? `${mn(S.syt)} · asgari ${mn(K.asg)} ${tag('TEY')}` : '';
+  const pb = payback(); $('#pbNote').innerHTML = isFinite(pb) ? `Basit geri ödeme ${nf1.format(pb)} yıl ${tag('HES')}` : '';
+  $('#gucNote').innerHTML = S.tuketim ? `2× sınır: ${fmt(S.tuketim*2)} MWh/yıl ${tag('HES')}` : '';
+
+  const {out} = evaluate();
+  const act = out.filter(p=>p.st!=='no'), no = out.filter(p=>p.st==='no');
+  const ok = out.filter(p=>p.st==='ok').length, wa = out.filter(p=>p.st==='warn').length;
+  const SEK = {imalat:'İmalat',bina:'Ticari/hizmet',enerji:'Enerji yatırımcısı',diger:'Diğer'};
+  $('#stepper').innerHTML = [['#s1','Konum',`${S.il}${S.ilce?' · '+S.ilce:''} · ${K.b}. bölge`],['#s2','İşletme',`${SEK[S.sektor]} · ${S.olcek==='kobi'?'KOBİ':'Büyük'}`],['#s3','Yatırım',TUR[T]],['#sonuc','Sonuç',`${ok} uygun · ${wa} koşullu`]]
+    .map((r,i)=>`<li><a href="${r[0]}"><span class="n">${i+1}</span><span><span class="l">${r[1]}</span><span class="v">${esc(r[2])}</span></span></a></li>`).join('');
+  const KL = [['Yatırım desteği','hibe, vergi, faiz, KDV, gümrük, SGK'],['Performans desteği','enerji giderine bağlı'],['Gelir / piyasa desteği','üretilen elektriğin fiyatı ve mahsuplaşma'],['Kapasite tahsisi','yarışma, alım garantisi'],['Ar-Ge desteği','ürün ve süreç geliştirme']];
+  const order = p => p.st==='ok'?0:1;
+  $('#tp-prog').innerHTML = (act.length ? KL.map(([k,d]) => { const ps = act.filter(p=>p.P.sinif===k).sort((a,b)=>order(a)-order(b)); return ps.length ? `<div class="klass">${k} <span>${d}</span></div><div class="plist">${ps.map(card).join('')}</div>` : ''; }).join('') : '<p class="muted">Açık destek yolu yok.</p>')
+    + (no.length ? `<details class="nope"><summary>${ICON.chev}Uygun olmayan programlar ve nedeni (${no.length})</summary><div class="nope-list">${no.map(p=>`<div class="row"><b>${esc(p.P.ad)}</b><ul>${p.rs.filter(r=>r.t==='no').map(r=>`<li>${esc(r.text)} ${ref(r.rf)}</li>`).join('')}</ul></div>`).join('')}</div></details>` : '');
+  const money = act.filter(p=>p.amt>0);
+  const max = Math.max(1,...money.map(p=>p.amt));
+  const cls = p => ['P08','P09','P10'].includes(p.pid)?'':p.pid==='P11'?'soft':'alt';
+  $('#tp-kars').innerHTML = money.length ? `<p class="muted" style="max-width:74ch">Hibe nakit ödenir; vergi indirimi kâr oluştukça yıllara yayılır; KOSGEB geri ödenir. Aynı ekipman için VAP, EPS, 9903 ve KOSGEB’den yalnız biri seçilir (9903 m.33, EVY m.17/A-6).</p><div class="bars">${money.sort((a,b)=>b.amt-a.amt).map(p=>`<div class="brow"><div class="n">${esc(p.P.ad)}<small>${esc(p.P.sinif)}</small></div><div class="track"><i class="${cls(p)}" style="width:${(p.amt/max*100).toFixed(1)}%"></i></div><div class="v">${mn(p.amt)}</div></div>`).join('')}</div><div class="key"><span><i></i>Hibe</span><span><i class="alt"></i>Vergi ve finansman</span><span><i class="soft"></i>Geri ödemeli</span></div>` : '<p class="muted">Tutar hesaplanan destek yok.</p>';
+  const soon = renderCalls();
+  const best = money.filter(p=>p.pid!=='P10').sort((a,b)=>b.amt-a.amt)[0];
+  $('#resTop').innerHTML = `<div><div class="k">${esc(S.il)} · ${esc(TUR[T])}</div><h2>${act.length} destek yolu açık</h2><p>${best?`En yüksek tahmini yatırım desteği: ${esc(best.P.ad)}, ${mn(best.amt)}. `:''}${K.gecici?'Geçici 6. bölge hükmü uygulanıyor. ':''}Yatırım desteği ile gelir/piyasa desteği ayrı gruplarda.</p></div><div class="counts"><span class="chip ok dot">${ok} uygun</span><span class="chip warn dot">${wa} koşullu</span><span class="chip no dot">${no.length} uygun değil</span></div>`;
+  const s = ok ? 's-ok' : wa ? 's-warn' : 's-no';
+  $('#summary').innerHTML = `<div class="sum-h"><span>Özet</span>${preset&&preset!=='bos'?tag('ORN'):''}</div>
+    <div class="status ${s}"><span class="ic">${ok?ICON.check:ICON.alert}</span><div><div class="t">${ok} uygun · ${wa} koşullu</div><p>${esc(S.il)} · ${K.b}. bölge${K.gecici?' (→ 6)':''} · SGK ${K.sgk?K.sgk+' yıl':'yok'}</p></div></div>
+    <dl class="dl">${out.map(p=>`<div><dt>${esc(p.P.ad.split(' (')[0].split(' → ')[0])}</dt>${p.st==='no'?'<dd class="st"><span class="chip no">Uygun değil</span></dd>':p.amt>0?`<dd>${mn(p.amt)}</dd>`:p.custom?`<dd>${esc(p.custom)}</dd>`:`<dd class="st">${chipFor(p.st)}</dd>`}</div>`).join('')}</dl>
+    ${soon.length?`<div class="sum-h" style="border-top:1px solid var(--line)"><span>Yaklaşan ve açık çağrılar</span></div><div class="sumcalls">${soon.map(i=>`<div><span>${esc(i.t.o)}</span><span>${esc(i.s[0])}</span></div>`).join('')}</div>`:''}
+    <div class="sum-f"><a class="btn primary" href="#sonuc">Ayrıntılı sonuca git</a></div>`;
+}
+
+fillSelects(); renderStatic(); renderPresets(); writeForm(); update();
+})();
+</script>
