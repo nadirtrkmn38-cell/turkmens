@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tazminat Hesaplayıcı 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Toplu işten çıkarmada kıdem ve ihbar tazminatı, kullanılmamış izin ücreti, son ay maaşı ve işsizlik ödeneğini 2026 Türk mevzuatına göre brüt ve net hesaplar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap">
+<style>
+/* Düzen: başlık + parametre şeridi; altında iki sütunlu çalışma alanı (form | bordro fişi); en altta haklar ve kaynaklar. Telefonda tek sütun. */
+:root {
+  --paper: #F2F5F1;
+  --sheet: #FCFDFB;
+  --field: #FFFFFF;
+  --ink: #16221D;
+  --ink-2: #4B5B54;
+  --rule: #D3DDD6;
+  --rule-strong: #AEBDB4;
+  --band: #E5F0E7;
+  --accent: #15614A;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #DDEDE4;
+  --warn: #7F5200;
+  --warn-bg: #FAEFD6;
+  --bad: #9E261D;
+  --bad-bg: #FAE4E1;
+  --ok: #1D6B3F;
+  --ok-bg: #DFF0E4;
+  --font-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0E1513;
+    --sheet: #141D1A;
+    --field: #0F1715;
+    --ink: #E1EAE5;
+    --ink-2: #9DB0A7;
+    --rule: #2A3732;
+    --rule-strong: #43544D;
+    --band: #18251F;
+    --accent: #66C9A3;
+    --accent-ink: #08160F;
+    --accent-soft: #173229;
+    --warn: #E8B85C;
+    --warn-bg: #2B2212;
+    --bad: #F2938A;
+    --bad-bg: #321815;
+    --ok: #7FD39C;
+    --ok-bg: #13291C;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0E1513;
+  --sheet: #141D1A;
+  --field: #0F1715;
+  --ink: #E1EAE5;
+  --ink-2: #9DB0A7;
+  --rule: #2A3732;
+  --rule-strong: #43544D;
+  --band: #18251F;
+  --accent: #66C9A3;
+  --accent-ink: #08160F;
+  --accent-soft: #173229;
+  --warn: #E8B85C;
+  --warn-bg: #2B2212;
+  --bad: #F2938A;
+  --bad-bg: #321815;
+  --ok: #7FD39C;
+  --ok-bg: #13291C;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+}
+[hidden] { display: none !important; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 36px;
+}
+.wrap > * { min-width: 0; }
+
+/* ---------- Başlık ---------- */
+.mast { display: grid; gap: 14px; }
+.eyebrow {
+  font-family: var(--font-num);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+.mast h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.lede { max-width: 64ch; font-size: 1.02rem; color: var(--ink-2); }
+.lede strong { color: var(--ink); font-weight: 500; }
+.params {
+  margin: 6px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+}
+.params div { padding: 10px 14px 10px 0; display: grid; gap: 2px; min-width: 0; }
+.params div + div { padding-left: 14px; border-left: 1px solid var(--rule); }
+.params dt { font-size: 0.76rem; color: var(--ink-2); }
+.params dd { margin: 0; font-family: var(--font-num); font-size: 0.98rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) {
+  .params { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .params div, .params div + div { padding: 9px 10px 9px 0; border-left: 0; }
+  .params div:nth-child(even) { padding-left: 12px; border-left: 1px solid var(--rule); }
+  .params div:nth-child(n+3) { border-top: 1px solid var(--rule); }
+}
+
+/* ---------- Çalışma alanı ---------- */
+.bench {
+  display: grid;
+  grid-template-columns: minmax(0, 410px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 940px) { .bench { grid-template-columns: minmax(0, 1fr); } }
+
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--r); }
+
+/* Form */
+.form { padding: 22px; display: grid; gap: 28px; }
+.example {
+  display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-radius: 4px; background: var(--warn-bg); color: var(--warn); font-size: 0.86rem;
+}
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 14px; }
+legend {
+  padding: 0 0 8px; margin-bottom: 2px; width: 100%;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.08rem;
+  border-bottom: 1px solid var(--rule);
+}
+.legend-note { font-size: 0.84rem; color: var(--ink-2); }
+.field { display: grid; gap: 5px; min-width: 0; }
+.field > label, .field > .label { font-weight: 500; font-size: 0.92rem; }
+.hint { color: var(--ink-2); font-size: 0.81rem; line-height: 1.45; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+@media (max-width: 430px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+
+input[type="text"], input[type="date"], input[type="number"] {
+  width: 100%; min-width: 0;
+  font-family: var(--font-num); font-size: 0.95rem; color: var(--ink);
+  padding: 9px 10px; min-height: 42px;
+  background: var(--field); border: 1px solid var(--rule-strong); border-radius: 4px;
+}
+input::placeholder { color: var(--ink-2); opacity: 0.85; }
+input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
+.money { position: relative; display: block; }
+.money input { padding-right: 38px; text-align: right; font-variant-numeric: tabular-nums; }
+.money::after {
+  content: "TL"; position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-num); font-size: 0.78rem; color: var(--ink-2); pointer-events: none;
+}
+.unit { position: relative; display: block; }
+.unit input { padding-right: 52px; }
+.unit::after {
+  content: attr(data-unit); position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+  font-size: 0.78rem; color: var(--ink-2); pointer-events: none;
+}
+
+.choice { display: grid; gap: 8px; }
+.choice label {
+  display: flex; gap: 10px; align-items: flex-start; cursor: pointer;
+  padding: 10px 12px; border: 1px solid var(--rule); border-radius: 4px; font-size: 0.9rem; line-height: 1.4;
+}
+.choice label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.choice input, .check input { accent-color: var(--accent); margin: 3px 0 0; flex: none; width: 16px; height: 16px; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 0.9rem; cursor: pointer; line-height: 1.4; }
+
+.helper {
+  font-size: 0.84rem; line-height: 1.5; padding: 10px 12px; border-radius: 4px;
+  background: var(--band); color: var(--ink);
+}
+.helper b { font-family: var(--font-num); font-weight: 500; }
+
+.btn {
+  font: inherit; font-size: 0.86rem; font-weight: 500; cursor: pointer;
+  padding: 7px 12px; border-radius: 4px; min-height: 36px;
+  border: 1px solid currentColor; background: transparent; color: inherit;
+}
+.btn:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+.form-actions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 16px; border-top: 1px solid var(--rule); color: var(--ink-2); }
+
+/* Sonuçlar */
+.results { display: grid; gap: 18px; min-width: 0; }
+.alert { padding: 14px 16px; border-radius: var(--r); font-size: 0.92rem; }
+.alert.bad { background: var(--bad-bg); color: var(--bad); }
+.empty { padding: 28px 22px; display: grid; gap: 8px; color: var(--ink-2); }
+.empty strong { color: var(--ink); font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
+
+.total { padding: 20px 22px; display: grid; gap: 8px; }
+.total-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; }
+.total .label { font-weight: 500; }
+.big {
+  font-family: var(--font-num); font-weight: 500; color: var(--accent);
+  font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1.1; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums; overflow-wrap: anywhere;
+}
+.total .sub { color: var(--ink-2); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.total-actions { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-top: 4px; }
+.copy-status { font-size: 0.84rem; color: var(--ok); }
+#ozetMetin { width: 100%; min-height: 160px; font-family: var(--font-num); font-size: 0.8rem; padding: 10px; border: 1px solid var(--rule-strong); border-radius: 4px; background: var(--field); color: var(--ink); }
+
+.facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; }
+.facts li { background: var(--sheet); padding: 10px 12px; display: grid; gap: 2px; min-width: 0; }
+.facts span { font-size: 0.76rem; color: var(--ink-2); }
+.facts strong { font-family: var(--font-num); font-weight: 500; font-size: 0.92rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@media (max-width: 720px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Bordro fişi: sürekli form kâğıdı */
+.slip { position: relative; padding: 18px 40px 16px; }
+.slip::before, .slip::after {
+  content: ""; position: absolute; top: 12px; bottom: 12px; width: 12px;
+  background-image: radial-gradient(circle at 50% 50%, var(--paper) 0 3.4px, var(--rule-strong) 3.6px 4.4px, transparent 4.7px);
+  background-size: 12px 20px; background-repeat: repeat-y;
+}
+.slip::before { left: 12px; }
+.slip::after { right: 12px; }
+.slip-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; align-items: baseline; padding-bottom: 10px; }
+.slip-head h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; }
+.slip-head p { font-family: var(--font-num); font-size: 0.76rem; color: var(--ink-2); letter-spacing: 0.04em; }
+.table-wrap { overflow-x: auto; }
+.bordro { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.bordro th {
+  font-family: var(--font-num); font-weight: 500; font-size: 0.7rem; letter-spacing: 0.06em; color: var(--ink-2);
+  text-align: right; padding: 8px 8px; border-bottom: 1px solid var(--rule-strong); white-space: nowrap;
+}
+.bordro th:first-child { text-align: left; }
+.bordro td { padding: 10px 8px; text-align: right; font-family: var(--font-num); font-size: 0.88rem; vertical-align: top; white-space: nowrap; }
+.bordro td.item { text-align: left; font-family: var(--font-body); white-space: normal; min-width: 170px; }
+.bordro td.item b { font-weight: 600; font-size: 0.92rem; display: block; }
+.bordro td.item small { display: block; color: var(--ink-2); font-size: 0.78rem; line-height: 1.4; margin-top: 2px; }
+.bordro tbody tr:nth-child(odd) td { background: var(--band); }
+.bordro td.net { font-weight: 500; }
+.bordro tr.excluded td { color: var(--ink-2); }
+.bordro tr.excluded td.net { text-decoration: line-through; text-decoration-thickness: 1px; }
+.bordro tfoot td { border-top: 3px double var(--ink); font-weight: 600; padding-top: 12px; }
+.bordro tfoot td.item { font-family: var(--font-body); }
+.bordro tfoot td.net { color: var(--accent); }
+.zero { color: var(--ink-2); }
+@media (max-width: 640px) {
+  .slip { padding: 14px 14px 12px; }
+  .slip::before, .slip::after { display: none; }
+  .table-wrap { overflow: visible; }
+  .bordro thead { display: none; }
+  .bordro, .bordro tbody, .bordro tfoot, .bordro tr, .bordro td { display: block; width: 100%; }
+  .bordro tr { padding: 10px 10px; border-radius: 4px; }
+  .bordro tbody tr:nth-child(odd) { background: var(--band); }
+  .bordro tbody tr:nth-child(odd) td { background: transparent; }
+  .bordro td { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; white-space: normal; text-align: right; }
+  .bordro td::before { content: attr(data-label); font-family: var(--font-body); color: var(--ink-2); font-size: 0.82rem; text-align: left; }
+  .bordro td.item { display: block; padding-bottom: 6px; min-width: 0; }
+  .bordro td.item::before { content: none; }
+  .bordro tfoot tr { border-top: 3px double var(--ink); border-radius: 0; margin-top: 8px; }
+  .bordro tfoot td { border-top: 0; padding-top: 3px; }
+}
+
+.notes { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.notes li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.88rem; line-height: 1.5; padding: 10px 12px; border-radius: 4px; background: var(--sheet); border: 1px solid var(--rule); }
+.pill {
+  flex: none; font-family: var(--font-num); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.05em;
+  padding: 2px 7px; border-radius: 999px; margin-top: 2px; white-space: nowrap;
+}
+.pill.warn { background: var(--warn-bg); color: var(--warn); }
+.pill.info { background: var(--accent-soft); color: var(--accent); }
+.pill.bad { background: var(--bad-bg); color: var(--bad); }
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+
+.steps { padding: 4px 22px; }
+.steps summary { cursor: pointer; padding: 14px 0; font-weight: 600; font-family: var(--font-display); font-size: 1.05rem; }
+.steps ol { margin: 0 0 18px; padding-left: 1.4em; display: grid; gap: 10px; font-size: 0.88rem; line-height: 1.6; }
+.steps li::marker { font-family: var(--font-num); color: var(--ink-2); }
+.num { font-family: var(--font-num); font-size: 0.86em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.unemp { padding: 20px 22px; display: grid; gap: 14px; }
+.unemp-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; align-items: baseline; }
+.unemp-head h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; }
+.unemp-head p { font-size: 0.84rem; color: var(--ink-2); }
+.figs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.figs div { display: grid; gap: 2px; min-width: 0; }
+.figs span { font-size: 0.76rem; color: var(--ink-2); }
+.figs strong { font-family: var(--font-num); font-weight: 500; font-size: 1rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.figs .lead strong { color: var(--accent); font-size: 1.2rem; }
+@media (max-width: 720px) { .figs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.conds { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 0.86rem; }
+.conds li { display: flex; gap: 10px; align-items: flex-start; }
+
+/* Bilgi ve kaynaklar */
+.section-head { display: grid; gap: 6px; margin-bottom: 16px; }
+.section-head h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.4rem, 3vw, 1.75rem); }
+.section-head p { color: var(--ink-2); max-width: 70ch; }
+.know { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--rule-strong); }
+.know article { padding: 16px 18px 18px 0; display: grid; gap: 6px; align-content: start; border-bottom: 1px solid var(--rule); min-width: 0; }
+.know article:not(:nth-child(3n+1)) { padding-left: 18px; border-left: 1px solid var(--rule); }
+.know h3 { font-size: 0.98rem; font-weight: 600; }
+.know p { font-size: 0.88rem; line-height: 1.55; color: var(--ink); }
+.cite { font-family: var(--font-num); font-size: 0.72rem; color: var(--ink-2); letter-spacing: 0.03em; }
+@media (max-width: 940px) {
+  .know { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .know article:not(:nth-child(3n+1)) { padding-left: 0; border-left: 0; }
+  .know article:nth-child(even) { padding-left: 18px; border-left: 1px solid var(--rule); }
+}
+@media (max-width: 600px) {
+  .know { grid-template-columns: minmax(0, 1fr); }
+  .know article, .know article:nth-child(even) { padding: 14px 0; border-left: 0; }
+}
+
+.refs-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--r); background: var(--sheet); }
+.refs { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 620px; }
+.refs th, .refs td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.refs th { font-family: var(--font-num); font-weight: 500; font-size: 0.7rem; letter-spacing: 0.06em; color: var(--ink-2); }
+.refs td:nth-child(1) { width: 30%; }
+.refs td:nth-child(2) { width: 28%; font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+.refs tr:last-child td { border-bottom: 0; }
+.fine { font-size: 0.84rem; color: var(--ink-2); max-width: 90ch; display: grid; gap: 8px; margin-top: 16px; }
+.links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.84rem; margin-top: 12px; }
+
+/* Telefon alt çubuğu */
+.mobilebar { display: none; }
+@media (max-width: 940px) {
+  .mobilebar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: var(--ink); color: var(--paper);
+  }
+  .mobilebar[hidden] { display: none !important; }
+  .mobilebar span { font-size: 0.78rem; opacity: 0.85; display: block; }
+  .mobilebar strong { font-family: var(--font-num); font-weight: 500; font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+  .mobilebar a { color: var(--paper); font-size: 0.86rem; font-weight: 500; white-space: nowrap; }
+  .wrap { padding-bottom: 110px; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<div class="wrap" lang="tr">
+
+  <header class="mast">
+    <p class="eyebrow" id="ustBilgi">GÜNCEL DEĞERLER · 4857 VE 1475 SAYILI KANUNLAR</p>
+    <h1>Tazminat Hesaplayıcı</h1>
+    <p class="lede">İşten çıkarılırken alacağınız <strong>kıdem ve ihbar tazminatını</strong>, <strong>kullanılmamış izin ücretini</strong>, son ay maaşınızı ve <strong>işsizlik ödeneğini</strong> brüt ve net olarak hesaplar. Girdiğiniz bilgiler hiçbir yere gönderilmez; hesap tarayıcınızda yapılır.</p>
+    <dl class="params" id="params"></dl>
+  </header>
+
+  <main class="bench">
+    <form class="panel form" id="form" novalidate>
+      <div class="example" id="ornekBandi">
+        <span>Form örnek değerlerle açıldı. Kendi bilgilerinizi girin.</span>
+        <button type="button" class="btn" id="temizle">Formu temizle</button>
+      </div>
+
+      <fieldset>
+        <legend>Çalışma bilgileri</legend>
+        <div class="grid2">
+          <div class="field">
+            <label for="giris">İşe giriş tarihi</label>
+            <input type="date" id="giris" name="giris" min="1950-01-01" max="2030-12-31">
+          </div>
+          <div class="field">
+            <label for="cikis">Fesih (çıkış) tarihi</label>
+            <input type="date" id="cikis" name="cikis" min="2026-01-01" max="2030-12-31">
+          </div>
+        </div>
+        <p class="hint">Fesih tarihi iş sözleşmesinin sona erdiği gündür. İhbar ücreti peşin ödendiyse son çalıştığınız gün, ihbar süresini çalışarak doldurduysanız bu sürenin bittiği gün. Toplu çıkarmada fesih, işverenin bölge müdürlüğüne bildiriminden 30 gün sonra hüküm doğurur.</p>
+        <div class="field">
+          <label for="brut">Aylık brüt ücret</label>
+          <span class="money"><input type="text" id="brut" name="brut" inputmode="decimal" autocomplete="off" aria-describedby="brutHint"></span>
+          <span class="hint" id="brutHint">Bordrodaki brüt maaşınız (çıplak ücret). Yemek, yol, ikramiye aşağıya ayrıca yazılır.</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Düzenli ek ödemeler</legend>
+        <p class="legend-note">Kıdem ve ihbar tazminatı, bu ödemeler eklenmiş <em>giydirilmiş</em> brüt ücret üzerinden hesaplanır. Fazla mesai, harcırah gibi düzensiz ödemeleri yazmayın.</p>
+        <div class="grid2">
+          <div class="field">
+            <label for="yemek">Yemek yardımı (aylık)</label>
+            <span class="money"><input type="text" id="yemek" name="yemek" inputmode="decimal" autocomplete="off"></span>
+          </div>
+          <div class="field">
+            <label for="yol">Yol yardımı (aylık)</label>
+            <span class="money"><input type="text" id="yol" name="yol" inputmode="decimal" autocomplete="off"></span>
+          </div>
+          <div class="field">
+            <label for="ikramiye">İkramiye ve primler</label>
+            <span class="money"><input type="text" id="ikramiye" name="ikramiye" inputmode="decimal" autocomplete="off" aria-describedby="ikrHint"></span>
+            <span class="hint" id="ikrHint">Son 12 ayda ödenen brüt toplam. 12'ye bölünerek eklenir.</span>
+          </div>
+          <div class="field">
+            <label for="diger">Diğer düzenli menfaat (aylık)</label>
+            <span class="money"><input type="text" id="diger" name="diger" inputmode="decimal" autocomplete="off" aria-describedby="digerHint"></span>
+            <span class="hint" id="digerHint">Örn. yakacak, giyim veya bayram yardımı gibi düzenli ödemelerin aylık karşılığı.</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>İhbar süresi</legend>
+        <div class="choice" role="radiogroup" aria-label="İhbar süresi">
+          <label><input type="radio" name="ihbar" id="ihbarOdenecek" value="odenecek" checked> <span>Süre tanınmadan çıkarıldım; ihbar ücreti ödenecek veya peşin ödendi</span></label>
+          <label><input type="radio" name="ihbar" id="ihbarCalisildi" value="calisildi"> <span>İhbar süresini çalışarak doldurdum (ihbar tazminatı yok)</span></label>
+        </div>
+        <div class="field">
+          <label for="sozlesmeHafta">Sözleşmedeki ihbar süresi</label>
+          <span class="unit" data-unit="hafta"><input type="number" id="sozlesmeHafta" name="sozlesmeHafta" min="0" max="104" step="1" inputmode="numeric"></span>
+          <span class="hint" id="ihbarHint">Sözleşmeniz veya toplu sözleşmeniz yasal süreden uzun süre öngörüyorsa yazın.</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Yıllık izin</legend>
+        <div class="field">
+          <label for="izinGun">Kullanılmamış yıllık izin</label>
+          <span class="unit" data-unit="gün"><input type="number" id="izinGun" name="izinGun" min="0" max="400" step="0.5" inputmode="decimal"></span>
+          <span class="hint">Bordronuzda veya İK kayıtlarında görünen kalan izin günü. Çıplak brüt ücret üzerinden ödenir.</span>
+        </div>
+        <label class="check" for="yasAyricalik"><input type="checkbox" id="yasAyricalik" name="yasAyricalik"> <span>50 yaş ve üzerindeyim (ya da 18 yaş ve altı): yıllık izin en az 20 gün</span></label>
+        <p class="helper" id="izinYardim">Tarihleri girince yasal izin hakkınız burada görünür.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Vergi ve son bordro</legend>
+        <div class="field">
+          <label for="kumulatif">Bu yılki kümülatif vergi matrahı</label>
+          <span class="money"><input type="text" id="kumulatif" name="kumulatif" inputmode="decimal" autocomplete="off" aria-describedby="kumHint"></span>
+          <span class="hint" id="kumHint">Fesih ayından önceki son bordronuzdaki "Kümülatif Vergi Matrahı". Boş bırakırsanız maaşınızdan tahmin edilir.</span>
+        </div>
+        <div class="field">
+          <label for="sonAyGun">Fesih ayında çalışılan gün</label>
+          <span class="unit" data-unit="gün"><input type="number" id="sonAyGun" name="sonAyGun" min="1" max="30" step="1" inputmode="numeric" aria-describedby="gunHint"></span>
+          <span class="hint" id="gunHint">Boş bırakırsanız fesih tarihinden hesaplanır (ay 30 gün sayılır).</span>
+        </div>
+        <div class="field">
+          <label for="ilave">İşverenin ilave ödemesi (brüt)</label>
+          <span class="money"><input type="text" id="ilave" name="ilave" inputmode="decimal" autocomplete="off" aria-describedby="ilaveHint"></span>
+          <span class="hint" id="ilaveHint">Yasal hakların üstünde "ilave tazminat" adıyla teklif edilen tutar varsa. Ücret sayılır, gelir ve damga vergisine tabidir; iş sonu tazminatı niteliğinde olduğu için SGK primi kesilmez (5510 s.K. m.80).</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>İşsizlik ödeneği</legend>
+        <div class="field">
+          <label for="primGun">Son 3 yılda prim ödenen gün</label>
+          <span class="unit" data-unit="gün"><input type="number" id="primGun" name="primGun" min="0" max="1080" step="1" inputmode="numeric" aria-describedby="primHint"></span>
+          <span class="hint" id="primHint">e-Devlet'teki "SGK Tescil ve Hizmet Dökümü"nden bakabilirsiniz. Boş bırakırsanız bu işyerindeki çalışmanızdan tahmin edilir.</span>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <button type="button" class="btn" id="formuTemizle">Formu temizle</button>
+        <button type="button" class="btn" id="ornekYukle">Örneği yükle</button>
+      </div>
+    </form>
+
+    <section class="results" id="sonuclar" aria-label="Hesap sonucu">
+      <div class="alert bad" id="hata" role="alert" hidden></div>
+
+      <div class="panel empty" id="bos" hidden>
+        <strong>Sonuç burada görünecek</strong>
+        <p>İşe giriş tarihi, fesih tarihi ve aylık brüt ücret girildiğinde kıdem, ihbar, izin ücreti ve işsizlik ödeneği satır satır hesaplanır.</p>
+      </div>
+
+      <div id="sonuc" class="results">
+        <div class="panel total">
+          <div class="total-head">
+            <span class="label">Tahmini net ödeme</span>
+            <span class="eyebrow" id="toplamKapsam">KIDEM + İHBAR + İZİN + SON AY</span>
+          </div>
+          <p class="big" id="netToplam" aria-live="polite">0,00 TL</p>
+          <p class="sub" id="toplamAlt"></p>
+          <div class="total-actions">
+            <label class="check" for="sonAyDahil"><input type="checkbox" id="sonAyDahil" checked> <span>Son ay maaşını toplama dahil et</span></label>
+            <button type="button" class="btn" id="kopyala">Özeti kopyala</button>
+            <span class="copy-status" id="kopyaDurum" role="status"></span>
+          </div>
+          <textarea id="ozetMetin" readonly hidden aria-label="Kopyalanacak özet"></textarea>
+        </div>
+
+        <ul class="facts" id="facts"></ul>
+
+        <div class="panel slip">
+          <div class="slip-head">
+            <h2>Çıkış bordrosu önizlemesi</h2>
+            <p id="fisTarih"></p>
+          </div>
+          <div class="table-wrap">
+            <table class="bordro">
+              <thead>
+                <tr><th scope="col">KALEM</th><th scope="col">BRÜT</th><th scope="col">SGK + İŞSİZLİK</th><th scope="col">GELİR V.</th><th scope="col">DAMGA V.</th><th scope="col">NET</th></tr>
+              </thead>
+              <tbody id="satirlar"></tbody>
+              <tfoot id="toplamSatir"></tfoot>
+            </table>
+          </div>
+        </div>
+
+        <ul class="notes" id="notlar"></ul>
+
+        <details class="panel steps" open>
+          <summary>Hesabın adım adım dökümü</summary>
+          <ol id="adimlar"></ol>
+        </details>
+
+        <div class="panel unemp" id="issizlik"></div>
+      </div>
+    </section>
+  </main>
+
+  <section aria-labelledby="hakBaslik">
+    <div class="section-head">
+      <h2 id="hakBaslik">Toplu işten çıkarmada bilmeniz gerekenler</h2>
+      <p>Hesaplayıcının kapsamadığı ama haklarınızı doğrudan etkileyen kurallar ve süreler.</p>
+    </div>
+    <div class="know">
+      <article>
+        <h3>30 günlük bildirim</h3>
+        <p>İşveren toplu çıkarmayı en az 30 gün önce işyeri sendika temsilcilerine, bölge müdürlüğüne ve İŞKUR'a yazıyla bildirir. Fesihler, bölge müdürlüğüne yapılan bildirimden 30 gün sonra hüküm doğurur. Bir ay içinde 20–100 işçili işyerinde en az 10, 101–300 işçide en az %10, 301 ve üzeri işçide en az 30 kişinin çıkarılması toplu çıkarma sayılır.</p>
+        <span class="cite">İş K. m.29</span>
+      </article>
+      <article>
+        <h3>İhbar süresi kalkmaz</h3>
+        <p>Toplu çıkarma da İş Kanunu m.17'ye göre yapılan bir fesihtir: kıdeminize göre 2, 4, 6 veya 8 haftalık ihbar süresi çalışılarak kullandırılmalı ya da ücreti peşin ödenmelidir. Bu sürenin 30 günlük bekleme süresiyle birlikte mi, ondan sonra mı işleyeceği tartışmalıdır; bazı görüşlere göre ihbar süresi 30 günün bitiminden sonra başlar.</p>
+        <span class="cite">İş K. m.17, m.29</span>
+      </article>
+      <article>
+        <h3>İş arama izni</h3>
+        <p>İhbar süresini çalışarak geçiriyorsanız günde en az 2 saat ücretli iş arama izni hakkınız vardır. Saatleri birleştirip işten ayrılmadan önceki günlerde toplu kullanabilirsiniz; işverene bildirmeniz gerekir. İzin verilmezse o saatlerin ücreti, izinde çalıştırılırsanız %100 zamlı ücret ödenir.</p>
+        <span class="cite">İş K. m.27</span>
+      </article>
+      <article>
+        <h3>İşe iade hakkı</h3>
+        <p>30 veya daha fazla işçi çalışan işyerinde en az 6 aylık kıdemi olan, belirsiz süreli sözleşmeli işçinin çıkarılması geçerli bir sebebe dayanmalıdır. Fesih bildiriminin tebliğinden itibaren 1 ay içinde arabulucuya başvurulur; anlaşma olmazsa son tutanaktan itibaren 2 hafta içinde dava açılır. Fesih geçersiz bulunup işe başlatılmazsanız 4–8 aylık ücret tutarında tazminat ve en çok 4 aylık boşta geçen süre ücreti ödenir. İşveren toplu çıkarmayı bu güvenceyi dolanmak için kullanamaz.</p>
+        <span class="cite">İş K. m.18, m.20, m.21, m.29</span>
+      </article>
+      <article>
+        <h3>Kötüniyet tazminatı</h3>
+        <p>İş güvencesi kapsamı dışındaysanız (örneğin kıdeminiz 6 aydan azsa veya işyerinde 30'dan az işçi varsa) ve fesih hakkı kötüye kullanıldıysa, bildirim süresine ait ücretin 3 katı tazminat istenebilir.</p>
+        <span class="cite">İş K. m.17</span>
+      </article>
+      <article>
+        <h3>İbraname imzalamadan önce</h3>
+        <p>İbraname; sözleşmenin sona ermesinden itibaren en az 1 ay geçmeden, alacağın türü ve miktarı açıkça yazılmadan ya da ödeme banka aracılığıyla tam olarak yapılmadan düzenlenmişse kesin olarak hükümsüzdür.</p>
+        <span class="cite">TBK m.420</span>
+      </article>
+      <article>
+        <h3>Geç ödenen kıdem tazminatı</h3>
+        <p>Kıdem tazminatı fesihle birlikte ödenmelidir. Geç ödenirse, gecikilen süre için mevduata uygulanan en yüksek faiz istenebilir.</p>
+        <span class="cite">1475 s.K. m.14</span>
+      </article>
+      <article>
+        <h3>Zamanaşımı</h3>
+        <p>Kıdem, ihbar ve kötüniyet tazminatı ile yıllık izin ücreti için zamanaşımı 5 yıldır ve sözleşmenin sona erdiği tarihte başlar.</p>
+        <span class="cite">İş K. Ek m.3, m.59</span>
+      </article>
+      <article>
+        <h3>İşsizlik ödeneği başvurusu</h3>
+        <p>Fesihten sonraki 30 gün içinde İŞKUR'a şahsen veya e-Devlet üzerinden başvurun; geç kalınan gün sayısı ödeme süresinden düşülür. SGK'ya bildirilen çıkış kodunu e-Devlet'ten kontrol edin: işveren feshi (04) ve toplu çıkarma (15) hak kazandırır, "ahlak ve iyi niyet kurallarına aykırılık" gerekçeli fesih ise ödeneği ve kıdem tazminatını ortadan kaldırır.</p>
+        <span class="cite">4447 s.K. m.48, m.51</span>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="kaynakBaslik">
+    <div class="section-head">
+      <h2 id="kaynakBaslik">Hesapta kullanılan değerler</h2>
+      <p id="kaynakAlt">Tutarlar resmi kaynaklardan alındı ve hesaplayıcıdaki değerlerle aynıdır.</p>
+    </div>
+    <div class="refs-wrap">
+      <table class="refs">
+        <thead><tr><th scope="col">DEĞER</th><th scope="col">TUTAR / ORAN</th><th scope="col">DAYANAK</th></tr></thead>
+        <tbody id="refSatirlar"></tbody>
+      </table>
+    </div>
+    <div class="links">
+      <a href="https://csgb.gov.tr/Media/ydelgoxf/kidem-tazminati-yillar-1980-2026.pdf" target="_blank" rel="noopener">ÇSGB kıdem tazminatı tavan tablosu</a>
+      <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=4857&amp;MevzuatTur=1&amp;MevzuatTertip=5" target="_blank" rel="noopener">4857 sayılı İş Kanunu</a>
+      <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=1475&amp;MevzuatTur=1&amp;MevzuatTertip=5" target="_blank" rel="noopener">1475 sayılı İş Kanunu (m.14)</a>
+      <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=4447&amp;MevzuatTur=1&amp;MevzuatTertip=5" target="_blank" rel="noopener">4447 sayılı İşsizlik Sigortası Kanunu</a>
+      <a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=6098&amp;MevzuatTur=1&amp;MevzuatTertip=5" target="_blank" rel="noopener">6098 sayılı Türk Borçlar Kanunu (m.420)</a>
+    </div>
+    <div class="fine">
+      <p><strong>Hesabın sınırları.</strong> Brüt tutarlar kanundaki formüllerle hesaplanır. Net tutarlar fesih ayının bordrosunu modelleyen bir tahmindir: engellilik indirimi, BES kesintisi, sendika aidatı, icra veya avans kesintileri, son aydaki fazla mesai ve prim gibi ödemeler hesaba katılmaz. Toplu iş sözleşmeniz daha yüksek haklar tanıyorsa onlar geçerlidir.</p>
+      <p>Bu sayfa bilgilendirme amaçlıdır ve hukuki danışmanlık yerine geçmez. Uyuşmazlıkta bir iş hukuku avukatına danışabilir, ALO 170 Çalışma Hayatı İletişim Merkezi'ni arayabilirsiniz.</p>
+    </div>
+  </section>
+</div>
+
+<div class="mobilebar" id="mobilBar" hidden>
+  <div><span>Tahmini net ödeme</span><strong id="mobilToplam">0,00 TL</strong></div>
+  <a href="#sonuclar">Ayrıntılar</a>
+</div>
+
+<noscript><p style="padding:16px">Hesaplayıcının çalışması için JavaScript gereklidir.</p></noscript>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =====================================================================
+     PARAMETRELER — son kontrol: 2 Kasım 2026
+     2027 değerleri açıklandığında yalnızca bu bloğu güncellemek yeterlidir.
+     ===================================================================== */
+  var P = {
+    guncelleme: '2 Kasım 2026',
+    // ÇSGB kıdem tazminatı tavan tablosu; HMB Mali ve Sosyal Haklar Genelgeleri
+    kidemTavani: [
+      { bas: '2026-01-01', bit: '2026-06-30', tutar: 64948.77, etiket: '01.01–30.06.2026' },
+      { bas: '2026-07-01', bit: '2026-12-31', tutar: 73729.87, etiket: '01.07–31.12.2026' }
+    ],
+    // Asgari Ücret Tespit Komisyonu Kararı, RG 26.12.2025/33119 (01.01–31.12.2026)
+    asgariBrut: 33030.00,
+    parametreYili: 2026,
+    // GVK Genel Tebliği Seri No: 332 — ücret gelirleri tarifesi (2026)
+    gvTarife: [[190000, 0.15], [400000, 0.20], [1500000, 0.27], [5300000, 0.35], [Infinity, 0.40]],
+    dvOran: 0.00759,          // damga vergisi, binde 7,59
+    sgkIsci: 0.14,            // MYÖ %9 + GSS %5 (işçi payı)
+    issizlikIsci: 0.01,       // işsizlik sigortası işçi payı
+    pekGunlukTavan: 9909.00,  // SGK Genelgesi 2026/2 (asgari ücretin 9 katı / 30)
+    issizlikOran: 0.40,       // 4447 s.K. m.50
+    issizlikTavanKatsayi: 0.80
+  };
+
+  var AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+  var ORNEK = { giris: '2019-03-11', cikis: '2026-11-30', brut: 65000, yemek: 4500, yol: 2500, ikramiye: 65000, diger: 0, izinGun: 12 };
+
+  /* ---------- Yardımcılar ---------- */
+  function r2(v) { var x = Math.round((v + (v >= 0 ? 1e-9 : -1e-9)) * 100) / 100; return x === 0 ? 0 : x; }
+  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+  var nf = new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  var nf0 = new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 });
+  function tl(v) { return nf.format(r2(v)) + ' TL'; }
+  function sayi(v) { return nf.format(r2(v)); }
+  function yuzde(v) { return '%' + nf0.format(v * 100); }
+
+  function paraOku(s) {
+    if (s == null) return null;
+    s = String(s).trim();
+    if (s === '') return null;
+    s = s.replace(/[^\d.,-]/g, '');
+    if (s.indexOf(',') >= 0) s = s.replace(/\./g, '').replace(',', '.');
+    else if ((s.match(/\./g) || []).length > 1) s = s.replace(/\./g, '');
+    else if (/^\d{1,3}\.\d{3}$/.test(s)) s = s.replace('.', '');
+    var v = parseFloat(s);
+    return isFinite(v) ? v : NaN;
+  }
+  function sayiOku(s) {
+    if (s == null || String(s).trim() === '') return null;
+    var v = parseFloat(String(s).replace(',', '.'));
+    return isFinite(v) ? v : NaN;
+  }
+
+  // Tarihler: {y, m (1-12), d}; tüm hesaplar UTC gün numarasıyla yapılır
+  function ayGunu(y, m) { return new Date(Date.UTC(y, m, 0)).getUTCDate(); }
+  function tarihOku(s) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
+    if (!m) return null;
+    var y = +m[1], mo = +m[2], d = +m[3];
+    if (mo < 1 || mo > 12 || d < 1 || d > ayGunu(y, mo)) return null;
+    return { y: y, m: mo, d: d };
+  }
+  function gunNo(a) { return Math.round(Date.UTC(a.y, a.m - 1, a.d) / 86400000); }
+  function gundenTarih(n) { var t = new Date(n * 86400000); return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate() }; }
+  function gunEkle(a, k) { return gundenTarih(gunNo(a) + k); }
+  function iso(a) { return a.y + '-' + String(a.m).padStart(2, '0') + '-' + String(a.d).padStart(2, '0'); }
+  function trTarih(a) { return String(a.d).padStart(2, '0') + '.' + String(a.m).padStart(2, '0') + '.' + a.y; }
+  function ayEkle(a, n) {
+    var t = a.y * 12 + (a.m - 1) + n, y = Math.floor(t / 12), m = t - y * 12 + 1;
+    return { y: y, m: m, d: Math.min(a.d, ayGunu(y, m)) };
+  }
+  // Başlangıç ve bitiş günleri dahil süre: tam yıl, artan ay, artan gün
+  function sure(bas, bitDahil) {
+    var e = gunEkle(bitDahil, 1);
+    var ay = (e.y - bas.y) * 12 + (e.m - bas.m);
+    while (ay > 0 && gunNo(ayEkle(bas, ay)) > gunNo(e)) ay--;
+    var gun = gunNo(e) - gunNo(ayEkle(bas, ay));
+    return { yil: Math.floor(ay / 12), ay: ay % 12, gun: gun, toplamAy: ay, toplamGun: gunNo(e) - gunNo(bas) };
+  }
+  function sureYazi(s) {
+    var p = [];
+    if (s.yil) p.push(s.yil + ' yıl');
+    if (s.ay) p.push(s.ay + ' ay');
+    if (s.gun || !p.length) p.push(s.gun + ' gün');
+    return p.join(' ');
+  }
+
+  /* ---------- Mevzuat fonksiyonları ---------- */
+  function gelirVergisi(matrah) {
+    var v = 0, alt = 0;
+    for (var i = 0; i < P.gvTarife.length; i++) {
+      var ust = P.gvTarife[i][0], oran = P.gvTarife[i][1];
+      if (matrah <= alt) break;
+      v += (Math.min(matrah, ust) - alt) * oran;
+      alt = ust;
+    }
+    return v;
+  }
+  function marjinalOran(matrah) {
+    for (var i = 0; i < P.gvTarife.length; i++) if (matrah < P.gvTarife[i][0]) return P.gvTarife[i][1];
+    return P.gvTarife[P.gvTarife.length - 1][1];
+  }
+  var asgariMatrah = P.asgariBrut * (1 - P.sgkIsci - P.issizlikIsci);
+  // Asgari ücretin o aya ait gelir vergisi (GVK m.23/18; kıst ücrette de tam uygulanır)
+  function gvIstisnasi(ay) { return r2(gelirVergisi(asgariMatrah * ay) - gelirVergisi(asgariMatrah * (ay - 1))); }
+  var dvIstisnasi = r2(P.asgariBrut * P.dvOran);
+
+  // İş K. m.17: <6 ay 2 hf; 6 ay–1,5 yıl 4 hf; 1,5–3 yıl 6 hf; 3 yıldan fazla 8 hf
+  function ihbarHaftasi(s) {
+    var ay = s.toplamAy;
+    if (ay < 6) return 2;
+    if (ay < 18) return 4;
+    if (ay < 36 || (ay === 36 && s.gun === 0)) return 6;
+    return 8;
+  }
+  // İş K. m.53: 1–5 yıl (5 dahil) 14, 5'ten fazla 15'ten az 20, 15 ve üzeri 26 gün
+  function yillikIzin(kidemYili, yas) {
+    if (kidemYili < 1) return 0;
+    var g = kidemYili <= 5 ? 14 : (kidemYili < 15 ? 20 : 26);
+    return yas ? Math.max(g, 20) : g;
+  }
+  function kidemTavani(t) {
+    var s = iso(t);
+    for (var i = 0; i < P.kidemTavani.length; i++) {
+      var k = P.kidemTavani[i];
+      if (s >= k.bas && s <= k.bit) return { kayit: k, tahmini: false };
+    }
+    return { kayit: P.kidemTavani[P.kidemTavani.length - 1], tahmini: true };
+  }
+  function sonAyOtomatikGun(giris, cikis) {
+    var basGun = (giris.y === cikis.y && giris.m === cikis.m) ? giris.d : 1;
+    if (basGun === 1 && cikis.d === ayGunu(cikis.y, cikis.m)) return 30;
+    return clamp(cikis.d - basGun + 1, 1, 30);
+  }
+  // Fesih ayından önceki aylarda yalnızca çıplak ücretle oluşan matrah (tahmin)
+  function kumulatifTahmin(giris, cikis, brut) {
+    var t = 0;
+    for (var ay = 1; ay < cikis.m; ay++) {
+      var aySonu = { y: cikis.y, m: ay, d: ayGunu(cikis.y, ay) };
+      if (gunNo(giris) > gunNo(aySonu)) continue;
+      var gun = 30;
+      if (giris.y === cikis.y && giris.m === ay && giris.d > 1) gun = clamp(ayGunu(cikis.y, ay) - giris.d + 1, 0, 30);
+      var b = brut * gun / 30;
+      var pek = Math.min(b, P.pekGunlukTavan * gun);
+      t += b - r2(pek * P.sgkIsci) - r2(pek * P.issizlikIsci);
+    }
+    return r2(t);
+  }
+
+  /* ---------- Hesap ---------- */
+  function hesapla(g) {
+    var R = { g: g, notlar: [] };
+    var s = sure(g.giris, g.cikis);
+    R.sure = s;
+
+    var tv = kidemTavani(g.cikis);
+    R.tavan = tv.kayit; R.tavanTahmini = tv.tahmini;
+    R.yilDisi = g.cikis.y !== P.parametreYili;
+
+    R.ikrAylik = g.ikramiye / 12;
+    R.giydirilmis = g.brut + g.yemek + g.yol + g.diger + R.ikrAylik;
+
+    // Kıdem tazminatı (1475 s.K. m.14)
+    R.kidemHak = s.yil >= 1;
+    R.kidemEsas = Math.min(R.giydirilmis, R.tavan.tutar);
+    R.tavanUygulandi = R.giydirilmis > R.tavan.tutar;
+    R.kidemParca = [R.kidemEsas * s.yil, R.kidemEsas / 12 * s.ay, R.kidemEsas / 365 * s.gun];
+    var kidemBrut = R.kidemHak ? r2(R.kidemParca[0] + R.kidemParca[1] + R.kidemParca[2]) : 0;
+
+    // İhbar tazminatı (İş K. m.17)
+    R.yasalHafta = ihbarHaftasi(s);
+    R.hafta = Math.max(R.yasalHafta, g.sozlesmeHafta || 0);
+    R.ihbarGun = R.hafta * 7;
+    var ihbarBrut = g.ihbarOdenecek ? r2(R.giydirilmis / 30 * R.ihbarGun) : 0;
+
+    // Kullanılmamış izin (İş K. m.59) — çıplak ücret
+    var izinBrut = r2(g.brut / 30 * g.izinGun);
+
+    // Fesih ayı ücreti
+    R.otoGun = sonAyOtomatikGun(g.giris, g.cikis);
+    R.gun = g.sonAyGun != null ? clamp(Math.round(g.sonAyGun), 1, 30) : R.otoGun;
+    var sonAyBrut = r2(g.brut / 30 * R.gun);
+
+    // SGK: izin ücreti fesih ayının prime esas kazancına eklenir, gün sayısı artmaz
+    R.pekHam = sonAyBrut + izinBrut;
+    R.pekTavan = r2(P.pekGunlukTavan * R.gun);
+    R.pek = Math.min(R.pekHam, R.pekTavan);
+    R.sgk = r2(R.pek * P.sgkIsci);
+    R.issizlik = r2(R.pek * P.issizlikIsci);
+    var sgkToplam = r2(R.sgk + R.issizlik);
+    var sgkSonAy = R.pekHam > 0 ? r2(sgkToplam * sonAyBrut / R.pekHam) : 0;
+    var sgkIzin = r2(sgkToplam - sgkSonAy);
+
+    // Gelir vergisi: fesih ayındaki tüm ücret ödemeleri kümülatif matraha eklenir
+    R.kumOto = kumulatifTahmin(g.giris, g.cikis, g.brut);
+    R.kumOtomatik = g.kumulatif == null;
+    R.kum = R.kumOtomatik ? R.kumOto : g.kumulatif;
+
+    var kalemler = [
+      { k: 'kidem', ad: 'Kıdem tazminatı', brut: kidemBrut, sgk: 0, gvTabi: false },
+      { k: 'ihbar', ad: 'İhbar tazminatı', brut: ihbarBrut, sgk: 0, gvTabi: true },
+      { k: 'izin', ad: 'Kullanılmamış izin ücreti', brut: izinBrut, sgk: sgkIzin, gvTabi: true },
+      { k: 'ilave', ad: 'İlave ödeme', brut: r2(g.ilave), sgk: 0, gvTabi: true },
+      { k: 'sonAy', ad: 'Fesih ayı ücreti', brut: sonAyBrut, sgk: sgkSonAy, gvTabi: true }
+    ];
+    var K = {};
+    kalemler.forEach(function (x) { K[x.k] = x; });
+
+    // Vergi sırası: önce maaş, sonra izin, ihbar, ilave ödeme
+    var gvSira = [K.sonAy, K.izin, K.ihbar, K.ilave];
+    var kum = R.kum, gvHesap = 0;
+    gvSira.forEach(function (x) {
+      x.matrah = Math.max(0, x.brut - x.sgk);
+      var once = gelirVergisi(kum);
+      kum += x.matrah;
+      x.gvHesap = gelirVergisi(kum) - once;
+      gvHesap += x.gvHesap;
+    });
+    R.matrahToplam = kum - R.kum;
+    R.kumSonu = kum;
+    R.gvHesap = r2(gvHesap);
+    R.gvIstisnaAy = gvIstisnasi(g.cikis.m);
+    R.gvIstisna = Math.min(R.gvIstisnaAy, gvHesap);
+    var kalan = R.gvIstisna;
+    gvSira.forEach(function (x) {
+      var d = Math.min(kalan, x.gvHesap);
+      kalan -= d;
+      x.gvIstisna = d;
+      x.gv = r2(x.gvHesap - d);
+    });
+    K.kidem.gv = 0; K.kidem.gvIstisna = 0; K.kidem.matrah = 0;
+
+    // Damga vergisi: istisna önce maaşa, kalanı aynı aydaki izin, ihbar, ilave ve kıdeme
+    var dvSira = [K.sonAy, K.izin, K.ihbar, K.ilave, K.kidem];
+    var dvKalan = dvIstisnasi;
+    R.dvHam = 0;
+    dvSira.forEach(function (x) {
+      x.dvHam = r2(x.brut * P.dvOran);
+      R.dvHam += x.dvHam;
+      var d = Math.min(dvKalan, x.dvHam);
+      dvKalan = r2(dvKalan - d);
+      x.dvIstisna = d;
+      x.dv = r2(x.dvHam - d);
+    });
+    R.dvIstisnaKullanilan = r2(dvIstisnasi - dvKalan);
+
+    kalemler.forEach(function (x) { x.net = r2(x.brut - x.sgk - x.gv - x.dv); });
+    R.kalemler = kalemler;
+    R.K = K;
+
+    // İşsizlik ödeneği (4447 s.K. m.50–51)
+    var pencereBas = gunEkle(ayEkle(g.cikis, -36), 1);
+    var bas3 = gunNo(g.giris) > gunNo(pencereBas) ? g.giris : pencereBas;
+    var s3 = sure(bas3, g.cikis);
+    R.primOto = Math.min(1080, s3.yil * 360 + s3.ay * 30 + Math.min(s3.gun, 30));
+    R.primOtomatik = g.primGun == null;
+    R.primGun = R.primOtomatik ? R.primOto : clamp(Math.round(g.primGun), 0, 1080);
+    R.kosul120 = s.toplamGun >= 120;
+    R.odenekGun = R.primGun >= 1080 ? 300 : R.primGun >= 900 ? 240 : R.primGun >= 600 ? 180 : 0;
+    var oncekiPek = Math.min(g.brut, P.pekGunlukTavan * 30);
+    R.gunlukOrt = (3 * oncekiPek + R.pek) / (90 + R.gun);
+    R.odenekHam = R.gunlukOrt * P.issizlikOran * 30;
+    R.odenekUst = r2(P.asgariBrut * P.issizlikTavanKatsayi);
+    R.odenekBrut = r2(Math.min(R.odenekHam, R.odenekUst));
+    R.odenekDv = r2(R.odenekBrut * P.dvOran);
+    R.odenekNet = r2(R.odenekBrut - R.odenekDv);
+    R.odenekToplam = r2(R.odenekNet * R.odenekGun / 30);
+
+    // Toplamlar
+    var dahil = g.sonAyDahil;
+    R.toplam = { brut: 0, sgk: 0, gv: 0, dv: 0, net: 0 };
+    kalemler.forEach(function (x) {
+      if (x.k === 'sonAy' && !dahil) return;
+      R.toplam.brut += x.brut; R.toplam.sgk += x.sgk; R.toplam.gv += x.gv; R.toplam.dv += x.dv; R.toplam.net += x.net;
+    });
+    return R;
+  }
+
+  /* ---------- Arayüz ---------- */
+  var $ = function (id) { return document.getElementById(id); };
+  var paraAlanlari = ['brut', 'yemek', 'yol', 'ikramiye', 'diger', 'kumulatif', 'ilave'];
+  var ornekModu = true;
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function girdileriOku() {
+    var hatalar = [];
+    var g = {
+      giris: tarihOku($('giris').value),
+      cikis: tarihOku($('cikis').value),
+      ihbarOdenecek: $('ihbarOdenecek').checked,
+      yas: $('yasAyricalik').checked,
+      sonAyDahil: $('sonAyDahil').checked
+    };
+    paraAlanlari.forEach(function (id) {
+      var v = paraOku($(id).value);
+      if (v !== null && (isNaN(v) || v < 0)) hatalar.push(etiket(id) + ' alanına geçerli bir tutar yazın (örn. 65.000 veya 65000,50).');
+      g[id] = v;
+    });
+    ['sozlesmeHafta', 'izinGun', 'sonAyGun', 'primGun'].forEach(function (id) {
+      var v = sayiOku($(id).value);
+      if (v !== null && (isNaN(v) || v < 0)) hatalar.push(etiket(id) + ' alanına geçerli bir sayı yazın.');
+      g[id] = v;
+    });
+    ['yemek', 'yol', 'ikramiye', 'diger', 'ilave'].forEach(function (id) { if (g[id] == null || isNaN(g[id])) g[id] = 0; });
+    if (g.izinGun == null || isNaN(g.izinGun)) g.izinGun = 0;
+    if (g.sozlesmeHafta == null || isNaN(g.sozlesmeHafta)) g.sozlesmeHafta = 0;
+    return { g: g, hatalar: hatalar };
+  }
+  function etiket(id) {
+    var l = document.querySelector('label[for="' + id + '"]');
+    return l ? '"' + l.textContent.trim() + '"' : id;
+  }
+
+  function guncelle() {
+    var o = girdileriOku(), g = o.g, hatalar = o.hatalar;
+    ihbarAlaniniGuncelle(g);
+    var eksik = !g.giris || !g.cikis || g.brut == null;
+    if (!eksik) {
+      if (gunNo(g.giris) > gunNo(g.cikis)) hatalar.push('İşe giriş tarihi fesih tarihinden sonra olamaz.');
+      if (g.cikis.y < P.parametreYili) hatalar.push('Bu hesaplayıcı ' + P.parametreYili + ' ve sonrasındaki fesihler için hazırlandı. ' + P.parametreYili + ' öncesi fesihlerde o döneme ait tavan, asgari ücret ve vergi dilimleri geçerlidir.');
+      if (!(g.brut > 0)) hatalar.push('Aylık brüt ücret sıfırdan büyük olmalı.');
+    }
+    izinYardimiGuncelle(g);
+    if (hatalar.length) {
+      $('hata').innerHTML = hatalar.map(esc).join('<br>');
+      $('hata').hidden = false; $('sonuc').hidden = true; $('bos').hidden = true; $('mobilBar').hidden = true;
+      return;
+    }
+    $('hata').hidden = true;
+    if (eksik) {
+      $('bos').hidden = false; $('sonuc').hidden = true; $('mobilBar').hidden = true;
+      return;
+    }
+    $('bos').hidden = true; $('sonuc').hidden = false;
+    var R = hesapla(g);
+    ciz(R);
+  }
+
+  function ihbarAlaniniGuncelle(g) {
+    var hint = $('ihbarHint');
+    if (g.giris && g.cikis && gunNo(g.giris) <= gunNo(g.cikis)) {
+      var h = ihbarHaftasi(sure(g.giris, g.cikis));
+      hint.textContent = 'Yasal süreniz ' + h + ' hafta (' + (h * 7) + ' gün). Sözleşmeniz daha uzun süre öngörüyorsa yazın.';
+    } else {
+      hint.textContent = 'Sözleşmeniz veya toplu sözleşmeniz yasal süreden uzun süre öngörüyorsa yazın.';
+    }
+    $('sozlesmeHafta').disabled = !g.ihbarOdenecek;
+  }
+
+  function izinYardimiGuncelle(g) {
+    var el = $('izinYardim');
+    if (!g.giris || !g.cikis || gunNo(g.giris) > gunNo(g.cikis)) { el.textContent = 'Tarihleri girince yasal izin hakkınız burada görünür.'; return; }
+    var s = sure(g.giris, g.cikis);
+    if (s.yil < 1) {
+      el.innerHTML = 'Kıdeminiz 1 yılı doldurmadığı için yasal yıllık izin hakkınız henüz doğmadı (İş K. m.53). İşyeriniz ayrıca izin tanıdıysa kalan gününü yazın.';
+      return;
+    }
+    var toplam = 0;
+    for (var k = 1; k <= s.yil; k++) toplam += yillikIzin(k, g.yas);
+    var simdiki = yillikIzin(s.yil, g.yas);
+    el.innerHTML = 'Son hizmet yılınız için yasal izin hakkınız <b>' + simdiki + ' gün</b>. İşe girişten bu yana ' + s.yil + ' tam yıl için toplam yasal hak <b>' + toplam + ' gün</b>; kullandığınız günleri düşerek kalan izninizi bulabilirsiniz.';
+  }
+
+  function ciz(R) {
+    var g = R.g, s = R.sure, K = R.K;
+
+    // Toplam
+    $('netToplam').textContent = tl(R.toplam.net);
+    $('mobilToplam').textContent = tl(R.toplam.net);
+    $('toplamAlt').textContent = 'Brüt ' + tl(R.toplam.brut) + ' − kesintiler ' + tl(R.toplam.sgk + R.toplam.gv + R.toplam.dv);
+    var kapsam = ['KIDEM', 'İHBAR', 'İZİN'];
+    if (K.ilave.brut > 0) kapsam.push('İLAVE');
+    if (g.sonAyDahil) kapsam.push('SON AY');
+    $('toplamKapsam').textContent = kapsam.join(' + ');
+    mobilBarGuncelle();
+
+    // Özet bilgiler
+    var facts = [
+      ['Hizmet süresi', sureYazi(s)],
+      ['İhbar süresi', R.hafta + ' hafta (' + R.ihbarGun + ' gün)'],
+      ['Giydirilmiş brüt ücret', tl(R.giydirilmis)],
+      ['Kıdem tavanı', tl(R.tavan.tutar)]
+    ];
+    $('facts').innerHTML = facts.map(function (f) { return '<li><span>' + esc(f[0]) + '</span><strong>' + esc(f[1]) + '</strong></li>'; }).join('');
+    $('fisTarih').textContent = 'FESİH ' + trTarih(g.cikis) + ' · ' + AYLAR[g.cikis.m - 1].toLocaleUpperCase('tr-TR') + ' ' + g.cikis.y + ' BORDROSU';
+
+    // Satırlar
+    var aciklama = {
+      kidem: R.kidemHak
+        ? sureYazi(s) + ' × ' + tl(R.kidemEsas) + (R.tavanUygulandi ? ' (tavan)' : '') + '. Yalnızca damga vergisi.'
+        : 'Hak yok: aynı işverende en az 1 yıl çalışma gerekir.',
+      ihbar: g.ihbarOdenecek ? R.hafta + ' hafta = ' + R.ihbarGun + ' gün × günlük giydirilmiş ücret. SGK primi kesilmez.' : 'İhbar süresi çalışılarak kullanıldığı için ödenmez.',
+      izin: nf0.format(g.izinGun) + ' gün × günlük çıplak ücret (' + tl(g.brut / 30) + '). SGK primi kesilir.',
+      ilave: 'Ücret sayılır; gelir ve damga vergisine tabi.',
+      sonAy: R.gun + ' gün × ' + tl(g.brut / 30) + (g.sonAyDahil ? '' : '. Toplama dahil değil.')
+    };
+    var satirlar = R.kalemler.filter(function (x) { return x.k !== 'ilave' || x.brut > 0; });
+    $('satirlar').innerHTML = satirlar.map(function (x) {
+      var dis = x.k === 'sonAy' && !g.sonAyDahil;
+      return '<tr' + (dis ? ' class="excluded"' : '') + '>' +
+        '<td class="item"><b>' + esc(x.ad) + '</b><small>' + esc(aciklama[x.k]) + '</small></td>' +
+        hucre('Brüt', x.brut) + hucre('SGK + işsizlik', x.sgk) + hucre('Gelir vergisi', x.gv) + hucre('Damga vergisi', x.dv) +
+        '<td class="net" data-label="Net">' + sayi(x.net) + '</td></tr>';
+    }).join('');
+    $('toplamSatir').innerHTML = '<tr><td class="item">Toplam' + (g.sonAyDahil ? '' : ' (son ay hariç)') + '</td>' +
+      hucre('Brüt', R.toplam.brut, true) + hucre('SGK + işsizlik', R.toplam.sgk, true) + hucre('Gelir vergisi', R.toplam.gv, true) + hucre('Damga vergisi', R.toplam.dv, true) +
+      '<td class="net" data-label="Net">' + sayi(R.toplam.net) + '</td></tr>';
+
+    // Notlar
+    var n = [];
+    if (R.yilDisi || R.tavanTahmini) n.push(['warn', 'DİKKAT', 'Fesih tarihi ' + P.parametreYili + ' dışında. ' + (g.cikis.y + '') + ' yılı kıdem tavanı, asgari ücret ve vergi dilimleri bu sayfaya henüz işlenmedi; hesap ' + P.parametreYili + ' değerleriyle yapıldı ve gerçek tutarlar farklı olacaktır.']);
+    if (!R.kidemHak) n.push(['bad', 'KIDEM', 'Kıdem tazminatı için aynı işverende en az 1 tam yıl çalışmış olmak gerekir. Aynı işverenin başka işyerlerinde geçen ve tazminatı ödenmemiş önceki çalışmalarınız varsa süreye eklenir (1475 s.K. m.14).']);
+    if (R.tavanUygulandi) n.push(['info', 'TAVAN', 'Giydirilmiş ücretiniz (' + tl(R.giydirilmis) + ') kıdem tavanını aştığı için kıdem tazminatı ' + R.tavan.etiket + ' tavanı olan ' + tl(R.tavan.tutar) + ' üzerinden hesaplandı. İhbar tazminatında tavan uygulanmaz.']);
+    if (!g.ihbarOdenecek) n.push(['info', 'İHBAR', 'İhbar süresini çalışarak geçirdiğiniz için ihbar tazminatı hesaplanmadı. Bu sürede günde en az 2 saat ücretli iş arama izni hakkınız vardır (İş K. m.27).']);
+    else if (g.sozlesmeHafta > R.yasalHafta) n.push(['info', 'İHBAR', 'Sözleşmenizdeki ' + g.sozlesmeHafta + ' haftalık süre, yasal ' + R.yasalHafta + ' haftalık süreden uzun olduğu için esas alındı.']);
+    if (g.izinGun > 0 && s.yil < 1) n.push(['warn', 'İZİN', 'Kıdeminiz 1 yılı doldurmadığı için yasal yıllık izin hakkı doğmamış olabilir. İşyeriniz izin tanıdıysa bu tutar yine ödenir.']);
+    if (R.kumOtomatik) n.push(['warn', 'TAHMİN', 'Kümülatif vergi matrahı girilmediği için ' + tl(R.kumOto) + ' olarak tahmin edildi (yalnızca çıplak ücret, ' + (g.cikis.m > 1 ? 'Ocak–' + AYLAR[g.cikis.m - 2] : 'yeni yıl başı') + '). Bordronuzdaki gerçek değeri girerseniz gelir vergisi daha doğru hesaplanır.']);
+    if (g.brut < P.asgariBrut) n.push(['warn', 'ÜCRET', 'Girdiğiniz brüt ücret ' + P.parametreYili + ' brüt asgari ücretin (' + tl(P.asgariBrut) + ') altında. Tam zamanlı çalışıyorsanız tutarı kontrol edin.']);
+    if (R.pekHam > R.pekTavan) n.push(['info', 'SGK', 'Fesih ayının prime esas kazancı (' + tl(R.pekHam) + ') ' + R.gun + ' günlük üst sınırı (' + tl(R.pekTavan) + ') aştığı için SGK primi sınırdan hesaplandı.']);
+    n.push(['info', 'VERGİ', 'Fesih ayındaki tüm ödemelerden sonra gelir vergisi diliminiz ' + yuzde(marjinalOran(R.kumSonu)) + '. ' + AYLAR[g.cikis.m - 1] + ' ayı asgari ücret istisnası (' + tl(R.gvIstisnaAy) + ') önce maaşa, kalanı izin ücreti ve ihbar tazminatına uygulandı.']);
+    $('notlar').innerHTML = n.map(function (x) { return '<li><span class="pill ' + x[0] + '">' + esc(x[1]) + '</span><span>' + esc(x[2]) + '</span></li>'; }).join('');
+
+    // Adımlar
+    var a = [];
+    a.push('<strong>Hizmet süresi:</strong> ' + trTarih(g.giris) + ' – ' + trTarih(g.cikis) + ', başlangıç ve bitiş günleri dahil <span class="num">' + sureYazi(s) + '</span> (toplam ' + s.toplamGun + ' gün).');
+    a.push('<strong>Giydirilmiş brüt ücret:</strong> <span class="num">' + sayi(g.brut) + '</span> ücret + <span class="num">' + sayi(g.yemek) + '</span> yemek + <span class="num">' + sayi(g.yol) + '</span> yol + <span class="num">' + sayi(g.ikramiye) + ' ÷ 12</span> ikramiye + <span class="num">' + sayi(g.diger) + '</span> diğer = <span class="num">' + tl(R.giydirilmis) + '</span>.');
+    if (R.kidemHak) {
+      a.push('<strong>Kıdem tazminatı:</strong> esas ücret min(' + sayi(R.giydirilmis) + '; tavan ' + sayi(R.tavan.tutar) + ') = <span class="num">' + sayi(R.kidemEsas) + '</span>. ' +
+        '<span class="num">' + sayi(R.kidemEsas) + ' × ' + s.yil + '</span> + <span class="num">' + sayi(R.kidemEsas) + ' ÷ 12 × ' + s.ay + '</span> + <span class="num">' + sayi(R.kidemEsas) + ' ÷ 365 × ' + s.gun + '</span> = <span class="num">' + tl(K.kidem.brut) + '</span> brüt. ' +
+        'Gelir vergisi ve SGK yok; damga vergisi <span class="num">' + sayi(K.kidem.brut) + ' × binde 7,59 = ' + sayi(K.kidem.dvHam) + '</span>' + (K.kidem.dvIstisna > 0 ? ', kalan asgari ücret istisnası ' + sayi(K.kidem.dvIstisna) + ' düşülür' : '') + '.');
+    } else {
+      a.push('<strong>Kıdem tazminatı:</strong> hizmet süresi 1 yılın altında olduğu için hesaplanmadı.');
+    }
+    if (g.ihbarOdenecek) {
+      a.push('<strong>İhbar tazminatı:</strong> hizmet süresi ' + sureYazi(s) + ' → yasal süre ' + R.yasalHafta + ' hafta' + (R.hafta > R.yasalHafta ? ', sözleşmedeki ' + R.hafta + ' hafta esas alındı' : '') + '. <span class="num">' + sayi(R.giydirilmis) + ' ÷ 30 × ' + R.ihbarGun + '</span> = <span class="num">' + tl(K.ihbar.brut) + '</span> brüt (tavan uygulanmaz).');
+    }
+    a.push('<strong>Kullanılmamış izin ücreti:</strong> <span class="num">' + sayi(g.brut) + ' ÷ 30 × ' + nf0.format(g.izinGun) + '</span> = <span class="num">' + tl(K.izin.brut) + '</span> brüt.');
+    a.push('<strong>Fesih ayı ücreti:</strong> <span class="num">' + sayi(g.brut) + ' ÷ 30 × ' + R.gun + '</span> = <span class="num">' + tl(K.sonAy.brut) + '</span>.');
+    a.push('<strong>SGK ve işsizlik primi (işçi):</strong> maaş + izin ücreti = <span class="num">' + sayi(R.pekHam) + '</span>; üst sınır ' + R.gun + ' × ' + sayi(P.pekGunlukTavan) + ' = <span class="num">' + sayi(R.pekTavan) + '</span>. Prime esas <span class="num">' + sayi(R.pek) + '</span> × %14 = <span class="num">' + sayi(R.sgk) + '</span>, × %1 = <span class="num">' + sayi(R.issizlik) + '</span>. İhbar, kıdem ve ilave ödemeden prim kesilmez.');
+    a.push('<strong>Gelir vergisi:</strong> önceki kümülatif matrah <span class="num">' + tl(R.kum) + '</span>' + (R.kumOtomatik ? ' (tahmini)' : '') + '; fesih ayı matrahı (maaş + izin − SGK, + ihbar + ilave) <span class="num">' + tl(R.matrahToplam) + '</span>; dilimli hesaplanan vergi <span class="num">' + tl(R.gvHesap) + '</span>; ' + AYLAR[g.cikis.m - 1] + ' ayı asgari ücret istisnası <span class="num">' + tl(R.gvIstisna) + '</span> düşülür → <span class="num">' + tl(R.gvHesap - R.gvIstisna) + '</span>.');
+    a.push('<strong>Damga vergisi:</strong> tüm ödemeler × binde 7,59 = <span class="num">' + tl(R.dvHam) + '</span>; asgari ücret istisnası <span class="num">' + tl(R.dvIstisnaKullanilan) + '</span> düşülür → <span class="num">' + tl(R.dvHam - R.dvIstisnaKullanilan) + '</span>.');
+    $('adimlar').innerHTML = a.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+
+    // İşsizlik ödeneği
+    var hakVar = R.odenekGun > 0 && R.kosul120;
+    var odenekAy = R.odenekGun / 30;
+    var h = '<div class="unemp-head"><h2>İşsizlik ödeneği</h2><p>İŞKUR öder; işveren ödemesinden ayrıdır. Tahmindir.</p></div>';
+    if (hakVar) {
+      h += '<div class="figs">' +
+        '<div class="lead"><span>Aylık net</span><strong>' + tl(R.odenekNet) + '</strong></div>' +
+        '<div><span>Aylık brüt</span><strong>' + tl(R.odenekBrut) + '</strong></div>' +
+        '<div><span>Süre</span><strong>' + R.odenekGun + ' gün (' + odenekAy + ' ay)</strong></div>' +
+        '<div><span>Toplam net</span><strong>' + tl(R.odenekToplam) + '</strong></div></div>';
+    } else {
+      h += '<p class="alert bad">' + (R.odenekGun === 0
+        ? 'Son 3 yılda ' + R.primGun + ' gün prim görünüyor; ödenek için en az 600 gün gerekir.'
+        : 'Fesihten önceki son 120 günde kesintisiz çalışma şartı bu işyerindeki sürenizle karşılanmıyor. Hemen önceki işinizden ara vermeden geçtiyseniz şart yine sağlanabilir.') + '</p>';
+    }
+    h += '<ul class="conds">' +
+      kosul(R.primGun >= 600, 'Son 3 yılda en az 600 gün prim: ' + R.primGun + ' gün' + (R.primOtomatik ? ' (bu işyerinden tahmin)' : '') + '. 600 gün → 180, 900 gün → 240, 1080 gün → 300 gün ödenek.') +
+      kosul(R.kosul120, 'Fesihten önceki son 120 gün kesintisiz çalışma.') +
+      kosul(null, 'Ödenek = son 4 ayın prime esas kazancına göre günlük ortalama brüt kazancın %40\'ı (sizin için ' + tl(R.gunlukOrt) + ' × %40 × 30 = ' + tl(R.odenekHam) + '), üst sınır brüt asgari ücretin %80\'i: ' + tl(R.odenekUst) + '. Yalnızca damga vergisi (' + tl(R.odenekDv) + ') kesilir.') +
+      kosul(null, 'Fesihten sonraki 30 gün içinde İŞKUR\'a başvurun. Haklı bir neden olmadan istifada veya ahlak ve iyi niyet kurallarına aykırılık gerekçesiyle yapılan fesihte ödenek alınamaz.') +
+      '</ul>';
+    $('issizlik').innerHTML = h;
+
+    $('ozetMetin').value = ozet(R);
+  }
+
+  function hucre(label, v, toplam) {
+    return '<td data-label="' + label + '"' + (!toplam && r2(v) === 0 ? ' class="zero"' : '') + '>' + sayi(v) + '</td>';
+  }
+  function kosul(ok, metin) {
+    var pill = ok === null ? '<span class="pill info">BİLGİ</span>' : ok ? '<span class="pill ok">TAMAM</span>' : '<span class="pill bad">EKSİK</span>';
+    return '<li>' + pill + '<span>' + esc(metin) + '</span></li>';
+  }
+
+  function ozet(R) {
+    var g = R.g, L = [];
+    L.push('Tazminat hesabı (tahmini) – ' + P.guncelleme + ' itibarıyla geçerli değerler');
+    L.push('Hizmet: ' + trTarih(g.giris) + ' – ' + trTarih(g.cikis) + ' (' + sureYazi(R.sure) + ')');
+    L.push('Brüt ücret: ' + tl(g.brut) + ' · Giydirilmiş: ' + tl(R.giydirilmis) + ' · Kıdem tavanı: ' + tl(R.tavan.tutar));
+    L.push('');
+    R.kalemler.forEach(function (x) {
+      if (x.k === 'ilave' && x.brut <= 0) return;
+      L.push(x.ad + ': brüt ' + tl(x.brut) + ' → net ' + tl(x.net) + (x.k === 'sonAy' && !g.sonAyDahil ? ' (toplama dahil değil)' : ''));
+    });
+    L.push('');
+    L.push('TOPLAM NET: ' + tl(R.toplam.net) + ' (brüt ' + tl(R.toplam.brut) + ')');
+    if (R.odenekGun > 0 && R.kosul120) L.push('İşsizlik ödeneği (İŞKUR): aylık net ' + tl(R.odenekNet) + ' × ' + (R.odenekGun / 30) + ' ay = ' + tl(R.odenekToplam));
+    L.push('');
+    L.push('Not: Net tutarlar tahminidir; kesin tutar işverenin bordrosuna göre değişebilir.');
+    return L.join('\n');
+  }
+
+  function paraBicimle(el) {
+    var v = paraOku(el.value);
+    if (v !== null && !isNaN(v) && v >= 0) el.value = nf.format(v).replace(/,00$/, '');
+  }
+
+  function ornekDoldur() {
+    $('giris').value = ORNEK.giris; $('cikis').value = ORNEK.cikis;
+    $('brut').value = ORNEK.brut; $('yemek').value = ORNEK.yemek; $('yol').value = ORNEK.yol;
+    $('ikramiye').value = ORNEK.ikramiye; $('diger').value = ''; $('izinGun').value = ORNEK.izinGun;
+    ['kumulatif', 'sonAyGun', 'ilave', 'primGun', 'sozlesmeHafta'].forEach(function (id) { $(id).value = ''; });
+    $('ihbarOdenecek').checked = true; $('yasAyricalik').checked = false; $('sonAyDahil').checked = true;
+    paraAlanlari.forEach(function (id) { paraBicimle($(id)); });
+    ornekModu = true;
+    $('ornekBandi').hidden = false;
+    yerTutuculariGuncelle();
+    guncelle();
+  }
+  function temizle() {
+    ['giris', 'cikis', 'izinGun', 'sonAyGun', 'primGun', 'sozlesmeHafta'].concat(paraAlanlari).forEach(function (id) { $(id).value = ''; });
+    $('ihbarOdenecek').checked = true; $('yasAyricalik').checked = false; $('sonAyDahil').checked = true;
+    ornekModu = false;
+    $('ornekBandi').hidden = true;
+    yerTutuculariGuncelle();
+    guncelle();
+    $('giris').focus();
+  }
+
+  function yerTutuculariGuncelle() {
+    var giris = tarihOku($('giris').value), cikis = tarihOku($('cikis').value), brut = paraOku($('brut').value);
+    var gecerli = giris && cikis && gunNo(giris) <= gunNo(cikis);
+    $('sonAyGun').placeholder = gecerli ? 'Otomatik: ' + sonAyOtomatikGun(giris, cikis) : 'Otomatik';
+    $('kumulatif').placeholder = gecerli && brut > 0 ? 'Otomatik: ' + sayi(kumulatifTahmin(giris, cikis, brut)) : 'Otomatik';
+    if (gecerli) {
+      var pb = gunEkle(ayEkle(cikis, -36), 1), b3 = gunNo(giris) > gunNo(pb) ? giris : pb, s3 = sure(b3, cikis);
+      $('primGun').placeholder = 'Otomatik: ' + Math.min(1080, s3.yil * 360 + s3.ay * 30 + Math.min(s3.gun, 30));
+    } else {
+      $('primGun').placeholder = 'Otomatik';
+    }
+    $('sozlesmeHafta').placeholder = 'Yasal süre';
+    ['yemek', 'yol', 'ikramiye', 'diger', 'ilave'].forEach(function (id) { $(id).placeholder = '0'; });
+    $('izinGun').placeholder = '0';
+  }
+
+  // Telefon alt çubuğu: toplam ekranda değilken görünür
+  var toplamGorunur = false;
+  function mobilBarGuncelle() { $('mobilBar').hidden = toplamGorunur || $('sonuc').hidden; }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { toplamGorunur = es[0].isIntersecting; mobilBarGuncelle(); }).observe($('netToplam'));
+  }
+
+  // Parametre şeridi ve kaynak tablosu (değerler tek yerden: P)
+  function parametreleriYaz() {
+    var son = P.kidemTavani[P.kidemTavani.length - 1], onceki = P.kidemTavani[P.kidemTavani.length - 2];
+    var ust = r2(P.asgariBrut * P.issizlikTavanKatsayi);
+    $('ustBilgi').textContent = P.guncelleme.toLocaleUpperCase('tr-TR') + ' İTİBARIYLA GEÇERLİ DEĞERLER · 4857 VE 1475 SAYILI KANUNLAR';
+    var items = [
+      ['Kıdem tavanı · ' + son.etiket, tl(son.tutar)],
+      ['Brüt asgari ücret · ' + P.parametreYili, tl(P.asgariBrut)],
+      ['Damga vergisi', 'binde 7,59'],
+      ['SGK + işsizlik (işçi payı)', '%14 + %1'],
+      ['İşsizlik ödeneği üst sınırı', tl(ust)]
+    ];
+    $('params').innerHTML = items.map(function (x) { return '<div><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('');
+    var t = P.gvTarife;
+    var refs = [
+      ['Kıdem tazminatı tavanı (' + son.etiket + ')', tl(son.tutar), 'ÇSGB kıdem tazminatı tavan tablosu; Hazine ve Maliye Bakanlığı Mali ve Sosyal Haklar Genelgesi (03.07.2026)'],
+      ['Kıdem tazminatı tavanı (' + onceki.etiket + ')', tl(onceki.tutar), 'ÇSGB kıdem tazminatı tavan tablosu'],
+      ['Brüt asgari ücret (01.01–31.12.2026)', tl(P.asgariBrut), 'Asgari Ücret Tespit Komisyonu Kararı, RG 26.12.2025 / 33119'],
+      ['Gelir vergisi tarifesi (ücret)', '%15 → ' + sayi(t[0][0]).replace(',00', '') + '; %20 → ' + sayi(t[1][0]).replace(',00', '') + '; %27 → ' + sayi(t[2][0]).replace(',00', '') + '; %35 → ' + sayi(t[3][0]).replace(',00', '') + '; üzeri %40', 'GVK m.103; Gelir Vergisi Genel Tebliği (Seri No: 332), RG 31.12.2025 / 33124 (5. Mük.)'],
+      ['Asgari ücret gelir vergisi istisnası (aylık)', 'Oca–Haz ' + sayi(gvIstisnasi(1)) + '; Tem ' + sayi(gvIstisnasi(7)) + '; Ağu–Ara ' + sayi(gvIstisnasi(8)), 'GVK m.23/18; Seri No: 319 tebliği (kıst ücrette tam uygulanır); GİB özelgesi 13.12.2023 (kalan istisna ihbar tazminatına)'],
+      ['Asgari ücret damga vergisi istisnası (aylık)', tl(dvIstisnasi), '488 s. Damga Vergisi Kanunu (2) sayılı tablo; GİB özelgesi 13.12.2023 (kalan istisna ihbar ve kıdem tazminatına)'],
+      ['Damga vergisi oranı', 'binde 7,59', '488 s. Damga Vergisi Kanunu (1) sayılı tablo'],
+      ['SGK işçi payı / işsizlik işçi payı', '%14 / %1', '5510 s.K. m.81; 4447 s.K. m.49'],
+      ['Prime esas kazanç üst sınırı', sayi(P.pekGunlukTavan) + ' TL/gün; ' + sayi(P.pekGunlukTavan * 30) + ' TL/ay', '7566 s.K. (asgari ücretin 9 katı); SGK Genelgesi 2026/2'],
+      ['Kıdem tazminatında vergi', 'yalnızca damga vergisi', 'GVK m.25/7 (tavana kadar gelir vergisi istisnası); 5510 s.K. m.80 (prime tabi değil)'],
+      ['İhbar tazminatında vergi', 'gelir + damga vergisi', 'GVK m.61 (ücret sayılır); 5510 s.K. m.80 (prime tabi değil)'],
+      ['İşsizlik ödeneği', '%40; üst sınır ' + tl(ust), '4447 s.K. m.50 (brüt asgari ücretin %80\'i); yalnızca damga vergisi']
+    ];
+    $('refSatirlar').innerHTML = refs.map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td></tr>'; }).join('');
+    $('kaynakAlt').textContent = 'Son kontrol: ' + P.guncelleme + '. Tutarlar resmi kaynaklardan alındı; 1 Ocak 2027\'de yeni tavan, asgari ücret ve vergi dilimleri açıklandığında güncellenmesi gerekir.';
+  }
+
+  /* ---------- Başlat ---------- */
+  document.documentElement.lang = 'tr';
+  parametreleriYaz();
+  var form = $('form');
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+  form.addEventListener('input', function (e) {
+    if (ornekModu && e.target && e.target.id !== 'sonAyDahil') { ornekModu = false; $('ornekBandi').hidden = true; }
+    yerTutuculariGuncelle();
+    guncelle();
+  });
+  form.addEventListener('change', function () { yerTutuculariGuncelle(); guncelle(); });
+  paraAlanlari.forEach(function (id) { $(id).addEventListener('blur', function () { paraBicimle($(id)); }); });
+  $('sonAyDahil').addEventListener('change', guncelle);
+  $('temizle').addEventListener('click', temizle);
+  $('formuTemizle').addEventListener('click', temizle);
+  $('ornekYukle').addEventListener('click', ornekDoldur);
+  $('kopyala').addEventListener('click', function () {
+    var metin = $('ozetMetin').value, durum = $('kopyaDurum');
+    function yedek() {
+      var ta = $('ozetMetin');
+      ta.hidden = false; ta.focus(); ta.select();
+      durum.textContent = 'Metin seçildi; kopyalamak için Ctrl+C (veya uzun basın).';
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(metin).then(function () { durum.textContent = 'Özet panoya kopyalandı.'; $('ozetMetin').hidden = true; }, yedek);
+      } else { yedek(); }
+    } catch (err) { yedek(); }
+  });
+  ornekDoldur();
+})();
+</script>
+</body>
+</html>
