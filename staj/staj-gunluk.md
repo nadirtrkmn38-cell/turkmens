@@ -18,7 +18,7 @@
 | Haftalık çalışma | 5 iş günü |
 | Günlük mesai | 09:00 – 17:30 |
 | Günlük süre | 8,5 saat brüt — haftalık çalışma tablosuna **8 saat** yazılıyor (03.11.2026 kararı) |
-| Toplam | 14 hafta · **69 iş günü** (29.10.2026 Cumhuriyet Bayramı hariç tutuldu) |
+| Toplam | 14 hafta · **67 iş günü** (29.10.2026 Cumhuriyet Bayramı ile 28 ve 30.10.2026 köprü izni hariç) |
 
 **Teyit edilecekler:** ① ~~Haftalık tabloya yazılacak günlük saat~~ → 8 saat ② Bölüm İME komisyonunun
 istediği asgari iş günü sayısı ③ İç kapak için mühürlü dijital fotoğraf (fakülte sekreterliği).
@@ -133,7 +133,7 @@ Müşteri adı, sözleşme bedeli, birim fiyat ve gerçek tüketim verisi rapora
 | 3 | 05.10.2026 – 09.10.2026 | 5 | tamamlandı |
 | 4 | 12.10.2026 – 16.10.2026 | 5 | tamamlandı |
 | 5 | 19.10.2026 – 23.10.2026 | 5 | tamamlandı |
-| 6 | 26.10.2026 – 30.10.2026 | 4 | tamamlandı · 29.10 Cumhuriyet Bayramı |
+| 6 | 26.10.2026 – 30.10.2026 | 2 | tamamlandı · 28 ve 30.10 köprü izni (şirket geneli), 29.10 Cumhuriyet Bayramı |
 | 7 | 02.11.2026 – 06.11.2026 | 5 | devam ediyor |
 | 8 | 09.11.2026 – 13.11.2026 | 5 | ön rapor teslimi (ara sınav) |
 | 9 | 16.11.2026 – 20.11.2026 | 5 | |
@@ -295,9 +295,9 @@ işaretli günler, kullanıcının seçimiyle yakın işin devamı olarak yazıl
 | 22–23.10 | Isı pompası çalışması devam **(tahmini)** |
 | 26.10 Pzt | Biyogaz tesisi saha ziyareti (TSE, devlet destekleri) |
 | 27.10 Sal | Ön fizibilite aracının biyogaz dışı ünitelerinin denetimi |
-| 28.10 Çar | Ziyaret notlarının derlenmesi **(tahmini)** |
+| 28.10 Çar | Köprü izni |
 | 29.10 Per | Resmî tatil |
-| 30.10 Cum | Hesap aracı denetimi devam **(tahmini)** |
+| 30.10 Cum | Köprü izni |
 | 02.11 Pzt | Destek seçeneklerinin değerlendirilmesi **(tahmini)** |
 | 03.11 Sal | Çalışma kayıtlarının derlenmesi, İME ön raporu **(tahmini)** |
 

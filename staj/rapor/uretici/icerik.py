@@ -506,7 +506,7 @@ F('w5b', 3, '3.5.2 Çalışma noktalarının karşılaştırılması', '21–23.
           "çalışmaya devam edilmiştir."),
 ])
 
-F('w6a', 3, '3.6.1 Biyogaz tesisi saha ziyareti', '26 ve 28.10.2026', [
+F('w6a', 3, '3.6.1 Biyogaz tesisi saha ziyareti', '26.10.2026', [
     ('h2', '3.6 Altıncı Hafta (26.10.2026 – 30.10.2026)'),
     ('h3', '3.6.1 Biyogaz tesisi saha ziyareti'),
     ('p', "Enerji Verimliliği ekibiyle birlikte biyogaz tesisinin kurulacağı beyaz et üretim tesisine saha "
@@ -517,11 +517,11 @@ F('w6a', 3, '3.6.1 Biyogaz tesisi saha ziyareti', '26 ve 28.10.2026', [
           "YEKDEM ve lisanssız üretim (öz tüketim) düzenlemeleri ile verimlilik destekleri değerlendirilebilecek "
           "başlıca seçeneklerdir. Ziyaret, ilk haftalarda sunumları hazırlanan projenin müşteri tesisinde ve "
           "paydaşlarla birlikte ele alınmasını sağlamıştır."),
-    ('p', "28.10.2026 tarihinde ziyarette konuşulan konular ve destek seçenekleri not olarak derlenmiştir. "
-          "29.10.2026 tarihi Cumhuriyet Bayramı nedeniyle resmî tatildir."),
+    ('p', "28, 29 ve 30.10.2026 tarihlerinde Cumhuriyet Bayramı ve şirketin köprü izni nedeniyle "
+          "çalışılmamıştır."),
 ], toc=[(2, '3.6 Altıncı Hafta (26.10.2026 – 30.10.2026)'), (3, '3.6.1 Biyogaz tesisi saha ziyareti')])
 
-F('w6b', 3, '3.6.2 Ön fizibilite hesap aracının denetimi', '27 ve 30.10.2026', [
+F('w6b', 3, '3.6.2 Ön fizibilite hesap aracının denetimi', '27.10.2026', [
     ('h3', '3.6.2 Ön fizibilite hesap aracının denetimi'),
     ('p', "Ön fizibilite hesap aracının biyogaz dışındaki üniteleri denetlenmiştir. Denetimde verim eğrisinin "
           "hesapta doğru kullanılması, ısı pompası satırlarındaki değerler, ekran yerleşiminde birbirinin "
@@ -529,7 +529,6 @@ F('w6b', 3, '3.6.2 Ön fizibilite hesap aracının denetimi', '27 ve 30.10.2026'
           "edilmiş, bulunan hatalar düzeltilmiştir. Aracın müşteri verisiyle çalışacağı dikkate alınarak "
           "kullanıcı girdilerinin sayfaya güvenli biçimde aktarıldığı da kontrol edilmiş ve bir güvenlik "
           "açığına rastlanmamıştır. Yapılan değişiklikler bir değişiklik listesinde kayıt altına alınmıştır."),
-    ('p', "30.10.2026 tarihinde denetimde düzeltilen bölümlerin kontrolüne devam edilmiştir."),
     ('p', "Bu çalışma, hesap araçlarında sonuçların doğruluğu kadar sabit yazılmış değerlerin ve ekran "
           "düzeninin de denetlenmesi gerektiğini göstermiştir; ekranda yanlış satırda görünen doğru bir değer, "
           "kullanıcıyı bir hesap hatası kadar yanıltabilmektedir."),
@@ -647,9 +646,9 @@ HAFTALAR = [
  ('26.10.2026', '30.10.2026', [
   ('26.10.2026', 'Biyogaz tesisi saha ziyareti; TSE ile devlet destekleri görüşmesi', ['w6a'], 8),
   ('27.10.2026', 'Ön fizibilite hesap aracının biyogaz dışı ünitelerinin denetimi', ['w6b'], 8),
-  ('28.10.2026', 'Saha ziyareti notlarının ve destek seçeneklerinin derlenmesi', ['w6a'], 8),
+  ('28.10.2026', 'Köprü izni', [], 0),
   ('29.10.2026', 'Resmî tatil (Cumhuriyet Bayramı)', [], 0),
-  ('30.10.2026', 'Hesap aracı denetimine devam', ['w6b'], 8),
+  ('30.10.2026', 'Köprü izni', [], 0),
  ]),
  ('02.11.2026', '06.11.2026', [
   ('02.11.2026', 'Biyogaz projesi destek seçeneklerinin değerlendirilmesi', ['w7a'], 8),
@@ -666,5 +665,5 @@ HAFTALAR = [
 
 # Kullanıcının teyit etmesi gereken (yakın işin devamı olarak doldurulan) günler
 TAHMINI = ['30.09.2026', '01.10.2026', '05.10.2026', '08.10.2026', '09.10.2026', '12.10.2026', '13.10.2026',
-           '16.10.2026', '19.10.2026', '20.10.2026', '22.10.2026', '23.10.2026', '28.10.2026', '30.10.2026',
+           '16.10.2026', '19.10.2026', '20.10.2026', '22.10.2026', '23.10.2026',
            '02.11.2026', '03.11.2026']
