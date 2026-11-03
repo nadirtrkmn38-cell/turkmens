@@ -184,6 +184,21 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
   content: "TL"; position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
   font-family: var(--font-num); font-size: 0.78rem; color: var(--ink-2); pointer-events: none;
 }
+/* Maaş gizleme: gerçek metin saydam, üstünde aynı genişlikte yıldızlar (eş aralıklı yazı tipi) */
+.label-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.label-row label { font-weight: 500; font-size: 0.92rem; }
+.reveal {
+  font: inherit; font-size: 0.8rem; font-weight: 500; color: var(--accent); cursor: pointer;
+  background: none; border: 0; padding: 2px 0; text-decoration: underline; text-underline-offset: 2px;
+}
+.mask { display: none; }
+.money.masked input { color: transparent; -webkit-text-fill-color: transparent; caret-color: var(--ink); }
+.money.masked input::selection { color: transparent; -webkit-text-fill-color: transparent; }
+.money.masked .mask {
+  display: block; position: absolute; right: 39px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-num); font-size: 0.95rem; line-height: 1; color: var(--ink);
+  pointer-events: none; white-space: pre;
+}
 .unit { position: relative; display: block; }
 .unit input { padding-right: 52px; }
 .unit::after {
@@ -397,9 +412,12 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
         </div>
         <p class="hint">Fesih tarihi iş sözleşmesinin sona erdiği gündür. İhbar ücreti peşin ödendiyse son çalıştığınız gün, ihbar süresini çalışarak doldurduysanız bu sürenin bittiği gün. Toplu çıkarmada fesih, işverenin bölge müdürlüğüne bildiriminden 30 gün sonra hüküm doğurur.</p>
         <div class="field">
-          <label for="brut">Aylık brüt ücret</label>
-          <span class="money"><input type="text" id="brut" name="brut" inputmode="decimal" autocomplete="off" aria-describedby="brutHint"></span>
-          <span class="hint" id="brutHint">Bordrodaki brüt maaşınız (çıplak ücret). Yemek, yol, ikramiye aşağıya ayrıca yazılır.</span>
+          <div class="label-row">
+            <label for="brut">Aylık brüt ücret</label>
+            <button type="button" class="reveal" id="brutGoster" aria-controls="brut" aria-pressed="false">Göster</button>
+          </div>
+          <span class="money masked" id="brutKutu"><input type="text" id="brut" name="brut" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="brutHint"><span class="mask" id="brutMaske" aria-hidden="true"></span></span>
+          <span class="hint" id="brutHint">Bordrodaki brüt maaşınız (çıplak ücret). Ekranda yıldızla gizlenir; kontrol etmek için "Göster"e basın. Yemek, yol, ikramiye aşağıya ayrıca yazılır.</span>
         </div>
       </fieldset>
 
@@ -912,6 +930,18 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
   var $ = function (id) { return document.getElementById(id); };
   var paraAlanlari = ['brut', 'yemek', 'yol', 'ikramiye', 'diger', 'kumulatif', 'ilave'];
   var ornekModu = true;
+  var ucretGizli = true;   // aylık brüt ücret varsayılan olarak yıldızlı gösterilir
+
+  function maskeyiGuncelle() {
+    var deger = $('brut').value;
+    $('brutMaske').textContent = ucretGizli ? '*'.repeat(deger.length) : '';
+    $('brutKutu').classList.toggle('masked', ucretGizli);
+    var dugme = $('brutGoster');
+    dugme.textContent = ucretGizli ? 'Göster' : 'Gizle';
+    dugme.setAttribute('aria-pressed', String(!ucretGizli));
+  }
+  // Sonuç metinlerinde maaşın kendisi geçtiğinde kullanılır
+  function ucretMetni(v) { return ucretGizli ? '*****' : sayi(v); }
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
@@ -945,6 +975,7 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
   }
 
   function guncelle() {
+    maskeyiGuncelle();
     var o = girdileriOku(), g = o.g, hatalar = o.hatalar;
     ihbarAlaniniGuncelle(g);
     var eksik = !g.giris || !g.cikis || g.brut == null;
@@ -1023,9 +1054,9 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
         ? sureYazi(s) + ' × ' + tl(R.kidemEsas) + (R.tavanUygulandi ? ' (tavan)' : '') + '. Yalnızca damga vergisi.'
         : 'Hak yok: aynı işverende en az 1 yıl çalışma gerekir.',
       ihbar: g.ihbarOdenecek ? R.hafta + ' hafta = ' + R.ihbarGun + ' gün × günlük giydirilmiş ücret. SGK primi kesilmez.' : 'İhbar süresi çalışılarak kullanıldığı için ödenmez.',
-      izin: nf0.format(g.izinGun) + ' gün × günlük çıplak ücret (' + tl(g.brut / 30) + '). SGK primi kesilir.',
+      izin: nf0.format(g.izinGun) + ' gün × günlük çıplak ücret' + (ucretGizli ? '' : ' (' + tl(g.brut / 30) + ')') + '. SGK primi kesilir.',
       ilave: 'Ücret sayılır; gelir ve damga vergisine tabi.',
-      sonAy: R.gun + ' gün × ' + tl(g.brut / 30) + (g.sonAyDahil ? '' : '. Toplama dahil değil.')
+      sonAy: R.gun + ' gün × ' + (ucretGizli ? 'günlük ücret' : tl(g.brut / 30)) + (g.sonAyDahil ? '' : '. Toplama dahil değil.')
     };
     var satirlar = R.kalemler.filter(function (x) { return x.k !== 'ilave' || x.brut > 0; });
     $('satirlar').innerHTML = satirlar.map(function (x) {
@@ -1056,7 +1087,7 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
     // Adımlar
     var a = [];
     a.push('<strong>Hizmet süresi:</strong> ' + trTarih(g.giris) + ' – ' + trTarih(g.cikis) + ', başlangıç ve bitiş günleri dahil <span class="num">' + sureYazi(s) + '</span> (toplam ' + s.toplamGun + ' gün).');
-    a.push('<strong>Giydirilmiş brüt ücret:</strong> <span class="num">' + sayi(g.brut) + '</span> ücret + <span class="num">' + sayi(g.yemek) + '</span> yemek + <span class="num">' + sayi(g.yol) + '</span> yol + <span class="num">' + sayi(g.ikramiye) + ' ÷ 12</span> ikramiye + <span class="num">' + sayi(g.diger) + '</span> diğer = <span class="num">' + tl(R.giydirilmis) + '</span>.');
+    a.push('<strong>Giydirilmiş brüt ücret:</strong> <span class="num">' + ucretMetni(g.brut) + '</span> ücret +<span class="num">' + sayi(g.yemek) + '</span> yemek + <span class="num">' + sayi(g.yol) + '</span> yol + <span class="num">' + sayi(g.ikramiye) + ' ÷ 12</span> ikramiye + <span class="num">' + sayi(g.diger) + '</span> diğer = <span class="num">' + tl(R.giydirilmis) + '</span>.');
     if (R.kidemHak) {
       a.push('<strong>Kıdem tazminatı:</strong> esas ücret min(' + sayi(R.giydirilmis) + '; tavan ' + sayi(R.tavan.tutar) + ') = <span class="num">' + sayi(R.kidemEsas) + '</span>. ' +
         '<span class="num">' + sayi(R.kidemEsas) + ' × ' + s.yil + '</span> + <span class="num">' + sayi(R.kidemEsas) + ' ÷ 12 × ' + s.ay + '</span> + <span class="num">' + sayi(R.kidemEsas) + ' ÷ 365 × ' + s.gun + '</span> = <span class="num">' + tl(K.kidem.brut) + '</span> brüt. ' +
@@ -1067,8 +1098,8 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
     if (g.ihbarOdenecek) {
       a.push('<strong>İhbar tazminatı:</strong> hizmet süresi ' + sureYazi(s) + ' → yasal süre ' + R.yasalHafta + ' hafta' + (R.hafta > R.yasalHafta ? ', sözleşmedeki ' + R.hafta + ' hafta esas alındı' : '') + '. <span class="num">' + sayi(R.giydirilmis) + ' ÷ 30 × ' + R.ihbarGun + '</span> = <span class="num">' + tl(K.ihbar.brut) + '</span> brüt (tavan uygulanmaz).');
     }
-    a.push('<strong>Kullanılmamış izin ücreti:</strong> <span class="num">' + sayi(g.brut) + ' ÷ 30 × ' + nf0.format(g.izinGun) + '</span> = <span class="num">' + tl(K.izin.brut) + '</span> brüt.');
-    a.push('<strong>Fesih ayı ücreti:</strong> <span class="num">' + sayi(g.brut) + ' ÷ 30 × ' + R.gun + '</span> = <span class="num">' + tl(K.sonAy.brut) + '</span>.');
+    a.push('<strong>Kullanılmamış izin ücreti:</strong> <span class="num">' + ucretMetni(g.brut) + ' ÷ 30 × ' + nf0.format(g.izinGun) + '</span> = <span class="num">' + tl(K.izin.brut) + '</span> brüt.');
+    a.push('<strong>Fesih ayı ücreti:</strong> <span class="num">' + ucretMetni(g.brut) + ' ÷ 30 × ' + R.gun + '</span> = <span class="num">' + tl(K.sonAy.brut) + '</span>.');
     a.push('<strong>SGK ve işsizlik primi (işçi):</strong> maaş + izin ücreti = <span class="num">' + sayi(R.pekHam) + '</span>; üst sınır ' + R.gun + ' × ' + sayi(P.pekGunlukTavan) + ' = <span class="num">' + sayi(R.pekTavan) + '</span>. Prime esas <span class="num">' + sayi(R.pek) + '</span> × %14 = <span class="num">' + sayi(R.sgk) + '</span>, × %1 = <span class="num">' + sayi(R.issizlik) + '</span>. İhbar, kıdem ve ilave ödemeden prim kesilmez.');
     a.push('<strong>Gelir vergisi:</strong> önceki kümülatif matrah <span class="num">' + tl(R.kum) + '</span>' + (R.kumOtomatik ? ' (tahmini)' : '') + '; fesih ayı matrahı (maaş + izin − SGK, + ihbar + ilave) <span class="num">' + tl(R.matrahToplam) + '</span>; dilimli hesaplanan vergi <span class="num">' + tl(R.gvHesap) + '</span>; ' + AYLAR[g.cikis.m - 1] + ' ayı asgari ücret istisnası <span class="num">' + tl(R.gvIstisna) + '</span> düşülür → <span class="num">' + tl(R.gvHesap - R.gvIstisna) + '</span>.');
     a.push('<strong>Damga vergisi:</strong> tüm ödemeler × binde 7,59 = <span class="num">' + tl(R.dvHam) + '</span>; asgari ücret istisnası <span class="num">' + tl(R.dvIstisnaKullanilan) + '</span> düşülür → <span class="num">' + tl(R.dvHam - R.dvIstisnaKullanilan) + '</span>.');
@@ -1112,7 +1143,7 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
     var g = R.g, L = [];
     L.push('Tazminat hesabı (tahmini) – ' + P.guncelleme + ' itibarıyla geçerli değerler');
     L.push('Hizmet: ' + trTarih(g.giris) + ' – ' + trTarih(g.cikis) + ' (' + sureYazi(R.sure) + ')');
-    L.push('Brüt ücret: ' + tl(g.brut) + ' · Giydirilmiş: ' + tl(R.giydirilmis) + ' · Kıdem tavanı: ' + tl(R.tavan.tutar));
+    L.push('Brüt ücret: ' + (ucretGizli ? '***** (gizli)' : tl(g.brut)) + ' · Giydirilmiş: ' + tl(R.giydirilmis) + ' · Kıdem tavanı: ' + tl(R.tavan.tutar));
     L.push('');
     R.kalemler.forEach(function (x) {
       if (x.k === 'ilave' && x.brut <= 0) return;
@@ -1219,7 +1250,8 @@ input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; borde
     guncelle();
   });
   form.addEventListener('change', function () { yerTutuculariGuncelle(); guncelle(); });
-  paraAlanlari.forEach(function (id) { $(id).addEventListener('blur', function () { paraBicimle($(id)); }); });
+  paraAlanlari.forEach(function (id) { $(id).addEventListener('blur', function () { paraBicimle($(id)); if (id === 'brut') maskeyiGuncelle(); }); });
+  $('brutGoster').addEventListener('click', function () { ucretGizli = !ucretGizli; guncelle(); });
   $('sonAyDahil').addEventListener('change', guncelle);
   $('temizle').addEventListener('click', temizle);
   $('formuTemizle').addEventListener('click', temizle);
