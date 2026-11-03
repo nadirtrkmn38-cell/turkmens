@@ -282,24 +282,43 @@ işaretli günler, kullanıcının seçimiyle yakın işin devamı olarak yazıl
 | 30.09 Çar | Biyogaz risk değerlendirme sunumu **(tahmini)** |
 | 01.10 Per | Risk sunumu devam **(tahmini)** |
 | 02.10 Cum | Risk sunumunun son hâli (12,6 MB → 0,62 MB) |
-| 05.10 Pzt | Veri toplama formu için veri başlıkları **(tahmini)** |
-| 06.10 Sal | Enerji verimliliği veri toplama formu (HTML, Excel'e aktarım) |
-| 07.10 Çar | Ön fizibilite hesap aracının uçtan uca incelenmesi (biyogaz/ısı pompası; genel araç) |
-| 08–09.10 | Ön fizibilite aracı incelemesi devam **(tahmini)** |
-| 12.10 Pzt | Ön fizibilite aracı devam **(tahmini)** |
+| 05.10 Pzt | Ön fizibilite veri formunun kapsamı **(tahmini)** |
+| 06.10 Sal | Atık ısı ön fizibilite veri formunun ilk sürümü (HTML, Excel'e aktarım) |
+| 07.10 Çar | Veri formunun uçtan uca incelenmesi; şema tabanlı yapı |
+| 08–09.10 | Veri formunun geliştirilmesi (devam) **(tahmini)** |
+| 12.10 Pzt | Veri formunun geliştirilmesi (devam) **(tahmini)** |
 | 13.10 Sal | Maliyet kalemlerinin derlenmesi **(tahmini)** |
 | 14–15.10 | Maliyet ve ödeme planı sunumu (12 ana kalem + 4 genel gider; ödeme oranları %110 hatası) |
-| 16.10 Cum | Ön fizibilite aracı devam **(tahmini)** |
-| 19–20.10 | Isı pompası çalışması **(tahmini)** |
+| 16.10 Cum | Veri formunun geliştirilmesi (devam) **(tahmini)** |
+| 19–20.10 | Veri formu: biyogaz ve ısı pompası üniteleri **(tahmini)** |
 | 21.10 Çar | Isı pompası çalışma sıcaklıkları bilgi notu (ara devre, ΔT ≈ 28 °C, COP 5,5–6) |
 | 22–23.10 | Isı pompası çalışması devam **(tahmini)** |
 | 26.10 Pzt | Biyogaz tesisi saha ziyareti (TSE, devlet destekleri) |
-| 27.10 Sal | Ön fizibilite aracının biyogaz dışı ünitelerinin denetimi |
+| 27.10 Sal | Veri formunun biyogaz dışı ünitelerinin denetimi |
 | 28.10 Çar | Köprü izni |
 | 29.10 Per | Resmî tatil |
 | 30.10 Cum | Köprü izni |
 | 02.11 Pzt | Destek seçeneklerinin değerlendirilmesi **(tahmini)** |
 | 03.11 Sal | Çalışma kayıtlarının derlenmesi, İME ön raporu **(tahmini)** |
+
+**Atık ısı geri kazanımı ön fizibilite veri formu (≈ 2 hafta, 05–16.10; biyogaz/ısı pompası 19–23.10; denetim 27.10).**
+Dosya: `staj/ciktilar/Atik-Isi-On-Fizibilite-Veri-Formu-Taslak3_30.html` (tek HTML; ExcelJS + JSZip gömülü).
+- Üniteler: tav fırını, elektrik ark ocağı, çimento fırını (PH gazı + klinker soğutucu), alüminyum ergitme
+  fırını, genel fırın, kazan, biyogaz tesisi, proses ısı pompası, mahal ısıtma ısı pompası; biyogaz sektör
+  formları: meyve suyu, süt-peynir, dondurma, tavuk entegre.
+- Şema tabanlı: ~250 soru tek şemada → HTML form + dolu Excel + boş Excel şablonu; birim seçimi ve dönüşümü
+  (Nm³/h, gerçek m³/h, kg/h; Pa, mmSS, mbar), koşullu sorular, uyarı aralıkları, temel soru oranı.
+- Canlı proses haritaları (SVG): numaralı ölçüm noktaları = Excel "No"; seçimlere göre değişen düzen
+  (reküperatör/rejeneratif, ekonomizer, EAF soğutma şekli, planet soğutucu, oksi-yakıt).
+- Ön hesap (Enerjisa taslaklarıyla aynı): ρ = 1,29·273/(T+273), ṁ = V̇·ρ/3600, cp(T) polinomu;
+  Q = ṁ·cp·(T − Tsınır); sınırlar 150 / 120 / 150 / 180–230 / 150 °C; ORC verimi 250 °C'de %12–15,
+  ≥ 400 °C'de %18–22 (doğrusal); 0,44 t CO₂/MWh; çalışma süresi varsayılanları.
+- EAF döküm profili: P(t) = ṁ·1,05·(T − 150); depolama = kümülatif sapmanın maks − min; kızgın yağ tankı
+  (270/85 °C). Isı pompası: Lorenz COP × 0,5, ΔT yaklaşımı 5 K (+3 K kirli kaynak), COP ≤ 7, kademeli ön ısıtma.
+  Biyogaz: KOİ giderimi %75, 0,35 Nm³ CH₄/kg KOİ, CH₄ %55–60, motor %43 el. / %50 ısıl.
+- Excel çıktısı (No, Parametre, Değer, Birim, Durum, Öncelik, Not), geri yükleme, saha krokisi, belge
+  yükleme (15 MB paket), Outlook .eml taslağı; yönetici paneli (kayıtlar, ekip, karşılaştırma, hesaplama) ve
+  müşteriye özel satış dosyası (ORC gücü yalnız yönetici sürümünde).
 
 ---
 
@@ -358,15 +377,19 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 
 ## 7. İME Raporu
 
-- **Ön rapor (03.11.2026):** `staj/rapor/IME-On-Rapor-2026-11-03.docx` (+ PDF). Şablondaki form
-  sayfaları doldurularak; kapak, kimlik formu, Önsöz–İçindekiler–Simgeler–Şekil/Tablo listeleri–Özet,
-  8 haftalık çalışma tablosu ve 26 imzalı "Yapılan İş" sayfası (Bölüm 1–4 + Ek-1). Müşteri adları anonim.
-- **Yeniden üretme:** `staj/rapor/uretici/` → metin `icerik.py`, üretici `build.py`
-  (`python3 build.py`; iki geçişte sayfa numaralarını, içindekileri ve tablo sayfa numaralarını yerleştirir).
+- **Ön rapor (03.11.2026, 56 sayfa):** `staj/rapor/IME-On-Rapor-2026-11-03.docx` (+ PDF). Yönerge m. 10 ve
+  Rapor Yazım Kurallarına göre: kenar boşlukları 3,25/3,25/3/2,5 cm; TNR 12 pt; başlıklar 14/12 pt koyu;
+  1,15 satır aralığı; paragraf ve alt başlık arası 3 aralık (18 nk; "aralık" Word'ün 6 nk adımı olarak
+  yorumlandı), ilk sayfalarda başlık üstten 5 cm ve sonrası 4,5 aralık (27 nk); şekil/tablo sayfanın
+  üstünde, açıklamalar 10 pt; ön sayfalar roma rakamı alt orta (ii'den), metin üst sağ Arial Bold 12,
+  bölüm ilk sayfalarında numara yok; her sayfada İME sorumlusu imza/kaşe alanı, her bölümün ilk sayfasında
+  işletme yöneticisi imza/kaşe satırı; simgeler alfabetik ("SİMGELER LİSTESİ" + "Kısaltmalar");
+  kısaltmalar ilk geçtiği yerde bir kez açıklandı; 3. şahıs anlatım. Kapaklar şablondaki gibi.
+- **Yeniden üretme:** `staj/rapor/uretici/` → metin `icerik.py`, üretici `build.py` (`python3 build.py`).
+  Sayfaya sığmayan "Yapılan İş" sayfası otomatik "(devam)" sayfasına bölünür; içindekiler, şekil/tablo
+  listeleri ve haftalık tablolardaki sayfa numaraları otomatik yerleşir.
 - **Kaynak belgeler:** `staj/rapor/kaynak/` (yönerge, yazım kuralları, şablon, formlar, anketler).
-- **Kullanıcının dolduracağı yer tutucular:** [Ad SOYAD], [Öğrenci No], [Yetkili Ad SOYAD], [Unvan],
-  [Sorumlu Ad SOYAD], Önsözdeki [Unvan Ad SOYAD]; TC no, adres, telefon; dijital fotoğraf.
-- **Teyit edilecek:** kurum unvanı (Enerjisa Enerji A.Ş. mi, Enerjisa Müşteri Çözümleri A.Ş. mi) ve
-  ofis adresi; kurum telefon/e-posta (2024 faaliyet raporundan); (tahmini) günler; 3.2.4 risk sunumu,
-  3.3.1 veri formu, 3.3.2 hesap aracı ve 3.6.1 saha ziyareti sayfalarının ayrıntıları.
-
+- **Yer tutucular:** [Ad SOYAD], [Öğrenci No], [Yetkili Ad SOYAD], [Unvan], [Sorumlu Ad SOYAD],
+  [Yönetici Ad SOYAD], Önsözdeki [Unvan Ad SOYAD]; TC no, adres, telefon; dijital fotoğraf.
+- **Teyit edilecek:** kurum unvanı ve ofis adresi; kurum telefon/e-posta (2024 faaliyet raporundan);
+  (tahmini) günler; 3.2.4 risk sunumu ve 3.6.1 saha ziyareti ayrıntıları. Baskı tek yüze (Yönerge m. 10/6).
