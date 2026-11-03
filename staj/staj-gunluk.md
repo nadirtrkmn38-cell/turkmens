@@ -17,11 +17,12 @@
 | Bitiş | 25.12.2026 (Cuma) |
 | Haftalık çalışma | 5 iş günü |
 | Günlük mesai | 09:00 – 17:30 |
-| Günlük süre | 8,5 saat brüt — tabloya yazılacak net süre **teyit edilecek** (mola düşülürse 7,5 saat) |
+| Günlük süre | 8,5 saat brüt — haftalık çalışma tablosuna **8 saat** yazılıyor (03.11.2026 kararı) |
 | Toplam | 14 hafta · **69 iş günü** (29.10.2026 Cumhuriyet Bayramı hariç tutuldu) |
 
-**Teyit edilecekler:** ① Haftalık tabloya yazılacak günlük saat (7,5 mi 8,5 mi) ② Bölüm İME komisyonunun
+**Teyit edilecekler:** ① ~~Haftalık tabloya yazılacak günlük saat~~ → 8 saat ② Bölüm İME komisyonunun
 istediği asgari iş günü sayısı ③ İç kapak için mühürlü dijital fotoğraf (fakülte sekreterliği).
+**Ara sınav:** 8. hafta sonunda (13.11.2026) ön rapor teslim edilecek; esas rapora temel oluşturacak.
 
 ---
 
@@ -127,14 +128,14 @@ Müşteri adı, sözleşme bedeli, birim fiyat ve gerçek tüketim verisi rapora
 
 | Hafta | Tarih aralığı | Gün | Durum |
 |---|---|---|---|
-| 1 | 21.09.2026 – 25.09.2026 | 5 | devam ediyor |
-| 2 | 28.09.2026 – 02.10.2026 | 5 | |
-| 3 | 05.10.2026 – 09.10.2026 | 5 | |
-| 4 | 12.10.2026 – 16.10.2026 | 5 | |
-| 5 | 19.10.2026 – 23.10.2026 | 5 | |
-| 6 | 26.10.2026 – 30.10.2026 | 4 | 29.10 Cumhuriyet Bayramı |
-| 7 | 02.11.2026 – 06.11.2026 | 5 | |
-| 8 | 09.11.2026 – 13.11.2026 | 5 | |
+| 1 | 21.09.2026 – 25.09.2026 | 5 | tamamlandı |
+| 2 | 28.09.2026 – 02.10.2026 | 5 | tamamlandı |
+| 3 | 05.10.2026 – 09.10.2026 | 5 | tamamlandı |
+| 4 | 12.10.2026 – 16.10.2026 | 5 | tamamlandı |
+| 5 | 19.10.2026 – 23.10.2026 | 5 | tamamlandı |
+| 6 | 26.10.2026 – 30.10.2026 | 4 | tamamlandı · 29.10 Cumhuriyet Bayramı |
+| 7 | 02.11.2026 – 06.11.2026 | 5 | devam ediyor |
+| 8 | 09.11.2026 – 13.11.2026 | 5 | ön rapor teslimi (ara sınav) |
 | 9 | 16.11.2026 – 20.11.2026 | 5 | |
 | 10 | 23.11.2026 – 27.11.2026 | 5 | |
 | 11 | 30.11.2026 – 04.12.2026 | 5 | |
@@ -263,6 +264,43 @@ Format: `### Gün N — GG.AA.YYYY (Gün adı)` altında **Yapılan iş**, **Tek
 - **Açık sorular:** Tesisin kapasitesi ve hammaddesi (tavuk gübresi vb.); TSE'nin görüşmedeki rolü;
   hangi destek programının öne çıktığı; sonraki adım.
 
+### Hafta 1–7 özet takvimi (İME ön raporu, 03.11.2026)
+
+Ön rapordaki haftalık tabloların kaynağı. Diğer sohbetlerden gelen işler (portföy paneli, verimlilik
+özeti, veri toplama formu, ön fizibilite aracı, risk ve maliyet sunumları) dâhil edildi. **(tahmini)**
+işaretli günler, kullanıcının seçimiyle yakın işin devamı olarak yazıldı; teyit edilip düzeltilecek.
+
+| Tarih | Yapılan iş |
+|---|---|
+| 21.09 Pzt | Oryantasyon |
+| 22.09 Sal | TR ETS Yönetmeliği incelemesi, kapsam şeması |
+| 23.09 Çar | ETS şemasının sadeleştirilmesi; enerji portföy yönetim paneli (direktör için; GES + verimlilik) |
+| 24.09 Per | ETS kapsam karar aracı; iş planı taslağı şablonu; panel değişiklik raporu |
+| 25.09 Cum | Biyogaz projesi iş birliği sunumu (RACI, iş paketleri) ve genel müdür sunumu |
+| 28.09 Pzt | Destek envanteri (16 sayfa) ve destek analiz aracı; harita (26–27.09 hafta sonu işi dâhil) |
+| 29.09 Sal | Aracın yöneticilere e-postayla tanıtımı; demir-çelik elektrifikasyonu ETS/SKDM değerlendirmesi |
+| 30.09 Çar | Biyogaz risk değerlendirme sunumu **(tahmini)** |
+| 01.10 Per | Risk sunumu devam **(tahmini)** |
+| 02.10 Cum | Risk sunumunun son hâli (12,6 MB → 0,62 MB) |
+| 05.10 Pzt | Veri toplama formu için veri başlıkları **(tahmini)** |
+| 06.10 Sal | Enerji verimliliği veri toplama formu (HTML, Excel'e aktarım) |
+| 07.10 Çar | Ön fizibilite hesap aracının uçtan uca incelenmesi (biyogaz/ısı pompası; genel araç) |
+| 08–09.10 | Ön fizibilite aracı incelemesi devam **(tahmini)** |
+| 12.10 Pzt | Ön fizibilite aracı devam **(tahmini)** |
+| 13.10 Sal | Maliyet kalemlerinin derlenmesi **(tahmini)** |
+| 14–15.10 | Maliyet ve ödeme planı sunumu (12 ana kalem + 4 genel gider; ödeme oranları %110 hatası) |
+| 16.10 Cum | Ön fizibilite aracı devam **(tahmini)** |
+| 19–20.10 | Isı pompası çalışması **(tahmini)** |
+| 21.10 Çar | Isı pompası çalışma sıcaklıkları bilgi notu (ara devre, ΔT ≈ 28 °C, COP 5,5–6) |
+| 22–23.10 | Isı pompası çalışması devam **(tahmini)** |
+| 26.10 Pzt | Biyogaz tesisi saha ziyareti (TSE, devlet destekleri) |
+| 27.10 Sal | Ön fizibilite aracının biyogaz dışı ünitelerinin denetimi |
+| 28.10 Çar | Ziyaret notlarının derlenmesi **(tahmini)** |
+| 29.10 Per | Resmî tatil |
+| 30.10 Cum | Hesap aracı denetimi devam **(tahmini)** |
+| 02.11 Pzt | Destek seçeneklerinin değerlendirilmesi **(tahmini)** |
+| 03.11 Sal | Çalışma kayıtlarının derlenmesi, İME ön raporu **(tahmini)** |
+
 ---
 
 ## 5. Rapor Malzemesi Havuzu
@@ -315,3 +353,20 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
   Temel bulgu hipotezi: elektrik tasarrufu yapan önlemler karbon değerini yalnızca elektrik fiyatı
   üzerinden alır; yakıt tasarrufu yapanlar doğrudan kanaldan alır ama tahsisat kaybıyla kısmen geri
   verir; elektrifikasyonda üç etki çatışır.
+
+---
+
+## 7. İME Raporu
+
+- **Ön rapor (03.11.2026):** `staj/rapor/IME-On-Rapor-2026-11-03.docx` (+ PDF). Şablondaki form
+  sayfaları doldurularak; kapak, kimlik formu, Önsöz–İçindekiler–Simgeler–Şekil/Tablo listeleri–Özet,
+  8 haftalık çalışma tablosu ve 26 imzalı "Yapılan İş" sayfası (Bölüm 1–4 + Ek-1). Müşteri adları anonim.
+- **Yeniden üretme:** `staj/rapor/uretici/` → metin `icerik.py`, üretici `build.py`
+  (`python3 build.py`; iki geçişte sayfa numaralarını, içindekileri ve tablo sayfa numaralarını yerleştirir).
+- **Kaynak belgeler:** `staj/rapor/kaynak/` (yönerge, yazım kuralları, şablon, formlar, anketler).
+- **Kullanıcının dolduracağı yer tutucular:** [Ad SOYAD], [Öğrenci No], [Yetkili Ad SOYAD], [Unvan],
+  [Sorumlu Ad SOYAD], Önsözdeki [Unvan Ad SOYAD]; TC no, adres, telefon; dijital fotoğraf.
+- **Teyit edilecek:** kurum unvanı (Enerjisa Enerji A.Ş. mi, Enerjisa Müşteri Çözümleri A.Ş. mi) ve
+  ofis adresi; kurum telefon/e-posta (2024 faaliyet raporundan); (tahmini) günler; 3.2.4 risk sunumu,
+  3.3.1 veri formu, 3.3.2 hesap aracı ve 3.6.1 saha ziyareti sayfalarının ayrıntıları.
+
