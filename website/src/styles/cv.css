@@ -1,0 +1,383 @@
+/* ════════════════════════════════════════════════════════════════
+   Klasik CV sayfası — yazdırılabilir A4 düzeni
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  color-scheme: light;
+  --ink: #16161d;
+  --ink-2: #474753;
+  --ink-3: #85858f;
+  --paper: #ffffff;
+  --bg: #ebe9e3;
+  --line: #e2dfd7;
+  --accent: #e2602b;
+  --font-display: 'Space Grotesk Variable', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.ico {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
+body.cv-body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* üst araç çubuğu (yazdırırken gizlenir) */
+.cv-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px clamp(14px, 4vw, 32px);
+  background: rgba(235, 233, 227, 0.86);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.cv-toolbar__right {
+  display: flex;
+  gap: 8px;
+}
+
+.cv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #d3d0c6;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.cv-btn:hover {
+  border-color: var(--ink);
+}
+
+.cv-btn--primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.cv-btn--primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* sayfa */
+.cv-page {
+  display: grid;
+  justify-items: center;
+  padding: 32px 14px 72px;
+}
+
+.cv {
+  width: min(210mm, 100%);
+  min-height: 297mm;
+  padding: 13mm 14mm 12mm;
+  background: var(--paper);
+  border-radius: 4px;
+  box-shadow: 0 30px 70px -35px rgba(20, 20, 30, 0.35);
+}
+
+.cv__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 5mm;
+  border-bottom: 2px solid var(--ink);
+}
+
+.cv__name {
+  font: 600 26pt/1 var(--font-display);
+  letter-spacing: -0.035em;
+}
+
+.cv__role {
+  margin-top: 2.2mm;
+  font-size: 10.5pt;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.cv__mark {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #ff7a45, #ffc46b);
+  font: 600 12px/1 var(--font-display);
+  color: var(--ink);
+}
+
+.cv__grid {
+  display: grid;
+  grid-template-columns: 55mm minmax(0, 1fr);
+  gap: 8mm;
+  margin-top: 6mm;
+}
+
+.cv h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2.6mm;
+  font: 600 7.5pt/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cv h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.cv section + section {
+  margin-top: 5mm;
+}
+
+/* yan sütun */
+.cv__kv li {
+  display: grid;
+  gap: 0.4mm;
+  margin-bottom: 2.2mm;
+  font-size: 8.6pt;
+  line-height: 1.35;
+}
+
+.cv__kv span {
+  font: 500 6.6pt/1.2 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.cv__kv a {
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.cv__skill + .cv__skill {
+  margin-top: 2.6mm;
+}
+
+.cv__skill h3 {
+  font: 600 8.8pt/1.3 var(--font-display);
+}
+
+.cv__skill p {
+  margin-top: 0.6mm;
+  font-size: 8.2pt;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.cv__langs li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 1.1mm 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 8.6pt;
+}
+
+.cv__langs li span:last-child {
+  color: var(--ink-2);
+}
+
+/* ana sütun */
+.cv__main p {
+  font-size: 8.9pt;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.cv__main section > p + p {
+  margin-top: 1.4mm;
+}
+
+.cv__item + .cv__item {
+  margin-top: 3.4mm;
+}
+
+.cv__item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.cv__item h3 {
+  font: 600 9.6pt/1.3 var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.cv__item h3 span {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.cv__date {
+  flex: none;
+  font: 500 7.4pt/1.3 var(--font-mono) !important;
+  color: var(--ink-3) !important;
+  white-space: nowrap;
+}
+
+.cv__org {
+  margin-top: 0.3mm;
+  font-size: 8.7pt !important;
+}
+
+.cv__org span {
+  color: var(--ink-3);
+}
+
+.cv__item ul {
+  margin-top: 1.2mm;
+  padding-left: 3.6mm;
+}
+
+.cv__item li {
+  list-style: disc;
+  margin-top: 0.8mm;
+  font-size: 8.6pt;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.cv__item li::marker {
+  color: var(--accent);
+}
+
+.cv__tags {
+  margin-top: 0.8mm;
+  font: 500 7.2pt/1.4 var(--font-mono) !important;
+  color: var(--ink-3) !important;
+}
+
+.cv__tags a {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.cv__certs li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 1.6mm;
+  font-size: 8.7pt;
+}
+
+.cv__certs li span:last-child {
+  flex: none;
+  font: 500 7.2pt/1.3 var(--font-mono);
+  color: var(--ink-3);
+}
+
+@media (max-width: 760px) {
+  .cv {
+    min-height: 0;
+    padding: 24px 18px;
+  }
+
+  .cv__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .cv__item-head {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cv-btn span {
+    display: none;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body.cv-body {
+    background: #fff;
+  }
+
+  .cv-toolbar {
+    display: none;
+  }
+
+  .cv-page {
+    padding: 0;
+  }
+
+  .cv {
+    width: 210mm;
+    min-height: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .cv__item,
+  .cv section {
+    break-inside: avoid;
+  }
+}
