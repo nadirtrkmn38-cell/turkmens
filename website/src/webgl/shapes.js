@@ -88,37 +88,38 @@ export const TURBINES = [
 ];
 const GROUND_Y = -2.5;
 
-/* 0 — Güneş: kaynayan yüzey + iç parıltı + titreşen korona ışınları + püskürmeler */
+/* 0 — Güneş: kaynayan yüzey + parlak çekirdek + titreşen korona + püskürmeler */
 function sun(n, rand) {
   const out = new Float32Array(n * 4);
   const R = 1.55;
-  const rays = Array.from({ length: 110 }, () => randomDir(rand));
-  const loops = Array.from({ length: 4 }, () => {
+  const rays = Array.from({ length: 280 }, () => randomDir(rand));
+  const loops = Array.from({ length: 3 }, () => {
     const a = randomDir(rand);
-    const b = normalize([a[0] + gauss(rand) * 0.28, a[1] + gauss(rand) * 0.28, a[2] + gauss(rand) * 0.28]);
-    return { a, b, h: 0.25 + rand() * 0.3 };
+    const b = normalize([a[0] + gauss(rand) * 0.22, a[1] + gauss(rand) * 0.22, a[2] + gauss(rand) * 0.22]);
+    return { a, b, h: 0.18 + rand() * 0.2 };
   });
   for (let i = 0; i < n; i++) {
     const k = rand();
-    if (k < 0.64) {
+    if (k < 0.56) {
       const [x, y, z] = randomDir(rand);
       const r = R + gauss(rand) * 0.015;
-      put(out, i, x * r, y * r, z * r, 1);
-    } else if (k < 0.76) {
+      put(out, i, x * r, y * r, z * r, 1.2);
+    } else if (k < 0.8) {
+      // çekirdeğe doğru yoğunlaşan iç parıltı
       const [x, y, z] = randomDir(rand);
-      const r = R * Math.cbrt(rand()) * 0.96;
-      put(out, i, x * r, y * r, z * r, 0.5);
-    } else if (k < 0.96) {
+      const r = R * Math.pow(rand(), 0.5) * 0.97;
+      put(out, i, x * r, y * r, z * r, 0.8);
+    } else if (k < 0.97) {
       const ray = rays[Math.floor(rand() * rays.length)];
-      const [x, y, z] = normalize([ray[0] + gauss(rand) * 0.035, ray[1] + gauss(rand) * 0.035, ray[2] + gauss(rand) * 0.035]);
-      const r = R * (1.02 + Math.pow(rand(), 1.9) * 0.72);
+      const [x, y, z] = normalize([ray[0] + gauss(rand) * 0.06, ray[1] + gauss(rand) * 0.06, ray[2] + gauss(rand) * 0.06]);
+      const r = R * (1.02 + Math.pow(rand(), 2.2) * 0.62);
       put(out, i, x * r, y * r, z * r, 2 + rand() * 0.98); // korona
     } else {
       const l = loops[Math.floor(rand() * loops.length)];
       const t = rand();
       const d = normalize([l.a[0] * (1 - t) + l.b[0] * t, l.a[1] * (1 - t) + l.b[1] * t, l.a[2] * (1 - t) + l.b[2] * t]);
-      const r = R + Math.sin(Math.PI * t) * l.h + gauss(rand) * 0.015;
-      put(out, i, d[0] * r, d[1] * r, d[2] * r, 0.85);
+      const r = R + Math.sin(Math.PI * t) * l.h + gauss(rand) * 0.012;
+      put(out, i, d[0] * r, d[1] * r, d[2] * r, 0.7);
     }
   }
   return out;

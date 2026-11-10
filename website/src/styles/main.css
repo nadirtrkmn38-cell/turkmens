@@ -1083,7 +1083,7 @@ p {
   font: 500 4.2rem/1 var(--font-display);
   letter-spacing: -0.06em;
   color: var(--fg);
-  mix-blend-mode: overlay;
+  text-shadow: 0 6px 40px rgba(0, 0, 0, 0.45);
 }
 
 .portrait figcaption {

@@ -4,7 +4,9 @@ import {
   BufferGeometry,
   Color,
   MathUtils,
+  Mesh,
   PerspectiveCamera,
+  PlaneGeometry,
   Points,
   Scene,
   ShaderMaterial,
@@ -19,6 +21,16 @@ const FOV = 35;
 const CAM_Z = 10;
 const TAN = Math.tan(MathUtils.degToRad(FOV / 2));
 const WORD_INDEX = 5;
+
+// Bazı şekillerin arkasındaki yumuşak ışık halesi (güneş ve atom çekirdeği)
+const GLOWS = [
+  { color: '#ff7a2e', opacity: 0.55, scale: 7.2 },
+  null,
+  null,
+  { color: '#ffc46b', opacity: 0.32, scale: 2.4 },
+  null,
+  null,
+];
 
 const damp = (a, b, lambda, dt) => MathUtils.lerp(a, b, 1 - Math.exp(-lambda * dt));
 const smooth = (x) => x * x * (3 - 2 * x);
@@ -85,6 +97,7 @@ export class World {
 
     this.buildParticles();
     this.buildStars();
+    this.buildGlow();
     this.resize();
 
     this.loop = this.loop.bind(this);
@@ -193,6 +206,42 @@ export class World {
     this.stars = new Points(geometry, material);
     this.stars.frustumCulled = false;
     this.scene.add(this.stars);
+  }
+
+  buildGlow() {
+    this.glowUniforms = {
+      uColor: { value: new Color('#ff7a2e') },
+      uOpacity: { value: 0 },
+    };
+    const material = new ShaderMaterial({
+      uniforms: this.glowUniforms,
+      vertexShader: /* glsl */ `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }`,
+      fragmentShader: /* glsl */ `
+        uniform vec3 uColor;
+        uniform float uOpacity;
+        varying vec2 vUv;
+        void main() {
+          float d = length(vUv - 0.5) * 2.0;
+          float a = pow(max(0.0, 1.0 - d), 2.4) * uOpacity;
+          gl_FragColor = vec4(uColor, a);
+          #include <colorspace_fragment>
+        }`,
+      transparent: true,
+      depthWrite: false,
+      depthTest: false,
+      blending: AdditiveBlending,
+    });
+    this.glow = new Mesh(new PlaneGeometry(1, 1), material);
+    this.glow.renderOrder = -1;
+    this.glow.frustumCulled = false;
+    this.glowColorA = new Color();
+    this.glowColorB = new Color();
+    this.scene.add(this.glow);
   }
 
   /* ───────────── dış dünya ile bağlantı ───────────── */
@@ -428,7 +477,21 @@ export class World {
 
     // genel parlaklık
     const fadeIn = smooth(clamp(st.intro * 2.2, 0, 1));
-    u.uOpacity.value = MathUtils.lerp(A.opacity, B.opacity, E) * fadeIn;
+    const opacity = MathUtils.lerp(A.opacity, B.opacity, E);
+    u.uOpacity.value = opacity * fadeIn;
+
+    // ışık halesi
+    const gA = GLOWS[from];
+    const gB = GLOWS[to];
+    this.glowColorA.set(gA?.color ?? gB?.color ?? '#000000');
+    this.glowColorB.set(gB?.color ?? gA?.color ?? '#000000');
+    this.glowUniforms.uColor.value.copy(this.glowColorA).lerp(this.glowColorB, E);
+    const introGlow = smooth(clamp((st.intro - 0.35) / 0.65, 0, 1));
+    this.glowUniforms.uOpacity.value =
+      MathUtils.lerp(gA?.opacity ?? 0, gB?.opacity ?? 0, E) * introGlow * opacity * (1 + 0.05 * Math.sin(this.time * 1.7));
+    this.glow.position.copy(this.points.position);
+    this.glow.position.z -= 0.6;
+    this.glow.scale.setScalar(s * MathUtils.lerp(gA?.scale ?? gB?.scale ?? 1, gB?.scale ?? gA?.scale ?? 1, E));
     this.starUniforms.uOpacity.value = fadeIn;
 
     // imlece göre hafif paralaks + şeklin eğilmesi
@@ -439,6 +502,7 @@ export class World {
     this.camera.position.x = st.parallax.x * 0.22;
     this.camera.position.y = st.parallax.y * 0.14;
     this.camera.lookAt(0, 0, 0);
+    this.glow.quaternion.copy(this.camera.quaternion);
     this.points.rotation.x = -st.parallax.y * 0.16;
     this.points.rotation.y = st.parallax.x * 0.22;
     this.stars.rotation.y = this.time * 0.006 + st.progress * 0.05;
