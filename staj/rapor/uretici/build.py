@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""İME ön raporu üretici.
+"""İME raporu üretici.
 
 KOÜ Teknoloji Fakültesi İME şablonunu (tpl/) doldurur; içerik icerik.py'dedir.
 Uygulanan kurallar (Yönerge m. 10, Rapor Yazım Kuralları 2.x):
@@ -10,6 +10,8 @@ Uygulanan kurallar (Yönerge m. 10, Rapor Yazım Kuralları 2.x):
   - ön sayfalar i, ii… alt orta; metin 1, 2… üst sağ Arial Bold 12; bölüm ilk sayfalarında numara yok
   - her sayfanın altında sorumlu imza/kaşe alanı; bölüm ilk sayfasında işletme yöneticisi imza/kaşe
 Çalıştırma: python3 build.py   (taşan "Yapılan İş" sayfaları otomatik olarak "(devam)" sayfasına bölünür)
+PLAN: henüz yaşanmamış günlerin taslak içeriği sarı vurguyla basılır (icerik.PLAN, F(..., plan=True),
+      ('p', metin, 'plan')). Gün gerçekleşince metni düzeltip işareti kaldırın; sarı vurgulu rapor teslim edilmez.
 """
 import copy, json, os, re, shutil, subprocess, sys
 from datetime import datetime, timedelta
@@ -47,10 +49,13 @@ def frag(xml):
     return list(etree.fromstring('<w:body %s>%s</w:body>' % (NSDECL, xml)))
 
 TNR = '<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>'
-def rpr(sz=24, b=False):
-    return '<w:rPr>%s%s<w:sz w:val="%d"/><w:szCs w:val="%d"/></w:rPr>' % (TNR, '<w:b/><w:bCs/>' if b else '', sz, sz)
-def run(t, sz=24, b=False):
-    return '<w:r>%s<w:t xml:space="preserve">%s</w:t></w:r>' % (rpr(sz, b), escape(t))
+def rpr(sz=24, b=False, hl=False):
+    return '<w:rPr>%s%s<w:sz w:val="%d"/><w:szCs w:val="%d"/>%s</w:rPr>' % (
+        TNR, '<w:b/><w:bCs/>' if b else '', sz, sz, '<w:highlight w:val="yellow"/>' if hl else '')
+def run(t, sz=24, b=False, hl=False):
+    return '<w:r>%s<w:t xml:space="preserve">%s</w:t></w:r>' % (rpr(sz, b, hl), escape(t))
+def is_plan(b):
+    return len(b) > 2 and b[-1] == 'plan'
 def tab_run(sz=24, b=False):
     return '<w:r>%s<w:tab/></w:r>' % rpr(sz, b)
 def para(runs, jc='both', before=0, after=SP_PARA, line=276, keep=False, ind='', pbb=False, sz=24,
@@ -111,7 +116,7 @@ def figure(fn, width_cm, caption):
             para(run(caption, 20), jc='center' if len(caption) < 88 else 'both', before=180, after=SP_PARA,
                  line=240, sz=20))
 
-def table(cols_cm, rows, sz=24):
+def table(cols_cm, rows, sz=24, hl=False):
     tw = [int(round(c * 567)) for c in cols_cm]
     grid = ''.join('<w:gridCol w:w="%d"/>' % w for w in tw)
     bd = ''.join('<w:%s w:val="single" w:sz="4" w:space="0" w:color="000000"/>' % s
@@ -122,32 +127,36 @@ def table(cols_cm, rows, sz=24):
          '<w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/>'
          '</w:tblPr><w:tblGrid>%s</w:tblGrid>') % (sum(tw), bd, grid)
     for i, row in enumerate(rows):
+        rhl = hl
+        if isinstance(row, tuple) and row[0] == 'plan':   # tek satırlık plan işareti: ('plan', [hücreler])
+            row, rhl = row[1], True
         x += '<w:tr><w:trPr><w:cantSplit/>%s</w:trPr>' % ('<w:tblHeader/>' if i == 0 else '')
         for j, cell in enumerate(row):
             shd = '<w:shd w:val="clear" w:color="auto" w:fill="E7E6E6"/>' if i == 0 else ''
             x += '<w:tc><w:tcPr><w:tcW w:w="%d" w:type="dxa"/>%s<w:vAlign w:val="center"/></w:tcPr>%s</w:tc>' % (
-                tw[j], shd, para(run(cell, sz, b=(i == 0)), jc='left', after=0, line=240, sz=sz))
+                tw[j], shd, para(run(cell, sz, b=(i == 0), hl=rhl and i > 0), jc='left', after=0, line=240, sz=sz))
         x += '</w:tr>'
     return x + '</w:tbl>'
 
-def blocks_xml(blocks, first_page):
+def blocks_xml(blocks, first_page, plan=False):
     out = []
     for b in blocks:
         k = b[0]
+        hl = plan or is_plan(b)
         if k == 'h1':   # bölüm başlığı: sayfanın üst kenarından ≈ 5 cm aşağıda, sonrasında 4,5 aralık
             out.append(para(run(b[1], 28, True), jc='left', before=454 if first_page else 0, after=SP_HEAD_AFTER,
                             keep=True, outline=0))
-        elif k in ('h2', 'h3'):
-            out.append(para(run(b[1], 24, True), jc='left', before=0, after=SP_PARA, keep=True,
+        elif k in ('h2', 'h3'):   # hafta başlığı (h2) yapıya aittir, vurgulanmaz
+            out.append(para(run(b[1], 24, True, hl and k == 'h3'), jc='left', before=0, after=SP_PARA, keep=True,
                             outline=1 if k == 'h2' else 2))
         elif k == 'p':
-            out.append(para(run(b[1]), jc='both', after=SP_PARA))
+            out.append(para(run(b[1], hl=hl), jc='both', after=SP_PARA))
         elif k == 'fig':
             out.append(figure(b[1], b[2], b[3]))
         elif k == 'tbl':
             if b[1]:   # tablo açıklaması tablonun üstünde, tabloyla arasında 1,5 aralık
                 out.append(para(run(b[1], 20), jc='left', before=0, after=180, line=240, keep=True, sz=20))
-            out.append(table(b[2], b[3]))
+            out.append(table(b[2], b[3], sz=b[4] if len(b) > 4 and isinstance(b[4], int) else 24, hl=hl))
             out.append(para('', jc='left', before=0, after=SP_PARA - 60, line=240, sz=4))
     return ''.join(out)
 
@@ -221,9 +230,10 @@ def instances(breaks):
         bl = fr['blocks']
         bounds = [0] + sorted(breaks.get(fr['id'], [])) + [len(bl)]
         for k in range(len(bounds) - 1):
-            out.append(dict(fid=fr['id'], k=k, bolum=fr['bolum'], date=fr['date'], start=bounds[k],
+            out.append(dict(fid=fr['id'], k=k, bolum=fr['bolum'], date=fr['date'], plan=fr.get('plan', False),
+                            start=bounds[k],
                             end=bounds[k + 1], blocks=bl[bounds[k]:bounds[k + 1]],
-                            title=fr['title'] if k == 0 else fr['title'] + ' (devam)'))
+                            title=fr['title'] if k == 0 or fr['title'].endswith('(devam)') else fr['title'] + ' (devam)'))
     seen = set()
     for ins in out:
         ins['first'] = ins['bolum'] not in seen
@@ -315,14 +325,15 @@ def build(insts, pages):
     # 3) ön sayfalar
     H = lambda t, first=False: para(run(t, 28, True), jc='left', before=1134, after=SP_HEAD_AFTER, keep=True,
                                     pbb=not first, outline=0)
-    P = lambda t: para(run(t), jc='both', after=SP_PARA)
+    P = lambda t: (para(run(t[1], hl=True), jc='both', after=SP_PARA) if isinstance(t, tuple)
+                   else para(run(t), jc='both', after=SP_PARA))
     fx = H('ÖNSÖZ', True) + ''.join(P(t) for t in C.ONSOZ)
-    fx += para(run('Kasım 2026'), jc='right', before=240, after=0) + para(run(C.AD), jc='right', after=0)
+    fx += para(run(C.ONSOZ_TARIH), jc='right', before=240, after=0) + para(run(C.AD), jc='right', after=0)
 
     tabR = '<w:tab w:val="right" w:leader="dot" w:pos="%d"/>' % TEXT_W
-    def toc_line(level, text, num):
+    def toc_line(level, text, num, hl=False):
         ind = {1: 0, 2: 397, 3: 794}[level]
-        return para(run(text, 24, level == 1) + tab_run() + run(num, 24, level == 1), jc='left',
+        return para(run(text, 24, level == 1, hl) + tab_run() + run(num, 24, level == 1), jc='left',
                     before=120 if level == 1 else 0, after=60, line=240, tabs=tabR,
                     ind='<w:ind w:left="%d" w:right="567" w:hanging="0"/>' % ind)
     fx += H('İÇİNDEKİLER')
@@ -332,7 +343,7 @@ def build(insts, pages):
     for i, ins in enumerate(insts):
         for b in ins['blocks']:
             if b[0] in ('h1', 'h2', 'h3'):
-                fx += toc_line({'h1': 1, 'h2': 2, 'h3': 3}[b[0]], b[1], ip(i))
+                fx += toc_line({'h1': 1, 'h2': 2, 'h3': 3}[b[0]], b[1], ip(i), ins['plan'] and b[0] == 'h3')
 
     tabS = '<w:tab w:val="left" w:pos="2041"/>'
     def sym(a, b_):
@@ -366,7 +377,7 @@ def build(insts, pages):
         if not pages: return '00'
         nums = sorted({pages['inst'][i] for i, ins in enumerate(insts) if ins['fid'] in refs})
         return str(nums[0]) if len(nums) == 1 else '%d-%d' % (nums[0], nums[-1])
-    c = lambda t, jc='center', b=False: para(run(t, 24, b), jc=jc, after=0, line=240)
+    c = lambda t, jc='center', b=False, hl=False: para(run(t, 24, b, hl), jc=jc, after=0, line=240)
     for wi, (start, end, days) in enumerate(C.HAFTALAR):
         t = strip_ids(copy.deepcopy(week_t))
         regrid(t, WEEK_GRID)
@@ -374,23 +385,25 @@ def build(insts, pages):
         h0 = rows[0].find('.//' + W + 'trHeight'); h0.set(W + 'val', '640'); h0.attrib.pop(W + 'hRule', None)
         set_cell(rows[0].find(W + 'tc'), c('%s Tarihinden %s Tarihine Kadar Bir Haftalık Çalışma Tablosu'
                                            % (start, end), b=True), 'center')
-        total, complete = 0, True
+        total, complete, anyplan = 0, True, False
         for i, (d, text, refs, hrs) in enumerate(days):
             tr = rows[2 + i]; tcs = tr.findall(W + 'tc')
             tr.find('.//' + W + 'trHeight').set(W + 'val', '1400')
             dayname = ptext(tcs[1]).strip()
+            pl = d in C.PLAN
+            anyplan |= pl
             set_cell(tcs[0], c(d), 'center')
             set_cell(tcs[1], c(dayname), 'center')
-            set_cell(tcs[2], c(text, 'left'), 'center')
-            set_cell(tcs[3], c(refs_txt(refs)), 'center')
-            set_cell(tcs[4], c('' if hrs is None else str(hrs)), 'center')
+            set_cell(tcs[2], c(text, 'left', hl=pl), 'center')
+            set_cell(tcs[3], c(refs_txt(refs), hl=pl), 'center')
+            set_cell(tcs[4], c('' if hrs is None else str(hrs), hl=pl), 'center')
             if hrs is None: complete = False
             else: total += hrs
         sat = (datetime.strptime(start, '%d.%m.%Y') + timedelta(days=5)).strftime('%d.%m.%Y')
         tcs = rows[7].findall(W + 'tc')
         for tc, v, jc in zip(tcs, [sat, 'Cumartesi', '–', '', ''], ['center', 'center', 'left', 'center', 'center']):
             set_cell(tc, c(v, jc), 'center')
-        set_cell(rows[8].findall(W + 'tc')[-1], c(str(total) if complete else '', b=True), 'center')
+        set_cell(rows[8].findall(W + 'tc')[-1], c(str(total) if complete else '', b=True, hl=anyplan), 'center')
         sig_l, sig_r = rows[10].findall(W + 'tc')
         append_after(sig_l, 'Adı SOYADI:', ' ' + C.AD)
         append_after(sig_l, 'Çalıştığı Bölüm:', ' Enerji Verimliliği')
@@ -414,13 +427,19 @@ def build(insts, pages):
             t = strip_ids(copy.deepcopy(frame_t))
             regrid(t, FRAME_GRID)
             rows = t.findall(W + 'tr')
+            trpr = rows[0].find(W + 'trPr')   # başlık satırı her çerçevede iki satır yüksekliğinde: çerçeveler eşit boyda
+            if trpr is None:
+                trpr = etree.Element(W + 'trPr'); rows[0].insert(0, trpr)
+            for h in trpr.findall(W + 'trHeight'):
+                trpr.remove(h)
+            th = etree.SubElement(trpr, W + 'trHeight'); th.set(W + 'val', '560'); th.set(W + 'hRule', 'atLeast')
             c0, c1 = rows[0].findall(W + 'tc')
-            set_cell(c0, para(run('Yapılan İş: ') + run(ins['title'], 24, True), jc='left', after=0, line=240))
-            set_cell(c1, para(run('Tarih: ') + run(ins['date'], 24, True), jc='left', after=0, line=240))
+            set_cell(c0, para(run('Yapılan İş: ') + run(ins['title'], 24, True, ins['plan']), jc='left', after=0, line=240))
+            set_cell(c1, para(run('Tarih: ') + run(ins['date'], 24, True, ins['plan']), jc='left', after=0, line=240))
             rows[1].find('.//' + W + 'trHeight').set(W + 'val', str(AC_H_FIRST if ins['first'] else AC_H))
             set_cell(rows[1].find(W + 'tc'),
                      para(run('Açıklama:', 24, True), jc='left', after=60, line=240) +
-                     blocks_xml(ins['blocks'], ins['first']))
+                     blocks_xml(ins['blocks'], ins['first'], ins['plan']))
             append_after(rows[2], 'ADI VE SOYADI:', ' [Sorumlu Ad SOYAD]', 20)
             for tt in rows[2].findall(W + 'tc')[1].iter(W + 't'):
                 if (tt.text or '').replace('\xa0', ' ').strip().startswith('İMZASI'):
@@ -490,7 +509,7 @@ def write_docx(doc, path):
     open(ct_p, 'w', encoding='utf-8').write(ct.replace('</Types>', add + '</Types>'))
     if os.path.exists(path):
         os.remove(path)
-    subprocess.run(['zip', '-q', '-X', '-r', path, '.'], cwd=work, check=True)
+    subprocess.run(['zip', '-q', '-X', '-D', '-r', path, '.'], cwd=work, check=True)
 
 def to_pdf(docx):
     cmd = (['/usr/bin/python3', SOFFICE] if os.path.exists(SOFFICE) else ['soffice'])
@@ -537,7 +556,7 @@ if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     bfile = os.path.join(OUT, 'breaks.json')
     breaks = json.load(open(bfile)) if os.path.exists(bfile) else {}
-    final = os.path.join(OUT, 'IME-On-Rapor.docx')
+    final = os.path.join(OUT, 'IME-Rapor.docx')
     pages = None
     for it in range(1, 16):
         insts = instances(breaks)

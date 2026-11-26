@@ -134,14 +134,14 @@ Müşteri adı, sözleşme bedeli, birim fiyat ve gerçek tüketim verisi rapora
 | 4 | 12.10.2026 – 16.10.2026 | 5 | tamamlandı |
 | 5 | 19.10.2026 – 23.10.2026 | 5 | tamamlandı |
 | 6 | 26.10.2026 – 30.10.2026 | 2 | tamamlandı · 28 ve 30.10 köprü izni (şirket geneli), 29.10 Cumhuriyet Bayramı |
-| 7 | 02.11.2026 – 06.11.2026 | 5 | devam ediyor |
-| 8 | 09.11.2026 – 13.11.2026 | 5 | ön rapor teslimi (ara sınav) |
-| 9 | 16.11.2026 – 20.11.2026 | 5 | |
-| 10 | 23.11.2026 – 27.11.2026 | 5 | |
-| 11 | 30.11.2026 – 04.12.2026 | 5 | |
-| 12 | 07.12.2026 – 11.12.2026 | 5 | |
-| 13 | 14.12.2026 – 18.12.2026 | 5 | |
-| 14 | 21.12.2026 – 25.12.2026 | 5 | |
+| 7 | 02.11.2026 – 06.11.2026 | 5 | tamamlandı |
+| 8 | 09.11.2026 – 13.11.2026 | 5 | tamamlandı · ön rapor teslimi (ara sınav) |
+| 9 | 16.11.2026 – 20.11.2026 | 5 | tamamlandı · 17.11 direktör sunumu (tarih teyit edilecek) |
+| 10 | 23.11.2026 – 27.11.2026 | 5 | devam ediyor · 27.11 plan |
+| 11 | 30.11.2026 – 04.12.2026 | 5 | plan (raporda sarı) |
+| 12 | 07.12.2026 – 11.12.2026 | 5 | plan (raporda sarı) |
+| 13 | 14.12.2026 – 18.12.2026 | 5 | plan (raporda sarı) |
+| 14 | 21.12.2026 – 25.12.2026 | 5 | plan (raporda sarı) |
 
 ---
 
@@ -320,6 +320,36 @@ Dosya: `staj/ciktilar/Atik-Isi-On-Fizibilite-Veri-Formu-Taslak3_30.html` (tek HT
   yükleme (15 MB paket), Outlook .eml taslağı; yönetici paneli (kayıtlar, ekip, karşılaştırma, hesaplama) ve
   müşteriye özel satış dosyası (ORC gücü yalnız yönetici sürümünde).
 
+### Hafta 7–10 özet takvimi (İME raporu, 26.11.2026)
+
+| Gün | İş |
+|---|---|
+| 04–06.11 | Veri formunun direktör tanıtımına hazırlanması; 13 üniteli örnek veri dosyası (EAF 7 fazlı döküm profili, meyve suyu Haziran–Ocak) **(tahmini)** |
+| 09.11 Pzt | Örnek veri sonuçlarının üç yoldan karşılaştırılması (ekran, Excel geri yükleme, LibreOffice) **(tahmini)** |
+| 10.11 Sal | Yönetici özeti, canlı demo senaryosu (15 dk), sonuçların "10 Kasım sürümü"nde doğrulanması (Docs belgeleri) |
+| 11–13.11 | Sunum metni (≈ 20 dk), açılış/kapanış slaytları **(tahmini)** |
+| 16.11 Pzt | Hazırlık listesi, prova **(tahmini)** |
+| 17.11 Sal | Veri formunun birim direktörüne sunulması (sunum metninin tarihi; **gerçek tarih teyit edilecek**) |
+| 18–20.11 | Karar konuları, yeni sürüm değişiklik listesi ve çalışması **(tahmini)** |
+| 23.11 Pzt | Form yeni sürümü (Taslak5): GES ünitesi + şeması; soğutucu akışkan çıkarıldı; SCADA altında PLC/enstrüman listesi; bulut alt soruları |
+| 24–26.11 | Yeni sürüm devam; 26.11 İME çalışma kayıtları **(tahmini)** |
+| 27.11 Cum | **PLAN** — yeni sürümün örnek verilerle denenmesi |
+
+**Direktör sunumu malzemeleri (Claude Docs):** "Atık Isı Ön Fizibilite Veri Formu — Yönetici Özeti",
+"Direktör Sunumu — Canlı Demo Senaryosu" (10.11), "Direktör Sunumu — Sunum Metni" (17.11).
+- Akış: yönetici paneli → satış dosyası (satış sorumlusu) → müşteri formu → Excel/ZIP panele döner;
+  dosya iki kez el değiştirir; .eml e-posta taslakları (alıcı/bilgi/konu otomatik).
+- ≈ 116 mühendislik kuralı (ısı akış yönü, kütle-enerji korunumu, stokiyometri, olağan aralık);
+  canlı örnek: tav fırını yanma havası 36.000 → 25.000 Nm³/h, stokiyometrik gereksinim ≈ 31.300 Nm³/h →
+  "eksik yanma" uyarısı. Uyarılar gönderimi engellemez (kalite kapısı).
+- Ön gösterge örnekleri: tav ≈ 5.050 kWth; toplam ≈ 65.700 kWth; alüminyum 2.970 kWth, ORC 534–653 kWe,
+  3,84–4,7 GWh/yıl (+ davlumbaz 435 kWth ORC dışı → ≈ 3.400 kWth); proses ısı pompası 466 kWth, COP 3,5,
+  ≈ 135 kWe, 377.390 Sm³/yıl. ORC toplamı 82,3–101 GWh; kazan + ısı pompası yakıt tasarrufu ≈ 9.720 MWh.
+- Karar beklenenler: pilot bölge ve müşteri sayısı; ortak klasör ve erişim listesi; ORC verimi, enerji
+  fiyatları ve emisyon faktörü onayı; biyogaz formlarının numaralı şemaya geçişi.
+- Not: satış dosyası, kurallar, önerilen sistem ve hesaplama sayfası 03.11 sürümünde (Taslak3_30) zaten
+  vardı; raporda bunlar "sunumda anlatılan" olarak yazıldı, o haftada geliştirildiği iddia edilmedi.
+
 ---
 
 ## 5. Rapor Malzemesi Havuzu
@@ -377,6 +407,15 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 
 ## 7. İME Raporu
 
+- **İME raporu (esas rapor, 21.09–25.12.2026; 26.11.2026 sürümü, 81 sayfa):** `staj/rapor/IME-Rapor.docx`
+  (+ PDF). 14 haftalık tablo; Bölüm 3'te 3.1–3.14; Bölüm 4 kurallar md. 12'ye göre (kazanımlar, beklentilerin
+  değerlendirmesi, görüş ve öneriler); Ek-1 çıktı listesi. Yeni: Tablo 3.4 (örnek veri sonuçları, 9 pt),
+  Tablo 3.5 (direktör sunumu bölümleri), Şekil 3.9 (kullanım akışı).
+- **PLAN işareti:** 27.11 ve 30.11–25.12 henüz yaşanmadı; bu günlerin tablo satırları, 3.10.2 ve 3.11–3.14
+  çerçeveleri, Özet ve 4.2'deki ilgili cümleler ile Ek-1'in son üç satırı **sarı vurgulu plan taslağıdır**.
+  Her hafta gerçekte yapılanla değiştir: `icerik.py` → `HAFTALAR` satırı + ilgili `F(..., plan=True)` metni;
+  tarihi `PLAN` listesinden, `plan=True`/`'plan'` işaretlerini kaldır; `python3 build.py`. Sarı kalan rapor
+  teslim edilmez (Yönerge m. 12/6).
 - **Ön rapor (03.11.2026, 56 sayfa):** `staj/rapor/IME-On-Rapor-2026-11-03.docx` (+ PDF). Yönerge m. 10 ve
   Rapor Yazım Kurallarına göre: kenar boşlukları 3,25/3,25/3/2,5 cm; TNR 12 pt; başlıklar 14/12 pt koyu;
   1,15 satır aralığı; paragraf ve alt başlık arası 3 aralık (18 nk; "aralık" Word'ün 6 nk adımı olarak
@@ -392,4 +431,7 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 - **Yer tutucular:** [Ad SOYAD], [Öğrenci No], [Yetkili Ad SOYAD], [Unvan], [Sorumlu Ad SOYAD],
   [Yönetici Ad SOYAD], Önsözdeki [Unvan Ad SOYAD]; TC no, adres, telefon; dijital fotoğraf.
 - **Teyit edilecek:** kurum unvanı ve ofis adresi; kurum telefon/e-posta (2024 faaliyet raporundan);
-  (tahmini) günler; 3.2.4 risk sunumu ve 3.6.1 saha ziyareti ayrıntıları. Baskı tek yüze (Yönerge m. 10/6).
+  (tahmini) günler (`icerik.TAHMINI`, 29 gün); 17.11 direktör sunumunun gerçek tarihi; 3.2.4 risk sunumu ve
+  3.6.1 saha ziyareti ayrıntıları; 23.11 "bulut alt soruları" yorumu. Baskı tek yüze (Yönerge m. 10/6).
+- **Teslim:** İME bitiminden (25.12.2026) sonra en geç bir hafta içinde Bölüm Başkanlığına (Yönerge);
+  değerlendirme formu işyerince kapalı zarfla aynı sürede.
