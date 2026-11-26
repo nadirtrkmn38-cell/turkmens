@@ -28,8 +28,8 @@ ONSOZ = [
     "yatırım teşvik düzenlemeleriyle aynı zamana denk gelmesi, güncel mevzuatın uygulamaya "
     "dönüştürülmesi konusunda çalışma olanağı sağlamıştır. İME süresinin önemli bir bölümü ise birimin "
     "müşteriden veri toplama sürecini yeniden tasarlayan atık ısı ön fizibilite veri formuna ayrılmış; "
-    "formun yönetime sunulması, yapılan teknik çalışmanın karar vericilere anlatılması deneyimini "
-    "kazandırmıştır.",
+    "formun müşterilerle denenmesi ve yönetime sunulması, yapılan teknik çalışmanın hem kullanıcılar hem "
+    "de karar vericiler tarafından değerlendirilmesini sağlamıştır.",
     "İME süresince görevleri planlayan ve çalışmaları yönlendiren İME sorumlusu [Unvan Ad SOYAD]'a "
     "(Enerjisa Enerji A.Ş.), projelerde bilgi ve deneyimlerini paylaşan Enerji Verimliliği ekibine "
     "(Enerjisa Enerji A.Ş.) ve İME sürecini izleyen denetçi öğretim elemanı [Unvan Ad SOYAD]'a "
@@ -48,17 +48,18 @@ OZET = [
     "kurallarını ve 2026 parasal eşiklerini içeren bir veri envanteri ile harita tabanlı bir destek analiz "
     "aracı oluşturulmuştur. Üçüncüsü ve en kapsamlısı, atık ısı geri kazanımı ön fizibilitesi için "
     "geliştirilen şema tabanlı veri formudur. 13 ünite türü için proses şemaları, yaklaşık 116 mühendislik "
-    "kontrol kuralı, ön hesap, Excel çıktısı ve yönetici paneli içeren form, örnek verilerle doğrulanarak "
-    "birim direktörüne sunulmuş ve ardından güneş enerjisi santrali (GES) ünitesiyle genişletilmiştir. "
-    "Dördüncüsünde, bir beyaz et üretim tesisinde kurulacak biyogaz tesisi "
-    "projesi için iş birliği, yönetim, risk ve maliyet sunumları hazırlanmış, reaktör ısıtmasında kullanılacak ısı "
-    "pompasının çalışma sıcaklıkları incelenmiş ve tesise saha ziyareti yapılmıştır.",
-    ('plan', "İME'nin son haftalarında formun biyogaz bölümleri numaralı şema düzenine taşınmış, hesap "
-             "varsayımları güncellenmiş, form pilot uygulamada denenmiş ve birime teslim edilmiştir."),
-    "Yöntem olarak mevzuat metinlerinin madde düzeyinde incelenmesi, kural tabloları ve veri envanteri "
-    "oluşturulması, ısıl hesaplar (gaz özellikleri, organik Rankine çevrimi (ORC) verimi, ısı depolama, "
-    "ısı pompası performansı, yanma stokiyometrisi), hesap sonuçlarının bağımsız bir hesap tablosu "
-    "yazılımıyla doğrulanması ve proje yönetimi araçları kullanılmıştır.",
+    "kontrol kuralı, ön hesap, Excel çıktısı ve yönetici paneli içeren form, birkaç müşteriyle denenerek "
+    "olumlu geri bildirim almış, birim direktörüne sunulmuş ve güneş enerjisi santrali (GES) ünitesiyle "
+    "genişletilmiştir. "
+    "Dördüncüsünde, bir beyaz et üretim tesisindeki biyogaz projesi için iş birliği, risk ve "
+    "maliyet sunumları hazırlanmış, reaktör ısıtmasındaki ısı pompasının çalışma sıcaklıkları incelenmiş ve "
+    "tesise saha ziyareti yapılmıştır.",
+    ('plan', "İME'nin son haftalarında Müşteri Çözümleri biriminin karbon ayak izi hizmeti için bir HTML aracı "
+             "geliştirilmiş ve müşterilerden gelen gerçek verilerle bir fizibilite çalışması yapılmıştır."),
+    "Yöntem olarak mevzuatın madde düzeyinde incelenmesi, veri envanteri oluşturulması, ısıl hesaplar "
+    "(gaz özellikleri, organik Rankine çevrimi (ORC) verimi, ısı depolama, ısı pompası performansı, yanma "
+    "stokiyometrisi), sonuçların bağımsız bir hesap tablosu yazılımıyla doğrulanması ve proje yönetimi "
+    "araçları kullanılmıştır.",
     "Sonuç olarak; karbon fiyatlandırmasının ve devlet desteklerinin enerji verimliliği yatırımlarının "
     "fizibilitesini doğrudan değiştirdiği, müşteriden veri toplamanın serbest yazışmadan tasarlanmış bir "
     "sürece dönüştürülmesinin ön fizibilitenin hızını ve güvenilirliğini artırdığı, hatalı verinin "
@@ -712,6 +713,16 @@ F('w5d', 3, '3.5.4. Çalışma noktalarının karşılaştırılması', '21–23
           "çalışmaya devam edilmiştir."),
 ])
 
+F('w5e', 3, '3.5.5. Formun müşterilerle denenmesi', '23.10.2026', [
+    ('h3', '3.5.5. Formun müşterilerle denenmesi'),
+    ('p', "Biyogaz ve ısı pompası ünitelerinin eklenmesiyle kapsamı tamamlanan veri formu, gerçek kullanım "
+          "koşullarında denenmek üzere birkaç sanayi müşterisine gönderilmiştir. Müşterilerden alınan geri "
+          "bildirimler olumlu olmuştur."),
+    ('p', "Bu deneme, müşteriden veri toplamanın serbest yazışma yerine yapılandırılmış bir formla "
+          "yürütülmesinin müşteri tarafında da benimsendiğini göstermiştir. Form sonraki haftalarda ekip içi "
+          "değerlendirmelerle geliştirilmeye devam edilmiş ve birim direktörüne tanıtılmıştır (bkz. 3.9.1)."),
+])
+
 F('w6a', 3, '3.6.1. Biyogaz tesisi saha ziyareti', '26.10.2026', [
     ('h2', '3.6. Altıncı Hafta (26.10.2026 – 30.10.2026)'),
     ('h3', '3.6.1. Biyogaz tesisi saha ziyareti'),
@@ -954,7 +965,7 @@ F('w9c', 3, '3.9.3. Sunumun değerlendirilmesi', '18–20.11.2026', [
           "oluşabilecek teknik aksaklıkların riskini azaltmıştır."),
 ])
 
-F('w10a', 3, '3.10.1. Veri formunun yeni sürümü', '23–26.11.2026', [
+F('w10a', 3, '3.10.1. Veri formunun yeni sürümü', '23.11.2026', [
     ('h2', '3.10. Onuncu Hafta (23.11.2026 – 27.11.2026)'),
     ('h3', '3.10.1. Veri formunun yeni sürümü'),
     ('p', "23.11.2026 tarihinde veri formunun yeni sürümü hazırlanmıştır. Bu sürümde forma güneş enerjisi "
@@ -970,61 +981,55 @@ F('w10a', 3, '3.10.1. Veri formunun yeni sürümü', '23–26.11.2026', [
           "göstermektedir. Isı pompası bölümünden ise müşteriden beklenmeyen bir tasarım ayrıntısı olan "
           "soğutucu akışkan çıkarılmıştır."),
     ('p', "Formdaki tüm sorular tek bir şema dosyasında tanımlandığından (bkz. 3.3.2) yeni ünite ve sorular "
-          "HTML formuna, dolu Excel çıktısına ve boş Excel şablonuna birlikte yansımıştır. Haftanın sonraki "
-          "günlerinde yeni sürüm üzerinde çalışılmaya devam edilmiş, 26.11.2026 tarihinde ayrıca İME raporu "
-          "için çalışma kayıtları derlenmiştir."),
+          "HTML formuna, dolu Excel çıktısına ve boş Excel şablonuna birlikte yansımıştır."),
 ])
 
-F('w10b', 3, '3.10.2. Yeni sürümün örnek verilerle denenmesi', '27.11.2026', [
-    ('h3', '3.10.2. Yeni sürümün örnek verilerle denenmesi'),
-    ('p', "27.11.2026 tarihinde yeni sürüm örnek veri dosyasıyla denenmiş; GES ünitesinin Excel çıktısında ve "
-          "boş Excel şablonunda yer aldığı, yeni veri altyapısı sorularının önceki yanıtlara göre doğru açılıp "
-          "kapandığı ve önceki sürümle hazırlanan Excel dosyalarının yeni sürüme sorunsuz yüklendiği kontrol "
-          "edilmiştir."),
+F('w10b', 3, '3.10.2. Karbon ayak izi hizmeti için HTML aracı', '24–27.11.2026', [
+    ('h3', '3.10.2. Karbon ayak izi hizmeti için HTML aracı'),
+    ('p', "Veri formunun yeni sürümünün ardından Müşteri Çözümleri biriminin kurumsal müşterilere yönelik "
+          "karbon ayak izi hizmeti (Carbonkit) ile ilgili bir HTML aracı üzerinde çalışılmaya başlanmıştır. "
+          "Araçta ön fizibilite formunda edinilen deneyimden yararlanılarak müşteriden istenecek verilerin tek "
+          "bir dosyada, birimleri ve açıklamalarıyla toplanması hedeflenmiştir."),
+    ('p', "İlk günlerde hizmetin kapsamı ve müşteriden istenecek faaliyet verileri belirlenmiş, aracın ekran "
+          "düzeni ve veri yapısı tasarlanmıştır. 26.11.2026 tarihinde ayrıca İME raporu için çalışma "
+          "kayıtları derlenmiştir."),
 ], plan=True)
 
 # ---------------- 11.–14. haftalar: henüz yaşanmadı; sarı vurgulu PLAN taslağıdır, gerçekleşince düzeltilir
-F('w11a', 3, '3.11.1. Biyogaz formlarında numaralı şema düzeni', '30.11–04.12.2026', [
+F('w11a', 3, '3.11.1. Karbon ayak izi HTML aracının geliştirilmesi', '30.11–04.12.2026', [
     ('h2', '3.11. On Birinci Hafta (30.11.2026 – 04.12.2026)'),
-    ('h3', '3.11.1. Biyogaz formlarında numaralı şema düzeni'),
-    ('p', "On birinci haftada biyogaz sektör formlarının, diğer ünitelerde olduğu gibi numaralı şema düzenine "
-          "taşınması üzerinde çalışılmıştır. Atık haritası ile atıksu arıtma tesisi çizimindeki ölçüm "
-          "noktalarına numara verilmiş ve aynı numaraların formdaki soru satırlarında ve Excel çıktısındaki "
-          "sıra numaralarında kullanılması sağlanmıştır."),
-    ('p', "Bu düzenlemeyle sektör formları ile diğer ünite formları arasındaki kullanım farkı ortadan kalkmış, "
-          "müşterinin şemadaki bir numaradan ilgili soruya ve Excel'deki satıra doğrudan ulaşabilmesi "
-          "sağlanmıştır. Değişikliklerin ardından biyogaz formlarının hesapları örnek veri dosyasıyla yeniden "
-          "denetlenmiştir."),
+    ('h3', '3.11.1. Karbon ayak izi HTML aracının geliştirilmesi'),
+    ('p', "Karbon ayak izi hizmetine yönelik HTML aracının geliştirilmesine devam edilmiştir. Aracın veri "
+          "giriş ekranları, birim dönüşümleri, hesap adımları ve Excel çıktısı hazırlanmıştır."),
+    ('p', "Araç, ön fizibilite formunda olduğu gibi kurulum ve internet bağlantısı gerektirmeyen tek bir HTML "
+          "dosyası olarak tasarlanmış; müşteriden gelen verilerin birim içinde aynı biçimde incelenebilmesi "
+          "amaçlanmıştır."),
 ], plan=True)
 
-F('w12a', 3, '3.12.1. Varsayımların güncellenmesi ve pilot hazırlığı', '07–11.12.2026', [
+F('w12a', 3, '3.12.1. Karbon ayak izi HTML aracının denenmesi', '07–11.12.2026', [
     ('h2', '3.12. On İkinci Hafta (07.12.2026 – 11.12.2026)'),
-    ('h3', '3.12.1. Varsayımların güncellenmesi ve pilot hazırlığı'),
-    ('p', "Ön hesapta kullanılan ORC verim eğrisi, enerji fiyatları ve elektrik üretiminin emisyon faktörü "
-          "birimle birlikte gözden geçirilmiş, onaylanan değerler formun varsayılan değerlerine "
-          "işlenmiştir."),
-    ('p', "Pilot uygulama için yönetici paneli kayıtlarının tutulacağı ortak klasör ve erişim listesi "
-          "hazırlanmış, satış ekibinin satış dosyasını kullanabilmesi için kısa bir kullanım kılavuzu "
-          "yazılmıştır."),
+    ('h3', '3.12.1. Karbon ayak izi HTML aracının denenmesi'),
+    ('p', "Araç örnek verilerle denenmiş, hesap sonuçları elle yapılan hesaplarla karşılaştırılmış ve birim "
+          "içinde gözden geçirilmiştir. Gözden geçirmede alınan geri bildirimlere göre ekranlar ve "
+          "açıklamalar düzenlenmiştir."),
 ], plan=True)
 
-F('w13a', 3, '3.13.1. Formun pilot uygulamada denenmesi', '14–18.12.2026', [
+F('w13a', 3, '3.13.1. Gerçek müşteri verileriyle fizibilite çalışması', '14–18.12.2026', [
     ('h2', '3.13. On Üçüncü Hafta (14.12.2026 – 18.12.2026)'),
-    ('h3', '3.13.1. Formun pilot uygulamada denenmesi'),
-    ('p', "Form, pilot uygulama için belirlenen müşterilere satış ekibi aracılığıyla gönderilmiş; dönen "
-          "dosyalar yönetici panelinde açılarak yanıtların eksiksizliği, kontrol uyarıları ve ön hesap "
-          "sonuçları incelenmiştir."),
-    ('p', "Müşterilerin zorlandığı sorular ve en sık eksik kalan veriler kayda alınmış, açıklama metinleri ve "
-          "uyarı sınırları bu geri bildirimlere göre düzenlenmiştir."),
+    ('h3', '3.13.1. Gerçek müşteri verileriyle fizibilite çalışması'),
+    ('p', "Ön fizibilite veri formuyla müşterilerden gelen gerçek veriler kullanılarak fizibilite çalışmasına "
+          "başlanmıştır. Önce verilerin tutarlılığı formdaki kontrol uyarıları ve tesisle yapılan "
+          "yazışmalarla gözden geçirilmiş, ardından geri kazanılabilir ısı ve önerilen sistemin kapasitesi "
+          "hesaplanmıştır."),
+    ('p', "Gizlilik kuralları gereği müşteri adı, gerçek tüketim verileri ve fiyatlar rapora alınmamıştır."),
 ], plan=True)
 
-F('w14a', 3, "3.14.1. Devir teslim ve İME'nin tamamlanması", '21–25.12.2026', [
+F('w14a', 3, "3.14.1. Fizibilitenin tamamlanması ve İME'nin değerlendirilmesi", '21–25.12.2026', [
     ('h2', '3.14. On Dördüncü Hafta (21.12.2026 – 25.12.2026)'),
-    ('h3', "3.14.1. Devir teslim ve İME'nin tamamlanması"),
-    ('p', "Son haftada formun güncel sürümü, sürüm notları ve teknik açıklamalarıyla birlikte birime teslim "
-          "edilmiş; şema dosyasının, hesap varsayımlarının ve Excel çıktılarının nasıl güncelleneceği ekip "
-          "üyelerine aktarılmıştır."),
-    ('p', "İME süresince hazırlanan çıktılar ortak klasörde düzenlenmiş, çalışma kayıtları tamamlanmış ve İME "
+    ('h3', "3.14.1. Fizibilitenin tamamlanması ve İME'nin değerlendirilmesi"),
+    ('p', "Fizibilite çalışmasında yatırım tutarı, yıllık tasarruf ve geri ödeme süresi hesaplanmış, "
+          "sonuçlar birime sunulmuştur."),
+    ('p', "Son gün İME süresince hazırlanan çıktılar düzenlenmiş, çalışma kayıtları tamamlanmış ve İME "
           "sorumlusuyla dönemin genel değerlendirmesi yapılmıştır."),
 ], plan=True)
 
@@ -1066,14 +1071,15 @@ F('b4b', 4, 'Bölüm 4. Sonuçlar ve öneriler (devam)', '21.09–25.12.2026', [
     ('h2', "4.2. İME'den Beklentilerin Değerlendirilmesi"),
     ('p', "Giriş bölümünde belirlenen beklentilerden mevzuatın müşteri için anlaşılır araçlara "
           "dönüştürülmesi, TR ETS kapsam karar aracı ve destek analiz aracıyla karşılanmıştır. Enerji "
-          "verimliliği projelerinin teknik ve ekonomik ön değerlendirmesinde deneyim kazanılması beklentisi "
-          "atık ısı ön fizibilite veri formu ve ısı pompası çalışmasıyla, gerçek bir yatırım projesinde proje "
+          "verimliliği projelerinin teknik ve ekonomik ön değerlendirmesinde deneyim kazanılması beklentisi, "
+          "birkaç müşteriyle denenerek olumlu geri bildirim alan atık ısı ön fizibilite veri formu ve ısı "
+          "pompası çalışmasıyla; gerçek bir yatırım projesinde proje "
           "organizasyonu ile sözleşme ve paydaş yönetiminin gözlemlenmesi beklentisi ise biyogaz tesisi "
           "projesinin sunumlarıyla karşılanmıştır."),
     ('p', "Saha çalışmalarına katılım beklentisi, biyogaz tesisinin kurulacağı beyaz et üretim tesisine "
-          "yapılan saha ziyaretiyle kısmen karşılanmıştır. Enerji etütlerine ve yerinde ölçümlere daha fazla "
-          "katılım, ön fizibilite formunun ürettiği ön hesapların sahada nasıl doğrulandığının görülmesi "
-          "açısından yararlı olacaktır.", 'plan'),
+          "yapılan saha ziyaretiyle kısmen karşılanmıştır. Son haftalarda müşterilerden gelen gerçek "
+          "verilerle yapılan fizibilite çalışması ise ön fizibilite aşamasında toplanan verinin bir sonraki "
+          "aşamada nasıl kullanıldığının görülmesini sağlamıştır.", 'plan'),
 ])
 
 F('b4c', 4, 'Bölüm 4. Sonuçlar ve öneriler (devam)', '21.09–25.12.2026', [
@@ -1084,8 +1090,9 @@ F('b4c', 4, 'Bölüm 4. Sonuçlar ve öneriler (devam)', '21.09–25.12.2026', [
           "de şirketin üstlendiği performans riskini doğrudan belirlemektedir. Aşağıdaki öneriler bu nedenle "
           "müşteri verisinin toplanmasına, hesap varsayımlarının yönetimine ve sonuçların doğrulanmasına "
           "odaklanmaktadır."),
-    ('p', "(1) Ön fizibilite veri formu birimde müşteriden veri toplamanın varsayılan yöntemi olarak "
-          "kullanılmalı, form saha ziyaretinden önce müşteriye gönderilmeli ve ziyarette yalnızca eksik "
+    ('p', "(1) Müşterilerle yapılan ilk denemedeki olumlu geri bildirimler dikkate alınarak ön fizibilite "
+          "veri formu birimde müşteriden veri toplamanın varsayılan yöntemi olarak kullanılmalı, form saha "
+          "ziyaretinden önce müşteriye gönderilmeli ve ziyarette yalnızca eksik "
           "ölçümlere odaklanılmalıdır. Formun tek bir güncel sürümü ortak klasörde tutulmalı, değişiklikler "
           "sürüm notlarıyla kayıt altına alınmalıdır."),
     ('p', "(2) ORC verim eğrisi, enerji fiyatları ve emisyon faktörü gibi varsayımlar birimce onaylanmış tek "
@@ -1138,9 +1145,8 @@ F('ek1', 5, 'Ek-1 İME süresince hazırlanan çıktılar', '21.09–25.12.2026'
         ['10.11.2026', 'Veri formu yönetici özeti ve canlı gösterim senaryosu', 'Metin'],
         ['10–17.11.2026', 'Direktör sunumu metni, açılış ve kapanış slaytları', 'Metin, PowerPoint'],
         ['23.11.2026', 'Veri formunun GES ünitesi eklenmiş yeni sürümü', 'HTML, Excel'],
-        ('plan', ['30.11–04.12.2026', 'Biyogaz formlarında numaralı şema düzeni', 'HTML']),
-        ('plan', ['07–11.12.2026', 'Satış ekibi için veri formu kullanım kılavuzu', 'PDF']),
-        ('plan', ['21–25.12.2026', 'Veri formunun teslim sürümü ve sürüm notları', 'HTML, Metin']),
+        ('plan', ['24.11–11.12.2026', 'Karbon ayak izi hizmeti için HTML aracı', 'HTML']),
+        ('plan', ['14–25.12.2026', 'Gerçek müşteri verileriyle fizibilite çalışması', 'Excel, Metin']),
     ], 18),   # uzun tablo: Yazım Kuralları 2.2 uyarınca 9 punto
 ])
 
@@ -1180,7 +1186,7 @@ HAFTALAR = [
   ('20.10.2026', 'Veri formu: biyogaz ve ısı pompası üniteleri (devam)', ['w5a', 'w5b'], 8),
   ('21.10.2026', 'Reaktör ısıtması için ısı pompası çalışma sıcaklıkları bilgi notu', ['w5c', 'w5d'], 8),
   ('22.10.2026', 'Isı pompası çalışması (devam)', ['w5d'], 8),
-  ('23.10.2026', 'Isı pompası çalışması (devam)', ['w5d'], 8),
+  ('23.10.2026', 'Ön fizibilite veri formunun birkaç müşteriye gönderilmesi', ['w5e'], 8),
  ]),
  ('26.10.2026', '30.10.2026', [
   ('26.10.2026', 'Biyogaz tesisi saha ziyareti; devlet destekleri görüşmesi', ['w6a'], 8),
@@ -1212,37 +1218,37 @@ HAFTALAR = [
  ]),
  ('23.11.2026', '27.11.2026', [
   ('23.11.2026', 'Veri formu yeni sürümü: GES ünitesi ve şeması; veri altyapısı soruları', ['w10a'], 8),
-  ('24.11.2026', 'Veri formunun yeni sürümü (devam)', ['w10a'], 8),
-  ('25.11.2026', 'Veri formunun yeni sürümü (devam)', ['w10a'], 8),
-  ('26.11.2026', 'Veri formu (devam); İME çalışma kayıtlarının derlenmesi', ['w10a'], 8),
-  ('27.11.2026', 'Yeni sürümün örnek verilerle denenmesi', ['w10b'], 8),
+  ('24.11.2026', 'Karbon ayak izi hizmeti için HTML aracına başlanması', ['w10b'], 8),
+  ('25.11.2026', 'Karbon ayak izi HTML aracı: kapsam ve veri yapısı', ['w10b'], 8),
+  ('26.11.2026', 'Karbon ayak izi HTML aracı (devam); İME çalışma kayıtları', ['w10b'], 8),
+  ('27.11.2026', 'Karbon ayak izi HTML aracı (devam)', ['w10b'], 8),
  ]),
  ('30.11.2026', '04.12.2026', [
-  ('30.11.2026', 'Biyogaz sektör formlarında ölçüm noktalarının numaralandırılması', ['w11a'], 8),
-  ('01.12.2026', 'Atık haritası ve atıksu arıtma çiziminde numaralı düzen', ['w11a'], 8),
-  ('02.12.2026', 'Numaraların soru satırları ve Excel çıktısıyla eşleştirilmesi', ['w11a'], 8),
-  ('03.12.2026', 'Biyogaz formlarının örnek verilerle denetimi', ['w11a'], 8),
-  ('04.12.2026', 'Biyogaz formlarında numaralı düzenin tamamlanması', ['w11a'], 8),
+  ('30.11.2026', 'Karbon ayak izi HTML aracı: veri giriş ekranları', ['w11a'], 8),
+  ('01.12.2026', 'Karbon ayak izi HTML aracı: birim dönüşümleri', ['w11a'], 8),
+  ('02.12.2026', 'Karbon ayak izi HTML aracı: hesap adımları', ['w11a'], 8),
+  ('03.12.2026', 'Karbon ayak izi HTML aracı: Excel çıktısı', ['w11a'], 8),
+  ('04.12.2026', 'Karbon ayak izi HTML aracı (devam)', ['w11a'], 8),
  ]),
  ('07.12.2026', '11.12.2026', [
-  ('07.12.2026', 'Ön hesap varsayımlarının birimle gözden geçirilmesi', ['w12a'], 8),
-  ('08.12.2026', 'Onaylanan varsayımların forma işlenmesi', ['w12a'], 8),
-  ('09.12.2026', 'Pilot uygulama için ortak klasör ve erişim listesi', ['w12a'], 8),
-  ('10.12.2026', 'Satış ekibi için kullanım kılavuzu', ['w12a'], 8),
-  ('11.12.2026', 'Kullanım kılavuzu (devam)', ['w12a'], 8),
+  ('07.12.2026', 'Karbon ayak izi aracının örnek verilerle denenmesi', ['w12a'], 8),
+  ('08.12.2026', 'Hesap sonuçlarının elle yapılan hesaplarla karşılaştırılması', ['w12a'], 8),
+  ('09.12.2026', 'Aracın birim içinde gözden geçirilmesi', ['w12a'], 8),
+  ('10.12.2026', 'Geri bildirimlere göre düzenlemeler', ['w12a'], 8),
+  ('11.12.2026', 'Geri bildirimlere göre düzenlemeler (devam)', ['w12a'], 8),
  ]),
  ('14.12.2026', '18.12.2026', [
-  ('14.12.2026', 'Formun pilot müşterilere gönderilmesi', ['w13a'], 8),
-  ('15.12.2026', 'Pilot uygulamanın izlenmesi', ['w13a'], 8),
-  ('16.12.2026', 'Dönen dosyaların yönetici panelinde incelenmesi', ['w13a'], 8),
-  ('17.12.2026', 'Geri bildirimlere göre düzenlemeler', ['w13a'], 8),
-  ('18.12.2026', 'Geri bildirimlere göre düzenlemeler (devam)', ['w13a'], 8),
+  ('14.12.2026', 'Gerçek müşteri verileriyle fizibilite: verilerin incelenmesi', ['w13a'], 8),
+  ('15.12.2026', 'Veri tutarlılığının kontrolü ve eksiklerin tamamlanması', ['w13a'], 8),
+  ('16.12.2026', 'Geri kazanılabilir ısı hesapları', ['w13a'], 8),
+  ('17.12.2026', 'Önerilen sistemin kapasitesinin belirlenmesi', ['w13a'], 8),
+  ('18.12.2026', 'Fizibilite hesapları (devam)', ['w13a'], 8),
  ]),
  ('21.12.2026', '25.12.2026', [
-  ('21.12.2026', 'Formun teslim sürümü ve sürüm notları', ['w14a'], 8),
-  ('22.12.2026', 'Teknik açıklamaların hazırlanması', ['w14a'], 8),
-  ('23.12.2026', 'Ekibe aktarım ve devir teslim', ['w14a'], 8),
-  ('24.12.2026', 'Çıktıların ortak klasörde düzenlenmesi', ['w14a'], 8),
+  ('21.12.2026', 'Fizibilite: yatırım tutarı ve yıllık tasarruf', ['w14a'], 8),
+  ('22.12.2026', 'Fizibilite: geri ödeme süresi', ['w14a'], 8),
+  ('23.12.2026', 'Fizibilite sonuçlarının birime sunulması', ['w14a'], 8),
+  ('24.12.2026', 'Çıktıların düzenlenmesi', ['w14a'], 8),
   ('25.12.2026', "İME'nin genel değerlendirmesi; çalışma kayıtlarının tamamlanması", ['w14a'], 8),
  ]),
 ]
@@ -1251,11 +1257,11 @@ HAFTALAR = [
 TAHMINI = ['30.09.2026', '01.10.2026', '05.10.2026', '08.10.2026', '09.10.2026', '12.10.2026', '13.10.2026',
            '16.10.2026', '19.10.2026', '20.10.2026', '22.10.2026', '23.10.2026', '02.11.2026', '03.11.2026',
            '04.11.2026', '05.11.2026', '06.11.2026', '09.11.2026', '11.11.2026', '12.11.2026', '13.11.2026',
-           '16.11.2026', '17.11.2026', '18.11.2026', '19.11.2026', '20.11.2026', '24.11.2026', '25.11.2026',
-           '26.11.2026']
+           '16.11.2026', '18.11.2026', '19.11.2026', '20.11.2026']
 
 # Henüz yaşanmamış günler: raporda sarı vurguyla basılır. Gün gerçekleşince metni düzeltip listeden çıkarın;
 # ilgili çerçevelerden plan=True'yu ve bloklardaki 'plan' işaretini kaldırın. Sarı vurgulu rapor teslim edilmez.
-PLAN = ['27.11.2026'] + ['%02d.%02d.2026' % (g, a) for a, gunler in
+# 24–26.11 yaşandı ancak içeriği (karbon ayak izi HTML aracı) henüz teyit edilmedi; bu yüzden onlar da sarı.
+PLAN = ['24.11.2026', '25.11.2026', '26.11.2026', '27.11.2026'] + ['%02d.%02d.2026' % (g, a) for a, gunler in
                          ((11, (30,)), (12, (1, 2, 3, 4, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25)))
                          for g in gunler]

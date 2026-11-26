@@ -136,12 +136,12 @@ Müşteri adı, sözleşme bedeli, birim fiyat ve gerçek tüketim verisi rapora
 | 6 | 26.10.2026 – 30.10.2026 | 2 | tamamlandı · 28 ve 30.10 köprü izni (şirket geneli), 29.10 Cumhuriyet Bayramı |
 | 7 | 02.11.2026 – 06.11.2026 | 5 | tamamlandı |
 | 8 | 09.11.2026 – 13.11.2026 | 5 | tamamlandı · ön rapor teslimi (ara sınav) |
-| 9 | 16.11.2026 – 20.11.2026 | 5 | tamamlandı · 17.11 direktör sunumu (tarih teyit edilecek) |
-| 10 | 23.11.2026 – 27.11.2026 | 5 | devam ediyor · 27.11 plan |
-| 11 | 30.11.2026 – 04.12.2026 | 5 | plan (raporda sarı) |
-| 12 | 07.12.2026 – 11.12.2026 | 5 | plan (raporda sarı) |
-| 13 | 14.12.2026 – 18.12.2026 | 5 | plan (raporda sarı) |
-| 14 | 21.12.2026 – 25.12.2026 | 5 | plan (raporda sarı) |
+| 9 | 16.11.2026 – 20.11.2026 | 5 | tamamlandı · 17.11 direktör sunumu (kullanıcı teyit etti) |
+| 10 | 23.11.2026 – 27.11.2026 | 5 | devam ediyor · 23.11 form Taslak5; 24.11'den itibaren Karbonkit HTML (raporda sarı, içerik teyit edilecek) |
+| 11 | 30.11.2026 – 04.12.2026 | 5 | plan: Karbonkit HTML (raporda sarı) |
+| 12 | 07.12.2026 – 11.12.2026 | 5 | plan: Karbonkit HTML deneme (raporda sarı) |
+| 13 | 14.12.2026 – 18.12.2026 | 5 | plan: gerçek müşteri verileriyle fizibilite (raporda sarı) |
+| 14 | 21.12.2026 – 25.12.2026 | 5 | plan: fizibilite + İME değerlendirmesi (raporda sarı) |
 
 ---
 
@@ -292,7 +292,8 @@ işaretli günler, kullanıcının seçimiyle yakın işin devamı olarak yazıl
 | 16.10 Cum | Veri formunun geliştirilmesi (devam) **(tahmini)** |
 | 19–20.10 | Veri formu: biyogaz ve ısı pompası üniteleri **(tahmini)** |
 | 21.10 Çar | Isı pompası çalışma sıcaklıkları bilgi notu (ara devre, ΔT ≈ 28 °C, COP 5,5–6) |
-| 22–23.10 | Isı pompası çalışması devam **(tahmini)** |
+| 22.10 Per | Isı pompası çalışması devam **(tahmini)** |
+| 23.10 Cum | Ön fizibilite formunun birkaç müşteriye gönderilmesi; çok iyi geri dönüş (kullanıcı: "Ekim, saha ziyaretinden önce"; gün **tahmini**) |
 | 26.10 Pzt | Biyogaz tesisi saha ziyareti (TSE, devlet destekleri) |
 | 27.10 Sal | Veri formunun biyogaz dışı ünitelerinin denetimi |
 | 28.10 Çar | Köprü izni |
@@ -329,11 +330,18 @@ Dosya: `staj/ciktilar/Atik-Isi-On-Fizibilite-Veri-Formu-Taslak3_30.html` (tek HT
 | 10.11 Sal | Yönetici özeti, canlı demo senaryosu (15 dk), sonuçların "10 Kasım sürümü"nde doğrulanması (Docs belgeleri) |
 | 11–13.11 | Sunum metni (≈ 20 dk), açılış/kapanış slaytları **(tahmini)** |
 | 16.11 Pzt | Hazırlık listesi, prova **(tahmini)** |
-| 17.11 Sal | Veri formunun birim direktörüne sunulması (sunum metninin tarihi; **gerçek tarih teyit edilecek**) |
+| 17.11 Sal | Veri formunun birim direktörüne sunulması (kullanıcı teyit etti) |
 | 18–20.11 | Karar konuları, yeni sürüm değişiklik listesi ve çalışması **(tahmini)** |
 | 23.11 Pzt | Form yeni sürümü (Taslak5): GES ünitesi + şeması; soğutucu akışkan çıkarıldı; SCADA altında PLC/enstrüman listesi; bulut alt soruları |
-| 24–26.11 | Yeni sürüm devam; 26.11 İME çalışma kayıtları **(tahmini)** |
-| 27.11 Cum | **PLAN** — yeni sürümün örnek verilerle denenmesi |
+| 24–26.11 | Enerjisa Müşteri Çözümleri karbon ayak izi hizmeti (Carbonkit) için HTML aracına başlandı; 26.11 İME çalışma kayıtları — **içerik teyit edilecek (raporda sarı)** |
+| 27.11 Cum | **PLAN** — Carbonkit HTML devam |
+
+**İME genel akışı (kullanıcının özeti, 26.11.2026):** (1) TR ETS yeni yönetmelik mevzuat taraması →
+(2) yatırım desteğine giriyor mu programı (destek aracı) → (3) Şenpiliç projesi sunumları → (4) uzun süre ön
+fizibilite formu → (5) birkaç müşteriye gönderildi, çok iyi geri dönüş (Ekim, saha ziyaretinden önce) →
+(6) Şenpiliç saha ziyareti (26.10) → (7) Enerjisa Müşteri Çözümleri Carbonkit ile ilgili HTML →
+Aralık: Carbonkit HTML, ardından müşterilerden gelen gerçek verilerle fizibilite çalışması.
+"NadirKit" (sera gazı/su ayak izi kataloğu ve prototipi, 06–11.11) kişisel iştir, rapora girmez.
 
 **Direktör sunumu malzemeleri (Claude Docs):** "Atık Isı Ön Fizibilite Veri Formu — Yönetici Özeti",
 "Direktör Sunumu — Canlı Demo Senaryosu" (10.11), "Direktör Sunumu — Sunum Metni" (17.11).
@@ -407,12 +415,14 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 
 ## 7. İME Raporu
 
-- **İME raporu (esas rapor, 21.09–25.12.2026; 26.11.2026 sürümü, 81 sayfa):** `staj/rapor/IME-Rapor.docx`
-  (+ PDF). 14 haftalık tablo; Bölüm 3'te 3.1–3.14; Bölüm 4 kurallar md. 12'ye göre (kazanımlar, beklentilerin
+- **İME raporu (esas rapor, 21.09–25.12.2026; 26.11.2026 sürümü):** `staj/rapor/IME-Rapor.docx`
+  (+ PDF, 82 sayfa). 14 haftalık tablo; Bölüm 3'te 3.1–3.14; Bölüm 4 kurallar md. 12'ye göre (kazanımlar, beklentilerin
   değerlendirmesi, görüş ve öneriler); Ek-1 çıktı listesi. Yeni: Tablo 3.4 (örnek veri sonuçları, 9 pt),
   Tablo 3.5 (direktör sunumu bölümleri), Şekil 3.9 (kullanım akışı).
-- **PLAN işareti:** 27.11 ve 30.11–25.12 henüz yaşanmadı; bu günlerin tablo satırları, 3.10.2 ve 3.11–3.14
-  çerçeveleri, Özet ve 4.2'deki ilgili cümleler ile Ek-1'in son üç satırı **sarı vurgulu plan taslağıdır**.
+- **Sarı işaret (PLAN):** 27.11 ve 30.11–25.12 henüz yaşanmadı; 24–26.11 yaşandı ama Carbonkit HTML içeriği
+  teyit edilmedi. Bu günlerin tablo satırları, 3.10.2 ve 3.11–3.14 çerçeveleri (Carbonkit HTML → gerçek
+  müşteri verileriyle fizibilite), Özet ve 4.2'deki ilgili cümleler ile Ek-1'in son iki satırı **sarı
+  vurgulu taslaktır**.
   Her hafta gerçekte yapılanla değiştir: `icerik.py` → `HAFTALAR` satırı + ilgili `F(..., plan=True)` metni;
   tarihi `PLAN` listesinden, `plan=True`/`'plan'` işaretlerini kaldır; `python3 build.py`. Sarı kalan rapor
   teslim edilmez (Yönerge m. 12/6).
@@ -431,7 +441,8 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 - **Yer tutucular:** [Ad SOYAD], [Öğrenci No], [Yetkili Ad SOYAD], [Unvan], [Sorumlu Ad SOYAD],
   [Yönetici Ad SOYAD], Önsözdeki [Unvan Ad SOYAD]; TC no, adres, telefon; dijital fotoğraf.
 - **Teyit edilecek:** kurum unvanı ve ofis adresi; kurum telefon/e-posta (2024 faaliyet raporundan);
-  (tahmini) günler (`icerik.TAHMINI`, 29 gün); 17.11 direktör sunumunun gerçek tarihi; 3.2.4 risk sunumu ve
-  3.6.1 saha ziyareti ayrıntıları; 23.11 "bulut alt soruları" yorumu. Baskı tek yüze (Yönerge m. 10/6).
+  (tahmini) günler (`icerik.TAHMINI`, 25 gün; müşteri gönderimi 23.10 varsayıldı); Carbonkit adının
+  yazımı ve HTML aracının içeriği; 3.2.4 risk sunumu ve 3.6.1 saha ziyareti ayrıntıları; 23.11 "bulut alt
+  soruları" yorumu. Baskı tek yüze (Yönerge m. 10/6).
 - **Teslim:** İME bitiminden (25.12.2026) sonra en geç bir hafta içinde Bölüm Başkanlığına (Yönerge);
   değerlendirme formu işyerince kapalı zarfla aynı sürede.
