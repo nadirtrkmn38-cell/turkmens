@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>ETS Kapsam Pusulası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  @page { size: A4; margin: 17mm 16mm 16mm; }
+
+  :root{
+    --paper:#FFFFFF;
+    --tint:#F2F3EE;
+    --ink:#18242A;
+    --ink-soft:#54615E;
+    --ink-faint:#838C88;
+    --line:#D3D8CE;
+    --line-strong:#A9B1A6;
+    --accent:#0C5F5A;
+    --accent-soft:#E2EDEA;
+    --amber:#9A540A;
+    --amber-soft:#F7EBD9;
+    --red:#8F211D;
+    --red-soft:#F5E2E0;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#fff}
+  body{
+    color:var(--ink);
+    font-family:"Source Serif 4", Georgia, serif;
+    font-size:9.6pt;
+    line-height:1.5;
+  }
+  h1,h2,h3,h4,th,.ui,.eyebrow,.num,.cat,.thr,.when,b,strong,.madde{
+    font-family:"Archivo","Helvetica Neue",Arial,sans-serif;
+  }
+  .mono,td.n,.rng,.formula{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+
+  /* ---- masthead ---- */
+  .mast{border-bottom:2pt solid var(--ink);padding-bottom:10pt;margin-bottom:16pt}
+  .eyebrow{font-size:7.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6pt}
+  h1{font-size:25pt;line-height:1.05;margin:0 0 7pt;font-weight:700;letter-spacing:-.02em}
+  .standfirst{font-size:11pt;color:var(--ink-soft);margin:0;max-width:52em}
+  .srcline{margin-top:9pt;font-size:8pt;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace}
+
+  /* ---- steps ---- */
+  .step{break-inside:avoid;margin-top:15pt}
+  .step-head{display:flex;gap:9pt;align-items:baseline;border-bottom:1pt solid var(--line-strong);padding-bottom:5pt;margin-bottom:8pt}
+  .num{
+    flex:0 0 auto;width:17pt;height:17pt;background:var(--ink);color:#fff;
+    display:inline-grid;place-items:center;font-size:9pt;font-weight:700;
+    font-family:"IBM Plex Mono",monospace;
+  }
+  .step h2{font-size:13pt;margin:0;line-height:1.25;font-weight:600;letter-spacing:-.01em}
+  .lede{color:var(--ink-soft);margin:0 0 9pt;font-size:9.6pt}
+  .madde{
+    display:inline-block;font-size:7pt;color:var(--ink-faint);
+    border:.5pt solid var(--line-strong);padding:0 3pt;white-space:nowrap;
+    letter-spacing:.04em;
+  }
+
+  /* ---- EK-1 grid ---- */
+  .group-label{
+    font-size:7.5pt;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--accent);margin:10pt 0 4pt;
+  }
+  .group-label:first-of-type{margin-top:0}
+  .acts{display:grid;grid-template-columns:1fr 1fr;gap:0 14pt}
+  .act{display:flex;gap:6pt;align-items:flex-start;padding:2.5pt 0;font-size:9pt;line-height:1.35;break-inside:avoid}
+  .box{flex:0 0 auto;width:8pt;height:8pt;border:.9pt solid var(--ink-soft);margin-top:2pt}
+  .act b{font-weight:600;font-size:8.8pt}
+  .thr{color:var(--accent);font-family:"IBM Plex Mono",monospace;font-size:8.2pt;font-weight:600;white-space:nowrap}
+
+  /* ---- callouts ---- */
+  .note{
+    border-left:2.5pt solid var(--amber);background:var(--amber-soft);
+    padding:7pt 9pt;margin:9pt 0 0;font-size:8.8pt;line-height:1.45;break-inside:avoid;
+  }
+  .note b{font-size:8.2pt;display:block;margin-bottom:2pt}
+  .note.teal{border-left-color:var(--accent);background:var(--accent-soft)}
+
+  /* ---- option list ---- */
+  .opts{display:flex;flex-direction:column;gap:4pt}
+  .opt{display:flex;gap:7pt;align-items:flex-start;border:.6pt solid var(--line);padding:6pt 8pt;break-inside:avoid}
+  .opt b{display:block;font-size:9pt;font-weight:600;margin-bottom:1pt}
+  .opt small{display:block;color:var(--ink-soft);font-size:8.4pt;line-height:1.35}
+
+  /* ---- tables ---- */
+  .tablewrap{border:.8pt solid var(--line-strong);margin-top:8pt;break-inside:avoid}
+  table{border-collapse:collapse;width:100%;font-size:8.8pt}
+  th{
+    font-size:7.4pt;letter-spacing:.09em;text-transform:uppercase;text-align:left;
+    color:var(--ink-soft);font-weight:700;padding:5pt 7pt;
+    border-bottom:1pt solid var(--line-strong);background:var(--tint);
+  }
+  td{padding:5pt 7pt;border-bottom:.5pt solid var(--line);vertical-align:top;line-height:1.4}
+  tr:last-child td{border-bottom:0}
+  td.n{white-space:nowrap;font-size:8.2pt}
+  tbody tr.hl td{background:var(--accent-soft)}
+
+  /* ---- verdict matrix ---- */
+  .matrix{display:grid;grid-template-columns:1fr 1fr;gap:9pt;margin-top:9pt}
+  .card{border:1pt solid var(--line-strong);padding:9pt 10pt;break-inside:avoid}
+  .card.out{border-color:var(--accent);background:var(--accent-soft)}
+  .card.mrv{border-color:var(--amber);background:var(--amber-soft)}
+  .card.ets{border-color:var(--red);background:var(--red-soft)}
+  .card .tag{font-size:7pt;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--ink-soft);margin-bottom:3pt}
+  .card h4{font-size:11pt;margin:0 0 4pt;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+  .card p{margin:0;font-size:8.6pt;line-height:1.4;color:var(--ink)}
+  .card .cond{margin-top:5pt;font-size:8pt;color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;line-height:1.35}
+
+  /* ---- todo ---- */
+  .todo{list-style:none;padding:0;margin:9pt 0 0}
+  .todo li{
+    display:grid;grid-template-columns:78pt 1fr;gap:9pt;align-items:baseline;
+    padding:5pt 0;border-top:.5pt solid var(--line);font-size:9pt;break-inside:avoid;
+  }
+  .todo li .when{font-size:7.8pt;font-weight:700;color:var(--accent);white-space:nowrap}
+  .todo li b{font-size:9pt;font-weight:600}
+  .todo li em{font-style:normal;color:var(--ink-soft);display:block;font-size:8.5pt;line-height:1.4}
+
+  /* ---- section ---- */
+  .ref{margin-top:20pt;break-inside:avoid}
+  .ref h3{font-size:14pt;margin:0 0 3pt;font-weight:700;letter-spacing:-.015em}
+  .ref > p{color:var(--ink-soft);margin:0 0 6pt;font-size:9.2pt;max-width:54em}
+  .rule{border:0;border-top:1.5pt solid var(--ink);margin:22pt 0 0}
+
+  .pagebreak{break-before:page}
+
+  .disclaimer{
+    margin-top:18pt;padding:8pt 10pt;border:.8pt dashed var(--line-strong);
+    font-size:8.2pt;color:var(--ink-soft);line-height:1.45;break-inside:avoid;
+  }
+  .disclaimer b{color:var(--ink);font-size:8.2pt}
+
+  .foot{
+    margin-top:12pt;padding-top:6pt;border-top:.5pt solid var(--line);
+    font-size:7.6pt;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace;
+    display:flex;justify-content:space-between;gap:10pt;
+  }
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <p class="eyebrow">Türkiye Emisyon Ticaret Sistemi · Tesis Değerlendirme Rehberi</p>
+  <h1>İşletmem ETS kapsamına giriyor mu?</h1>
+  <p class="standfirst">Dört adımı tesis bazında yanıtlayın; kapsam durumunuzu, tesis kategorinizi ve takvimli yükümlülük listenizi bu rehberden okuyun.</p>
+  <p class="srcline">Dayanak: Türkiye Emisyon Ticaret Sistemi Yönetmeliği — Resmî Gazete 27.08.2026 / 33353</p>
+</div>
+
+<!-- ADIM 1 -->
+<section class="step">
+  <div class="step-head"><span class="num">1</span><h2>Tesisinizde bu faaliyetlerden biri yürütülüyor mu?</h2></div>
+  <p class="lede">Yönetmeliğin EK-1 listesi kapsamın tek kapısıdır. Listede olmayan bir faaliyet, emisyonu ne olursa olsun sisteme girmez. Eşik değerleri üretim kapasitesine bakar, fiilî üretime değil. <span class="madde">EK-1 · MADDE 2</span></p>
+
+  <p class="group-label">Enerji</p>
+  <div class="acts">
+    <div class="act"><span class="box"></span><span><b>Yakıtların yakılması</b> — <span class="thr">toplam anma ısıl gücü ≥ 20 MW</span> olan tesislerde (tehlikeli veya belediye atıklarının yakılması hariç)</span></div>
+    <div class="act"><span class="box"></span><span><b>Petrol rafinasyonu</b> — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></div>
+    <div class="act"><span class="box"></span><span><b>Kok üretimi</b> — <span class="thr">eşik yok</span></span></div>
+  </div>
+
+  <p class="group-label">Metal</p>
+  <div class="acts">
+    <div class="act"><span class="box"></span><span><b>Metal cevheri kavrulması, sinterlenmesi veya peletlenmesi</b> (sülfür cevheri dâhil) — <span class="thr">eşik yok</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Demir, temper ve/veya çelik üretimi ve dökümü</b> (birincil veya ikincil ergitme, sürekli döküm dâhil) — <span class="thr">&gt; 2,5 ton/saat</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Demir içeren metallerin üretimi veya işlenmesi</b> (haddeleme, yeniden ısıtma, tav fırınları, metal işleme, dökümhaneler, kaplama, dekapaj) — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></div>
+    <div class="act"><span class="box"></span><span><b>Birincil alüminyum veya alümina üretimi</b> — <span class="thr">eşik yok</span> · CO₂ ve PFC</span></div>
+    <div class="act"><span class="box"></span><span><b>İkincil alüminyum üretimi</b> — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></div>
+    <div class="act"><span class="box"></span><span><b>Demir dışı metallerin üretimi veya işletilmesi</b> (alaşım üretimi, rafinasyon, dökümhane dökümü) — <span class="thr">≥ 20 MW</span>, indirgeme maddesi olarak kullanılan yakıtlar dâhil</span></div>
+  </div>
+
+  <p class="group-label">Mineral</p>
+  <div class="acts">
+    <div class="act"><span class="box"></span><span><b>Klinker üretimi</b> — döner fırınlarda <span class="thr">≥ 500 ton/gün</span>, diğer ocaklarda <span class="thr">&gt; 50 ton/gün</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Kireç üretimi veya dolomit/magnezit kalsinasyonu</b> — <span class="thr">≥ 50 ton/gün</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Cam üretimi</b> (cam elyafı dâhil) — ergitme kapasitesi <span class="thr">≥ 20 ton/gün</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Pişirme ile seramik ürün üretimi</b> (kiremit, tuğla, refrakter tuğla, karo, taş ürün, porselen) — <span class="thr">≥ 75 ton/gün</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Mineral elyaf yalıtım malzemesi üretimi</b> (cam, taş veya cüruf ile) — ergitme kapasitesi <span class="thr">≥ 20 ton/gün</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Alçı taşı kurutma/kalsinasyonu, alçı pano ve alçı taşı ürünleri üretimi</b> — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></div>
+  </div>
+
+  <p class="group-label">Selüloz ve kâğıt</p>
+  <div class="acts">
+    <div class="act"><span class="box"></span><span><b>Odundan veya diğer lifli malzemelerden selüloz üretimi</b> — <span class="thr">eşik yok</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Kâğıt, mukavva veya karton üretimi</b> — <span class="thr">≥ 20 ton/gün</span></span></div>
+  </div>
+
+  <p class="group-label">Kimya</p>
+  <div class="acts">
+    <div class="act"><span class="box"></span><span><b>Karbon siyahı üretimi</b> (petrol, katran, kraking ve damıtma kalıntılarının karbonizasyonu dâhil) — <span class="thr">≥ 20 MW</span> yakma üniteleri ile</span></div>
+    <div class="act"><span class="box"></span><span><b>Nitrik asit üretimi</b> — <span class="thr">eşik yok</span> · CO₂ ve N₂O</span></div>
+    <div class="act"><span class="box"></span><span><b>Adipik asit üretimi</b> — <span class="thr">eşik yok</span> · CO₂ ve N₂O</span></div>
+    <div class="act"><span class="box"></span><span><b>Glioksal ve glioksilik asit üretimi</b> — <span class="thr">eşik yok</span> · CO₂ ve N₂O</span></div>
+    <div class="act"><span class="box"></span><span><b>Amonyak üretimi</b> — <span class="thr">eşik yok</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Büyük hacimli organik kimyasal madde üretimi</b> (kraking, reforming, kısmî veya tam yükseltgenme vb.) — <span class="thr">≥ 100 ton/gün</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Hidrojen (H₂) ve sentez gazı üretimi</b> — <span class="thr">≥ 5 ton/gün</span></span></div>
+    <div class="act"><span class="box"></span><span><b>Soda külü (Na₂CO₃) ve sodyum bikarbonat (NaHCO₃) üretimi</b> — <span class="thr">eşik yok</span></span></div>
+  </div>
+
+  <div class="note">
+    <b>Üç kritik ayrıntı</b>
+    ① <strong>Kapasiteler toplanır:</strong> aynı tesiste aynı kategoriye giren birden çok faaliyet varsa kapasiteleri toplayarak eşiğe bakın.
+    ② <strong>20 MW hesabı:</strong> tesisteki tüm yakma ünitelerinin (kazan, brülör, türbin, ısıtıcı, ocak, insineratör, kalsinatör, döner fırın, fırın, kurutucu, motor, yakıt hücresi, termal/katalitik yakma sonrası üniteler) anma ısıl güçleri toplanır. <span class="thr">3 MW altındaki</span> üniteler ve münhasıran biyokütle kullananlar bu toplama girmez.
+    ③ <strong>Bir faaliyet hepsini çeker:</strong> EK-1'deki herhangi bir faaliyeti yürütüyorsanız, aynı tesisteki diğer EK-1 faaliyetleri <em>kapasite gözetilmeksizin</em> kapsama dâhil olur. <span class="madde">MADDE 27/2</span>
+  </div>
+</section>
+
+<!-- ADIM 2 -->
+<section class="step">
+  <div class="step-head"><span class="num">2</span><h2>Yönetmeliğin tamamen dışında kalan bir durum var mı?</h2></div>
+  <p class="lede">Aşağıdaki üç durum yönetmeliğin kapsamı dışındadır — izleme ve raporlama dâhil hiçbir yükümlülük doğmaz. Yalnızca ilgili tesis veya tesis bölümü için geçerlidir. <span class="madde">MADDE 2/2</span></p>
+  <div class="opts">
+    <div class="opt"><span class="box"></span><span><b>Ar-Ge tesisi veya tesis bölümü</b><small>Araştırma ve geliştirme faaliyetlerinin yürütüldüğü, yeni ürün veya süreçlerin geliştirildiği ya da test edildiği yerler</small></span></div>
+    <div class="opt"><span class="box"></span><span><b>Münhasıran biyokütle kullanan tesis veya bölüm</b><small>Yalnızca ünitenin başlatılması veya kapatılmasında fosil yakıt kullanılması bu niteliği bozmaz</small></span></div>
+    <div class="opt"><span class="box"></span><span><b>Askerî unsur</b><small>MSB merkez ve taşra teşkilatı, ANT Başkanlığı, Genelkurmay, kuvvet komutanlıkları, Jandarma, Sahil Güvenlik, MSÜ, Harita Genel Müdürlüğü tesisleri</small></span></div>
+  </div>
+</section>
+
+<!-- ADIM 3 -->
+<section class="step">
+  <div class="step-head"><span class="num">3</span><h2>Yıllık emisyonunuz ne kadar? Tesis kategoriniz buradan çıkar.</h2></div>
+  <p class="lede">Kategori, <strong>kurulu kapasitenize göre ihtiyatlı olarak hesaplanan</strong> yıllık emisyondur — geçen yıl fiilen ne saldığınız değil. Biyokütle kaynaklı CO₂ hariç, transfer edilen CO₂ dâhil tutulur. <span class="madde">MADDE 4</span></p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th style="width:80pt">Kategori</th><th style="width:130pt">Yıllık emisyon</th><th>Sonuç</th></tr></thead>
+      <tbody>
+        <tr><td><b>Kategori A</b></td><td class="n">≤ 50.000 t CO₂e</td><td>ETS kapsamı dışında. Tahsisat almaz, teslim etmez. <strong>İzleme, raporlama ve doğrulama yükümlülüğü devam eder.</strong></td></tr>
+        <tr><td><b>Kategori B</b></td><td class="n">50.001 – 500.000 t CO₂e</td><td>ETS kapsamında. İzin + İRD + tahsisat teslimi.</td></tr>
+        <tr><td><b>Kategori C</b></td><td class="n">&gt; 500.000 t CO₂e</td><td>ETS kapsamında. İzin + İRD + tahsisat teslimi.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <b>Kategori A da boş durmaz</b>
+    Kategori A tesisler tahsisat almaz ve teslim etmez; ancak EK-1 faaliyeti yürüttükleri için izleme, raporlama ve doğrulama (İRD) yükümlülükleri aynen devam eder. Raporu süresinde vermeyen Kategori A tesise <span class="mono">627.450 ₺</span> idari para cezası uygulanır. <span class="madde">MADDE 35</span>
+  </div>
+</section>
+
+<!-- ADIM 4 -->
+<section class="step">
+  <div class="step-head"><span class="num">4</span><h2>İşletmeniz hangi türde?</h2></div>
+  <p class="lede">Belirli kurum türleri, emisyonları ne olursa olsun ETS'nin ticaret tarafının dışında tutulur — ama izleme ve raporlama yükümlülüğü devam eder. <span class="madde">MADDE 5/2-3</span></p>
+  <div class="opts">
+    <div class="opt"><span class="box"></span><span><b>Sınai veya ticari işletme</b><small>Fabrika, üretim tesisi, enerji santrali, rafineri vb. — kategori neyse o geçerli</small></span></div>
+    <div class="opt"><span class="box"></span><span><b>Okul, üniversite, hastane veya savunma sanayi kuruluşu</b><small>Yerine getirdiği faaliyetlerle sınırlı olmak üzere ETS kapsamı dışında; İRD yükümlülüğü sürer</small></span></div>
+    <div class="opt"><span class="box"></span><span><b>Doğal gaz veya ham petrol iletimi ve depolaması</b><small>Birinci uygulama dönemi sonuna kadar ETS dışı — izleme, raporlama ve doğrulama hariç &nbsp;<span class="madde">GEÇİCİ MADDE 6</span></small></span></div>
+  </div>
+</section>
+
+<!-- ADIM 5 -->
+<section class="step">
+  <div class="step-head"><span class="num">5</span><h2>Sonuç: dört profilden hangisindesiniz?</h2></div>
+  <div class="matrix">
+    <div class="card out">
+      <p class="tag">Profil 1</p>
+      <h4>Kapsam dışı</h4>
+      <p>ETS size uygulanmaz. Tahsisat, izin, izleme veya raporlama yükümlülüğü doğmaz.</p>
+      <p class="cond">Adım 1 → hiçbir EK-1 faaliyeti yok</p>
+    </div>
+    <div class="card out">
+      <p class="tag">Profil 2</p>
+      <h4>Yönetmelik dışı</h4>
+      <p>İstisna yalnızca ilgili tesis <em>bölümü</em> için geçerlidir. Aynı sahadaki diğer hatları ayrıca değerlendirin.</p>
+      <p class="cond">Adım 2 → Ar-Ge / biyokütle / askerî</p>
+    </div>
+    <div class="card mrv">
+      <p class="tag">Profil 3</p>
+      <h4>ETS dışı, İRD yükümlüsü</h4>
+      <p>Tahsisat almaz, teslim etmezsiniz. İzleme, raporlama ve doğrulama yükümlülükleriniz aynen sürer.</p>
+      <p class="cond">Kategori A &nbsp;veya&nbsp; okul/hastane/<br>savunma &nbsp;veya&nbsp; gaz-petrol iletimi</p>
+    </div>
+    <div class="card ets">
+      <p class="tag">Profil 4</p>
+      <h4>ETS kapsamında</h4>
+      <p>İzin + İRD + her yıl emisyona denk tahsisat teslimi. Tahsisat açığı yıllık bir maliyet kalemidir.</p>
+      <p class="cond">Kategori B veya C · sınai/ticari işletme</p>
+    </div>
+  </div>
+</section>
+
+<!-- YÜKÜMLÜLÜK LİSTELERİ -->
+<section class="ref pagebreak">
+  <h3>Profil 3 — İRD yükümlüsünün yapacakları</h3>
+  <p>Kategori A tesisler ile okul, üniversite, hastane, savunma sanayi ve gaz-petrol iletim/depolama tesisleri bu listeyi izler.</p>
+  <ul class="todo">
+    <li><span class="when">6 AY ÖNCE</span><span><b>İzleme planını onaylatın</b><em>Emisyonları ilk izlemeye başlamadan en az 6 ay önce izleme planınızı İklim Değişikliği Başkanlığı'na sunun. Uygun bulunmazsa eksikler için 30 gün ek süre verilir.</em></span></li>
+    <li><span class="when">SÜREKLİ</span><span><b>Emisyonları izleyin</b><em>Emisyon = Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü. Biyokütle faktörü sıfırdır. Hesaplama faktörleri için akredite laboratuvar kullanın.</em></span></li>
+    <li><span class="when">HER YIL</span><span><b>Raporu doğrulatın</b><em>Sera gazı emisyon raporunu Başkanlığa göndermeden önce ISO/IEC 17029 akreditasyonlu, MEDAS'ın atadığı doğrulayıcı kuruluşa doğrulatın.</em></span></li>
+    <li><span class="when">30 NİSAN</span><span><b>Raporu sunun</b><em>Bir önceki takvim yılına ait doğrulanmış emisyon ve faaliyet seviyesi raporunu elektronik ortamda Başkanlığa iletin.</em></span></li>
+    <li><span class="when">30 GÜN</span><span><b>Değişiklikleri bildirin</b><em>Faaliyet, tesis niteliği, kategori veya izin sahibi değişikliklerini 30 gün içinde bildirin.</em></span></li>
+    <li><span class="when">10 YIL</span><span><b>Kayıtları saklayın</b><em>Tüm veri ve bilgi kayıtlarını en az 10 yıl saklayın, talep hâlinde idarenin incelemesine sunun.</em></span></li>
+  </ul>
+</section>
+
+<section class="ref">
+  <h3>Profil 4 — ETS kapsamındaki tesisin yapacakları</h3>
+  <p>Kategori B ve C sınai/ticari tesisler bu listeyi izler. Profil 3'ün tüm maddeleri buraya da dâhildir.</p>
+  <ul class="todo">
+    <li><span class="when">ŞİMDİ</span><span><b>Sera gazı emisyon izni alın</b><em>EK-3'teki bilgi ve belgelerle Başkanlığa başvurun. Başvuru azami 60 günde değerlendirilir, izin 5 yıl geçerlidir. Her tesis için ayrı izin gerekir; aynı adreste birden çok tesis varsa tek izin alınır.</em></span></li>
+    <li><span class="when">PERSONEL</span><span><b>Yetkili personeli atayın</b><em>Kategori C: sera gazı izleme ve raporlama alanında en az 2 yıl tecrübeli, asgari 2 personel. Kategori B: en az 1 yıl tecrübeli, asgari 1 personel. Mühendislik veya fen fakültesi mezunu olmaları gerekir.</em></span></li>
+    <li><span class="when">6 AY ÖNCE</span><span><b>İzleme planını onaylatın</b><em>İlk izlemeye başlamadan en az 6 ay önce izleme planını Başkanlığa sunun.</em></span></li>
+    <li><span class="when">2 AY İÇİNDE</span><span><b>İzleme Metodolojisi Planı</b><em>Pilot uygulama dönemindeki işletmeler ilk İMP'yi Yönetmeliğin yürürlük tarihinden itibaren 2 ay içinde elektronik ortamda sunar. Ücretsiz tahsisat hesabının temeli budur.</em></span></li>
+    <li><span class="when">SÜREKLİ</span><span><b>Emisyonları izleyin</b><em>Alt tesis bazında ürün, ölçülebilir ısı, yakıt ve üretim süreci kırılımıyla tutun.</em></span></li>
+    <li><span class="when">HER YIL</span><span><b>Doğrulatın</b><em>MEDAS'ın atadığı, ISO/IEC 17029 akreditasyonlu doğrulayıcı kuruluşa doğrulatmadan rapor sunulamaz.</em></span></li>
+    <li><span class="when">30 NİSAN</span><span><b>Rapor + faaliyet seviyesi</b><em>Doğrulanmış sera gazı emisyon raporunu ve doğrulanmış faaliyet seviyesi raporunu birlikte sunun.</em></span></li>
+    <li><span class="when">UTP + 30 GÜN</span><span><b>Ücretsiz tahsisat başvurusu</b><em>Ulusal Tahsisat Planı yayımlandıktan sonraki 30 gün içinde tesis bazında başvurun. Geç kalan başvuru bedeli %50 artırımlı ödenir.</em></span></li>
+    <li><span class="when">YIL BOYU</span><span><b>Açığı kapatın</b><em>Birincil piyasa ihalelerinden veya ikincil piyasadan tahsisat alın; karbon kredisiyle denkleştirme ve bankalama/ödünç alma esneklikleri kullanılabilir.</em></span></li>
+    <li><span class="when">KASIM SON İŞ G.</span><span><b>Tahsisatı teslim edin</b><em>Doğrulanmış rapordaki emisyona denk tahsisatı İşlem Kayıt Sistemi üzerinden teslim edin. Ek rezerv kullananlar için son tarih Aralık ayının son iş günüdür.</em></span></li>
+    <li><span class="when">10 YIL</span><span><b>Kayıtları saklayın</b><em>Tüm veri ve bilgi kayıtlarını en az 10 yıl saklayın.</em></span></li>
+  </ul>
+</section>
+
+<hr class="rule">
+
+<section class="ref">
+  <h3>Yıllık döngü ve süreler</h3>
+  <p>ETS kapsamındaki bir tesis için bir yükümlülük yılı bu ritimle işler.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th style="width:100pt">Ne zaman</th><th>Ne yapılır</th><th style="width:62pt">Dayanak</th></tr></thead>
+      <tbody>
+        <tr><td class="n">İzlemeden 6 ay önce</td><td>İzleme planı onaylanmak üzere İklim Değişikliği Başkanlığı'na sunulur. Uygun bulunmazsa eksiklikler için 30 gün ek süre verilir.</td><td class="n">m. 28/3-4</td></tr>
+        <tr><td class="n">30 Nisan</td><td>Bir önceki takvim yılına (1 Ocak – 31 Aralık) ait sera gazı emisyonları ve faaliyet seviyeleri raporlanır. Başkanlık bu süreyi en fazla 1 ay uzatabilir.</td><td class="n">m. 29/1</td></tr>
+        <tr><td class="n">Rapordan önce</td><td>Rapor, MEDAS tarafından atanan ve ISO/IEC 17029'a göre akredite doğrulayıcı kuruluşça doğrulanır. Doğrulanmamış rapor sunulamaz.</td><td class="n">m. 30</td></tr>
+        <tr><td class="n">UTP</td><td>Ulusal Tahsisat Planı, doğrulanmış raporların son teslim tarihinden itibaren 60 gün içinde Resmî Gazete'de yayımlanır.</td><td class="n">m. 11/2</td></tr>
+        <tr><td class="n">UTP + 30 gün</td><td>Ücretsiz tahsisat başvurusu yapılır. Geç başvuranlar başvuru bedelini %50 artırımlı öder.</td><td class="n">m. 14/2, 14/7</td></tr>
+        <tr><td class="n">Kasım son iş günü</td><td>Doğrulanmış rapordaki emisyona denk tahsisat İşlem Kayıt Sistemi üzerinden teslim edilir.</td><td class="n">m. 16/1</td></tr>
+        <tr><td class="n">Aralık son iş günü</td><td>Ek rezerv kullanan tesisler için teslim son tarihi.</td><td class="n">m. 16/7</td></tr>
+        <tr><td class="n">Değişiklikten 30 gün</td><td>Kategori değişikliği, tesis niteliği/işleyişi değişikliği, izin sahibi değişikliği Başkanlığa bildirilir.</td><td class="n">m. 9/1, 34/4-5</td></tr>
+        <tr><td class="n">İzin bitimine 6 ay</td><td>Sera gazı emisyon izni 5 yıl geçerlidir; bitiminden en az 6 ay önce yenileme başvurusu zorunludur.</td><td class="n">m. 8</td></tr>
+        <tr><td class="n">10 yıl</td><td>Tüm veriler ve bilgi kayıtları saklanır, talep hâlinde idarenin incelemesine sunulur.</td><td class="n">m. 37</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="ref">
+  <h3>Doğrulanmış raporu süresinde sunmamanın bedeli</h3>
+  <p>İdari para cezaları tesis kategorisine göre kademelidir. ETS kapsamındaki işletmelere bu tutarlar <strong>iki kat</strong> uygulanır.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Tesis</th><th>Yıllık emisyon</th><th>Ceza</th><th>ETS kapsamındaysa</th></tr></thead>
+      <tbody>
+        <tr><td>Kategori A</td><td class="n">≤ 50.000 t</td><td class="n">627.450 ₺</td><td class="n">—</td></tr>
+        <tr><td>Kategori B</td><td class="n">50.001 – 250.000 t</td><td class="n">1.254.900 ₺</td><td class="n">2.509.800 ₺</td></tr>
+        <tr><td>Kategori B</td><td class="n">250.001 – 500.000 t</td><td class="n">2.509.800 ₺</td><td class="n">5.019.600 ₺</td></tr>
+        <tr><td>Kategori C</td><td class="n">500.001 – 2.000.000 t</td><td class="n">4.392.150 ₺</td><td class="n">8.784.300 ₺</td></tr>
+        <tr><td>Kategori C</td><td class="n">&gt; 2.000.000 t</td><td class="n">6.274.500 ₺</td><td class="n">12.549.000 ₺</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <b>İzinsiz faaliyet ayrı bir ceza kalemidir</b>
+    ETS kapsamında olup sera gazı emisyon izni almadan ya da süresi biten/iptal edilen izinle faaliyete devam edenlere <span class="mono">1.254.900 ₺</span> ile <span class="mono">12.549.000 ₺</span> arasında ceza uygulanır. Onaylı izleme planı bulunmayan ve bu nedenle kategorilendirilemeyen tesisler için kurulu kapasiteye eşdeğer bir kategori belirlenerek ceza kesilir. <span class="madde">MADDE 35/1-c</span>
+  </div>
+</section>
+
+<section class="ref">
+  <h3>İki hesap, iki cümle</h3>
+  <p>Sistemin bütün mali sonucu bu iki formülün farkından çıkar: ne kadar saldığınız, ne kadar bedava hakkınız olduğu.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th style="width:92pt">Hesap</th><th style="width:210pt">Formül</th><th>Notlar</th></tr></thead>
+      <tbody>
+        <tr><td><b>Emisyon miktarı</b></td><td class="n">Faaliyet verisi × Emisyon faktörü × Oksidasyon faktörü</td><td>Biyokütlenin emisyon faktörü sıfır kabul edilir. Her faaliyet, tesis ve yakıt için ayrı hesaplanır. <span class="madde">EK-6</span></td></tr>
+        <tr><td><b>Ücretsiz tahsisat</b></td><td class="n">Kıyas değeri × Ücretsiz tahsisat oranı × Sektörel faaliyet katsayısı × Faaliyet seviyesi</td><td>Alt tesis bazında hesaplanır, kesirli sonuç bir üst tam sayıya yuvarlanır. <span class="madde">m. 13/7, 13/10</span></td></tr>
+        <tr><td><b>Açık</b></td><td class="n">Doğrulanmış emisyon − Ücretsiz tahsisat</td><td>Aradaki fark birincil piyasadan (ihale), ikincil piyasadan, karbon kredisiyle denkleştirmeden veya esneklik mekanizmalarından kapatılır. Azaltım yatırımlarının geri ödeme hesabına bu kalem de girmelidir.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="disclaimer">
+  <b>Bu rehber bilgilendirme amaçlıdır.</b>
+  Sonuçlar, 27.08.2026 tarihli ve 33353 sayılı Resmî Gazete'de yayımlanan Türkiye Emisyon Ticaret Sistemi Yönetmeliği'nin metnine dayanır ve ön değerlendirme niteliğindedir. Kesin kapsam belirlemesi tesisin kapasite raporu, yakma ünitelerinin anma ısıl güçleri ve onaylı izleme planı üzerinden yapılır; nihai yetki İklim Değişikliği Başkanlığı'ndadır. Yönetmeliğin uygulanmasına ilişkin usul ve esaslar ayrı tebliğlerle düzenlenmektedir.
+</div>
+
+<div class="foot">
+  <span>ETS Kapsam Pusulası · Tesis Değerlendirme Rehberi</span>
+  <span>RG 27.08.2026 / 33353</span>
+</div>
+
+</body>
+</html>
