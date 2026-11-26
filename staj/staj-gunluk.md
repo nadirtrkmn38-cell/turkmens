@@ -454,5 +454,11 @@ Ana metinde bölüm/alt bölüm başlığına dönüşebilecek konular, işlendi
 - **Teyit edilecek:** kurum unvanı ve ofis adresi; kurum telefon/e-posta (2024 faaliyet raporundan);
   (tahmini) günler (`icerik.TAHMINI`, 25 gün); Karbon KİT HTML aracının içeriği; 3.2.4 risk sunumu ve
   3.6.1 saha ziyareti ayrıntıları; 23.11 "bulut alt soruları" yorumu. Baskı tek yüze (Yönerge m. 10/6).
+- **Kişisel bilgiler:** Kullanıcı 26.11.2026'da kimlik, ikamet ve kurum yetkilisi bilgilerini 8 haftalık raporun
+  iç kapağına girdi. Bunlar git dışı `staj/rapor/uretici/kisisel.json` dosyasında tutulur (repo herkese açık);
+  dolu çıktılar git dışı `staj/rapor/kisisel/` klasörüne yazılır ve kullanıcıya dosya olarak gönderilir. Repodaki
+  raporlar yer tutuculudur (`IME_KISISEL=yok`). Kurum yetkilisi aynı zamanda İME sorumlusu ve işletme yöneticisi
+  olarak yazıldı; denetçi öğretim elemanının adı verilmedi (Önsözde adsız). Yeni oturumda kisisel.json yoksa
+  kullanıcının doldurduğu docx'ten yeniden çıkarılmalıdır.
 - **Teslim:** İME bitiminden (25.12.2026) sonra en geç bir hafta içinde Bölüm Başkanlığına (Yönerge);
   değerlendirme formu işyerince kapalı zarfla aynı sürede.

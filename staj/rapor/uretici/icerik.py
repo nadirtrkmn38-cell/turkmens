@@ -17,7 +17,31 @@ CIKTI = 'IME-Rapor.docx' if ES else 'IME-On-Rapor-8-Hafta.docx'
 # için kapalı; günler gerçekleştikçe metin gerçeğiyle karşılaştırılmalıdır (bkz. staj-gunluk.md, bölüm 7).
 SARI_VURGU = False
 
-AD = '[Ad SOYAD]'
+# Kişisel bilgiler: herkese açık repoya girmemesi için git dışı kisisel.json dosyasından okunur
+# (IME_KISISEL=yok → yer tutuculu sürüm). Dosya yoksa köşeli parantezli yer tutucular basılır.
+import json
+_KP = os.environ.get('IME_KISISEL', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'kisisel.json'))
+KISI = json.load(open(_KP, encoding='utf-8')) if _KP != 'yok' and os.path.exists(_KP) else {}
+AD = KISI.get('AD') or '[Ad SOYAD]'
+OGRENCI_NO = KISI.get('OGRENCI_NO') or '[Öğrenci No]'
+YETKILI_AD = KISI.get('YETKILI_AD') or '[Yetkili Ad SOYAD]'
+YETKILI_UNVAN = KISI.get('YETKILI_UNVAN') or '[Unvan]'
+SORUMLU_AD = KISI.get('SORUMLU_AD') or '[Sorumlu Ad SOYAD]'
+YONETICI_AD = KISI.get('YONETICI_AD') or '[Yönetici Ad SOYAD]'
+_SOR = KISI.get('SORUMLU_TESEKKUR') or "[Unvan Ad SOYAD]'a"
+_DEN = ('denetçi öğretim elemanı ' + KISI['DENETCI_TESEKKUR']) if KISI.get('DENETCI_TESEKKUR') else \
+       ('denetçi öğretim elemanına' if KISI else "denetçi öğretim elemanı [Unvan Ad SOYAD]'a")
+# İç kapakta yer tutucusu olmayan alanlar (tablo, etiket, değer, kaçıncı eşleşme); boşsa yazılmaz
+ICKAPAK_EK = [
+    ('kimlik', 'T.C. Kimlik No:', KISI.get('TC', ''), 0), ('kimlik', 'Doğum Tarihi:', KISI.get('DOGUM_TARIHI', ''), 0),
+    ('kimlik', 'Baba Adı:', KISI.get('BABA_ADI', ''), 0), ('kimlik', 'Fakülteye Giriş Yılı:', KISI.get('GIRIS_YILI', ''), 0),
+    ('kimlik', 'Ana Adı:', KISI.get('ANA_ADI', ''), 0), ('kimlik', 'Doğum Yeri:', KISI.get('DOGUM_YERI', ''), 0),
+    ('kimlik', 'S.G.K. No:', KISI.get('SGK', ''), 0),
+    ('ikamet', 'İli:', KISI.get('IL', ''), 0), ('ikamet', 'İlçe:', KISI.get('ILCE', ''), 0),
+    ('ikamet', 'Açık Adres:', KISI.get('ADRES', ''), 0), ('ikamet', 'E-Posta:', KISI.get('EPOSTA', ''), 0),
+    ('ikamet', 'Cep Telefonu:', KISI.get('CEP', ''), 0), ('ikamet', 'Ev Telefonu:', KISI.get('EV_TEL', ''), 0),
+    ('kurum', 'E-Posta:', KISI.get('YETKILI_EPOSTA', ''), 0), ('kurum', 'Telefon No:', KISI.get('YETKILI_TEL', ''), 1),
+]
 DONEM = 'GÜZ'
 YIL = '2026–2027'
 ONSOZ_TARIH = 'Aralık 2026' if ES else 'Kasım 2026'
@@ -42,9 +66,9 @@ ONSOZ = [
     "müşteriden veri toplama sürecini yeniden tasarlayan atık ısı ön fizibilite veri formuna ayrılmış; "
     "formun müşterilerle denenmesi ve yönetime sunulması, yapılan teknik çalışmanın hem kullanıcılar hem "
     "de karar vericiler tarafından değerlendirilmesini sağlamıştır.",
-    "İME süresince görevleri planlayan ve çalışmaları yönlendiren İME sorumlusu [Unvan Ad SOYAD]'a "
+    "İME süresince görevleri planlayan ve çalışmaları yönlendiren İME sorumlusu " + _SOR + " "
     "(Enerjisa Enerji A.Ş.), projelerde bilgi ve deneyimlerini paylaşan Enerji Verimliliği ekibine "
-    "(Enerjisa Enerji A.Ş.) ve İME sürecini izleyen denetçi öğretim elemanı [Unvan Ad SOYAD]'a "
+    "(Enerjisa Enerji A.Ş.) ve İME sürecini izleyen " + _DEN + " "
     "(Kocaeli Üniversitesi) teşekkür edilir.",
 ]
 

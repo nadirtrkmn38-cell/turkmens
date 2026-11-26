@@ -223,7 +223,7 @@ def yonetici_row():
             '<w:gridSpan w:val="3"/></w:tcPr>%s%s</w:tc></w:tr>') % (
         TEXT_W,
         para(lab('İŞLETME YÖNETİCİSİNİN (bölümün ilk sayfası);'), jc='left', before=40, after=0, line=240, sz=20),
-        para(lab('ADI VE SOYADI: ') + run('[Yönetici Ad SOYAD]', 20) + lab('          İMZASI / KAŞE VEYA MÜHÜR:'),
+        para(lab('ADI VE SOYADI: ') + run(C.YONETICI_AD, 20) + lab('          İMZASI / KAŞE VEYA MÜHÜR:'),
              jc='left', before=60, after=60, line=240, sz=20))
 
 # ---------------------------------------------------------------- çerçeve örnekleri ("(devam)" bölmesi)
@@ -303,7 +303,7 @@ def build(insts, pages):
                 del h.attrib[W + 'hRule']
     append_after(kimlik, 'Adı- Soyadı:', ' ' + C.AD)
     append_after(kimlik, 'Bölümü:', ' Enerji Sistemleri Mühendisliği')
-    append_after(kimlik, 'Öğrenci No:', ' [Öğrenci No]')
+    append_after(kimlik, 'Öğrenci No:', ' ' + C.OGRENCI_NO)
     append_after(kimlik, 'Sınıfı:', ' 4')
     append_after(ikamet, 'Ülke:', ' Türkiye')
     append_after(kurum, 'Kurumun Adı:', ' Enerjisa Enerji A.Ş. (Müşteri Çözümleri – Enerji Verimliliği)')
@@ -318,8 +318,17 @@ def build(insts, pages):
             for t in p.iter(W + 't'):
                 if '…' in (t.text or ''):
                     t.text = t.text.replace('…', '5')
-    append_after(kurum, 'Adı SOYADI:', ' [Yetkili Ad SOYAD]')
-    append_after(kurum, 'Unvanı:', ' [Unvan]')
+    append_after(kurum, 'Adı SOYADI:', ' ' + C.YETKILI_AD)
+    append_after(kurum, 'Unvanı:', ' ' + C.YETKILI_UNVAN)
+    for p in kurum.iter(W + 'p'):   # yetkili hücresi 1,5 yerine 1,15 satır aralığı: uzun unvanla iç kapak tek sayfada kalır
+        if ptext(p).replace('\xa0', ' ').strip().startswith(('Adı SOYADI:', 'Unvanı:', 'E-Posta:', 'Telefon No:')):
+            sp = p.find(W + 'pPr/' + W + 'spacing')
+            if sp is not None and sp.get(W + 'line') == '360':
+                sp.set(W + 'line', '276')
+    tablolar = {'kimlik': kimlik, 'ikamet': ikamet, 'kurum': kurum}
+    for tb, label, value, nth in C.ICKAPAK_EK:
+        if value:
+            append_after(tablolar[tb], label, ' ' + value, nth=nth)
     for e in ik:
         body.append(e)
     for e in frag(tiny(sect=sectpr(ftr=blank, mar=(1417, 1417, 1417, 1417)))):
@@ -407,11 +416,17 @@ def build(insts, pages):
         for tc, v, jc in zip(tcs, [sat, 'Cumartesi', '–', '', ''], ['center', 'center', 'left', 'center', 'center']):
             set_cell(tc, c(v, jc), 'center')
         set_cell(rows[8].findall(W + 'tc')[-1], c(str(total) if complete else '', b=True, hl=anyplan), 'center')
+        h10 = rows[10].find('.//' + W + 'trHeight')   # imza satırı içeriğe göre uzar (uzun unvan kesilmesin)
+        h10.attrib.pop(W + 'hRule', None)
         sig_l, sig_r = rows[10].findall(W + 'tc')
+        for p in sig_r.findall(W + 'p'):   # şablondaki tek başına "," paragrafının metni silinir
+            if ptext(p).strip() == ',':
+                for tt in p.iter(W + 't'):
+                    tt.text = ''
         append_after(sig_l, 'Adı SOYADI:', ' ' + C.AD)
         append_after(sig_l, 'Çalıştığı Bölüm:', ' Enerji Verimliliği')
-        append_after(sig_r, 'Adı SOYADI:', ' [Yetkili Ad SOYAD]')
-        append_after(sig_r, 'Unvanı:', ' [Unvan]')
+        append_after(sig_r, 'Adı SOYADI:', ' ' + C.YETKILI_AD)
+        append_after(sig_r, 'Unvanı:', ' ' + C.YETKILI_UNVAN)
         body.append(t)
         if wi < len(C.HAFTALAR) - 1:
             for e in frag(tiny(br=True)):
@@ -443,7 +458,7 @@ def build(insts, pages):
             set_cell(rows[1].find(W + 'tc'),
                      para(run('Açıklama:', 24, True), jc='left', after=60, line=240) +
                      blocks_xml(ins['blocks'], ins['first'], ins['plan']))
-            append_after(rows[2], 'ADI VE SOYADI:', ' [Sorumlu Ad SOYAD]', 20)
+            append_after(rows[2], 'ADI VE SOYADI:', ' ' + C.SORUMLU_AD, 20)
             for tt in rows[2].findall(W + 'tc')[1].iter(W + 't'):
                 if (tt.text or '').replace('\xa0', ' ').strip().startswith('İMZASI'):
                     tt.text = 'İMZASI / KAŞESİ: '
@@ -477,7 +492,8 @@ HDR_FTR = {
     # ön sayfalar: her sayfanın altında İME sorumlusunun imza ve kaşesi (Yönerge m. 10/4)
     'footer_roman_imza.xml': ('ftr', '<w:p><w:pPr><w:spacing w:after="60"/><w:jc w:val="right"/></w:pPr>%s</w:p>'
                               '<w:p><w:pPr><w:jc w:val="center"/></w:pPr>%s</w:p>'
-                              % (run('İME sorumlusu (ad soyad, imza, kaşe): ……………………………………', 20), _field(TNR12, 'ii'))),
+                              % (run('İME sorumlusu: %s     İmza / kaşe: ……………………………' % C.SORUMLU_AD, 20),
+                                 _field(TNR12, 'ii'))),
     'footer_blank.xml': ('ftr', '<w:p><w:pPr><w:spacing w:after="0"/></w:pPr></w:p>'),
 }
 RIDS = {'header_num.xml': 'rIdHN', 'header_blank.xml': 'rIdHB', 'footer_roman.xml': 'rIdFR',
