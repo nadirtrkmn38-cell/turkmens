@@ -9,9 +9,11 @@ Uygulanan kurallar (Yönerge m. 10, Rapor Yazım Kuralları 2.x):
   - ilk sayfalarda başlık üstten 5 cm, başlıktan sonra 4,5 aralık (27 nk)
   - ön sayfalar i, ii… alt orta; metin 1, 2… üst sağ Arial Bold 12; bölüm ilk sayfalarında numara yok
   - her sayfanın altında sorumlu imza/kaşe alanı; bölüm ilk sayfasında işletme yöneticisi imza/kaşe
-Çalıştırma: python3 build.py   (taşan "Yapılan İş" sayfaları otomatik olarak "(devam)" sayfasına bölünür)
-PLAN: henüz yaşanmamış günlerin taslak içeriği sarı vurguyla basılır (icerik.PLAN, F(..., plan=True),
-      ('p', metin, 'plan')). Gün gerçekleşince metni düzeltip işareti kaldırın; sarı vurgulu rapor teslim edilmez.
+Çalıştırma: python3 build.py              → out/IME-Rapor.docx (esas rapor, 14 hafta)
+            IME_KAPSAM=on python3 build.py → out/IME-On-Rapor-8-Hafta.docx (vize ön raporu, ilk 8 hafta)
+(taşan "Yapılan İş" sayfaları otomatik olarak "(devam)" sayfasına bölünür)
+PLAN: önceden yazılan günler icerik.PLAN, F(..., plan=True) ve ('p', metin, 'plan') ile işaretlidir;
+      icerik.SARI_VURGU = True yapılırsa bu kısımlar sarı vurguyla basılır (kontrol için).
 """
 import copy, json, os, re, shutil, subprocess, sys
 from datetime import datetime, timedelta
@@ -53,6 +55,7 @@ def rpr(sz=24, b=False, hl=False):
     return '<w:rPr>%s%s<w:sz w:val="%d"/><w:szCs w:val="%d"/>%s</w:rPr>' % (
         TNR, '<w:b/><w:bCs/>' if b else '', sz, sz, '<w:highlight w:val="yellow"/>' if hl else '')
 def run(t, sz=24, b=False, hl=False):
+    hl = hl and getattr(C, 'SARI_VURGU', True)
     return '<w:r>%s<w:t xml:space="preserve">%s</w:t></w:r>' % (rpr(sz, b, hl), escape(t))
 def is_plan(b):
     return len(b) > 2 and b[-1] == 'plan'
@@ -554,9 +557,9 @@ def analyse(pdf, insts):
 
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
-    bfile = os.path.join(OUT, 'breaks.json')
+    bfile = os.path.join(OUT, 'breaks-%s.json' % C.KAPSAM)
     breaks = json.load(open(bfile)) if os.path.exists(bfile) else {}
-    final = os.path.join(OUT, 'IME-Rapor.docx')
+    final = os.path.join(OUT, C.CIKTI)
     pages = None
     for it in range(1, 16):
         insts = instances(breaks)
